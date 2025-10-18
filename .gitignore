@@ -107,6 +107,9 @@ coverage/
 *.cover
 .nyc_output/
 
+# Beads task management
+.beads/
+
 # OS
 Thumbs.db
 Desktop.ini
