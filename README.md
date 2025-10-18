@@ -106,7 +106,3 @@ Refer to `CLAUDE.md` for:
 ## Contributing
 
 This is a personal reference repository. Skills are atomic, composable, and regularly updated based on practical experience.
-
-## License
-
-Personal reference materials. Not licensed for redistribution.
