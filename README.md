@@ -297,7 +297,7 @@ This is a personal reference repository maintained through practical development
 - Refined based on production use
 - Kept atomic and focused
 
-**Not accepting external contributions**, but feel free to fork and adapt for your own use.
+Feel free to fork and adapt for your own use.
 
 ---
 
