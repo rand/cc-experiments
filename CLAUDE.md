@@ -97,6 +97,41 @@ Is solution maintainable? NO → PROPOSE simpler approach
 → Proceed
 ```
 
+### Date and Time Awareness (MANDATORY)
+
+**ABSOLUTE RULE**: NEVER assume the current date or time without verification
+
+**Verification Protocol**:
+```bash
+# ALWAYS check system time before using dates in:
+# - File timestamps
+# - "Last Updated" fields
+# - Log entries
+# - Git commit messages
+# - CI/CD timestamps
+# - Documentation
+
+date +%Y-%m-%d              # Get current date (YYYY-MM-DD)
+date +"%Y-%m-%d %H:%M:%S"   # Get current datetime
+```
+
+**Critical Applications**:
+- Setting "Last Updated" fields → MUST use `date +%Y-%m-%d`
+- Timestamping logs/outputs → MUST verify current time
+- Date-based file naming → MUST check date first
+- Validating "no future dates" → MUST know current date
+
+**Why This Matters**:
+```
+WRONG: Assume it's 2024 → Set all dates to 2024-10-18
+  → Problem: Actually 2025, created incorrect timestamps
+  → Result: Hours wasted fixing dates across entire codebase
+
+CORRECT: Check `date` → Use actual current date
+  → Benefit: Accurate timestamps from start
+  → Result: No rework needed
+```
+
 ---
 
 ## 3. Language Stack & Tooling
@@ -567,6 +602,9 @@ All skills now include:
 ❌ NEVER: Report test results without verifying timestamps
    → False positives/negatives
 
+❌ NEVER: Assume current date/time without checking
+   → Incorrect timestamps, hours fixing dates
+
 ❌ NEVER: Leave TODO, mocks, or stubs
    → Implement now OR create Beads issue
 
@@ -672,6 +710,8 @@ pkill -f "test"
 ```
 New request
   ↓
+Need dates/timestamps? YES → Check `date` command FIRST
+  ↓
 Specialized domain? → Activate skills
   ↓
 Requirements clear? NO → ASK
@@ -701,6 +741,7 @@ Execute
 
 Before completing ANY task:
 ```
+[ ] Verified current date/time (if using timestamps/dates)
 [ ] Discovered relevant skills (use skill-repo-discovery.md or skill-prompt-discovery.md)
 [ ] Read atomic skills from skills/ directory (check skills/_INDEX.md)
 [ ] Challenged vague requirements
@@ -734,13 +775,14 @@ Before completing ANY task:
 These guidelines prevent common pitfalls:
 
 1. Testing violations → Hours debugging stale code
-2. Vague requirements → Rework and missed features
-3. Wrong tools → Dependency hell and conflicts
-4. Skipped skills → Reinventing solved problems
-5. Direct to main → Broken builds and lost work
-6. Running cloud resources → Unexpected bills
-7. Missing context → Lost state across sessions
+2. Assuming dates/time → Hours fixing incorrect timestamps
+3. Vague requirements → Rework and missed features
+4. Wrong tools → Dependency hell and conflicts
+5. Skipped skills → Reinventing solved problems
+6. Direct to main → Broken builds and lost work
+7. Running cloud resources → Unexpected bills
+8. Missing context → Lost state across sessions
 
-**Follow decision trees. Activate skills. Challenge assumptions. Commit before testing. Clean up resources.**
+**Follow decision trees. Verify dates first. Activate skills. Challenge assumptions. Commit before testing. Clean up resources.**
 
 The reward is high-quality, maintainable code delivered efficiently.
