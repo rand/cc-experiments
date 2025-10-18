@@ -299,10 +299,6 @@ This is a personal reference repository maintained through practical development
 
 **Not accepting external contributions**, but feel free to fork and adapt for your own use.
 
-## License
-
-Personal reference materials. Not licensed for redistribution.
-
 ---
 
 **Total: 132 atomic skills** | **Average: 310 lines/skill** | **27 categories** | **100% production-tested**
