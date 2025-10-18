@@ -15,14 +15,14 @@ Development guidelines covering:
 - Frontend development with Next.js + shadcn/ui
 
 ### Skills Directory
-129 atomic, composable skills organized by category:
+132 atomic, composable skills organized by category:
 
-**Core Categories (71 skills):**
+**Core Categories (74 skills):**
 - **API Design** (7): REST, GraphQL, auth/authz, rate limiting, versioning, error handling
 - **Testing** (6): Unit, integration, e2e, TDD, coverage, performance testing
 - **Containers** (5): Dockerfile optimization, Compose, security, networking, registries
 - **Frontend** (8): React patterns, Next.js App Router, state/data/forms, a11y, performance, SEO
-- **Database** (8): Postgres, MongoDB, Redis, pooling, ORMs, selection
+- **Database** (11): Postgres, MongoDB, Redis, Redpanda/Kafka streaming, Apache Iceberg, DuckDB analytics, pooling, ORMs, selection
 - **Workflow & Tasks** (5): Beads workflow, context strategies, multi-session, dependency management
 - **Meta Skills** (4): Skill discovery and planning for repositories and prompts
 - **iOS/Swift** (6): SwiftUI architecture, Swift concurrency, SwiftData, networking, testing, UIKit integration

@@ -85,7 +85,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ---
 
-### Database Skills (8 skills)
+### Database Skills (11 skills)
 
 | Skill | Use When | Lines |
 |-------|----------|-------|
@@ -97,6 +97,9 @@ This index catalogs all atomic skills available in the skills system, organized 
 | `database-connection-pooling.md` | Configuring connection pools, debugging pool exhaustion | ~220 |
 | `orm-patterns.md` | ORM usage, N+1 prevention, eager loading, transactions | ~300 |
 | `database-selection.md` | Choosing databases, SQL vs NoSQL, architecture decisions | ~280 |
+| `redpanda-streaming.md` | Redpanda/Kafka streaming, event-driven architectures, rpk CLI | ~390 |
+| `apache-iceberg.md` | Apache Iceberg table format, time travel, schema evolution, ACID transactions | ~615 |
+| `duckdb-analytics.md` | DuckDB analytics, direct file querying, Python integration, OLAP queries | ~886 |
 
 **Common workflows:**
 - Slow query debugging: `postgres-query-optimization.md`
@@ -788,18 +791,18 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ## Total Skills Count
 
-- **129 atomic skills** across 27 categories
-- **Average 300 lines** per skill
+- **132 atomic skills** across 27 categories
+- **Average 310 lines** per skill
 - **100% focused** - each skill has single clear purpose
 - **Cross-referenced** - related skills linked for discoverability
 
 ### By Category Breakdown
-**Core Foundation** (71 skills):
+**Core Foundation** (74 skills):
 - API Design: 7 skills
 - Testing: 6 skills
 - Containers: 5 skills
 - Frontend: 8 skills
-- Database: 8 skills
+- Database: 11 skills
 - Workflow & Task Management: 5 skills
 - Meta Skills: 4 skills (skill discovery and planning)
 - iOS/Swift: 6 skills

@@ -457,14 +457,14 @@ Read zig-memory-management.md, zig-testing-patterns.md
 Read beads-workflow.md + beads-context-strategies.md + beads-multi-session-patterns.md
 ```
 
-### Skills Catalog (129 Total)
+### Skills Catalog (132 Total)
 
-**Core Categories** (71 skills):
+**Core Categories** (74 skills):
 - **API Design** (7): REST, GraphQL, auth/authz, rate limiting, versioning, error handling
 - **Testing** (6): Unit, integration, e2e, TDD, coverage, performance testing
 - **Containers** (5): Dockerfile optimization, Compose, security, networking, registries
 - **Frontend** (8): React patterns, Next.js App Router, state/data/forms, a11y, performance, SEO
-- **Database** (8): Postgres (optimization, migrations, schema), MongoDB, Redis, pooling, ORMs, selection
+- **Database** (11): Postgres (optimization, migrations, schema), MongoDB, Redis, Redpanda/Kafka streaming, Apache Iceberg, DuckDB analytics, pooling, ORMs, selection
 - **Workflow & Tasks** (5): Beads workflow, context strategies, multi-session, dependency management
 - **Meta Skills** (4): Skill discovery and planning for repositories and prompts
   - Discovery: `skill-repo-discovery.md` (analyze repos), `skill-prompt-discovery.md` (analyze prompts)
@@ -496,7 +496,7 @@ Read beads-workflow.md + beads-context-strategies.md + beads-multi-session-patte
 
 **Quick Category Reference**:
 ```
-API/Backend:    api-*.md (7) | database-*.md, postgres-*.md (8) | orm-*.md (1)
+API/Backend:    api-*.md (7) | database-*.md, postgres-*.md, redpanda-*.md, apache-*.md, duckdb-*.md (11) | orm-*.md (1)
 Testing:        test-*.md, unit-*.md, integration-*.md, e2e-*.md (6) | performance-testing.md
 Containers:     dockerfile-*.md, docker-*.md, container-*.md (5)
 Frontend:       react-*.md (5) | nextjs-*.md (2) | web-*.md, frontend-*.md (3)
