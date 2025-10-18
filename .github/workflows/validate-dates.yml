@@ -46,7 +46,7 @@ jobs:
               # Skip archived files and meta files
               if "_archive" in str(skill_file):
                   continue
-              if skill_file.name in ["MIGRATION_GUIDE.md", "REFACTORING_SUMMARY.md", "_INDEX.md", "README.md"]:
+              if skill_file.name in ["MIGRATION_GUIDE.md", "REFACTORING_SUMMARY.md", "_INDEX.md", "README.md", "ENHANCEMENT_PLAN.md", "ENHANCEMENTS_SUMMARY.md", "SKILLS_USAGE_GUIDE.md", "CLAUDE.md"]:
                   continue
 
               content = skill_file.read_text(encoding='utf-8')

@@ -199,7 +199,7 @@ def main():
         skill_files.extend(skills_dir.glob(pattern))
 
     # Filter out unwanted files
-    excluded = {"MIGRATION_GUIDE.md", "REFACTORING_SUMMARY.md", "_INDEX.md", "README.md", "ENHANCEMENT_PLAN.md"}
+    excluded = {"MIGRATION_GUIDE.md", "REFACTORING_SUMMARY.md", "_INDEX.md", "README.md", "ENHANCEMENT_PLAN.md", "ENHANCEMENTS_SUMMARY.md", "SKILLS_USAGE_GUIDE.md", "CLAUDE.md"}
     skill_files = [
         f for f in skill_files
         if f.name not in excluded
