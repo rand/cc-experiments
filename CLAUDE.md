@@ -219,12 +219,18 @@ Mobile → Swift (iOS native) or React Native (cross-platform)
 CLI/TUI → Go (Bubble Tea) or Rust (Ratatui)
 ```
 
-### Step 4: Search for Relevant Skills
+### Step 4: Discover Relevant Skills
 Before starting specialized work:
-1. Check `skills/_INDEX.md` (if available)
-2. Search by pattern: `modal-*.md`, `swiftui-*.md`, `zig-*.md`, `beads-*.md`
-3. Read only relevant skills (don't read all skills upfront)
-4. Compose multiple skills for complex workflows
+1. **New repository?** Use `skill-repo-discovery.md` to analyze tech stack → Activate identified skills
+2. **User prompt/request?** Use `skill-prompt-discovery.md` to extract intent → Activate identified skills
+3. **Manual search?** Check `skills/_INDEX.md` or search by pattern: `modal-*.md`, `swiftui-*.md`, `zig-*.md`
+4. Read only relevant skills (don't read all skills upfront)
+5. Compose multiple skills for complex workflows
+
+**Meta skills enable intelligent discovery**:
+- Repository onboarding: `skill-repo-discovery.md` analyzes codebase → maps to existing skills
+- Prompt analysis: `skill-prompt-discovery.md` extracts tech signals → activates relevant skills
+- Gap identification: `skill-repo-planning.md` or `skill-prompt-planning.md` → plans missing skills
 
 ### Step 5: Project Structure
 ```
@@ -438,6 +444,11 @@ ls skills/react-*.md
 ls skills/cicd/*.md
 ls skills/infrastructure/*.md
 ls skills/observability/*.md
+ls skills/formal/*.md
+ls skills/ml/*.md
+ls skills/deployment/*.md
+ls skills/math/*.md
+ls skills/mobile/*.md
 
 # 3. Read relevant skills only
 Read zig-memory-management.md, zig-testing-patterns.md
@@ -446,27 +457,42 @@ Read zig-memory-management.md, zig-testing-patterns.md
 Read beads-workflow.md + beads-context-strategies.md + beads-multi-session-patterns.md
 ```
 
-### Skills Catalog (91 Total)
+### Skills Catalog (129 Total)
 
-**Core Categories** (66 skills):
+**Core Categories** (71 skills):
 - **API Design** (7): REST, GraphQL, auth/authz, rate limiting, versioning, error handling
 - **Testing** (6): Unit, integration, e2e, TDD, coverage, performance testing
 - **Containers** (5): Dockerfile optimization, Compose, security, networking, registries
 - **Frontend** (8): React patterns, Next.js App Router, state/data/forms, a11y, performance, SEO
 - **Database** (8): Postgres (optimization, migrations, schema), MongoDB, Redis, pooling, ORMs, selection
-- **Beads Workflow** (4): Core workflow, context strategies, multi-session, troubleshooting
-- **iOS/Swift** (8): SwiftUI (architecture, navigation, data flow, animations), Swift concurrency, SwiftData, networking, UIKit integration
-- **Modal.com** (9): Functions, GPU workloads, web endpoints, volumes, scheduling, streaming, containers, debugging, optimization
+- **Workflow & Tasks** (5): Beads workflow, context strategies, multi-session, dependency management
+- **Meta Skills** (4): Skill discovery and planning for repositories and prompts
+  - Discovery: `skill-repo-discovery.md` (analyze repos), `skill-prompt-discovery.md` (analyze prompts)
+  - Planning: `skill-repo-planning.md` (plan repo skills), `skill-prompt-planning.md` (plan prompt skills)
+  - **Use proactively**: Run discovery skills when encountering new repos or complex user requests
+- **iOS/Swift** (6): SwiftUI architecture, Swift concurrency, SwiftData, networking, UIKit integration, testing
+- **Modal.com** (8): Functions, GPU workloads, web endpoints, volumes, scheduling, troubleshooting, debugging, optimization
 - **Networking** (5): Tailscale, mTLS, Mosh, NAT traversal, resilience patterns
 - **TUI** (5): Bubble Tea/Ratatui architecture, Lip Gloss styling, Bubbles components, state management
 - **Zig** (6): Project setup, memory management, testing, comptime, cross-compilation, C interop
 
-**Advanced Categories** (25 skills):
+**Advanced Infrastructure** (25 skills):
 - **CI/CD** (5): GitHub Actions workflows, testing strategy, deployment patterns, optimization, security
 - **Infrastructure** (6): Terraform patterns, AWS serverless, Kubernetes basics, Cloudflare Workers, security, cost optimization
 - **Observability** (5): Structured logging, metrics instrumentation, distributed tracing, alerting strategy, dashboard design
 - **Real-time** (4): WebSocket implementation, Server-Sent Events, real-time sync, pub/sub patterns
 - **Data Pipeline** (5): ETL patterns, stream processing, batch processing, data validation, pipeline orchestration
+
+**Specialized Domains** (33 skills):
+- **SAT/SMT Solvers** (3): Z3 solver basics, SAT solving strategies, SMT theory applications
+- **Lean 4** (4): Proof basics, tactics, mathlib4, theorem proving
+- **Constraint Satisfaction** (3): CSP modeling, constraint propagation, backtracking search
+- **Heroku** (3): Deployment, add-ons, troubleshooting
+- **Netlify** (3): Deployment, functions, optimization
+- **LLM Fine-tuning** (4): Unsloth, HuggingFace AutoTrain, dataset preparation, LoRA/PEFT
+- **Diffusion Models** (3): Diffusion basics, Stable Diffusion deployment, fine-tuning
+- **Advanced Mathematics** (4): Linear algebra, optimization algorithms, numerical methods, probability/statistics
+- **React Native** (4): Setup, navigation, native modules, performance
 
 **Quick Category Reference**:
 ```
@@ -476,8 +502,14 @@ Containers:     dockerfile-*.md, docker-*.md, container-*.md (5)
 Frontend:       react-*.md (5) | nextjs-*.md (2) | web-*.md, frontend-*.md (3)
 DevOps/Infra:   cicd/ (5) | infrastructure/ (6) | observability/ (5)
 Data:           data/ (5) | realtime/ (4)
-Specialized:    modal-*.md (9) | swiftui-*.md, swift-*.md, ios-*.md (8) | zig-*.md (6)
-Workflow:       beads-*.md (4) | tui-*.md, bubbletea-*.md, ratatui-*.md (5) | network-*.md (5)
+Specialized:    modal-*.md (8) | swiftui-*.md, swift-*.md, ios-*.md (6) | zig-*.md (6)
+Workflow:       beads-*.md (4) | tui-*.md (5) | network-*.md (5)
+Meta:           skill-*.md (5 including skill-creation.md)
+Formal:         formal/z3-*.md, formal/sat-*.md, formal/smt-*.md (3) | formal/lean-*.md (4) | formal/csp-*.md (3)
+ML:             ml/unsloth-*.md, ml/llm-*.md, ml/lora-*.md (4) | ml/diffusion-*.md (3)
+Deployment:     deployment/heroku-*.md (3) | deployment/netlify-*.md (3)
+Math:           math/*.md (4)
+Mobile:         mobile/react-native-*.md (4)
 ```
 
 ### Key Principles
@@ -487,12 +519,14 @@ Workflow:       beads-*.md (4) | tui-*.md, bubbletea-*.md, ratatui-*.md (5) | ne
 4. **Iterate**: Add more skills during work as requirements emerge
 
 ### Discovery Workflow
-1. **Quick task?** Use Quick Category Reference above (lines 471-481) for pattern matching
-2. **Need workflow?** Check `skills/_INDEX.md` → "Skill Combination Examples"
-3. **Deep dive?** Search `skills/_INDEX.md` by technology/task/problem domain
-4. **Emergency?** Read relevant skill directly: `skills/api-*.md`, `skills/cicd/*.md`
+0. **New repo/codebase?** Run `skill-repo-discovery.md` → Activate identified skills
+1. **User request?** Run `skill-prompt-discovery.md` → Activate identified skills
+2. **Quick task?** Use Quick Category Reference above (lines 488-504) for pattern matching
+3. **Need workflow?** Check `skills/_INDEX.md` → "Skill Combination Examples"
+4. **Deep dive?** Search `skills/_INDEX.md` by technology/task/problem domain
+5. **Emergency?** Read relevant skill directly: `skills/api-*.md`, `skills/cicd/*.md`
 
-**Full catalog**: `skills/_INDEX.md` (91 skills, workflows, search patterns, combinations)
+**Full catalog**: `skills/_INDEX.md` (129 skills, workflows, search patterns, combinations)
 
 ---
 

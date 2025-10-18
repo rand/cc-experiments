@@ -107,7 +107,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ---
 
-### Workflow & Task Management (4 skills)
+### Workflow & Task Management (5 skills)
 
 | Skill | Use When | Lines |
 |-------|----------|-------|
@@ -115,11 +115,30 @@ This index catalogs all atomic skills available in the skills system, organized 
 | `beads-dependency-management.md` | Creating issue relationships, managing blockers, organizing work hierarchies | ~450 |
 | `beads-context-strategies.md` | Managing Claude context, preventing bloat, preserving workflow state | ~400 |
 | `beads-multi-session-patterns.md` | Complex multi-session tasks, long-horizon work chains, parallel streams | ~350 |
+| `skill-creation.md` | Creating new atomic skills, maintaining skills system, CLAUDE.md integration | ~400 |
 
 **Common workflows:**
 - New session: `beads-workflow.md` → `beads-context-strategies.md`
 - Complex task: `beads-workflow.md` → `beads-dependency-management.md` → `beads-multi-session-patterns.md`
 - Context management: `beads-context-strategies.md` (throughout session)
+- Create new skill: `skill-creation.md` → Update _INDEX.md → Update CLAUDE.md
+
+---
+
+### Meta Skills (4 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `skill-repo-discovery.md` | Analyzing repository to find relevant skills, onboarding to new codebase | ~380 |
+| `skill-repo-planning.md` | Identifying skill gaps in repository, planning new skills for missing tech | ~377 |
+| `skill-prompt-discovery.md` | Analyzing user prompts to activate relevant skills, real-time skill selection | ~390 |
+| `skill-prompt-planning.md` | Identifying skill gaps from conversation patterns, evolving skill catalog | ~380 |
+
+**Common workflows:**
+- New repository: `skill-repo-discovery.md` → Activate found skills → `skill-repo-planning.md` (if gaps exist)
+- User request: `skill-prompt-discovery.md` → Activate skills → `skill-prompt-planning.md` (if gaps exist)
+- Skill system evolution: Track patterns with `skill-prompt-planning.md` → `skill-creation.md`
+- Complete analysis: `skill-repo-discovery.md` + `skill-repo-planning.md` → Gap report → Create skills
 
 ---
 
@@ -298,6 +317,159 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ---
 
+### SAT/SMT Solvers (3 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `z3-solver-basics.md` | Using Z3 SMT solver, constraint solving, program verification | ~350 |
+| `sat-solving-strategies.md` | Boolean satisfiability, combinatorial problems, SAT encodings | ~320 |
+| `smt-theory-applications.md` | SMT theories, model checking, test generation, scheduling | ~340 |
+
+**Common workflows:**
+- Constraint solving: `z3-solver-basics.md` → `smt-theory-applications.md`
+- SAT problems: `sat-solving-strategies.md` → `z3-solver-basics.md`
+- Formal verification: `smt-theory-applications.md` → `lean-theorem-proving.md`
+
+---
+
+### Lean 4 Theorem Proving (4 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `lean-proof-basics.md` | Learning Lean 4, writing simple proofs, understanding proof terms | ~330 |
+| `lean-tactics.md` | Complex proofs, tactic development, proof automation | ~360 |
+| `lean-mathlib4.md` | Mathematical formalization, using mathlib4, library development | ~350 |
+| `lean-theorem-proving.md` | Advanced proving techniques, formalization strategies, research | ~370 |
+
+**Common workflows:**
+- Learning Lean: `lean-proof-basics.md` → `lean-tactics.md` → `lean-mathlib4.md`
+- Formalization project: `lean-mathlib4.md` → `lean-theorem-proving.md`
+- Proof automation: `lean-tactics.md` → `lean-theorem-proving.md`
+
+---
+
+### Modal.com Troubleshooting (2 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `modal-common-errors.md` | Debugging Modal apps, deployment issues, error resolution | ~504 |
+| `modal-performance-debugging.md` | Performance issues, profiling, GPU optimization, cold starts | ~639 |
+
+**Common workflows:**
+- Debugging errors: `modal-common-errors.md` → `modal-debugging.md`
+- Performance optimization: `modal-performance-debugging.md` → `modal-optimization.md`
+- Production issues: `modal-common-errors.md` → `modal-performance-debugging.md`
+
+---
+
+### Heroku Deployment (3 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `heroku-deployment.md` | Deploying apps to Heroku, Procfile, buildpacks, pipelines | ~330 |
+| `heroku-addons.md` | Adding Postgres, Redis, monitoring, email services | ~310 |
+| `heroku-troubleshooting.md` | Debugging Heroku apps, logs, performance, scaling | ~320 |
+
+**Common workflows:**
+- New Heroku app: `heroku-deployment.md` → `heroku-addons.md`
+- Production setup: `heroku-deployment.md` → `heroku-addons.md` → `heroku-troubleshooting.md`
+- Debugging: `heroku-troubleshooting.md` → `structured-logging.md`
+
+---
+
+### Netlify Deployment (3 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `netlify-deployment.md` | Deploying static sites, JAMstack, Next.js to Netlify | ~320 |
+| `netlify-functions.md` | Serverless functions, Edge Functions, form handling | ~330 |
+| `netlify-optimization.md` | Performance optimization, CDN, caching, build optimization | ~310 |
+
+**Common workflows:**
+- New Netlify site: `netlify-deployment.md` → `netlify-optimization.md`
+- Adding API: `netlify-functions.md` → `netlify-deployment.md`
+- Production optimization: `netlify-deployment.md` → `netlify-optimization.md` → `frontend-performance.md`
+
+---
+
+### LLM Fine-tuning (4 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `unsloth-finetuning.md` | Fast LLM fine-tuning, memory optimization, multi-GPU | ~350 |
+| `huggingface-autotrain.md` | No-code/low-code fine-tuning, quick experiments | ~330 |
+| `llm-dataset-preparation.md` | Preparing training data, instruction tuning, chat fine-tuning | ~360 |
+| `lora-peft-techniques.md` | LoRA, QLoRA, parameter-efficient fine-tuning | ~340 |
+
+**Common workflows:**
+- Fine-tuning workflow: `llm-dataset-preparation.md` → `unsloth-finetuning.md` → `lora-peft-techniques.md`
+- Quick fine-tuning: `llm-dataset-preparation.md` → `huggingface-autotrain.md`
+- Production deployment: `unsloth-finetuning.md` → `modal-gpu-workloads.md`
+
+---
+
+### Diffusion Models (3 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `diffusion-model-basics.md` | Understanding diffusion models, image generation, model selection | ~445 |
+| `stable-diffusion-deployment.md` | Deploying Stable Diffusion, optimization, inference APIs | ~596 |
+| `diffusion-finetuning.md` | Fine-tuning diffusion models, DreamBooth, LoRA | ~598 |
+
+**Common workflows:**
+- Learning diffusion: `diffusion-model-basics.md` → `stable-diffusion-deployment.md`
+- Production API: `stable-diffusion-deployment.md` → `modal-gpu-workloads.md`
+- Custom models: `diffusion-finetuning.md` → `stable-diffusion-deployment.md`
+
+---
+
+### Constraint Satisfaction (3 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `csp-modeling.md` | Modeling CSPs, scheduling, planning, resource allocation | ~423 |
+| `constraint-propagation.md` | Constraint propagation, arc consistency, domain reduction | ~514 |
+| `backtracking-search.md` | Backtracking search, heuristics, CSP optimization | ~466 |
+
+**Common workflows:**
+- CSP solving: `csp-modeling.md` → `constraint-propagation.md` → `backtracking-search.md`
+- Optimization: `csp-modeling.md` → `backtracking-search.md`
+- Scheduling problems: `csp-modeling.md` → `constraint-propagation.md`
+
+---
+
+### Advanced Mathematics (4 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `linear-algebra-computation.md` | Matrix computations, solving linear systems, dimensionality reduction | ~350 |
+| `optimization-algorithms.md` | Numerical optimization, gradient descent, constrained optimization | ~360 |
+| `numerical-methods.md` | Solving ODEs/PDEs, numerical integration, root finding | ~340 |
+| `probability-statistics.md` | Statistical analysis, hypothesis testing, Bayesian methods | ~330 |
+
+**Common workflows:**
+- ML foundations: `linear-algebra-computation.md` → `optimization-algorithms.md`
+- Scientific computing: `numerical-methods.md` → `optimization-algorithms.md`
+- Data analysis: `probability-statistics.md` → `data-validation.md`
+
+---
+
+### React Native iOS (4 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `react-native-setup.md` | Starting React Native projects, iOS development environment | ~320 |
+| `react-native-navigation.md` | Multi-screen apps, navigation patterns, deep linking | ~340 |
+| `react-native-native-modules.md` | Accessing iOS APIs, native functionality, Swift bridging | ~350 |
+| `react-native-performance.md` | Performance optimization, iOS-specific optimizations | ~360 |
+
+**Common workflows:**
+- New React Native app: `react-native-setup.md` → `react-native-navigation.md` → `react-native-performance.md`
+- Native integration: `react-native-native-modules.md` → `swift-concurrency.md`
+- Production app: `react-native-navigation.md` → `react-native-performance.md` → `ios-testing.md`
+
+---
+
 ## Skill Discovery Patterns
 
 ### By Technology
@@ -314,11 +486,21 @@ This index catalogs all atomic skills available in the skills system, organized 
 **TUI (Rust):** Search `ratatui-*.md`, `tui-*.md`
 **Zig:** Search `zig-*.md`
 **Beads:** Search `beads-*.md`
+**Meta Skills:** Search `skill-*.md`
 **CI/CD:** Search `cicd/*.md`, `github-*.md`, `ci-*.md`, `cd-*.md`
 **Infrastructure:** Search `infrastructure/*.md`, `terraform-*.md`, `aws-*.md`, `kubernetes-*.md`, `cloudflare-*.md`
 **Observability:** Search `observability/*.md`, `logging-*.md`, `metrics-*.md`, `tracing-*.md`, `alerting-*.md`
 **Real-time:** Search `realtime/*.md`, `websocket-*.md`, `sse-*.md`, `pubsub-*.md`
 **Data Pipelines:** Search `data/*.md`, `etl-*.md`, `stream-*.md`, `batch-*.md`, `pipeline-*.md`
+**SAT/SMT Solvers:** Search `formal/z3-*.md`, `formal/sat-*.md`, `formal/smt-*.md`
+**Lean 4:** Search `formal/lean-*.md`
+**Constraint Satisfaction:** Search `formal/csp-*.md`, `formal/constraint-*.md`, `formal/backtracking-*.md`
+**Heroku:** Search `deployment/heroku-*.md`
+**Netlify:** Search `deployment/netlify-*.md`
+**LLM Fine-tuning:** Search `ml/unsloth-*.md`, `ml/huggingface-*.md`, `ml/llm-*.md`, `ml/lora-*.md`
+**Diffusion Models:** Search `ml/diffusion-*.md`, `ml/stable-diffusion-*.md`
+**Advanced Mathematics:** Search `math/*.md`, `math/linear-algebra-*.md`, `math/optimization-*.md`, `math/numerical-*.md`, `math/probability-*.md`
+**React Native:** Search `mobile/react-native-*.md`
 
 ### By Task Type
 
@@ -331,6 +513,9 @@ This index catalogs all atomic skills available in the skills system, organized 
 - REST API: `rest-api-design.md`
 - GraphQL API: `graphql-schema-design.md`
 - Next.js app: `nextjs-app-router.md`
+- React Native: `react-native-setup.md`
+- Heroku deployment: `heroku-deployment.md`
+- Netlify deployment: `netlify-deployment.md`
 
 **Testing:**
 - Unit tests: `unit-testing-patterns.md`
@@ -357,6 +542,8 @@ This index catalogs all atomic skills available in the skills system, organized 
 - Infrastructure: `terraform-patterns.md`, `aws-serverless.md`, `kubernetes-basics.md`
 - CI/CD: `github-actions-workflows.md`, `cd-deployment-patterns.md`
 - Zig: `zig-build-system.md`
+- Heroku: `heroku-deployment.md`, `heroku-addons.md`
+- Netlify: `netlify-deployment.md`, `netlify-functions.md`
 
 **Observability:**
 - Logging: `structured-logging.md`
@@ -374,14 +561,18 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ### By Problem Domain
 
-**Performance-critical:** `zig-memory-management.md`, `modal-gpu-workloads.md`, `tui-best-practices.md`, `frontend-performance.md`, `postgres-query-optimization.md`, `ci-optimization.md`
+**Performance-critical:** `zig-memory-management.md`, `modal-gpu-workloads.md`, `tui-best-practices.md`, `frontend-performance.md`, `postgres-query-optimization.md`, `ci-optimization.md`, `react-native-performance.md`
 **Async/concurrent:** `swift-concurrency.md`, `bubbletea-architecture.md`, `ratatui-architecture.md`, `react-data-fetching.md`, `stream-processing.md`
 **Security:** `mtls-implementation.md`, `tailscale-vpn.md`, `network-resilience-patterns.md`, `container-security.md`, `api-authentication.md`, `api-authorization.md`, `ci-security.md`, `infrastructure-security.md`
-**UI/UX:** `swiftui-*.md`, `bubbletea-*.md`, `ratatui-*.md`, `react-component-patterns.md`, `web-accessibility.md`
+**UI/UX:** `swiftui-*.md`, `bubbletea-*.md`, `ratatui-*.md`, `react-component-patterns.md`, `web-accessibility.md`, `react-native-*.md`
 **API Development:** `rest-api-design.md`, `graphql-schema-design.md`, `api-authentication.md`, `api-rate-limiting.md`
-**DevOps/SRE:** `cicd/*.md`, `infrastructure/*.md`, `observability/*.md`, `cost-optimization.md`
+**DevOps/SRE:** `cicd/*.md`, `infrastructure/*.md`, `observability/*.md`, `cost-optimization.md`, `heroku-*.md`, `netlify-*.md`
 **Data Engineering:** `data/*.md`, `stream-processing.md`, `batch-processing.md`, `data-validation.md`
 **Real-time Systems:** `realtime/*.md`, `websocket-implementation.md`, `server-sent-events.md`, `pubsub-patterns.md`
+**Formal Methods:** `formal/z3-*.md`, `formal/lean-*.md`, `formal/sat-*.md`, `formal/smt-*.md`, `formal/csp-*.md`
+**Machine Learning:** `ml/unsloth-*.md`, `ml/diffusion-*.md`, `ml/llm-*.md`, `ml/stable-diffusion-*.md`
+**Mathematics:** `math/*.md`
+**Mobile Development:** `mobile/react-native-*.md`, `swiftui-*.md`, `ios-*.md`
 
 ---
 
@@ -481,6 +672,69 @@ This index catalogs all atomic skills available in the skills system, organized 
 3. `beads-multi-session-patterns.md` - Long-horizon patterns
 4. `beads-context-strategies.md` - Context preservation (throughout)
 
+### SAT/SMT-based Verification
+1. `z3-solver-basics.md` - Z3 fundamentals
+2. `sat-solving-strategies.md` - SAT encoding
+3. `smt-theory-applications.md` - Symbolic execution/model checking
+
+### Lean 4 Formalization Project
+1. `lean-proof-basics.md` - Proof structure
+2. `lean-tactics.md` - Tactic language
+3. `lean-mathlib4.md` - Library usage
+4. `lean-theorem-proving.md` - Advanced proofs
+
+### LLM Fine-tuning Workflow
+1. `llm-dataset-preparation.md` - Dataset creation
+2. `unsloth-finetuning.md` - Fast fine-tuning
+3. `lora-peft-techniques.md` - LoRA/QLoRA
+4. `modal-gpu-workloads.md` - Cloud GPU training
+
+### Stable Diffusion Fine-tuning
+1. `diffusion-model-basics.md` - Diffusion fundamentals
+2. `diffusion-finetuning.md` - DreamBooth/LoRA
+3. `stable-diffusion-deployment.md` - Modal deployment
+4. `modal-gpu-workloads.md` - GPU optimization
+
+### Constraint Satisfaction Problem
+1. `csp-modeling.md` - CSP variables/constraints
+2. `constraint-propagation.md` - AC-3 algorithm
+3. `backtracking-search.md` - Optimization
+
+### Heroku Deployment
+1. `heroku-deployment.md` - App deployment
+2. `heroku-addons.md` - Database/Redis/monitoring
+3. `heroku-troubleshooting.md` - Debugging issues
+
+### Netlify JAMstack
+1. `netlify-deployment.md` - Static site deployment
+2. `netlify-functions.md` - Serverless functions
+3. `netlify-optimization.md` - Performance
+
+### React Native iOS App
+1. `react-native-setup.md` - Project initialization
+2. `react-native-navigation.md` - Navigation
+3. `react-native-native-modules.md` - Swift bridging
+4. `react-native-performance.md` - Optimization
+5. `ios-testing.md` - Testing
+
+### Modal ML Troubleshooting
+1. `modal-common-errors.md` - Common errors
+2. `modal-performance-debugging.md` - Performance issues
+3. `modal-gpu-workloads.md` - GPU optimization
+
+### Numerical Computing
+1. `linear-algebra-computation.md` - Matrix operations
+2. `optimization-algorithms.md` - SGD/Adam/L-BFGS
+3. `numerical-methods.md` - ODE solvers
+4. `probability-statistics.md` - Statistical methods
+
+### Meta Skill Analysis
+1. `skill-repo-discovery.md` - Analyze repository
+2. `skill-repo-planning.md` - Plan missing skills for repo
+3. `skill-prompt-discovery.md` - Analyze user prompt
+4. `skill-prompt-planning.md` - Plan missing skills from prompts
+5. `skill-creation.md` - Create new skills
+
 ---
 
 ## Quick Reference Table
@@ -500,6 +754,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 | Create Rust TUI app | ratatui-architecture.md, ratatui-widgets.md, tui-best-practices.md | 1→2→3 |
 | New Zig project | zig-project-setup.md, zig-build-system.md, zig-memory-management.md | 1→2→3 |
 | Manage long task | beads-workflow.md, beads-dependency-management.md, beads-multi-session-patterns.md | 1→2→3 |
+| Create new skill | skill-creation.md | 1 |
 | Setup VPN | tailscale-vpn.md | 1 |
 | Remote SSH over poor network | mosh-resilient-ssh.md | 1 |
 | P2P connection | nat-traversal.md, network-resilience-patterns.md | 1→2 |
@@ -512,26 +767,43 @@ This index catalogs all atomic skills available in the skills system, organized 
 | Infrastructure as Code | terraform-patterns.md, infrastructure-security.md, cost-optimization.md | 1→2→3 |
 | Deploy to Kubernetes | kubernetes-basics.md, infrastructure-security.md | 1→2 |
 | Stream processing | stream-processing.md, data-validation.md, pipeline-orchestration.md | 1→2→3 |
+| Solve SAT/SMT problem | z3-solver-basics.md, sat-solving-strategies.md | 1→2 |
+| Formalize theorem in Lean | lean-proof-basics.md, lean-tactics.md, lean-mathlib4.md | 1→2→3 |
+| Solve CSP | csp-modeling.md, constraint-propagation.md, backtracking-search.md | 1→2→3 |
+| Fine-tune LLM | llm-dataset-preparation.md, unsloth-finetuning.md, lora-peft-techniques.md | 1→2→3 |
+| Fine-tune diffusion model | diffusion-model-basics.md, diffusion-finetuning.md, stable-diffusion-deployment.md | 1→2→3 |
+| Deploy to Heroku | heroku-deployment.md, heroku-addons.md | 1→2 |
+| Deploy to Netlify | netlify-deployment.md, netlify-functions.md | 1→2 |
+| Build React Native app | react-native-setup.md, react-native-navigation.md, react-native-performance.md | 1→2→3 |
+| Debug Modal app | modal-common-errors.md, modal-performance-debugging.md | 1→2 |
+| Numerical computing | linear-algebra-computation.md, optimization-algorithms.md, numerical-methods.md | 1→2→3 |
+| Symbolic execution | z3-solver-basics.md, smt-theory-applications.md | 1→2 |
+| Bridge React Native to Swift | react-native-native-modules.md, swift-concurrency.md | 1→2 |
+| Analyze repository for skills | skill-repo-discovery.md, skill-repo-planning.md | 1→2 |
+| Find skills for prompt | skill-prompt-discovery.md | 1 |
+| Plan new skills | skill-repo-planning.md or skill-prompt-planning.md, skill-creation.md | 1→2 |
+| Create new skill | skill-creation.md | 1 |
 
 ---
 
 ## Total Skills Count
 
-- **91 atomic skills** across 16 categories
-- **Average 280 lines** per skill
+- **129 atomic skills** across 27 categories
+- **Average 300 lines** per skill
 - **100% focused** - each skill has single clear purpose
 - **Cross-referenced** - related skills linked for discoverability
 
 ### By Category Breakdown
-**Core Foundation** (66 skills):
+**Core Foundation** (71 skills):
 - API Design: 7 skills
 - Testing: 6 skills
 - Containers: 5 skills
 - Frontend: 8 skills
 - Database: 8 skills
-- Beads Workflow: 4 skills
+- Workflow & Task Management: 5 skills
+- Meta Skills: 4 skills (skill discovery and planning)
 - iOS/Swift: 6 skills
-- Modal.com: 6 skills
+- Modal.com: 8 skills (6 original + 2 troubleshooting)
 - Networking: 5 skills
 - TUI Development: 5 skills
 - Zig Programming: 6 skills
@@ -542,6 +814,18 @@ This index catalogs all atomic skills available in the skills system, organized 
 - Observability: 5 skills
 - Real-time: 4 skills
 - Data Pipelines: 5 skills
+
+**Specialized Domains** (33 skills):
+- SAT/SMT Solvers: 3 skills
+- Lean 4: 4 skills
+- Constraint Satisfaction: 3 skills
+- Heroku: 3 skills
+- Netlify: 3 skills
+- LLM Fine-tuning: 4 skills
+- Diffusion Models: 3 skills
+- Advanced Mathematics: 4 skills
+- React Native: 4 skills
+- Formal Methods: 2 skills (verification-focused)
 
 ---
 
@@ -563,5 +847,5 @@ See `MIGRATION_GUIDE.md` for detailed mapping.
 ---
 
 **Last Updated:** 2025-10-18
-**Total Skills:** 91
+**Total Skills:** 129
 **Format Version:** 1.0 (Atomic)
