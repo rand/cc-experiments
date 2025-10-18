@@ -1,0 +1,73 @@
+name: Validate Dates
+
+on:
+  pull_request:
+    paths:
+      - 'skills/**/*.md'
+      - '.github/workflows/validate-dates.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'skills/**/*.md'
+
+jobs:
+  check-dates:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Check for future dates
+        run: |
+          python3 << 'EOF'
+          import re
+          import sys
+          from pathlib import Path
+          from datetime import datetime
+
+          print("="*60)
+          print("VALIDATING 'Last Updated' DATES")
+          print("="*60)
+
+          today = datetime.now().date()
+          print(f"Today's date: {today}\n")
+
+          errors = []
+          checked = 0
+
+          # Check skills directory
+          for skill_file in Path(".").rglob("*.md"):
+              # Skip archived files and meta files
+              if "_archive" in str(skill_file):
+                  continue
+              if skill_file.name in ["MIGRATION_GUIDE.md", "REFACTORING_SUMMARY.md", "_INDEX.md", "README.md"]:
+                  continue
+
+              content = skill_file.read_text(encoding='utf-8')
+              matches = re.findall(r'\*\*Last Updated\*\*:\s*(\d{4}-\d{2}-\d{2})', content)
+
+              for match in matches:
+                  checked += 1
+                  date = datetime.strptime(match, "%Y-%m-%d").date()
+                  if date > today:
+                      errors.append(f"{skill_file}: Future date {match} (today is {today})")
+
+          print(f"Checked {checked} dates across skill files\n")
+
+          if errors:
+              print("❌ FAILED: Found future dates:\n")
+              for error in errors:
+                  print(f"  • {error}")
+              print(f"\n{len(errors)} future date(s) found")
+              print("="*60)
+              sys.exit(1)
+          else:
+              print("✅ SUCCESS: All dates are valid")
+              print("="*60)
+          EOF

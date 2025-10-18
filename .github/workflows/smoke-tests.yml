@@ -1,0 +1,103 @@
+name: Smoke Tests
+
+on:
+  pull_request:
+    paths:
+      - 'skills/**/*.md'
+      - 'tests/**'
+      - '.github/workflows/smoke-tests.yml'
+  push:
+    branches:
+      - main
+
+jobs:
+  validate-code-blocks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate Python code blocks
+        run: |
+          python3 tests/validate_code_blocks.py
+
+  validate-frontmatter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate YAML frontmatter
+        run: |
+          python3 << 'EOF'
+          import re
+          import sys
+          from pathlib import Path
+
+          print("="*60)
+          print("VALIDATING YAML FRONTMATTER")
+          print("="*60)
+
+          errors = []
+          checked = 0
+
+          for skill_file in Path(".").rglob("*.md"):
+              # Skip archived and meta files
+              if "_archive" in str(skill_file):
+                  continue
+              if skill_file.name in ["MIGRATION_GUIDE.md", "REFACTORING_SUMMARY.md", "_INDEX.md", "README.md", "ENHANCEMENT_PLAN.md"]:
+                  continue
+
+              content = skill_file.read_text(encoding='utf-8')
+              checked += 1
+
+              # Check for frontmatter
+              if not content.strip().startswith('---\n'):
+                  errors.append(f"{skill_file}: Missing YAML frontmatter")
+                  continue
+
+              # Parse frontmatter
+              parts = content.split('---\n', 2)
+              if len(parts) < 3:
+                  errors.append(f"{skill_file}: Invalid frontmatter format")
+                  continue
+
+              frontmatter = parts[1]
+
+              # Check required fields
+              if not re.search(r'^name:\s*\S+', frontmatter, re.MULTILINE):
+                  errors.append(f"{skill_file}: Missing 'name' field")
+
+              if not re.search(r'^description:\s*.+', frontmatter, re.MULTILINE):
+                  errors.append(f"{skill_file}: Missing 'description' field")
+
+              # Validate name format (hyphen-case)
+              name_match = re.search(r'^name:\s*(\S+)', frontmatter, re.MULTILINE)
+              if name_match:
+                  name = name_match.group(1)
+                  if not re.match(r'^[a-z0-9-]+$', name):
+                      errors.append(f"{skill_file}: Invalid name format '{name}' (must be hyphen-case)")
+
+          print(f"Checked {checked} skill files\n")
+
+          if errors:
+              print("❌ FAILED: Found frontmatter errors:\n")
+              for error in errors:
+                  print(f"  • {error}")
+              print(f"\n{len(errors)} error(s) found")
+              print("="*60)
+              sys.exit(1)
+          else:
+              print("✅ SUCCESS: All frontmatter is valid")
+              print("="*60)
+          EOF

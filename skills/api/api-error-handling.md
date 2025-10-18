@@ -53,7 +53,7 @@ interface ErrorDetail {
     }
   ],
   "trace_id": "a1b2c3d4-e5f6-7890",
-  "timestamp": "2024-10-18T10:30:00Z"
+  "timestamp": "2025-10-18T10:30:00Z"
 }
 ```
 
@@ -252,7 +252,7 @@ class UserCreate(BaseModel):
     }
   ],
   "trace_id": "abc123",
-  "timestamp": "2024-10-18T10:30:00Z"
+  "timestamp": "2025-10-18T10:30:00Z"
 }
 ```
 

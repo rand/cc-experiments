@@ -219,7 +219,7 @@ Mobile → Swift (iOS native) or React Native (cross-platform)
 CLI/TUI → Go (Bubble Tea) or Rust (Ratatui)
 ```
 
-### Step 4: Discover Relevant Skills
+### Step 4: Discover Relevant Skills (UPDATED 2025-10-18)
 Before starting specialized work:
 1. **New repository?** Use `skill-repo-discovery.md` to analyze tech stack → Activate identified skills
 2. **User prompt/request?** Use `skill-prompt-discovery.md` to extract intent → Activate identified skills
@@ -227,10 +227,16 @@ Before starting specialized work:
 4. Read only relevant skills (don't read all skills upfront)
 5. Compose multiple skills for complex workflows
 
-**Meta skills enable intelligent discovery**:
+**Meta skills enable intelligent discovery** (all have YAML frontmatter for agent compatibility):
 - Repository onboarding: `skill-repo-discovery.md` analyzes codebase → maps to existing skills
 - Prompt analysis: `skill-prompt-discovery.md` extracts tech signals → activates relevant skills
 - Gap identification: `skill-repo-planning.md` or `skill-prompt-planning.md` → plans missing skills
+
+**Quality assurance**: All 132 skills are validated by CI for:
+- YAML frontmatter compliance (agent_skills_spec.md)
+- Date accuracy (no future dates)
+- Code syntax (Python blocks validated)
+- Size optimization (target <500 lines)
 
 ### Step 5: Project Structure
 ```
@@ -426,15 +432,25 @@ open https://ui.shadcn.com/themes
 ## 9. Skills System
 
 ### Philosophy: Atomic Skills
-**Old approach**: Monolithic skills `/zig-dev`, `/modal-dev` (too large)  
-**New approach**: Atomic, composable skills (260 lines avg)
+**Old approach**: Monolithic skills `/zig-dev`, `/modal-dev` (too large)
+**New approach**: Atomic, composable skills (~300 lines avg, <500 line guideline)
+
+### Quality Standards (as of 2025-10-18)
+- ✅ **132 skills** with YAML frontmatter (agent_skills_spec.md compliant)
+- ✅ **0 future dates** - all dates validated by CI
+- ✅ **Automated testing** - code syntax validation in CI
+- 🔄 **Size optimization** - 89 skills >500 lines identified for splitting
 
 ### Discovery Pattern
 ```bash
-# 1. Identify domain
+# 0. AUTOMATIC DISCOVERY (Recommended)
+# For new repos: Use skill-repo-discovery.md to analyze codebase → activates relevant skills
+# For user requests: Use skill-prompt-discovery.md to extract intent → activates skills
+
+# 1. Manual: Identify domain
 "I need Zig memory management" → zig-memory-management.md
 
-# 2. Search by pattern
+# 2. Manual: Search by pattern
 ls skills/zig-*.md
 ls skills/modal-*.md
 ls skills/swiftui-*.md
@@ -450,7 +466,7 @@ ls skills/deployment/*.md
 ls skills/math/*.md
 ls skills/mobile/*.md
 
-# 3. Read relevant skills only
+# 3. Read relevant skills only (NOT all upfront)
 Read zig-memory-management.md, zig-testing-patterns.md
 
 # 4. Compose for complex workflows
@@ -513,20 +529,28 @@ Mobile:         mobile/react-native-*.md (4)
 ```
 
 ### Key Principles
-1. **Discover**: Search by pattern or category directory
+1. **Discover**: Use automated discovery skills OR search by pattern/category
 2. **Compose**: Combine skills for complex workflows
 3. **Apply**: Read only what you need, when you need it
 4. **Iterate**: Add more skills during work as requirements emerge
+5. **Validate**: Skills are CI-tested for syntax and frontmatter compliance
 
-### Discovery Workflow
+### Discovery Workflow (UPDATED 2025-10-18)
 0. **New repo/codebase?** Run `skill-repo-discovery.md` → Activate identified skills
 1. **User request?** Run `skill-prompt-discovery.md` → Activate identified skills
-2. **Quick task?** Use Quick Category Reference above (lines 488-504) for pattern matching
+2. **Quick task?** Use Quick Category Reference for pattern matching
 3. **Need workflow?** Check `skills/_INDEX.md` → "Skill Combination Examples"
 4. **Deep dive?** Search `skills/_INDEX.md` by technology/task/problem domain
 5. **Emergency?** Read relevant skill directly: `skills/api-*.md`, `skills/cicd/*.md`
 
-**Full catalog**: `skills/_INDEX.md` (129 skills, workflows, search patterns, combinations)
+**Full catalog**: `skills/_INDEX.md` (132 skills, workflows, search patterns, combinations)
+
+### Skill Quality Assurance
+All skills now include:
+- **YAML frontmatter** with `name` and `description` (enables programmatic discovery)
+- **Accurate dates** validated by CI (no future dates allowed)
+- **Code validation** via smoke tests (Python syntax checked automatically)
+- **Size guidelines** (<500 lines recommended; see `ENHANCEMENT_PLAN.md` for split plans)
 
 ---
 
@@ -677,7 +701,8 @@ Execute
 
 Before completing ANY task:
 ```
-[ ] Searched/read relevant atomic skills (check skills/_INDEX.md)
+[ ] Discovered relevant skills (use skill-repo-discovery.md or skill-prompt-discovery.md)
+[ ] Read atomic skills from skills/ directory (check skills/_INDEX.md)
 [ ] Challenged vague requirements
 [ ] Confirmed tech stack and deployment
 [ ] Followed correct package manager (uv, cargo, etc.)
@@ -692,6 +717,15 @@ Before completing ANY task:
 ```
 
 **If ANY checkbox unchecked, stop and address it.**
+
+### Skills Quality Standards (Updated 2025-10-18)
+```
+[ ] All skills have YAML frontmatter (name, description)
+[ ] No future-dated "Last Updated" fields
+[ ] Code blocks are syntactically valid
+[ ] New skills should be <500 lines (guideline from skill-creation.md)
+[ ] CI workflows validate quality on every commit
+```
 
 ---
 
