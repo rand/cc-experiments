@@ -1,3 +1,10 @@
+---
+name: testing-integration-testing
+description: Test interactions between multiple components or services
+---
+
+
+
 # Integration Testing
 
 ## When to Use This Skill

@@ -1,3 +1,10 @@
+---
+name: zig-c-interop
+description: Calling C libraries from Zig
+---
+
+
+
 # Zig C Interoperability
 
 **Use this skill when:**

@@ -1,3 +1,10 @@
+---
+name: deployment-heroku-troubleshooting
+description: Application crashes on Heroku with H10, H12, H13, H14 errors
+---
+
+
+
 # Heroku Troubleshooting
 
 **Scope**: Debugging Heroku apps, log analysis, crashes, performance issues, scaling strategies

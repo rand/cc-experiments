@@ -1,3 +1,10 @@
+---
+name: api-api-authorization
+description: Implementing authorization logic in APIs
+---
+
+
+
 # API Authorization
 
 **Scope**: Authorization models, permission systems, role-based access control

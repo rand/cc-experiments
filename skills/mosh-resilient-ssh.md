@@ -1,3 +1,10 @@
+---
+name: mosh-resilient-ssh
+description: Connecting over unreliable networks (mobile, WiFi)
+---
+
+
+
 # Mosh - Resilient SSH Alternative
 
 **Use this skill when:**

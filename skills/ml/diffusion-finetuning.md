@@ -1,3 +1,10 @@
+---
+name: ml-diffusion-finetuning
+description: Fine-tuning diffusion models for custom styles or subjects
+---
+
+
+
 # Diffusion Fine-Tuning
 
 **Scope**: Fine-tuning diffusion models with DreamBooth, LoRA, textual inversion, dataset preparation

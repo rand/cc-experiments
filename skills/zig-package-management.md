@@ -1,3 +1,10 @@
+---
+name: zig-package-management
+description: Adding dependencies to Zig projects
+---
+
+
+
 # Zig Package Management
 
 **Use this skill when:**

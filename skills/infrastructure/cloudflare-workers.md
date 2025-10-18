@@ -1,3 +1,9 @@
+---
+name: infrastructure-cloudflare-workers
+description: Building serverless APIs at the edge (low latency globally)
+---
+
+
 # Cloudflare Workers
 
 **Scope**: Edge computing with Cloudflare Workers - Edge functions, KV storage, Durable Objects, R2

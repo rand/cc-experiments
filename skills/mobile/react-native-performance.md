@@ -1,3 +1,10 @@
+---
+name: mobile-react-native-performance
+description: App animations are dropping frames (not 60fps)
+---
+
+
+
 # React Native Performance
 
 **Scope**: React Native performance optimization, iOS-specific optimizations, profiling, memory management

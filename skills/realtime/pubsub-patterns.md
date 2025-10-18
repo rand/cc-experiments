@@ -1,3 +1,9 @@
+---
+name: realtime-pubsub-patterns
+description: Use pub/sub patterns when you need:
+---
+
+
 # Pub/Sub Patterns
 
 **Scope**: Publish/subscribe architecture, Redis Pub/Sub, message queues, and fan-out patterns

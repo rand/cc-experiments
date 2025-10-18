@@ -1,3 +1,10 @@
+---
+name: math-probability-statistics
+description: Statistical hypothesis testing (t-test, chi-square, ANOVA)
+---
+
+
+
 # Probability and Statistics
 
 ## Metadata

@@ -1,3 +1,10 @@
+---
+name: data-pipeline-orchestration
+description: Coordinating complex multi-step data workflows
+---
+
+
+
 # Pipeline Orchestration
 
 **Scope**: Workflow engines, error handling, retries, monitoring

@@ -1,3 +1,10 @@
+---
+name: frontend-react-component-patterns
+description: Designing component architecture
+---
+
+
+
 # React Component Patterns
 
 **Scope**: Composition patterns, custom hooks, memoization, code splitting, component organization

@@ -1,3 +1,10 @@
+---
+name: cicd-cd-deployment-patterns
+description: Implementing zero-downtime deployment strategies
+---
+
+
+
 # CD Deployment Patterns
 
 **Scope**: Blue-green deployments, canary releases, rolling updates, rollback strategies, and environment promotion patterns

@@ -1,3 +1,10 @@
+---
+name: formal-constraint-propagation
+description: Pruning search space before backtracking search
+---
+
+
+
 # Constraint Propagation
 
 **Scope**: Constraint propagation algorithms, arc consistency, domain reduction, inference

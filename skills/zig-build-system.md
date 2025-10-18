@@ -1,3 +1,10 @@
+---
+name: zig-build-system
+description: Configuring build.zig
+---
+
+
+
 # Zig Build System
 
 **Use this skill when:**

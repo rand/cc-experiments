@@ -1,3 +1,10 @@
+---
+name: modal-modal-common-errors
+description: Encountering Modal deployment or runtime errors
+---
+
+
+
 # Modal Common Errors
 
 **Scope**: Common Modal.com errors, debugging strategies, and proven solutions

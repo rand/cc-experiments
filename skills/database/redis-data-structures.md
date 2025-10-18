@@ -1,3 +1,10 @@
+---
+name: database-redis-data-structures
+description: Implementing caching layers
+---
+
+
+
 # Redis Data Structures and Patterns
 
 **Scope**: Redis data types, caching patterns, use cases

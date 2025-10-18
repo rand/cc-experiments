@@ -1,3 +1,9 @@
+---
+name: beads-multi-session-patterns
+description: bd create "Implement user authentication" -t epic -p 0 --json
+---
+
+
 # Beads Multi-Session Task Patterns
 
 **Use this skill when:** Working on complex tasks spanning multiple sessions, managing long-horizon work chains, or coordinating parallel work streams

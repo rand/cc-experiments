@@ -1,3 +1,10 @@
+---
+name: mobile-react-native-navigation
+description: Implementing multi-screen navigation in React Native apps
+---
+
+
+
 # React Native Navigation
 
 **Scope**: React Navigation library, stack/tab/drawer navigation, deep linking, iOS-specific patterns

@@ -1,3 +1,10 @@
+---
+name: database-database-connection-pooling
+description: Configuring database connections for applications
+---
+
+
+
 # Database Connection Pooling
 
 **Scope**: Connection pool configuration, sizing, ORM-specific patterns

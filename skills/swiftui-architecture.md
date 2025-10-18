@@ -1,3 +1,10 @@
+---
+name: swiftui-architecture
+description: Building iOS/macOS apps with SwiftUI
+---
+
+
+
 # SwiftUI Architecture Patterns
 
 **Use this skill when:**

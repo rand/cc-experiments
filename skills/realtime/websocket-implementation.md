@@ -1,3 +1,9 @@
+---
+name: realtime-websocket-implementation
+description: Use WebSocket implementation when you need:
+---
+
+
 # WebSocket Implementation
 
 **Scope**: WebSocket protocol, connection management, reconnection strategies, and heartbeat patterns

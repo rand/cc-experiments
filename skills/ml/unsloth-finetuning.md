@@ -1,3 +1,10 @@
+---
+name: ml-unsloth-finetuning
+description: Fine-tuning LLMs (Llama, Mistral, Qwen) efficiently
+---
+
+
+
 # Unsloth Fine-Tuning
 
 **Scope**: Fast LLM fine-tuning with Unsloth, memory optimization, multi-GPU, Flash Attention

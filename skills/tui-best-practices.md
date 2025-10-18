@@ -1,3 +1,10 @@
+---
+name: tui-best-practices
+description: Designing terminal user interfaces
+---
+
+
+
 # TUI Best Practices
 
 **Use this skill when:**

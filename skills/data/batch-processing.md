@@ -1,3 +1,10 @@
+---
+name: data-batch-processing
+description: Orchestrating complex data pipelines with dependencies
+---
+
+
+
 # Batch Processing
 
 **Scope**: Airflow, DAGs, scheduling, dependency management, backfills

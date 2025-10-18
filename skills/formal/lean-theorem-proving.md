@@ -1,3 +1,9 @@
+---
+name: formal-lean-theorem-proving
+description: Formalizing complex mathematics
+---
+
+
 # Lean 4 Theorem Proving
 
 ## Overview

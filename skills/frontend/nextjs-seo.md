@@ -1,3 +1,10 @@
+---
+name: frontend-nextjs-seo
+description: Implementing SEO for Next.js applications
+---
+
+
+
 # Next.js SEO
 
 **Scope**: Metadata API, Open Graph, structured data (JSON-LD), sitemaps, robots.txt

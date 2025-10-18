@@ -1,3 +1,10 @@
+---
+name: testing-e2e-testing
+description: Test complete user workflows from UI to backend
+---
+
+
+
 # End-to-End Testing
 
 ## When to Use This Skill

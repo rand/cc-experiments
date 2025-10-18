@@ -1,3 +1,9 @@
+---
+name: skill-prompt-planning
+description: Skill for skill prompt planning
+---
+
+
 # Prompt Skill Planning
 
 ## Overview

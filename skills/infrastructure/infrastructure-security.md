@@ -1,3 +1,9 @@
+---
+name: infrastructure-infrastructure-security
+description: Setting up IAM roles and policies
+---
+
+
 # Infrastructure Security
 
 **Scope**: Security best practices - IAM, security groups, secrets management, encryption

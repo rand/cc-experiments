@@ -1,3 +1,9 @@
+---
+name: beads-dependency-management
+description: bd dep add bd-15 bd-10 --type blocks
+---
+
+
 # Beads Dependency Management
 
 **Use this skill when:** Creating relationships between issues, managing blockers, or organizing work hierarchies

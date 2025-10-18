@@ -1,3 +1,9 @@
+---
+name: beads-workflow
+description: go install github.com/steveyegge/beads/cmd/bd@latest
+---
+
+
 # Beads Workflow - Core bd CLI Patterns
 
 **Use this skill when:** Starting a new session with Beads, running bd commands, or managing issue workflow state

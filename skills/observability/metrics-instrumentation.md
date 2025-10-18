@@ -1,3 +1,10 @@
+---
+name: observability-metrics-instrumentation
+description: Instrumenting applications for observability
+---
+
+
+
 # Metrics Instrumentation
 
 **Scope**: Prometheus, StatsD, custom metrics, cardinality, histograms, counters, gauges

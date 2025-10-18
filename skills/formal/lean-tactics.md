@@ -1,3 +1,9 @@
+---
+name: formal-lean-tactics
+description: Optimizing proof efficiency
+---
+
+
 # Lean 4 Tactics
 
 ## Overview

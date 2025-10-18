@@ -1,3 +1,10 @@
+---
+name: math-numerical-methods
+description: Solving ordinary differential equations (ODEs)
+---
+
+
+
 # Numerical Methods
 
 ## Metadata

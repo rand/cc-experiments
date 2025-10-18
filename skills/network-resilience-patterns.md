@@ -1,3 +1,10 @@
+---
+name: network-resilience-patterns
+description: Building robust network applications
+---
+
+
+
 # Network Resilience Patterns
 
 **Use this skill when:**

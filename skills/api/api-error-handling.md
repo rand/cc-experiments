@@ -1,3 +1,10 @@
+---
+name: api-api-error-handling
+description: Designing error responses for REST APIs
+---
+
+
+
 # API Error Handling
 
 **Use this skill when:**

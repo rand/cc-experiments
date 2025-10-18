@@ -1,3 +1,10 @@
+---
+name: ml-diffusion-model-basics
+description: Understanding diffusion model theory and mechanics (forward/reverse process)
+---
+
+
+
 # Diffusion Model Basics
 
 **Scope**: Diffusion model fundamentals, architectures, inference pipelines, and model selection

@@ -1,3 +1,10 @@
+---
+name: containers-container-registry-management
+description: Choosing a container registry (ECR/GCR/Harbor/Docker Hub)
+---
+
+
+
 # Container Registry Management
 
 **Scope**: Registry options (ECR/GCR/Harbor), image tagging, promotion workflows

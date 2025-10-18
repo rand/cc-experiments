@@ -1,3 +1,10 @@
+---
+name: frontend-frontend-performance
+description: Optimizing application performance
+---
+
+
+
 # Frontend Performance
 
 **Scope**: Bundle optimization, code splitting, image optimization, Core Web Vitals, lazy loading

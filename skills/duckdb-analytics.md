@@ -1,3 +1,10 @@
+---
+name: duckdb-analytics
+description: Skill for duckdb analytics
+---
+
+
+
 # DuckDB Analytics
 
 **Skill**: duckdb-analytics

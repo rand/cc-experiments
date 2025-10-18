@@ -1,3 +1,10 @@
+---
+name: containers-docker-compose-development
+description: Setting up local development environments
+---
+
+
+
 # Docker Compose Development
 
 **Scope**: Compose files, networking, volumes, service dependencies, healthchecks

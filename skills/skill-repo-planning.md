@@ -1,3 +1,9 @@
+---
+name: skill-repo-planning
+description: Skill for skill repo planning
+---
+
+
 # Repository Skill Planning
 
 ## Overview

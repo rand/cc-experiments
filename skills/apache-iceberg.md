@@ -1,3 +1,10 @@
+---
+name: apache-iceberg
+description: Building data lakes with ACID transaction support and schema evolution
+---
+
+
+
 # Apache Iceberg
 
 **Scope**: Table format, schema/partition evolution, time travel, ACID transactions, catalog integration, performance optimization

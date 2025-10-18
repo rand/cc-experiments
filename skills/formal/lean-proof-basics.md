@@ -1,3 +1,9 @@
+---
+name: formal-lean-proof-basics
+description: Learning Lean 4 from scratch
+---
+
+
 # Lean 4 Proof Basics
 
 ## Overview

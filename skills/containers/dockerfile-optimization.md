@@ -1,3 +1,10 @@
+---
+name: containers-dockerfile-optimization
+description: Writing Dockerfiles for production applications
+---
+
+
+
 # Dockerfile Optimization
 
 **Scope**: Layer caching, multi-stage builds, .dockerignore, image size reduction

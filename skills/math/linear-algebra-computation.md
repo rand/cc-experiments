@@ -1,3 +1,10 @@
+---
+name: math-linear-algebra-computation
+description: Solving systems of linear equations (Ax = b)
+---
+
+
+
 # Linear Algebra Computation
 
 ## Metadata

@@ -1,3 +1,9 @@
+---
+name: redpanda-streaming
+description: **Redpanda deployments**: Setting up Kafka-compatible streaming infrastructure
+---
+
+
 # Redpanda Streaming Platform
 
 ## When to Use This Skill

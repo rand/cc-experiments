@@ -1,3 +1,10 @@
+---
+name: api-api-authentication
+description: Implementing API authentication for new services
+---
+
+
+
 # API Authentication
 
 **Scope**: Authentication strategies, JWT, OAuth 2.0, API keys, token management

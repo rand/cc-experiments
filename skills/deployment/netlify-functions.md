@@ -1,3 +1,10 @@
+---
+name: deployment-netlify-functions
+description: Building API endpoints for JAMstack applications
+---
+
+
+
 # Netlify Functions
 
 **Scope**: Netlify Functions (serverless), Edge Functions, background functions, and API patterns

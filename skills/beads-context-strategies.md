@@ -1,3 +1,9 @@
+---
+name: beads-context-strategies
+description: Skill for beads context strategies
+---
+
+
 # Beads Context Management Strategies
 
 **Use this skill when:** Managing Claude Code context while working with Beads, preventing context bloat, or preserving critical workflow state across sessions

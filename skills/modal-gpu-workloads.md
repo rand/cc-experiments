@@ -1,3 +1,10 @@
+---
+name: modal-gpu-workloads
+description: Running ML/AI inference on Modal
+---
+
+
+
 # Modal GPU Workloads
 
 **Use this skill when:**

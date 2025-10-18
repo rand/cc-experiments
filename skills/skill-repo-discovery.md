@@ -1,3 +1,10 @@
+---
+name: skill-repo-discovery
+description: Starting work on an unfamiliar repository or codebase
+---
+
+
+
 # Repository Skill Discovery
 
 **Scope**: Analyzing repositories to identify which existing skills are most useful for the codebase

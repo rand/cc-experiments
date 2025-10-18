@@ -1,3 +1,10 @@
+---
+name: zig-project-setup
+description: Initializing new Zig projects
+---
+
+
+
 # Zig Project Setup
 
 **Use this skill when:**

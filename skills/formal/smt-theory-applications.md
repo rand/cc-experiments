@@ -1,3 +1,10 @@
+---
+name: formal-smt-theory-applications
+description: Skill for formal smt theory applications
+---
+
+
+
 # SMT Theory Applications
 
 ## Metadata

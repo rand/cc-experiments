@@ -1,3 +1,10 @@
+---
+name: zig-memory-management
+description: Managing memory in Zig
+---
+
+
+
 # Zig Memory Management
 
 **Use this skill when:**

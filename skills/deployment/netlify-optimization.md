@@ -1,3 +1,10 @@
+---
+name: deployment-netlify-optimization
+description: Improving site load times and Core Web Vitals
+---
+
+
+
 # Netlify Optimization
 
 **Scope**: Netlify performance optimization, CDN caching, build optimization, and cost reduction

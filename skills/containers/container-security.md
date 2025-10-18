@@ -1,3 +1,10 @@
+---
+name: containers-container-security
+description: Hardening container images for production
+---
+
+
+
 # Container Security
 
 **Scope**: USER directive, distroless images, vulnerability scanning, secrets management

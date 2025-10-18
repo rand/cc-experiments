@@ -1,3 +1,10 @@
+---
+name: tailscale-vpn
+description: Creating secure private networks (mesh VPN)
+---
+
+
+
 # Tailscale VPN Setup
 
 **Use this skill when:**

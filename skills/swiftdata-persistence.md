@@ -1,3 +1,10 @@
+---
+name: swiftdata-persistence
+description: Building iOS/macOS apps with local persistence
+---
+
+
+
 # SwiftData Persistence Patterns
 
 **Use this skill when:**

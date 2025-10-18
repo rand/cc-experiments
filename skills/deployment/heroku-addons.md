@@ -1,3 +1,10 @@
+---
+name: deployment-heroku-addons
+description: Adding databases (Postgres, MySQL, MongoDB) to Heroku apps
+---
+
+
+
 # Heroku Add-ons
 
 **Scope**: Heroku add-on ecosystem, Postgres, Redis, monitoring, logging, email services

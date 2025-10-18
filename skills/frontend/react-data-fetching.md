@@ -1,3 +1,10 @@
+---
+name: frontend-react-data-fetching
+description: Fetching data from APIs
+---
+
+
+
 # React Data Fetching
 
 **Scope**: SWR, React Query, Server Actions, caching strategies, optimistic updates

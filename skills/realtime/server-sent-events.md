@@ -1,3 +1,9 @@
+---
+name: realtime-server-sent-events
+description: Use Server-Sent Events when you need:
+---
+
+
 # Server-Sent Events (SSE)
 
 **Scope**: SSE protocol, event streams, automatic reconnection, and fallback strategies

@@ -1,3 +1,9 @@
+---
+name: infrastructure-aws-serverless
+description: Building serverless APIs and backends
+---
+
+
 # AWS Serverless
 
 **Scope**: AWS serverless architecture - Lambda, API Gateway, DynamoDB, S3, EventBridge, Step Functions

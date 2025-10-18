@@ -1,3 +1,10 @@
+---
+name: observability-dashboard-design
+description: Building Grafana dashboards for service monitoring
+---
+
+
+
 # Dashboard Design
 
 **Scope**: Grafana, visualization types, SLO dashboards, troubleshooting views, panel best practices

@@ -1,3 +1,10 @@
+---
+name: modal-web-endpoints
+description: Creating HTTP APIs on Modal
+---
+
+
+
 # Modal Web Endpoints
 
 **Use this skill when:**

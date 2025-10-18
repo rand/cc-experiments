@@ -1,3 +1,9 @@
+---
+name: realtime-realtime-sync
+description: Use real-time sync patterns when you need:
+---
+
+
 # Real-time Data Synchronization
 
 **Scope**: Conflict resolution, CRDTs, operational transformation, and eventual consistency patterns

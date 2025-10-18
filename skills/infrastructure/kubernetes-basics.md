@@ -1,3 +1,9 @@
+---
+name: infrastructure-kubernetes-basics
+description: Deploying containerized applications at scale
+---
+
+
 # Kubernetes Basics
 
 **Scope**: Container orchestration with Kubernetes - Pods, Deployments, Services, ConfigMaps, Secrets, Ingress

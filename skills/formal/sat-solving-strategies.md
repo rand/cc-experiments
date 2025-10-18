@@ -1,3 +1,10 @@
+---
+name: formal-sat-solving-strategies
+description: Skill for formal sat solving strategies
+---
+
+
+
 # SAT Solving Strategies
 
 ## Metadata

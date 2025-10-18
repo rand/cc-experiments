@@ -1,3 +1,9 @@
+---
+name: formal-lean-mathlib4
+description: Formalizing mathematics using existing results
+---
+
+
 # Lean 4 mathlib4 Library
 
 ## Overview

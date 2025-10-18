@@ -1,3 +1,10 @@
+---
+name: data-etl-patterns
+description: Designing data extraction from multiple sources (databases, APIs, files)
+---
+
+
+
 # ETL Patterns
 
 **Scope**: Extract-Transform-Load patterns, data sources, transformations, incremental processing

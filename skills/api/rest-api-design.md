@@ -1,3 +1,10 @@
+---
+name: api-rest-api-design
+description: Designing RESTful APIs from scratch
+---
+
+
+
 # REST API Design
 
 **Scope**: RESTful resource modeling, HTTP semantics, URL conventions, status codes

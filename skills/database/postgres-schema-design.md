@@ -1,3 +1,10 @@
+---
+name: database-postgres-schema-design
+description: Designing new database schemas
+---
+
+
+
 # PostgreSQL Schema Design
 
 **Scope**: Table design, relationships, normalization, data types

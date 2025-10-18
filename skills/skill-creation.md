@@ -1,3 +1,10 @@
+---
+name: skill-creation
+description: Creating new atomic skills for the skills system
+---
+
+
+
 # Skill Creation
 
 **Scope**: Creating atomic skills, structure, integration with CLAUDE.md, discovery patterns

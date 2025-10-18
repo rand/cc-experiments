@@ -1,3 +1,9 @@
+---
+name: infrastructure-terraform-patterns
+description: Provisioning cloud infrastructure (AWS, GCP, Azure, Cloudflare)
+---
+
+
 # Terraform Patterns
 
 **Scope**: Infrastructure as Code with Terraform - modules, state management, workspaces, backends
