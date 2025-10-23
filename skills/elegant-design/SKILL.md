@@ -1,5 +1,5 @@
 ---
-name: Designing Elegant Interfaces
+name: elegant-design
 description: Create world-class, accessible, responsive interfaces with sophisticated interactive elements including chat, terminals, code display, and streaming content. Use when building user interfaces that need professional polish and developer-focused features.
 ---
 

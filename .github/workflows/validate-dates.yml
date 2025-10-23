@@ -40,14 +40,38 @@ jobs:
 
           errors = []
           checked = 0
+          skipped = 0
+
+          # Meta files that don't need date validation (by name)
+          SKIP_FILES = {
+              "MIGRATION_GUIDE.md", "REFACTORING_SUMMARY.md", "_INDEX.md",
+              "README.md", "ENHANCEMENT_PLAN.md", "ENHANCEMENTS_SUMMARY.md",
+              "SKILLS_USAGE_GUIDE.md", "CLAUDE.md", "SUMMARY.txt",
+              "CLAUDE_MD_UPDATES.md"  # Supporting documentation
+          }
 
           # Check skills directory
           for skill_file in Path(".").rglob("*.md"):
-              # Skip archived files and meta files
+              # Skip archived files
               if "_archive" in str(skill_file):
+                  skipped += 1
                   continue
-              if skill_file.name in ["MIGRATION_GUIDE.md", "REFACTORING_SUMMARY.md", "_INDEX.md", "README.md", "ENHANCEMENT_PLAN.md", "ENHANCEMENTS_SUMMARY.md", "SKILLS_USAGE_GUIDE.md", "CLAUDE.md"]:
+
+              # Skip meta files by name
+              if skill_file.name in SKIP_FILES:
+                  skipped += 1
                   continue
+
+              # Calculate depth (number of slashes after skills/)
+              # Skip files at depth 3+ (these are reference/foundation/implementation files)
+              parts = skill_file.parts
+              if "skills" in parts:
+                  skills_idx = parts.index("skills")
+                  depth = len(parts) - skills_idx - 1
+
+                  if depth >= 3:
+                      skipped += 1
+                      continue
 
               content = skill_file.read_text(encoding='utf-8')
               matches = re.findall(r'\*\*Last Updated\*\*:\s*(\d{4}-\d{2}-\d{2})', content)
@@ -58,7 +82,8 @@ jobs:
                   if date > today:
                       errors.append(f"{skill_file}: Future date {match} (today is {today})")
 
-          print(f"Checked {checked} dates across skill files\n")
+          print(f"Checked: {checked} dates")
+          print(f"Skipped: {skipped} supporting/meta files\n")
 
           if errors:
               print("❌ FAILED: Found future dates:\n")

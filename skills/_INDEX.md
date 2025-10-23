@@ -65,7 +65,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ---
 
-### Frontend Skills (8 skills)
+### Frontend Skills (9 skills)
 
 | Skill | Use When | Lines |
 |-------|----------|-------|
@@ -77,9 +77,12 @@ This index catalogs all atomic skills available in the skills system, organized 
 | `web-accessibility.md` | WCAG 2.1 AA compliance, ARIA, keyboard navigation | ~310 |
 | `frontend-performance.md` | Bundle optimization, Core Web Vitals, code splitting | ~330 |
 | `nextjs-seo.md` | SEO with Next.js, metadata API, structured data | ~250 |
+| `elegant-design/SKILL.md` | World-class accessible interfaces, chat/terminal/code UIs, streaming, design systems (shadcn/ui) | ~302 |
 
 **Common workflows:**
 - New Next.js app: `nextjs-app-router.md` → `react-component-patterns.md` → `react-data-fetching.md`
+- Elegant UI design: `elegant-design/SKILL.md` → `react-component-patterns.md` → `web-accessibility.md`
+- Chat/Terminal/Code UI: `elegant-design/SKILL.md` (read interactive/ guides) → `react-component-patterns.md`
 - Forms with validation: `react-form-handling.md` → `react-state-management.md`
 - Production optimization: `frontend-performance.md` → `web-accessibility.md` → `nextjs-seo.md`
 
@@ -501,7 +504,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 **API Design:** Search `api-*.md`, `rest-*.md`, `graphql-*.md`
 **Testing:** Search `test-*.md`, `unit-*.md`, `integration-*.md`, `e2e-*.md`, `performance-*.md`
 **Containers/Docker:** Search `docker-*.md`, `container-*.md`, `dockerfile-*.md`
-**Frontend/React:** Search `react-*.md`, `nextjs-*.md`, `web-*.md`, `frontend-*.md`
+**Frontend/React:** Search `react-*.md`, `nextjs-*.md`, `web-*.md`, `frontend-*.md` | `elegant-design/` for UI/UX design systems
 **Database/PostgreSQL:** Search `postgres-*.md`, `database-*.md`, `mongodb-*.md`, `redis-*.md`, `orm-*.md`
 **Swift/SwiftUI:** Search `swiftui-*.md`, `swift-*.md`, `ios-*.md`
 **Modal.com:** Search `modal-*.md`
@@ -602,7 +605,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 **Performance-critical:** `zig-memory-management.md`, `modal-gpu-workloads.md`, `tui-best-practices.md`, `frontend-performance.md`, `postgres-query-optimization.md`, `ci-optimization.md`, `react-native-performance.md`
 **Async/concurrent:** `swift-concurrency.md`, `bubbletea-architecture.md`, `ratatui-architecture.md`, `react-data-fetching.md`, `stream-processing.md`
 **Security:** `mtls-implementation.md`, `tailscale-vpn.md`, `network-resilience-patterns.md`, `container-security.md`, `api-authentication.md`, `api-authorization.md`, `ci-security.md`, `infrastructure-security.md`
-**UI/UX:** `swiftui-*.md`, `bubbletea-*.md`, `ratatui-*.md`, `react-component-patterns.md`, `web-accessibility.md`, `react-native-*.md`
+**UI/UX:** `elegant-design/SKILL.md`, `swiftui-*.md`, `bubbletea-*.md`, `ratatui-*.md`, `react-component-patterns.md`, `web-accessibility.md`, `react-native-*.md`
 **API Development:** `rest-api-design.md`, `graphql-schema-design.md`, `api-authentication.md`, `api-rate-limiting.md`
 **DevOps/SRE:** `cicd/*.md`, `infrastructure/*.md`, `observability/*.md`, `cost-optimization.md`, `heroku-*.md`, `netlify-*.md`
 **Data Engineering:** `data/*.md`, `stream-processing.md`, `batch-processing.md`, `data-validation.md`
@@ -661,6 +664,14 @@ This index catalogs all atomic skills available in the skills system, organized 
 5. `frontend-performance.md` - Optimization
 6. `web-accessibility.md` - A11y compliance
 7. `nextjs-seo.md` - SEO optimization
+
+### Elegant Interface with Chat/Terminal/Code
+1. `elegant-design/SKILL.md` - Design foundation and workflow
+2. Read `elegant-design/foundation/` - Typography, colors, spacing, layout
+3. Read `elegant-design/interactive/` - Chat, terminals, code display, streaming
+4. `react-component-patterns.md` - Component implementation
+5. Read `elegant-design/implementation/` - Accessibility, performance, testing
+6. `web-accessibility.md` - WCAG compliance validation
 
 ### Production REST API
 1. `rest-api-design.md` - API design patterns
@@ -799,6 +810,9 @@ This index catalogs all atomic skills available in the skills system, organized 
 | Build REST API | rest-api-design.md, api-authentication.md, api-authorization.md | 1→2→3 |
 | Build GraphQL API | graphql-schema-design.md, api-authentication.md, api-authorization.md | 1→2→3 |
 | Build Next.js app | nextjs-app-router.md, react-component-patterns.md, react-data-fetching.md | 1→2→3 |
+| Design elegant UI | elegant-design/SKILL.md, react-component-patterns.md, web-accessibility.md | 1→2→3 |
+| Build chat interface | elegant-design/SKILL.md (read interactive/chat-and-messaging.md), react-component-patterns.md | 1→2 |
+| Build terminal/code UI | elegant-design/SKILL.md (read interactive/terminals-and-code.md), react-component-patterns.md | 1→2 |
 | Setup testing suite | unit-testing-patterns.md, integration-testing.md, e2e-testing.md | 1→2→3 |
 | Practice TDD | test-driven-development.md, unit-testing-patterns.md | 1→2 |
 | Containerize app | dockerfile-optimization.md, docker-compose-development.md | 1→2 |
@@ -847,17 +861,17 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ## Total Skills Count
 
-- **134 atomic skills** across 28 categories
+- **135 atomic skills** across 28 categories
 - **Average 310 lines** per skill
 - **100% focused** - each skill has single clear purpose
 - **Cross-referenced** - related skills linked for discoverability
 
 ### By Category Breakdown
-**Core Foundation** (76 skills):
+**Core Foundation** (77 skills):
 - API Design: 7 skills
 - Testing: 6 skills
 - Containers: 5 skills
-- Frontend: 8 skills
+- Frontend: 9 skills (including elegant-design)
 - Database: 11 skills
 - Workflow & Task Management: 6 skills (including typed-holes refactoring)
 - Quality & Content Review: 1 skill (anti-slop detection and cleanup)
@@ -907,5 +921,5 @@ See `MIGRATION_GUIDE.md` for detailed mapping.
 ---
 
 **Last Updated:** 2025-10-23
-**Total Skills:** 134
+**Total Skills:** 135
 **Format Version:** 1.0 (Atomic)
