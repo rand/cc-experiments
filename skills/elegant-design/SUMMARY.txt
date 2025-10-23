@@ -1,0 +1,59 @@
+ELEGANT DESIGN SKILL - COMPLETE
+
+Structure: Modular, atomic skills with unified entry point
+Total files: 15 markdown files
+Main entry: SKILL.md (302 lines - under 500 line limit ✓)
+
+ORGANIZATION:
+├── SKILL.md (302 lines) - Unified orchestrator
+├── README.md (102 lines) - User guide
+├── foundation/ (3 files)
+│   - typography.md - Geist & JetBrains Mono
+│   - colors-and-spacing.md - Palettes, spacing system
+│   - layout-patterns.md - Grids, responsive design
+├── interactive/ (4 files)
+│   - chat-and-messaging.md - Chat UIs, streaming
+│   - terminals-and-code.md - Terminals, syntax highlighting
+│   - streaming-and-loading.md - Progressive loading
+│   - diffs-and-logs.md - Version control UI, logs
+├── implementation/ (3 files)
+│   - components-and-accessibility.md - WCAG AA
+│   - performance.md - Core Web Vitals
+│   - testing-and-qa.md - Comprehensive testing
+└── reference/ (3 files)
+    - design-systems.md - shadcn, daisyUI, HeroUI
+    - tools-and-libraries.md - Complete toolkit
+    - anti-patterns.md - What NOT to do
+
+BEST PRACTICES COMPLIANCE: ✓
+- Main SKILL.md under 500 lines (302) ✓
+- Progressive disclosure pattern ✓
+- One-level deep references ✓
+- Gerund form name ✓
+- Clear description with what+when ✓
+- Consistent terminology ✓
+- Forward slashes in paths ✓
+- No time-sensitive info ✓
+
+KEY FEATURES:
+- Typography: Geist (UI) + JetBrains Mono (code)
+- Chat interfaces with streaming
+- Beautiful terminals with ANSI colors
+- Syntax highlighting with Shiki
+- Progressive loading & skeletons
+- Diffs and log viewers
+- WCAG 2.1 AA accessibility
+- Core Web Vitals optimization
+
+HOW CLAUDE CODE USES IT:
+1. Reads SKILL.md (main orchestrator)
+2. Follows workflow for project type
+3. References specific guides as needed
+4. All files one level deep from SKILL.md
+
+INSPIRATION SITES:
+- Vercel (vercel.com)
+- Hex (hex.tech)
+- Baseten (docs.baseten.co)
+- Weather Underground (wunderground.com)
+- Ghostty (ghostty.org)
