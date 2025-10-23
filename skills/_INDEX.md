@@ -110,7 +110,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ---
 
-### Workflow & Task Management (5 skills)
+### Workflow & Task Management (6 skills)
 
 | Skill | Use When | Lines |
 |-------|----------|-------|
@@ -118,11 +118,13 @@ This index catalogs all atomic skills available in the skills system, organized 
 | `beads-dependency-management.md` | Creating issue relationships, managing blockers, organizing work hierarchies | ~450 |
 | `beads-context-strategies.md` | Managing Claude context, preventing bloat, preserving workflow state | ~400 |
 | `beads-multi-session-patterns.md` | Complex multi-session tasks, long-horizon work chains, parallel streams | ~350 |
+| `typed-holes-refactor/SKILL.md` | Systematic codebase refactoring using Design by Typed Holes - iterative, test-driven with formal validation | ~350 |
 | `skill-creation.md` | Creating new atomic skills, maintaining skills system, CLAUDE.md integration | ~400 |
 
 **Common workflows:**
 - New session: `beads-workflow.md` → `beads-context-strategies.md`
 - Complex task: `beads-workflow.md` → `beads-dependency-management.md` → `beads-multi-session-patterns.md`
+- Systematic refactoring: `typed-holes-refactor/SKILL.md` → Test-driven hole resolution → Constraint propagation
 - Context management: `beads-context-strategies.md` (throughout session)
 - Create new skill: `skill-creation.md` → Update _INDEX.md → Update CLAUDE.md
 
@@ -508,6 +510,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 **TUI (Rust):** Search `ratatui-*.md`, `tui-*.md`
 **Zig:** Search `zig-*.md`
 **Beads:** Search `beads-*.md`
+**Refactoring:** `typed-holes-refactor/SKILL.md` (systematic TDD refactoring)
 **Quality & Content:** `anti-slop/SKILL.md`, `anti-slop/references/*.md`
 **Meta Skills:** Search `skill-*.md`
 **CI/CD:** Search `cicd/*.md`, `github-*.md`, `ci-*.md`, `cd-*.md`
@@ -554,6 +557,12 @@ This index catalogs all atomic skills available in the skills system, organized 
 - Code patterns: `anti-slop/references/code-patterns.md`
 - Design patterns: `anti-slop/references/design-patterns.md`
 
+**Refactoring:**
+- Systematic refactoring: `typed-holes-refactor/SKILL.md`
+- Hole discovery: `typed-holes-refactor/scripts/discover_holes.py`
+- Constraint propagation: `typed-holes-refactor/references/CONSTRAINT_RULES.md`
+- Validation patterns: `typed-holes-refactor/references/VALIDATION_PATTERNS.md`
+
 **Networking:**
 - iOS: `ios-networking.md`
 - Secure: `mtls-implementation.md`, `tailscale-vpn.md`
@@ -598,6 +607,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 **DevOps/SRE:** `cicd/*.md`, `infrastructure/*.md`, `observability/*.md`, `cost-optimization.md`, `heroku-*.md`, `netlify-*.md`
 **Data Engineering:** `data/*.md`, `stream-processing.md`, `batch-processing.md`, `data-validation.md`
 **Content Quality:** `anti-slop/SKILL.md` (text, code, design quality review and cleanup)
+**Refactoring:** `typed-holes-refactor/SKILL.md` (systematic test-driven refactoring with hole resolution)
 **Real-time Systems:** `realtime/*.md`, `websocket-implementation.md`, `server-sent-events.md`, `pubsub-patterns.md`
 **Formal Methods:** `formal/z3-*.md`, `formal/lean-*.md`, `formal/sat-*.md`, `formal/smt-*.md`, `formal/csp-*.md`
 **Machine Learning:** `ml/unsloth-*.md`, `ml/diffusion-*.md`, `ml/llm-*.md`, `ml/stable-diffusion-*.md`
@@ -701,6 +711,14 @@ This index catalogs all atomic skills available in the skills system, organized 
 2. `beads-dependency-management.md` - Task organization
 3. `beads-multi-session-patterns.md` - Long-horizon patterns
 4. `beads-context-strategies.md` - Context preservation (throughout)
+
+### Systematic Codebase Refactoring
+1. `typed-holes-refactor/SKILL.md` - Design by Typed Holes methodology
+2. Create characterization tests - Capture current behavior
+3. Discover holes - Identify architectural unknowns
+4. Resolve holes iteratively - Test-driven development
+5. Propagate constraints - Update dependent holes
+6. Generate report - Comprehensive delta analysis
 
 ### SAT/SMT-based Verification
 1. `z3-solver-basics.md` - Z3 fundamentals
@@ -823,24 +841,25 @@ This index catalogs all atomic skills available in the skills system, organized 
 | Review content for AI slop | anti-slop/SKILL.md | 1 |
 | Clean up generic code | anti-slop/references/code-patterns.md | 1 |
 | Review design quality | anti-slop/references/design-patterns.md | 1 |
+| Refactor codebase systematically | typed-holes-refactor/SKILL.md | 1 |
 
 ---
 
 ## Total Skills Count
 
-- **133 atomic skills** across 28 categories
+- **134 atomic skills** across 28 categories
 - **Average 310 lines** per skill
 - **100% focused** - each skill has single clear purpose
 - **Cross-referenced** - related skills linked for discoverability
 
 ### By Category Breakdown
-**Core Foundation** (75 skills):
+**Core Foundation** (76 skills):
 - API Design: 7 skills
 - Testing: 6 skills
 - Containers: 5 skills
 - Frontend: 8 skills
 - Database: 11 skills
-- Workflow & Task Management: 5 skills
+- Workflow & Task Management: 6 skills (including typed-holes refactoring)
 - Quality & Content Review: 1 skill (anti-slop detection and cleanup)
 - Meta Skills: 4 skills (skill discovery and planning)
 - iOS/Swift: 6 skills
@@ -888,5 +907,5 @@ See `MIGRATION_GUIDE.md` for detailed mapping.
 ---
 
 **Last Updated:** 2025-10-23
-**Total Skills:** 133
+**Total Skills:** 134
 **Format Version:** 1.0 (Atomic)
