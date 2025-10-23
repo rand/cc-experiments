@@ -493,8 +493,8 @@ open https://ui.shadcn.com/themes
 **Old approach**: Monolithic skills `/zig-dev`, `/modal-dev` (too large)
 **New approach**: Atomic, composable skills (~300 lines avg, <500 line guideline)
 
-### Quality Standards (as of 2025-10-18)
-- ✅ **132 skills** with YAML frontmatter (agent_skills_spec.md compliant)
+### Quality Standards (as of 2025-10-23)
+- ✅ **133 skills** with YAML frontmatter (agent_skills_spec.md compliant)
 - ✅ **0 future dates** - all dates validated by CI
 - ✅ **Automated testing** - code syntax validation in CI
 - 🔄 **Size optimization** - 89 skills >500 lines identified for splitting
@@ -531,15 +531,16 @@ Read zig-memory-management.md, zig-testing-patterns.md
 Read beads-workflow.md + beads-context-strategies.md + beads-multi-session-patterns.md
 ```
 
-### Skills Catalog (132 Total)
+### Skills Catalog (133 Total)
 
-**Core Categories** (74 skills):
+**Core Categories** (75 skills):
 - **API Design** (7): REST, GraphQL, auth/authz, rate limiting, versioning, error handling
 - **Testing** (6): Unit, integration, e2e, TDD, coverage, performance testing
 - **Containers** (5): Dockerfile optimization, Compose, security, networking, registries
 - **Frontend** (8): React patterns, Next.js App Router, state/data/forms, a11y, performance, SEO
 - **Database** (11): Postgres (optimization, migrations, schema), MongoDB, Redis, Redpanda/Kafka streaming, Apache Iceberg, DuckDB analytics, pooling, ORMs, selection
 - **Workflow & Tasks** (5): Beads workflow, context strategies, multi-session, dependency management
+- **Quality & Content Review** (1): Anti-slop detection and cleanup (text, code, design)
 - **Meta Skills** (4): Skill discovery and planning for repositories and prompts
   - Discovery: `skill-repo-discovery.md` (analyze repos), `skill-prompt-discovery.md` (analyze prompts)
   - Planning: `skill-repo-planning.md` (plan repo skills), `skill-prompt-planning.md` (plan prompt skills)
@@ -578,6 +579,7 @@ DevOps/Infra:   cicd/ (5) | infrastructure/ (6) | observability/ (5)
 Data:           data/ (5) | realtime/ (4)
 Specialized:    modal-*.md (8) | swiftui-*.md, swift-*.md, ios-*.md (6) | zig-*.md (6)
 Workflow:       beads-*.md (4) | tui-*.md (5) | network-*.md (5)
+Quality:        anti-slop/ (1 skill + 3 reference guides + 2 scripts)
 Meta:           skill-*.md (5 including skill-creation.md)
 Formal:         formal/z3-*.md, formal/sat-*.md, formal/smt-*.md (3) | formal/lean-*.md (4) | formal/csp-*.md (3)
 ML:             ml/unsloth-*.md, ml/llm-*.md, ml/lora-*.md (4) | ml/diffusion-*.md (3)
@@ -601,7 +603,7 @@ Mobile:         mobile/react-native-*.md (4)
 4. **Deep dive?** Search `skills/_INDEX.md` by technology/task/problem domain
 5. **Emergency?** Read relevant skill directly: `skills/api-*.md`, `skills/cicd/*.md`
 
-**Full catalog**: `skills/_INDEX.md` (132 skills, workflows, search patterns, combinations)
+**Full catalog**: `skills/_INDEX.md` (133 skills, workflows, search patterns, combinations)
 
 ### Skill Quality Assurance
 All skills now include:

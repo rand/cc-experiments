@@ -128,6 +128,25 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ---
 
+### Quality & Content Review (1 skill)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `anti-slop/SKILL.md` | Detecting/eliminating AI-generated patterns (slop) in text, code, design; content quality review; preventing generic outputs | ~420 |
+
+**Common workflows:**
+- Content review: Read `anti-slop/SKILL.md` → Run detection scripts → Apply cleanup → Manual review
+- Code cleanup: Read `anti-slop/references/code-patterns.md` → Identify patterns → Refactor
+- Design review: Read `anti-slop/references/design-patterns.md` → Audit against patterns → Recommendations
+
+**Key features:**
+- Automated text slop detection and cleanup scripts
+- Comprehensive pattern catalogs for text, code, and design
+- Quality principles for authentic, non-generic content
+- Integration with development workflows
+
+---
+
 ### Meta Skills (4 skills)
 
 | Skill | Use When | Lines |
@@ -489,6 +508,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 **TUI (Rust):** Search `ratatui-*.md`, `tui-*.md`
 **Zig:** Search `zig-*.md`
 **Beads:** Search `beads-*.md`
+**Quality & Content:** `anti-slop/SKILL.md`, `anti-slop/references/*.md`
 **Meta Skills:** Search `skill-*.md`
 **CI/CD:** Search `cicd/*.md`, `github-*.md`, `ci-*.md`, `cd-*.md`
 **Infrastructure:** Search `infrastructure/*.md`, `terraform-*.md`, `aws-*.md`, `kubernetes-*.md`, `cloudflare-*.md`
@@ -527,6 +547,12 @@ This index catalogs all atomic skills available in the skills system, organized 
 - TDD workflow: `test-driven-development.md`
 - iOS: `ios-testing.md`
 - Zig: `zig-testing.md`
+
+**Content quality review:**
+- AI slop detection/cleanup: `anti-slop/SKILL.md`
+- Text patterns: `anti-slop/references/text-patterns.md`
+- Code patterns: `anti-slop/references/code-patterns.md`
+- Design patterns: `anti-slop/references/design-patterns.md`
 
 **Networking:**
 - iOS: `ios-networking.md`
@@ -571,6 +597,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 **API Development:** `rest-api-design.md`, `graphql-schema-design.md`, `api-authentication.md`, `api-rate-limiting.md`
 **DevOps/SRE:** `cicd/*.md`, `infrastructure/*.md`, `observability/*.md`, `cost-optimization.md`, `heroku-*.md`, `netlify-*.md`
 **Data Engineering:** `data/*.md`, `stream-processing.md`, `batch-processing.md`, `data-validation.md`
+**Content Quality:** `anti-slop/SKILL.md` (text, code, design quality review and cleanup)
 **Real-time Systems:** `realtime/*.md`, `websocket-implementation.md`, `server-sent-events.md`, `pubsub-patterns.md`
 **Formal Methods:** `formal/z3-*.md`, `formal/lean-*.md`, `formal/sat-*.md`, `formal/smt-*.md`, `formal/csp-*.md`
 **Machine Learning:** `ml/unsloth-*.md`, `ml/diffusion-*.md`, `ml/llm-*.md`, `ml/stable-diffusion-*.md`
@@ -738,6 +765,13 @@ This index catalogs all atomic skills available in the skills system, organized 
 4. `skill-prompt-planning.md` - Plan missing skills from prompts
 5. `skill-creation.md` - Create new skills
 
+### Content Quality Review
+1. `anti-slop/SKILL.md` - Understand slop patterns & workflows
+2. Run detection: `python scripts/detect_slop.py <file>`
+3. Review findings manually with reference guides
+4. Apply automated cleanup: `python scripts/clean_slop.py <file> --save`
+5. Manual refinement and verification
+
 ---
 
 ## Quick Reference Table
@@ -786,24 +820,28 @@ This index catalogs all atomic skills available in the skills system, organized 
 | Find skills for prompt | skill-prompt-discovery.md | 1 |
 | Plan new skills | skill-repo-planning.md or skill-prompt-planning.md, skill-creation.md | 1→2 |
 | Create new skill | skill-creation.md | 1 |
+| Review content for AI slop | anti-slop/SKILL.md | 1 |
+| Clean up generic code | anti-slop/references/code-patterns.md | 1 |
+| Review design quality | anti-slop/references/design-patterns.md | 1 |
 
 ---
 
 ## Total Skills Count
 
-- **132 atomic skills** across 27 categories
+- **133 atomic skills** across 28 categories
 - **Average 310 lines** per skill
 - **100% focused** - each skill has single clear purpose
 - **Cross-referenced** - related skills linked for discoverability
 
 ### By Category Breakdown
-**Core Foundation** (74 skills):
+**Core Foundation** (75 skills):
 - API Design: 7 skills
 - Testing: 6 skills
 - Containers: 5 skills
 - Frontend: 8 skills
 - Database: 11 skills
 - Workflow & Task Management: 5 skills
+- Quality & Content Review: 1 skill (anti-slop detection and cleanup)
 - Meta Skills: 4 skills (skill discovery and planning)
 - iOS/Swift: 6 skills
 - Modal.com: 8 skills (6 original + 2 troubleshooting)
@@ -849,6 +887,6 @@ See `MIGRATION_GUIDE.md` for detailed mapping.
 
 ---
 
-**Last Updated:** 2025-10-18
-**Total Skills:** 129
+**Last Updated:** 2025-10-23
+**Total Skills:** 133
 **Format Version:** 1.0 (Atomic)
