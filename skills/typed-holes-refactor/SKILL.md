@@ -161,6 +161,73 @@ Design complete when:
 - All phase gates passed
 - Metrics improved or maintained
 
+## Hole Quality Framework
+
+### SMART Criteria for Good Holes
+
+Every hole must be:
+
+- **Specific**: Clear, bounded question with concrete answer
+  - ✓ Good: "How should error handling work in the API layer?"
+  - ✗ Bad: "How to improve the code?"
+
+- **Measurable**: Has testable validation criteria
+  - ✓ Good: "Reduce duplication from 60% to <15%"
+  - ✗ Bad: "Make code better"
+
+- **Achievable**: Can be resolved with available information
+  - ✓ Good: "Extract parsing logic to separate module"
+  - ✗ Bad: "Predict all future requirements"
+
+- **Relevant**: Blocks meaningful progress on refactoring
+  - ✓ Good: "Define core interface (blocks 5 other holes)"
+  - ✗ Bad: "Decide variable naming convention"
+
+- **Typed**: Clear type/structure for resolution
+  - ✓ Good: `interface Architecture = { layers: Layer[], rules: Rule[] }`
+  - ✗ Bad: "Some kind of structure?"
+
+### Hole Estimation Framework
+
+Size holes using these categories:
+
+| Size | Duration | Characteristics | Examples |
+|------|----------|-----------------|----------|
+| **Nano** | 1-2 hours | Simple, mechanical changes | Rename files, update imports |
+| **Small** | 4-8 hours | Single module refactor | Extract class, consolidate functions |
+| **Medium** | 1-3 days | Cross-module changes | Define interfaces, reorganize packages |
+| **Large** | 4-7 days | Architecture changes | Layer extraction, pattern implementation |
+| **Epic** | >7 days | **SPLIT THIS HOLE** | Too large, break into smaller holes |
+
+**Estimation Red Flags**:
+- More than 3 dependencies → Likely Medium+
+- Unclear validation → Add time for discovery
+- New patterns/tools → Add learning overhead
+
+### Hole Splitting Guidelines
+
+**Split a hole when**:
+1. Estimate exceeds 7 days
+2. More than 5 dependencies
+3. Validation criteria unclear
+4. Multiple distinct concerns mixed
+
+**Splitting strategy**:
+```
+Epic hole: "Refactor entire authentication system"
+→ Split into:
+  R10_auth_interface: Define new auth interface (Medium)
+  R11_token_handling: Implement JWT tokens (Small)
+  R12_session_management: Refactor sessions (Medium)
+  R13_auth_middleware: Update middleware (Small)
+  R14_auth_testing: Comprehensive test suite (Medium)
+```
+
+**After splitting**:
+- Update dependencies in REFACTOR_IR.md
+- Run `python scripts/propagate.py` to update graph
+- Re-sync with beads: `python scripts/holes_to_beads.py`
+
 ## Common Hole Types
 
 ### Architecture Holes
@@ -264,6 +331,185 @@ See [CONSTRAINT_RULES.md](references/CONSTRAINT_RULES.md) for complete propagati
 | Gate 3: Implementation | All refactor holes resolved, metrics improved | `python scripts/check_implementation.py` |
 | Gate 4: Production Ready | Migration tested, rollback verified | `python scripts/check_production.py` |
 
+## Claude-Assisted Workflow
+
+This skill is designed for effective Claude/LLM collaboration. Here's how to divide work:
+
+### Phase 0: Discovery
+
+**Claude's Role**:
+- Run `discover_holes.py` to analyze codebase
+- Suggest holes based on code analysis
+- Generate initial REFACTOR_IR.md structure
+- Write characterization tests to capture current behavior
+- Set up test infrastructure
+
+**Your Role**:
+- Confirm holes are well-scoped
+- Prioritize which holes to tackle first
+- Review and approve REFACTOR_IR.md
+- Define critical constraints
+
+### Phase 1-N: Hole Resolution
+
+**Claude's Role**:
+- Write resolution tests (TDD) BEFORE implementation
+- Implement hole resolution to make tests pass
+- Run validation scripts: `validate_resolution.py`, `check_foundation.py`
+- Update REFACTOR_IR.md with resolution details
+- Propagate constraints: `python scripts/propagate.py H{N}`
+- Generate commit messages documenting changes
+
+**Your Role**:
+- Make architecture decisions (which pattern, which approach)
+- Assess risk and determine constraint priorities
+- Review code changes for correctness
+- Approve merge to main when complete
+
+### Phase Final: Reporting
+
+**Claude's Role**:
+- Generate comprehensive REFACTOR_REPORT.md
+- Document all metrics deltas
+- List all validation evidence
+- Create migration guides
+- Prepare PR description
+
+**Your Role**:
+- Final review of report accuracy
+- Approve for production deployment
+- Conduct post-refactor retrospective
+
+### Effective Prompting Patterns
+
+**Starting a session**:
+```
+"I need to refactor [description]. Use typed-holes-refactor skill.
+Start with discovery phase."
+```
+
+**Resolving a hole**:
+```
+"Resolve H3 (target_architecture). Write tests first, then implement.
+Use [specific pattern/approach]."
+```
+
+**Checking progress**:
+```
+"Run check_completeness.py and show me the dashboard.
+What's ready to work on next?"
+```
+
+**Generating visualizations**:
+```
+"Generate dependency graph showing bottlenecks and critical path.
+Use visualize_graph.py with --analyze."
+```
+
+### Claude's Limitations
+
+**Claude CANNOT**:
+- Make subjective architecture decisions (you must decide)
+- Determine business-critical constraints (you must specify)
+- Run tests that require external services (mock or you run them)
+- Merge to main (you must approve and merge)
+
+**Claude CAN**:
+- Analyze code and suggest holes
+- Write comprehensive test suites
+- Implement resolutions within your constraints
+- Generate reports and documentation
+- Track progress across sessions (via beads + REFACTOR_IR.md)
+
+### Multi-Session Continuity
+
+**At session start**:
+```
+"Continue typed-holes refactoring. Import beads state and
+show current status from REFACTOR_IR.md."
+```
+
+**Claude will**:
+- Read REFACTOR_IR.md to understand current state
+- Check which holes are resolved
+- Identify next ready holes
+- Resume where previous session left off
+
+**You should**:
+- Keep REFACTOR_IR.md and .beads/ committed to git
+- Export beads state at session end: `bd export -o .beads/issues.jsonl`
+- Use /context before starting to ensure Claude has full context
+
+## Beads Integration
+
+**Why beads + typed holes?**
+- Beads tracks issues across sessions (prevents lost work)
+- Holes track refactoring-specific state (dependencies, constraints)
+- Together: Complete continuity for long-running refactors
+
+### Setup
+
+```bash
+# Install beads (once)
+go install github.com/steveyegge/beads/cmd/bd@latest
+
+# After running discover_holes.py
+python scripts/holes_to_beads.py
+
+# Check what's ready
+bd ready --json
+```
+
+### Workflow Integration
+
+**During hole resolution**:
+```bash
+# Start work on a hole
+bd update bd-5 --status in_progress --json
+
+# Implement resolution
+# ... write tests, implement code ...
+
+# Validate resolution
+python scripts/validate_resolution.py H3
+
+# Close bead
+bd close bd-5 --reason "Resolved H3: target_architecture" --json
+
+# Export state
+bd export -o .beads/issues.jsonl
+git add .beads/issues.jsonl REFACTOR_IR.md
+git commit -m "Resolve H3: Define target architecture"
+```
+
+**Syncing holes ↔ beads**:
+```bash
+# After updating REFACTOR_IR.md manually
+python scripts/holes_to_beads.py  # Sync changes to beads
+
+# After resolving holes
+python scripts/holes_to_beads.py  # Update bead statuses
+```
+
+**Cross-session continuity**:
+```bash
+# Session start
+bd import -i .beads/issues.jsonl
+bd ready --json  # Shows ready holes
+python scripts/check_completeness.py  # Shows overall progress
+
+# Session end
+bd export -o .beads/issues.jsonl
+git add .beads/issues.jsonl
+git commit -m "Session checkpoint: 3 holes resolved"
+```
+
+**Bead advantages**:
+- Tracks work across days/weeks
+- Shows dependency graph: `bd deps bd-5`
+- Prevents context loss
+- Integrates with overall project management
+
 ## Scripts Reference
 
 All scripts are in `scripts/`:
@@ -273,8 +519,13 @@ All scripts are in `scripts/`:
 - `validate_resolution.py` - Check if hole resolution satisfies constraints
 - `propagate.py` - Update dependent holes after resolution
 - `generate_report.py` - Create comprehensive delta report
-- `check_completeness.py` - Verify all holes resolved
+- `check_discovery.py` - Validate Phase 0 completeness (Gate 1)
+- `check_foundation.py` - Validate Phase 1 completeness (Gate 2)
+- `check_implementation.py` - Validate Phase 2 completeness (Gate 3)
+- `check_production.py` - Validate Phase 3 readiness (Gate 4)
+- `check_completeness.py` - Overall progress dashboard
 - `visualize_graph.py` - Generate hole dependency visualization
+- `holes_to_beads.py` - Sync holes with beads issues
 
 Run any script with `--help` for detailed usage.
 
@@ -328,23 +579,184 @@ python scripts/generate_report.py > REFACTOR_REPORT.md
 
 ## Troubleshooting
 
-**Characterization tests fail:**
-- Revert changes, investigate what behavior changed
-- Determine if change is intentional
-- If intentional, update baselines with clear documentation
-- If unintentional, fix the regression
+### Characterization tests fail
 
-**Hole can't be resolved:**
-- Check if dependencies are actually resolved
-- Review constraints - are they contradictory?
-- Consider splitting hole into smaller holes
-- Consult dependency graph for alternatives
+**Symptom**: Tests that captured baseline behavior now fail
 
-**No progress:**
-- Review REFACTOR_IR.md - are holes well-defined?
-- Run `visualize_graph.py` - identify bottlenecks
-- Consider pair programming or review
-- Reassess if hole resolution is feasible
+**Resolution**:
+1. Revert changes: `git diff` to see what changed
+2. Investigate: What behavior changed and why?
+3. Decision tree:
+   - **Intentional change**: Update baselines with documentation
+     ```python
+     # Update baseline with reason
+     save_baseline("v2_api", new_behavior,
+                   reason="Switched to async implementation")
+     ```
+   - **Unintentional regression**: Fix the code, tests must pass
+
+**Prevention**: Run characterization tests before AND after each hole resolution.
+
+### Hole can't be resolved
+
+**Symptom**: Stuck on a hole for >3 days, unclear how to proceed
+
+**Resolution**:
+1. **Check dependencies**: Are they actually resolved?
+   ```bash
+   python scripts/visualize_graph.py --analyze
+   # Look for unresolved dependencies
+   ```
+
+2. **Review constraints**: Are they contradictory?
+   - Example: C1 "preserve all behavior" + C5 "change API contract" → Contradictory
+   - **Fix**: Renegotiate constraints with stakeholders
+
+3. **Split the hole**: If hole is too large
+   ```bash
+   # Original: R4_consolidate_all (Epic, 10+ days)
+   # Split into:
+   R4a_consolidate_parsers (Medium, 2 days)
+   R4b_consolidate_validators (Small, 1 day)
+   R4c_consolidate_handlers (Medium, 2 days)
+   ```
+
+4. **Check for circular dependencies**:
+   ```bash
+   python scripts/visualize_graph.py
+   # Look for cycles: R4 → R5 → R6 → R4
+   ```
+   - **Fix**: Break cycle by introducing intermediate hole or redefining dependencies
+
+**Escalation**: If still stuck after 5 days, consider alternative refactoring approach.
+
+### Contradictory Constraints
+
+**Symptom**: Cannot satisfy all constraints simultaneously
+
+**Example**:
+- C1: "Preserve exact current behavior" (backward compatibility)
+- C5: "Reduce response time by 50%" (performance improvement)
+- Current behavior includes slow, synchronous operations
+
+**Resolution Framework**:
+
+1. **Identify the conflict**:
+   ```markdown
+   C1 requires: Keep synchronous operations
+   C5 requires: Switch to async operations
+   → Contradiction: Can't be both sync and async
+   ```
+
+2. **Negotiate priorities**:
+   | Option | C1 | C5 | Tradeoff |
+   |--------|----|----|----------|
+   | A: Keep sync | ✓ | ✗ | No performance gain |
+   | B: Switch to async | ✗ | ✓ | Breaking change |
+   | C: Add async, deprecate sync | ⚠️ | ✓ | Migration burden |
+
+3. **Choose resolution strategy**:
+   - **Relax constraint**: Change C1 to "Preserve behavior where possible"
+   - **Add migration period**: C implemented over 2 releases
+   - **Split into phases**: Phase 1 (C1), Phase 2 (C5)
+
+4. **Document decision**:
+   ```markdown
+   ## Constraint Resolution: C1 vs C5
+
+   **Decision**: Relax C1 to allow async migration
+   **Rationale**: Performance critical for user experience
+   **Migration**: 3-month deprecation period for sync API
+   **Approved by**: [Stakeholder], [Date]
+   ```
+
+### Circular Dependencies
+
+**Symptom**: `visualize_graph.py` shows cycles
+
+**Example**:
+```
+R4 (consolidate parsers) → depends on R6 (define interface)
+R6 (define interface) → depends on R4 (needs parser examples)
+```
+
+**Resolution strategies**:
+
+1. **Introduce intermediate hole**:
+   ```
+   H0_parser_analysis: Analyze existing parsers (no dependencies)
+   R6_interface: Define interface using H0 analysis
+   R4_consolidate: Implement using R6 interface
+   ```
+
+2. **Redefine dependencies**:
+   - Maybe R4 doesn't actually need R6
+   - Or R6 only needs partial R4 (split R4)
+
+3. **Accept iterative refinement**:
+   ```
+   R6_interface_v1: Initial interface (simple)
+   R4_consolidate: Implement with v1 interface
+   R6_interface_v2: Refine based on R4 learnings
+   ```
+
+**Prevention**: Define architecture holes before implementation holes.
+
+### No Progress for 3+ Days
+
+**Symptom**: Feeling stuck, no commits, uncertain how to proceed
+
+**Resolution checklist**:
+
+- [ ] **Review REFACTOR_IR.md**: Are holes well-defined (SMART criteria)?
+  - If not: Rewrite holes to be more specific
+
+- [ ] **Check hole size**: Is current hole >7 days estimate?
+  - If yes: Split into smaller holes
+
+- [ ] **Run dashboard**: `python scripts/check_completeness.py`
+  - Are you working on a blocked hole?
+  - Switch to a ready hole instead
+
+- [ ] **Visualize dependencies**: `python scripts/visualize_graph.py --analyze`
+  - Identify bottlenecks
+  - Look for parallel work opportunities
+
+- [ ] **Review constraints**: Are they achievable?
+  - Renegotiate if necessary
+
+- [ ] **Seek external review**:
+  - Share REFACTOR_IR.md with colleague
+  - Get feedback on approach
+
+- [ ] **Consider alternative**: Maybe this refactor isn't feasible
+  - Document why
+  - Propose different approach
+
+**Reset protocol**: If still stuck, revert to last working state and try different approach.
+
+### Estimation Failures
+
+**Symptom**: Hole taking 3x longer than estimated
+
+**Analysis**:
+1. **Why did estimate fail?**
+   - Underestimated complexity
+   - Unforeseen dependencies
+   - Unclear requirements
+   - Technical issues (tool problems, infrastructure)
+
+2. **Immediate actions**:
+   - Update REFACTOR_IR.md with revised estimate
+   - If >7 days, split the hole
+   - Update beads: `bd update bd-5 --note "Revised estimate: 5 days (was 2)"`
+
+3. **Future improvements**:
+   - Use actual times to calibrate future estimates
+   - Add buffer for discovery (20% overhead)
+   - Note uncertainty in IR: "Estimate: 2-4 days (high uncertainty)"
+
+**Learning**: Track actual vs estimated time in REFACTOR_REPORT.md for future reference.
 
 ---
 
