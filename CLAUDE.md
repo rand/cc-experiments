@@ -431,6 +431,34 @@ git branch -d feature/name
 
 ## 8. Frontend Development
 
+### Elegant Design Skill (RECOMMENDED)
+
+**ACTIVATE**: `elegant-design/SKILL.md` when building user interfaces that need professional polish
+
+**Covers**: World-class accessible interfaces, chat/messaging UIs, terminal/code display, streaming content, design systems (shadcn/ui, daisyUI, HeroUI), WCAG compliance, Core Web Vitals optimization
+
+**Use When**:
+- Building web applications with React/Next.js
+- Creating developer tools or technical interfaces
+- Designing interfaces with chat, terminals, or code display
+- Implementing real-time or streaming features
+- Ensuring accessibility and responsive design
+
+**Key Features**:
+- **Design Foundation**: Typography (Geist + JetBrains Mono), colors, spacing, layout patterns
+- **Interactive Elements**: Chat interfaces, terminal emulators, code syntax highlighting, streaming/loading states, diffs/log viewers
+- **Implementation**: Component architecture, WCAG 2.1 AA compliance, performance optimization, comprehensive testing
+- **Design Systems**: shadcn/ui (primary), daisyUI, HeroUI with best practices
+
+**Quick Reference**:
+```
+Simple UI: Read foundation/ files → Use design system components
+Chat/Terminal/Code: Read SKILL.md → Read interactive/ guides → Implement
+Complex interfaces: Follow full workflow (discovery → foundation → interactive → implementation)
+```
+
+See `skills/elegant-design/SKILL.md` for complete guidance and workflows.
+
 ### Next.js + shadcn/ui (MANDATORY)
 
 **Step 1: Browse Blocks FIRST**
@@ -494,7 +522,7 @@ open https://ui.shadcn.com/themes
 **New approach**: Atomic, composable skills (~300 lines avg, <500 line guideline)
 
 ### Quality Standards (as of 2025-10-23)
-- ✅ **134 skills** with YAML frontmatter (agent_skills_spec.md compliant)
+- ✅ **135 skills** with YAML frontmatter (agent_skills_spec.md compliant)
 - ✅ **0 future dates** - all dates validated by CI
 - ✅ **Automated testing** - code syntax validation in CI
 - 🔄 **Size optimization** - 89 skills >500 lines identified for splitting
@@ -531,13 +559,13 @@ Read zig-memory-management.md, zig-testing-patterns.md
 Read beads-workflow.md + beads-context-strategies.md + beads-multi-session-patterns.md
 ```
 
-### Skills Catalog (134 Total)
+### Skills Catalog (135 Total)
 
-**Core Categories** (76 skills):
+**Core Categories** (77 skills):
 - **API Design** (7): REST, GraphQL, auth/authz, rate limiting, versioning, error handling
 - **Testing** (6): Unit, integration, e2e, TDD, coverage, performance testing
 - **Containers** (5): Dockerfile optimization, Compose, security, networking, registries
-- **Frontend** (8): React patterns, Next.js App Router, state/data/forms, a11y, performance, SEO
+- **Frontend** (9): Elegant design (chat/terminal/code UIs), React patterns, Next.js App Router, state/data/forms, a11y, performance, SEO
 - **Database** (11): Postgres (optimization, migrations, schema), MongoDB, Redis, Redpanda/Kafka streaming, Apache Iceberg, DuckDB analytics, pooling, ORMs, selection
 - **Workflow & Tasks** (6): Beads workflow, context strategies, multi-session, dependency management, typed-holes refactoring
 - **Quality & Content Review** (1): Anti-slop detection and cleanup (text, code, design)
@@ -603,7 +631,7 @@ Mobile:         mobile/react-native-*.md (4)
 4. **Deep dive?** Search `skills/_INDEX.md` by technology/task/problem domain
 5. **Emergency?** Read relevant skill directly: `skills/api-*.md`, `skills/cicd/*.md`
 
-**Full catalog**: `skills/_INDEX.md` (134 skills, workflows, search patterns, combinations)
+**Full catalog**: `skills/_INDEX.md` (135 skills, workflows, search patterns, combinations)
 
 ### Skill Quality Assurance
 All skills now include:
