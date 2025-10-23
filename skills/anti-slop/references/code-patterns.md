@@ -1,3 +1,8 @@
+---
+name: code-patterns
+description: Reference guide for detecting AI slop patterns in code including generic variable names, obvious comments, and unnecessary abstractions. Use as reference when reviewing code quality.
+---
+
 # Code Slop Patterns
 
 This reference documents common "AI slop" patterns in code that indicate low-quality, AI-generated content that should be cleaned up.

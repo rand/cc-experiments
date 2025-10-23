@@ -1,3 +1,8 @@
+---
+name: validation-patterns
+description: Reference guide for test patterns to validate hole resolutions including characterization tests, property tests, and integration tests. Use as reference when validating refactoring steps.
+---
+
 # Validation Patterns
 
 Test patterns for validating hole resolutions.

@@ -1,3 +1,8 @@
+---
+name: hole-types
+description: Reference taxonomy of refactoring hole types including current state holes, architecture holes, and implementation holes. Use as reference during typed holes refactoring for identifying and categorizing unknowns.
+---
+
 # Hole Types Reference
 
 Complete taxonomy of refactoring holes with validation patterns.

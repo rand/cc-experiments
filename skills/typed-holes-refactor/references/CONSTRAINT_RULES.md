@@ -1,3 +1,8 @@
+---
+name: constraint-rules
+description: Reference guide for constraint propagation rules in typed holes refactoring including dependency tracking and solution space narrowing. Use as reference when propagating constraints between resolved holes.
+---
+
 # Constraint Propagation Rules
 
 Complete guide to constraint propagation in typed holes refactoring.

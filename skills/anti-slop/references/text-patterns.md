@@ -1,3 +1,8 @@
+---
+name: text-patterns
+description: Reference guide for detecting AI slop patterns in natural language text including overused phrases, buzzwords, and meta-commentary. Use as reference when reviewing text content for quality.
+---
+
 # Text Slop Patterns
 
 This reference documents common "AI slop" patterns in natural language writing that should be avoided or cleaned up.

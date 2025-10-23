@@ -1,3 +1,8 @@
+---
+name: design-patterns
+description: Reference guide for detecting AI slop patterns in visual and UX design including generic gradients, cookie-cutter layouts, and buzzword-heavy copy. Use as reference when reviewing design quality.
+---
+
 # Design Slop Patterns
 
 This reference documents common "AI slop" patterns in visual and UX design that indicate generic, low-quality, AI-generated content.
