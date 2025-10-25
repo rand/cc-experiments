@@ -435,6 +435,27 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ---
 
+### DSPy Framework (7 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `dspy-setup.md` | Installing DSPy, configuring LMs (OpenAI, Anthropic, Modal, HuggingFace), environment setup | ~530 |
+| `dspy-signatures.md` | Defining input/output signatures, typed fields, class-based signatures | ~464 |
+| `dspy-modules.md` | Building Predict, ChainOfThought, ReAct modules, custom modules, composition | ~530 |
+| `dspy-optimizers.md` | Optimizing with BootstrapFewShot, MIPROv2, COPRO, teleprompters, compilation | ~546 |
+| `dspy-evaluation.md` | Metrics, Evaluate class, A/B testing, error analysis, performance measurement | ~526 |
+| `dspy-rag.md` | Building RAG pipelines, vector databases (ChromaDB, Weaviate), retrieval optimization | ~641 |
+| `dspy-assertions.md` | Adding constraints, validation, dspy.Assert, dspy.Suggest, retry logic | ~612 |
+
+**Common workflows:**
+- Getting started: `dspy-setup.md` → `dspy-signatures.md` → `dspy-modules.md`
+- Building QA system: `dspy-signatures.md` → `dspy-modules.md` → `dspy-optimizers.md` → `dspy-evaluation.md`
+- RAG pipeline: `dspy-setup.md` → `dspy-rag.md` → `dspy-optimizers.md` → `dspy-evaluation.md`
+- Production system: `dspy-modules.md` → `dspy-assertions.md` → `dspy-evaluation.md` → `dspy-optimizers.md`
+- Modal deployment: `dspy-setup.md` (Pattern 6: Modal + HuggingFace) → `dspy-rag.md` → `modal-gpu-workloads.md`
+
+---
+
 ### Diffusion Models (3 skills)
 
 | Skill | Use When | Lines |
@@ -527,6 +548,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 **Heroku:** Search `deployment/heroku-*.md`
 **Netlify:** Search `deployment/netlify-*.md`
 **LLM Fine-tuning:** Search `ml/unsloth-*.md`, `ml/huggingface-*.md`, `ml/llm-*.md`, `ml/lora-*.md`
+**DSPy Framework:** Search `ml/dspy-*.md`
 **Diffusion Models:** Search `ml/diffusion-*.md`, `ml/stable-diffusion-*.md`
 **Advanced Mathematics:** Search `math/*.md`, `math/linear-algebra-*.md`, `math/optimization-*.md`, `math/numerical-*.md`, `math/probability-*.md`
 **React Native:** Search `mobile/react-native-*.md`
@@ -840,6 +862,8 @@ This index catalogs all atomic skills available in the skills system, organized 
 | Formalize theorem in Lean | lean-proof-basics.md, lean-tactics.md, lean-mathlib4.md | 1→2→3 |
 | Solve CSP | csp-modeling.md, constraint-propagation.md, backtracking-search.md | 1→2→3 |
 | Fine-tune LLM | llm-dataset-preparation.md, unsloth-finetuning.md, lora-peft-techniques.md | 1→2→3 |
+| Build DSPy QA system | dspy-setup.md, dspy-signatures.md, dspy-modules.md, dspy-optimizers.md | 1→2→3→4 |
+| Build DSPy RAG pipeline | dspy-setup.md, dspy-rag.md, dspy-optimizers.md, dspy-evaluation.md | 1→2→3→4 |
 | Fine-tune diffusion model | diffusion-model-basics.md, diffusion-finetuning.md, stable-diffusion-deployment.md | 1→2→3 |
 | Deploy to Heroku | heroku-deployment.md, heroku-addons.md | 1→2 |
 | Deploy to Netlify | netlify-deployment.md, netlify-functions.md | 1→2 |
@@ -861,7 +885,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ## Total Skills Count
 
-- **135 atomic skills** across 28 categories
+- **142 atomic skills** across 29 categories
 - **Average 310 lines** per skill
 - **100% focused** - each skill has single clear purpose
 - **Cross-referenced** - related skills linked for discoverability
@@ -889,13 +913,14 @@ This index catalogs all atomic skills available in the skills system, organized 
 - Real-time: 4 skills
 - Data Pipelines: 5 skills
 
-**Specialized Domains** (33 skills):
+**Specialized Domains** (40 skills):
 - SAT/SMT Solvers: 3 skills
 - Lean 4: 4 skills
 - Constraint Satisfaction: 3 skills
 - Heroku: 3 skills
 - Netlify: 3 skills
 - LLM Fine-tuning: 4 skills
+- DSPy Framework: 7 skills
 - Diffusion Models: 3 skills
 - Advanced Mathematics: 4 skills
 - React Native: 4 skills
@@ -920,6 +945,6 @@ See `MIGRATION_GUIDE.md` for detailed mapping.
 
 ---
 
-**Last Updated:** 2025-10-23
-**Total Skills:** 135
+**Last Updated:** 2025-10-25
+**Total Skills:** 142
 **Format Version:** 1.0 (Atomic)
