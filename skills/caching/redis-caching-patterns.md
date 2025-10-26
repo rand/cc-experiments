@@ -1,5 +1,5 @@
 ---
-name: Redis Caching Patterns
+name: caching-redis-caching-patterns
 description: Application-level caching with Redis - patterns, distributed caching, cache stampede prevention, and integration strategies for high-performance applications.
 ---
 # Redis Caching Patterns

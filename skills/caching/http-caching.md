@@ -1,5 +1,5 @@
 ---
-name: HTTP Caching
+name: caching-http-caching
 description: Browser and HTTP cache layer optimization using cache headers, conditional requests, and validation strategies
 ---
 

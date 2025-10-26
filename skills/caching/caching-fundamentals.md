@@ -1,5 +1,5 @@
 ---
-name: Caching Fundamentals
+name: caching-caching-fundamentals
 description: Core caching concepts, patterns, eviction policies, and cache design principles for optimizing application performance
 ---
 

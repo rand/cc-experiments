@@ -1,5 +1,5 @@
 ---
-name: Service Worker Caching
+name: caching-service-worker-caching
 description: Progressive Web App (PWA) caching with Service Workers - offline-first architecture, caching strategies, Workbox patterns, and modern browser caching.
 ---
 # Service Worker Caching

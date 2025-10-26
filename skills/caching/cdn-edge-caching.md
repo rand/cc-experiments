@@ -1,5 +1,5 @@
 ---
-name: CDN Edge Caching
+name: caching-cdn-edge-caching
 description: CDN and edge cache optimization with Cloudflare, Fastly, and CloudFront for global performance and reduced origin load
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: Cache Performance Monitoring
+name: caching-cache-performance-monitoring
 description: Measuring and optimizing cache performance - metrics, monitoring tools, alerts, load testing, and instrumentation for cache hit rates and latency.
 ---
 # Cache Performance Monitoring

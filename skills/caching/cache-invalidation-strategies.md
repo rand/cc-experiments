@@ -1,5 +1,5 @@
 ---
-name: Cache Invalidation Strategies
+name: caching-cache-invalidation-strategies
 description: Cache invalidation patterns and techniques - time-based, event-based, key-based, and version-based invalidation for maintaining cache consistency.
 ---
 # Cache Invalidation Strategies
