@@ -9,7 +9,7 @@ description: Need quick fine-tuning without writing training code
 
 **Scope**: No-code/low-code LLM fine-tuning with AutoTrain, CLI, web UI, deployment
 **Lines**: ~330
-**Last Updated**: 2025-10-18
+**Last Updated**: 2025-10-25
 
 ## When to Use This Skill
 
@@ -496,14 +496,15 @@ autotrain llm --train --push-to-hub --username USER ...
 
 ## Related Skills
 
-- `unsloth-finetuning.md` - Faster alternative with custom code
-- `llm-dataset-preparation.md` - Preparing high-quality datasets
-- `lora-peft-techniques.md` - Understanding LoRA parameters
-- `modal-gpu-workloads.md` - GPU selection and deployment
-- `model-evaluation.md` - Evaluating trained models
-- `huggingface-hub.md` - Managing models and datasets on Hub
+- `ml/unsloth-finetuning.md` - Faster alternative with custom code
+- `ml/llm-dataset-preparation.md` - Preparing high-quality datasets
+- `ml/lora-peft-techniques.md` - Understanding LoRA parameters
+- `modal/modal-gpu-workloads.md` - GPU selection and deployment
+- `ml/huggingface/huggingface-hub.md` - Managing models and datasets on Hub
+- `ml/huggingface/huggingface-transformers.md` - Loading and using models
+- `ml/huggingface/huggingface-datasets.md` - Working with datasets
 
 ---
 
-**Last Updated**: 2025-10-18
+**Last Updated**: 2025-10-25
 **Format Version**: 1.0 (Atomic)

@@ -1,5 +1,5 @@
 ---
-name: cicd-github-actions-workflows
+name: collaboration-github-actions-workflows
 description: Setting up CI/CD pipelines with GitHub Actions
 ---
 
@@ -669,10 +669,13 @@ jobs:
 
 ## Related Skills
 
-- `ci-testing-strategy.md` - Test execution patterns in CI
-- `cd-deployment-patterns.md` - Deployment strategies and rollbacks
-- `ci-optimization.md` - Speed and efficiency improvements
-- `ci-security.md` - Secret management and security best practices
+- `collaboration/github/github-pull-requests.md` - PR workflow and code review integration with workflows
+- `collaboration/github/github-security-features.md` - Security scanning and dependency management in Actions
+- `collaboration/github/github-repository-management.md` - Repository settings and configuration
+- `cicd/ci-testing-strategy.md` - Test execution patterns in CI
+- `cicd/cd-deployment-patterns.md` - Deployment strategies and rollbacks
+- `cicd/ci-optimization.md` - Speed and efficiency improvements
+- `cicd/ci-security.md` - Secret management and security best practices
 
 ---
 

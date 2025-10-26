@@ -564,6 +564,160 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ---
 
+### Cloud Platforms - AWS (7 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `cloud/aws/aws-lambda-functions.md` | Lambda basics, layers, triggers, runtime config, cold starts | ~658 |
+| `cloud/aws/aws-api-gateway.md` | REST/HTTP/WebSocket APIs, authorization, throttling, integrations | ~599 |
+| `cloud/aws/aws-ec2-compute.md` | EC2 instances, Auto Scaling, Load Balancing, AMIs | ~668 |
+| `cloud/aws/aws-storage.md` | S3, EBS, EFS, Glacier, lifecycle policies | ~610 |
+| `cloud/aws/aws-databases.md` | RDS, DynamoDB, ElastiCache, Aurora, backup strategies | ~694 |
+| `cloud/aws/aws-networking.md` | VPC, security groups, Route53, CloudFront, Transit Gateway | ~702 |
+| `cloud/aws/aws-iam-security.md` | IAM policies/roles, Cognito, Secrets Manager, KMS encryption | ~754 |
+
+**Common workflows:**
+- Serverless API: `aws-lambda-functions.md` → `aws-api-gateway.md` → `aws-iam-security.md`
+- Web application: `aws-ec2-compute.md` → `aws-databases.md` → `aws-networking.md`
+- Secure infrastructure: `aws-networking.md` → `aws-iam-security.md` → `infrastructure/aws-serverless.md`
+
+---
+
+### Cloud Platforms - GCP (6 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `cloud/gcp/gcp-compute.md` | Compute Engine, Cloud Run, GKE, instance groups, preemptible VMs | ~484 |
+| `cloud/gcp/gcp-storage.md` | Cloud Storage, Persistent Disk, Filestore, lifecycle management | ~478 |
+| `cloud/gcp/gcp-databases.md` | Cloud SQL, Firestore, Bigtable, Spanner, Memorystore | ~602 |
+| `cloud/gcp/gcp-networking.md` | VPC, firewall rules, Cloud DNS, Cloud CDN, Load Balancing | ~584 |
+| `cloud/gcp/gcp-iam-security.md` | IAM roles/policies, service accounts, Secret Manager, Cloud KMS | ~634 |
+| `cloud/gcp/gcp-serverless.md` | Cloud Functions, Cloud Run, App Engine comparison, Eventarc | ~664 |
+
+**Common workflows:**
+- Serverless app: `gcp-serverless.md` → `gcp-iam-security.md` → `gcp-databases.md`
+- Containerized app: `gcp-compute.md` (Cloud Run/GKE) → `gcp-networking.md` → `gcp-storage.md`
+- Secure infrastructure: `gcp-networking.md` → `gcp-iam-security.md` → `infrastructure/cost-optimization.md`
+
+---
+
+### Collaboration - GitHub (5 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `collaboration/github/github-repository-management.md` | Repos, branches, tags, releases, GitHub CLI, templates | ~538 |
+| `collaboration/github/github-pull-requests.md` | PR workflow, code review, merge strategies, auto-merge | ~639 |
+| `collaboration/github/github-issues-projects.md` | Issue tracking, labels, milestones, project boards | ~677 |
+| `collaboration/github/github-security-features.md` | Dependabot, code scanning, secret scanning, SBOM | ~809 |
+| `collaboration/github/github-actions-workflows.md` | CI/CD workflows, triggers, jobs, matrix builds, caching | ~684 |
+
+**Common workflows:**
+- New project setup: `github-repository-management.md` → `github-actions-workflows.md` → `github-security-features.md`
+- PR workflow: `github-pull-requests.md` → `github-issues-projects.md`
+- Security hardening: `github-security-features.md` → `cicd/ci-security.md`
+
+---
+
+### Machine Learning - HuggingFace (5 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `ml/huggingface/huggingface-hub.md` | Model/dataset repos, Hub API, model cards, Spaces | ~518 |
+| `ml/huggingface/huggingface-transformers.md` | Loading models, pipelines, inference, tokenizers, quantization | ~564 |
+| `ml/huggingface/huggingface-datasets.md` | Loading datasets, preprocessing, streaming, custom datasets | ~595 |
+| `ml/huggingface/huggingface-spaces.md` | Gradio/Streamlit apps, Space config, GPU hardware, secrets | ~584 |
+| `ml/huggingface/huggingface-autotrain.md` | No-code/low-code fine-tuning, quick experiments | ~510 |
+
+**Common workflows:**
+- Model inference: `huggingface-hub.md` → `huggingface-transformers.md` → `modal-gpu-workloads.md`
+- Dataset prep: `huggingface-datasets.md` → `llm-dataset-preparation.md` → `unsloth-finetuning.md`
+- Demo app: `huggingface-transformers.md` → `huggingface-spaces.md`
+
+---
+
+### Information Retrieval (5 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `ir/ir-search-fundamentals.md` | TF-IDF, BM25, inverted indexes, Elasticsearch/OpenSearch | ~640 |
+| `ir/ir-vector-search.md` | Embeddings, dense retrieval, vector DBs (Pinecone, Weaviate, Qdrant) | ~676 |
+| `ir/ir-ranking-reranking.md` | Learning to rank, cross-encoders, reranking pipelines, nDCG/MAP | ~627 |
+| `ir/ir-recommendation-systems.md` | Collaborative filtering, content-based, hybrid, matrix factorization | ~649 |
+| `ir/ir-query-understanding.md` | Query expansion, spell correction, semantic search, autocomplete | ~666 |
+
+**Common workflows:**
+- Search system: `ir-search-fundamentals.md` → `ir-vector-search.md` → `ir-ranking-reranking.md`
+- Hybrid search: `ir-search-fundamentals.md` + `ir-vector-search.md` → `ir-ranking-reranking.md`
+- Recommendations: `ir-recommendation-systems.md` → `ir-ranking-reranking.md`
+- Query processing: `ir-query-understanding.md` → `ir-search-fundamentals.md`
+
+---
+
+### Systems Programming - WebAssembly (4 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `wasm/wasm-fundamentals.md` | WebAssembly basics, WAT, binary format, WASI, use cases | ~421 |
+| `wasm/wasm-rust-toolchain.md` | Rust→wasm, wasm-pack, wasm-bindgen, optimization | ~566 |
+| `wasm/wasm-browser-integration.md` | Loading wasm, JS interop, DOM access, WebGL, Web Workers | ~657 |
+| `wasm/wasm-server-side.md` | Wasmtime, WASI, edge compute (Cloudflare/Fastly), plugins | ~565 |
+
+**Common workflows:**
+- Browser wasm: `wasm-fundamentals.md` → `wasm-rust-toolchain.md` → `wasm-browser-integration.md`
+- Server wasm: `wasm-fundamentals.md` → `wasm-server-side.md`
+- Edge computing: `wasm-rust-toolchain.md` → `wasm-server-side.md` → `infrastructure/cloudflare-workers.md`
+
+---
+
+### Systems Programming - eBPF (4 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `ebpf/ebpf-fundamentals.md` | eBPF architecture, verifier, maps, programs, BCC vs libbpf | ~555 |
+| `ebpf/ebpf-tracing-observability.md` | bpftrace, kprobes, uprobes, tracepoints, latency analysis | ~590 |
+| `ebpf/ebpf-networking.md` | XDP, TC, socket filters, load balancing, Cilium, packet processing | ~701 |
+| `ebpf/ebpf-security-monitoring.md` | Syscall tracking, Falco, Tetragon, runtime security, threat detection | ~690 |
+
+**Common workflows:**
+- Performance tracing: `ebpf-fundamentals.md` → `ebpf-tracing-observability.md`
+- Network optimization: `ebpf-fundamentals.md` → `ebpf-networking.md`
+- Security monitoring: `ebpf-fundamentals.md` → `ebpf-security-monitoring.md`
+- Kubernetes observability: `ebpf-networking.md` + `ebpf-security-monitoring.md`
+
+---
+
+### Product Management - PRD (4 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `product/prd-structure-templates.md` | PRD format, sections, templates, stakeholder approval | ~468 |
+| `product/prd-requirements-gathering.md` | User interviews, research synthesis, RICE/MoSCoW prioritization | ~466 |
+| `product/prd-user-stories-acceptance.md` | Epics, user stories, acceptance criteria, story mapping | ~560 |
+| `product/prd-technical-specifications.md` | API specs, data models, architecture diagrams, constraints | ~675 |
+
+**Common workflows:**
+- New feature PRD: `prd-requirements-gathering.md` → `prd-structure-templates.md` → `prd-user-stories-acceptance.md`
+- Technical PRD: `prd-structure-templates.md` → `prd-technical-specifications.md`
+- Full PRD: All 4 skills in sequence
+
+---
+
+### Engineering Process - RFC (4 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `engineering/rfc-structure-format.md` | RFC format, templates, ADRs, DACI framework, documentation | ~621 |
+| `engineering/rfc-technical-design.md` | Architecture proposals, trade-offs, diagrams, API design | ~745 |
+| `engineering/rfc-consensus-building.md` | Stakeholder engagement, feedback integration, approval process | ~544 |
+| `engineering/rfc-decision-documentation.md` | ADRs, decision rationale, status tracking, post-implementation review | ~655 |
+
+**Common workflows:**
+- Architecture RFC: `rfc-structure-format.md` → `rfc-technical-design.md` → `rfc-consensus-building.md`
+- Decision record: `rfc-decision-documentation.md`
+- Full RFC process: All 4 skills in sequence
+
+---
+
 ## Skill Discovery Patterns
 
 ### By Technology
@@ -599,6 +753,15 @@ This index catalogs all atomic skills available in the skills system, organized 
 **Advanced Mathematics:** Search `math/*.md` | Numerical: `math/linear-algebra-*.md`, `math/optimization-*.md`, `math/numerical-*.md`, `math/probability-*.md` | Pure math: `math/topology-*.md`, `math/category-theory-*.md`, `math/differential-equations.md`, `math/abstract-algebra.md`, `math/set-theory.md`, `math/number-theory.md`
 **Programming Language Theory:** Search `plt/*.md`, `plt/lambda-calculus.md`, `plt/type-systems.md`, `plt/dependent-types.md`, `plt/curry-howard.md`, `plt/operational-semantics.md`, `plt/program-verification.md`, `plt/typed-holes-*.md`, `plt/hazelnut-calculus.md`, `plt/live-programming-holes.md`, `plt/structure-editors.md`
 **React Native:** Search `mobile/react-native-*.md`
+**AWS Cloud:** Search `cloud/aws/*.md`, `aws-*.md`
+**GCP Cloud:** Search `cloud/gcp/*.md`, `gcp-*.md`
+**GitHub:** Search `collaboration/github/*.md`, `github-*.md`
+**HuggingFace:** Search `ml/huggingface/*.md`, `huggingface-*.md`
+**Information Retrieval:** Search `ir/*.md`, `ir-*.md`
+**WebAssembly:** Search `wasm/*.md`, `wasm-*.md`
+**eBPF:** Search `ebpf/*.md`, `ebpf-*.md`
+**PRD Writing:** Search `product/*.md`, `prd-*.md`
+**RFC Writing:** Search `engineering/*.md`, `rfc-*.md`
 
 ### By Task Type
 
@@ -932,13 +1095,13 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ## Total Skills Count
 
-- **155 atomic skills** across 31 categories
-- **Average 320 lines** per skill
+- **215 atomic skills** across 40 categories
+- **Average 350 lines** per skill
 - **100% focused** - each skill has single clear purpose
 - **Cross-referenced** - related skills linked for discoverability
 
 ### By Category Breakdown
-**Core Foundation** (77 skills):
+**Core Foundation** (79 skills):
 - API Design: 7 skills
 - Testing: 6 skills
 - Containers: 5 skills
@@ -953,6 +1116,10 @@ This index catalogs all atomic skills available in the skills system, organized 
 - TUI Development: 5 skills
 - Zig Programming: 6 skills
 
+**Cloud Platforms** (13 skills):
+- AWS: 7 skills (Lambda, API Gateway, EC2, Storage, Databases, Networking, IAM/Security)
+- GCP: 6 skills (Compute, Storage, Databases, Networking, IAM/Security, Serverless)
+
 **Advanced Infrastructure** (25 skills):
 - CI/CD: 5 skills
 - Infrastructure: 6 skills
@@ -960,15 +1127,28 @@ This index catalogs all atomic skills available in the skills system, organized 
 - Real-time: 4 skills
 - Data Pipelines: 5 skills
 
-**Specialized Domains** (60 skills):
+**Collaboration & Process** (17 skills):
+- GitHub: 5 skills (Repository management, PRs, Issues/Projects, Security, Actions)
+- Product (PRD): 4 skills (Structure, Requirements, User Stories, Technical Specs)
+- Engineering (RFC): 4 skills (Structure, Technical Design, Consensus, Documentation)
+- Heroku: 3 skills
+- Netlify: 3 skills *(moved from Specialized Domains)*
+
+**Machine Learning & AI** (21 skills):
+- LLM Fine-tuning: 4 skills
+- HuggingFace: 5 skills (Hub, Transformers, Datasets, Spaces, AutoTrain)
+- DSPy Framework: 7 skills
+- Diffusion Models: 3 skills
+- Information Retrieval: 5 skills (Search, Vector Search, Ranking, Recommendations, Query Understanding)
+
+**Systems Programming** (8 skills):
+- WebAssembly: 4 skills (Fundamentals, Rust Toolchain, Browser, Server-side)
+- eBPF: 4 skills (Fundamentals, Tracing, Networking, Security)
+
+**Specialized Domains** (52 skills):
 - SAT/SMT Solvers: 3 skills
 - Lean 4: 4 skills
 - Constraint Satisfaction: 3 skills
-- Heroku: 3 skills
-- Netlify: 3 skills
-- LLM Fine-tuning: 4 skills
-- DSPy Framework: 7 skills
-- Diffusion Models: 3 skills
 - Advanced Mathematics: 11 skills (4 numerical + 7 pure math)
 - Programming Language Theory: 13 skills (6 core + 7 typed holes & live programming)
 - React Native: 4 skills
@@ -994,5 +1174,5 @@ See `MIGRATION_GUIDE.md` for detailed mapping.
 ---
 
 **Last Updated:** 2025-10-25
-**Total Skills:** 162
+**Total Skills:** 215
 **Format Version:** 1.0 (Atomic)

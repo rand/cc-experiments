@@ -521,11 +521,11 @@ open https://ui.shadcn.com/themes
 **Old approach**: Monolithic skills `/zig-dev`, `/modal-dev` (too large)
 **New approach**: Atomic, composable skills (~300 lines avg, <500 line guideline)
 
-### Quality Standards (as of 2025-10-23)
-- ✅ **135 skills** with YAML frontmatter (agent_skills_spec.md compliant)
+### Quality Standards (as of 2025-10-25)
+- ✅ **215 skills** with YAML frontmatter (agent_skills_spec.md compliant)
 - ✅ **0 future dates** - all dates validated by CI
 - ✅ **Automated testing** - code syntax validation in CI
-- 🔄 **Size optimization** - 89 skills >500 lines identified for splitting
+- ✅ **Comprehensive coverage** - Cloud (AWS/GCP), GitHub, HuggingFace, IR, wasm, eBPF, PRD/RFC
 
 ### Discovery Pattern
 ```bash
@@ -551,6 +551,15 @@ ls skills/ml/*.md
 ls skills/deployment/*.md
 ls skills/math/*.md
 ls skills/mobile/*.md
+ls skills/cloud/aws/*.md
+ls skills/cloud/gcp/*.md
+ls skills/collaboration/github/*.md
+ls skills/ml/huggingface/*.md
+ls skills/ir/*.md
+ls skills/wasm/*.md
+ls skills/ebpf/*.md
+ls skills/product/*.md
+ls skills/engineering/*.md
 
 # 3. Read relevant skills only (NOT all upfront)
 Read zig-memory-management.md, zig-testing-patterns.md
@@ -559,9 +568,9 @@ Read zig-memory-management.md, zig-testing-patterns.md
 Read beads-workflow.md + beads-context-strategies.md + beads-multi-session-patterns.md
 ```
 
-### Skills Catalog (135 Total)
+### Skills Catalog (215 Total)
 
-**Core Categories** (77 skills):
+**Core Categories** (79 skills):
 - **API Design** (7): REST, GraphQL, auth/authz, rate limiting, versioning, error handling
 - **Testing** (6): Unit, integration, e2e, TDD, coverage, performance testing
 - **Containers** (5): Dockerfile optimization, Compose, security, networking, registries
@@ -570,14 +579,15 @@ Read beads-workflow.md + beads-context-strategies.md + beads-multi-session-patte
 - **Workflow & Tasks** (6): Beads workflow, context strategies, multi-session, dependency management, typed-holes refactoring
 - **Quality & Content Review** (1): Anti-slop detection and cleanup (text, code, design)
 - **Meta Skills** (4): Skill discovery and planning for repositories and prompts
-  - Discovery: `skill-repo-discovery.md` (analyze repos), `skill-prompt-discovery.md` (analyze prompts)
-  - Planning: `skill-repo-planning.md` (plan repo skills), `skill-prompt-planning.md` (plan prompt skills)
-  - **Use proactively**: Run discovery skills when encountering new repos or complex user requests
 - **iOS/Swift** (6): SwiftUI architecture, Swift concurrency, SwiftData, networking, UIKit integration, testing
 - **Modal.com** (8): Functions, GPU workloads, web endpoints, volumes, scheduling, troubleshooting, debugging, optimization
 - **Networking** (5): Tailscale, mTLS, Mosh, NAT traversal, resilience patterns
 - **TUI** (5): Bubble Tea/Ratatui architecture, Lip Gloss styling, Bubbles components, state management
 - **Zig** (6): Project setup, memory management, testing, comptime, cross-compilation, C interop
+
+**Cloud Platforms** (13 skills):
+- **AWS** (7): Lambda, API Gateway, EC2, Storage (S3/EBS/EFS), Databases (RDS/DynamoDB), Networking (VPC/Route53/CloudFront), IAM/Security
+- **GCP** (6): Compute (GCE/Cloud Run/GKE), Storage, Databases (Cloud SQL/Firestore/Bigtable/Spanner), Networking, IAM/Security, Serverless
 
 **Advanced Infrastructure** (25 skills):
 - **CI/CD** (5): GitHub Actions workflows, testing strategy, deployment patterns, optimization, security
@@ -586,34 +596,54 @@ Read beads-workflow.md + beads-context-strategies.md + beads-multi-session-patte
 - **Real-time** (4): WebSocket implementation, Server-Sent Events, real-time sync, pub/sub patterns
 - **Data Pipeline** (5): ETL patterns, stream processing, batch processing, data validation, pipeline orchestration
 
-**Specialized Domains** (33 skills):
-- **SAT/SMT Solvers** (3): Z3 solver basics, SAT solving strategies, SMT theory applications
-- **Lean 4** (4): Proof basics, tactics, mathlib4, theorem proving
-- **Constraint Satisfaction** (3): CSP modeling, constraint propagation, backtracking search
+**Collaboration & Process** (17 skills):
+- **GitHub** (5): Repository management, Pull Requests, Issues/Projects, Security (Dependabot, CodeQL, secret scanning), Actions
+- **Product (PRD)** (4): Structure/templates, requirements gathering, user stories/acceptance criteria, technical specifications
+- **Engineering (RFC)** (4): Structure/format, technical design, consensus building, decision documentation (ADRs)
 - **Heroku** (3): Deployment, add-ons, troubleshooting
 - **Netlify** (3): Deployment, functions, optimization
+
+**Machine Learning & AI** (21 skills):
 - **LLM Fine-tuning** (4): Unsloth, HuggingFace AutoTrain, dataset preparation, LoRA/PEFT
-- **Diffusion Models** (3): Diffusion basics, Stable Diffusion deployment, fine-tuning
-- **Advanced Mathematics** (4): Linear algebra, optimization algorithms, numerical methods, probability/statistics
-- **React Native** (4): Setup, navigation, native modules, performance
+- **HuggingFace** (5): Hub, Transformers, Datasets, Spaces, AutoTrain
+- **DSPy Framework** (7): Setup, signatures, modules, optimizers, evaluation, RAG, assertions
+- **Diffusion Models** (3): Basics, Stable Diffusion deployment, fine-tuning
+- **Information Retrieval** (5): Search fundamentals (TF-IDF/BM25), vector search, ranking/reranking, recommendations, query understanding
+
+**Systems Programming** (8 skills):
+- **WebAssembly** (4): Fundamentals, Rust toolchain, browser integration, server-side (Wasmtime/edge)
+- **eBPF** (4): Fundamentals, tracing/observability, networking (XDP/TC/Cilium), security monitoring (Falco/Tetragon)
+
+**Specialized Domains** (52 skills):
+- **SAT/SMT Solvers** (3), **Lean 4** (4), **Constraint Satisfaction** (3)
+- **Advanced Mathematics** (11): Linear algebra, optimization, numerical methods, probability/statistics, topology, category theory, differential equations, abstract algebra, set theory, number theory
+- **Programming Language Theory** (13): Lambda calculus, type systems, dependent types, Curry-Howard, operational semantics, program verification, typed holes (7 skills)
+- **React Native** (4), **Formal Methods** (2)
 
 **Quick Category Reference**:
 ```
-API/Backend:    api-*.md (7) | database-*.md, postgres-*.md, redpanda-*.md, apache-*.md, duckdb-*.md (11) | orm-*.md (1)
-Testing:        test-*.md, unit-*.md, integration-*.md, e2e-*.md (6) | performance-testing.md
+API/Backend:    api-*.md (7) | database-*.md, postgres-*.md (11)
+Testing:        test-*.md, unit-*.md, integration-*.md, e2e-*.md (6)
 Containers:     dockerfile-*.md, docker-*.md, container-*.md (5)
 Frontend:       react-*.md (5) | nextjs-*.md (2) | web-*.md, frontend-*.md (3)
+Cloud (AWS):    cloud/aws/*.md (7)
+Cloud (GCP):    cloud/gcp/*.md (6)
+GitHub:         collaboration/github/*.md (5)
+HuggingFace:    ml/huggingface/*.md (5)
+IR/Search:      ir/*.md (5)
+WebAssembly:    wasm/*.md (4)
+eBPF:           ebpf/*.md (4)
+PRD Writing:    product/*.md (4)
+RFC Writing:    engineering/*.md (4)
 DevOps/Infra:   cicd/ (5) | infrastructure/ (6) | observability/ (5)
 Data:           data/ (5) | realtime/ (4)
 Specialized:    modal-*.md (8) | swiftui-*.md, swift-*.md, ios-*.md (6) | zig-*.md (6)
-Workflow:       beads-*.md (4) | typed-holes-refactor/ (1 skill + 3 refs + 5 scripts) | tui-*.md (5) | network-*.md (5)
-Quality:        anti-slop/ (1 skill + 3 reference guides + 2 scripts)
-Meta:           skill-*.md (5 including skill-creation.md)
-Formal:         formal/z3-*.md, formal/sat-*.md, formal/smt-*.md (3) | formal/lean-*.md (4) | formal/csp-*.md (3)
-ML:             ml/unsloth-*.md, ml/llm-*.md, ml/lora-*.md (4) | ml/diffusion-*.md (3)
+Workflow:       beads-*.md (4) | typed-holes-refactor/ | tui-*.md (5) | network-*.md (5)
+ML:             ml/unsloth-*.md, ml/llm-*.md, ml/lora-*.md (4) | ml/dspy-*.md (7) | ml/diffusion-*.md (3)
 Deployment:     deployment/heroku-*.md (3) | deployment/netlify-*.md (3)
-Math:           math/*.md (4)
+Math:           math/*.md (11)
 Mobile:         mobile/react-native-*.md (4)
+PLT:            plt/*.md (13)
 ```
 
 ### Key Principles
@@ -631,7 +661,7 @@ Mobile:         mobile/react-native-*.md (4)
 4. **Deep dive?** Search `skills/_INDEX.md` by technology/task/problem domain
 5. **Emergency?** Read relevant skill directly: `skills/api-*.md`, `skills/cicd/*.md`
 
-**Full catalog**: `skills/_INDEX.md` (135 skills, workflows, search patterns, combinations)
+**Full catalog**: `skills/_INDEX.md` (215 skills, workflows, search patterns, combinations)
 
 ### Skill Quality Assurance
 All skills now include:
