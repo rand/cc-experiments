@@ -1,5 +1,5 @@
 ---
-name: debugging-production
+name: debugging-production-debugging
 description: Non-intrusive debugging in production environments with feature flags, dynamic logging, and observability correlation
 ---
 

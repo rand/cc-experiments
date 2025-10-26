@@ -1,5 +1,5 @@
 ---
-name: debugging-network
+name: debugging-network-debugging
 description: Network debugging with tcpdump, Wireshark, curl, DNS tools, SSL/TLS inspection, and network tracing utilities
 ---
 

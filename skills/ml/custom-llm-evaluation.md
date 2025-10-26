@@ -1,5 +1,5 @@
 ---
-name: Custom LLM Evaluation
+name: ml-custom-llm-evaluation
 description: Domain-specific LLM evaluation including custom metrics, RLHF evaluation, adversarial testing, bias detection, Arize Phoenix integration, and continuous evaluation patterns for production systems
 ---
 

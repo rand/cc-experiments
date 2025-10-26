@@ -1,5 +1,5 @@
 ---
-name: GDB Fundamentals
+name: debugging-gdb-fundamentals
 description: Comprehensive guide to GNU Debugger (GDB) for debugging C/C++/Rust programs. Covers breakpoints, stack traces, variable inspection, TUI mode, .gdbinit customization, Python scripting, remote debugging, and core file analysis.
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: concurrency-debugging
+name: debugging-concurrency-debugging
 description: Race condition detection, deadlock debugging, and data race analysis using ThreadSanitizer and specialized tools
 ---
 

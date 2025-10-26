@@ -1,5 +1,5 @@
 ---
-name: Build System Selection
+name: build-systems-build-system-selection
 description: Decision matrix for choosing between Make, CMake, Gradle, Maven, Bazel, and other build systems based on project requirements, language, and scale.
 ---
 # Build System Selection

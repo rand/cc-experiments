@@ -1,5 +1,5 @@
 ---
-name: Make Fundamentals
+name: build-systems-make-fundamentals
 description: Makefile syntax, targets, dependencies, pattern rules, and best practices for building C/C++ and multi-language projects with Make.
 ---
 # Make Fundamentals

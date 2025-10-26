@@ -1,5 +1,5 @@
 ---
-name: Bazel Monorepos
+name: build-systems-bazel-monorepos
 description: Bazel BUILD files, WORKSPACE/MODULE.bazel, hermetic builds, remote caching, build rules, Starlark custom rules, and monorepo best practices for polyglot projects.
 ---
 # Bazel Monorepos

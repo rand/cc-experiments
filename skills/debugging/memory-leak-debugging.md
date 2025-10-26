@@ -1,5 +1,5 @@
 ---
-name: memory-leak-debugging
+name: debugging-memory-leak-debugging
 description: Comprehensive memory leak detection and debugging using heap profiling tools across multiple languages
 ---
 

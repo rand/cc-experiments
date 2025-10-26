@@ -1,5 +1,5 @@
 ---
-name: core-dump-analysis
+name: debugging-core-dump-analysis
 description: Core dump generation, GDB/LLDB analysis, crash reporting, and post-mortem debugging across platforms
 ---
 

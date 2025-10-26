@@ -1,5 +1,5 @@
 ---
-name: Cross-Platform Builds
+name: build-systems-cross-platform-builds
 description: Platform detection, conditional compilation, preprocessor macros, CMake cross-compilation, Zig cross-compilation, toolchain configuration, and multi-platform testing strategies.
 ---
 # Cross-Platform Builds

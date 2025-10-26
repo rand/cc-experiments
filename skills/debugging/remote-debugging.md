@@ -1,5 +1,5 @@
 ---
-name: Remote Debugging
+name: debugging-remote-debugging
 description: Comprehensive guide to remote debugging techniques for production and development environments. Covers SSH port forwarding, VSCode Remote Development, JetBrains Gateway, container debugging (Docker), Kubernetes debugging, production-safe debugging, debug symbols, and source maps.
 ---
 

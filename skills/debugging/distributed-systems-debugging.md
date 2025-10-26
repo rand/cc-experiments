@@ -1,5 +1,5 @@
 ---
-name: debugging-distributed-systems
+name: debugging-distributed-systems-debugging
 description: Debugging distributed systems with trace correlation, cross-service workflows, request replay, clock skew handling, and chaos engineering
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: Maven Configuration
+name: build-systems-maven-configuration
 description: Maven POM structure, dependency management, plugin configuration, lifecycle phases, multi-module projects, profiles, and repository management for Java projects.
 ---
 # Maven Configuration

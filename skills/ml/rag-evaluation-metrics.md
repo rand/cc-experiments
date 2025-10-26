@@ -1,5 +1,5 @@
 ---
-name: RAG Evaluation Metrics
+name: ml-rag-evaluation-metrics
 description: Comprehensive guide to RAG evaluation using RAGAS (Faithfulness, Answer Relevancy, Context Precision/Recall), LLM-as-judge patterns, synthetic datasets, and integration with Arize Phoenix and Langfuse
 ---
 

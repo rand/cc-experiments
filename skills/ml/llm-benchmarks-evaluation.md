@@ -1,5 +1,5 @@
 ---
-name: LLM Benchmarks Evaluation
+name: ml-llm-benchmarks-evaluation
 description: Comprehensive guide to evaluating LLMs using standard benchmarks including MMLU, HellaSwag, BBH, HumanEval, TruthfulQA, and GSM8K, with practical implementation using LightEval and lm-evaluation-harness
 ---
 

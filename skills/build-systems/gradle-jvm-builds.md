@@ -1,5 +1,5 @@
 ---
-name: Gradle JVM Builds
+name: build-systems-gradle-jvm-builds
 description: Gradle Kotlin DSL and Groovy DSL, dependency management, version catalogs, build lifecycle, task configuration, multi-project builds, and performance optimization for Java/Kotlin projects.
 ---
 # Gradle JVM Builds

@@ -1,5 +1,5 @@
 ---
-name: LLM-as-Judge Evaluation
+name: ml-llm-as-judge
 description: Comprehensive guide to LLM-as-judge evaluation patterns including Prometheus 2 models, G-Eval framework, pairwise/pointwise/reference-guided methods, bias mitigation, and uncertainty quantification
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: CMake Patterns
+name: build-systems-cmake-patterns
 description: Modern CMake target-based approach, find_package, FetchContent, generator expressions, cross-platform configuration, and installation rules for C/C++ projects.
 ---
 # CMake Patterns

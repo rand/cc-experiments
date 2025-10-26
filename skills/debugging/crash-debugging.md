@@ -1,5 +1,5 @@
 ---
-name: crash-debugging
+name: debugging-crash-debugging
 description: Signal handling, crash reproduction, fuzzing for crash discovery, telemetry aggregation, and post-mortem workflows
 ---
 

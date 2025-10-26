@@ -1,5 +1,5 @@
 ---
-name: Build Optimization
+name: build-systems-build-optimization
 description: Incremental builds, dependency tracking, build caching (ccache, sccache, Bazel), parallel builds, build time profiling, and CI/CD optimization strategies.
 ---
 # Build Optimization

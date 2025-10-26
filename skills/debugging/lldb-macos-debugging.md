@@ -1,5 +1,5 @@
 ---
-name: LLDB macOS Debugging
+name: debugging-lldb-macos-debugging
 description: Comprehensive guide to LLDB debugger for macOS/iOS development. Covers LLDB vs GDB differences, Swift/Objective-C debugging, Xcode integration, command-line usage, breakpoint expressions, watchpoints, Python scripting, and performance improvements (50x faster step-over in 2025).
 ---
 

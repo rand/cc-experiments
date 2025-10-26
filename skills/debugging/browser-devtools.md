@@ -1,5 +1,5 @@
 ---
-name: Browser DevTools
+name: debugging-browser-devtools
 description: Comprehensive guide to browser developer tools for debugging web applications. Covers Chrome/Firefox/Safari DevTools including Sources panel, breakpoints, performance profiling, memory analysis, network debugging, Console API, React/Vue debugging, and Lighthouse/Core Web Vitals.
 ---
 

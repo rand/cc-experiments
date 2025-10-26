@@ -1,5 +1,5 @@
 ---
-name: Python Debugging
+name: debugging-python-debugging
 description: Comprehensive guide to Python debugging tools and techniques. Covers pdb (built-in debugger), ipdb (IPython integration), VSCode debugger, PyCharm debugger, pytest debugging, remote debugging with debugpy, and performance profiling with cProfile.
 ---
 

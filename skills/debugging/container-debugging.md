@@ -1,5 +1,5 @@
 ---
-name: debugging-containers
+name: debugging-container-debugging
 description: Debugging applications inside containers using docker exec, kubectl debug, ephemeral containers, and distroless debugging techniques
 ---
 

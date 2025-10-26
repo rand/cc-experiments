@@ -1,5 +1,5 @@
 ---
-name: LLM Evaluation Frameworks
+name: ml-llm-evaluation-frameworks
 description: Production-grade LLM evaluation using Arize Phoenix (OpenTelemetry tracing, self-hosted evals), Braintrust (86x faster search), LangSmith, and Langfuse with cost tracking and observability integration
 ---
 
