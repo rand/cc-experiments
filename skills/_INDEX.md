@@ -224,7 +224,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ---
 
-### Meta Skills (4 skills)
+### Meta Skills (5 skills)
 
 | Skill | Use When | Lines |
 |-------|----------|-------|
@@ -232,12 +232,15 @@ This index catalogs all atomic skills available in the skills system, organized 
 | `skill-repo-planning.md` | Identifying skill gaps in repository, planning new skills for missing tech | ~377 |
 | `skill-prompt-discovery.md` | Analyzing user prompts to activate relevant skills, real-time skill selection | ~390 |
 | `skill-prompt-planning.md` | Identifying skill gaps from conversation patterns, evolving skill catalog | ~380 |
+| `codetour-guided-walkthroughs.md` | Creating/following CodeTour walkthroughs, documenting architecture, interactive codebase tutorials | ~514 |
 
 **Common workflows:**
 - New repository: `skill-repo-discovery.md` → Activate found skills → `skill-repo-planning.md` (if gaps exist)
 - User request: `skill-prompt-discovery.md` → Activate skills → `skill-prompt-planning.md` (if gaps exist)
 - Skill system evolution: Track patterns with `skill-prompt-planning.md` → `skill-creation.md`
 - Complete analysis: `skill-repo-discovery.md` + `skill-repo-planning.md` → Gap report → Create skills
+- Codebase documentation: `codetour-guided-walkthroughs.md` → Create tours for features/architecture
+- Following existing tours: `codetour-guided-walkthroughs.md` → `skill-repo-discovery.md` (enhance understanding)
 
 ---
 
@@ -1304,7 +1307,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ## Total Skills Count
 
-- **226 atomic skills** across 45 categories
+- **227 atomic skills** across 45 categories
 - **Average 380 lines** per skill
 - **100% focused** - each skill has single clear purpose
 - **Cross-referenced** - related skills linked for discoverability
@@ -1388,5 +1391,5 @@ See `MIGRATION_GUIDE.md` for detailed mapping.
 ---
 
 **Last Updated:** 2025-10-26
-**Total Skills:** 226
+**Total Skills:** 227
 **Format Version:** 1.0 (Atomic)
