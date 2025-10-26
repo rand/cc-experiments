@@ -1,6 +1,6 @@
 # Claude Code Development Reference
 
-A comprehensive skills library and development guidelines for working with Claude Code across 215 atomic, composable skills spanning 40 technology domains.
+A comprehensive skills library and development guidelines for working with Claude Code across 222 atomic, composable skills spanning 41 technology domains.
 
 ## Overview
 
@@ -73,6 +73,16 @@ This repository serves as a complete reference for software development best pra
 - **ETL Patterns**: Extract, transform, load workflows
 - **Stream Processing**: Real-time data pipelines
 - **Batch Processing**: Scheduled data jobs, orchestration
+
+### Caching & Performance (7 skills)
+**Multi-Layer Caching:**
+- **Fundamentals**: Cache-Aside, Write-Through, Write-Behind patterns; LRU/LFU/TTL eviction
+- **HTTP Caching**: Cache-Control, ETag, Last-Modified, immutable assets
+- **CDN Edge**: Cloudflare/Fastly/CloudFront optimization, Edge TTL, cache warming
+- **Application Cache**: Redis patterns, distributed caching, cache stampede prevention
+- **Invalidation**: Time-based, event-based, key-based, version-based strategies
+- **PWA/Service Workers**: Offline-first, Workbox, background sync
+- **Monitoring**: Hit ratio metrics, Redis INFO, CDN analytics, load testing
 
 ### API Design & Testing (13 skills)
 **API Patterns:**
@@ -168,6 +178,7 @@ ls skills/wasm/*.md          # WebAssembly: 4 skills
 ls skills/ebpf/*.md          # eBPF: 4 skills
 
 # By category directory
+ls skills/caching/*.md        # Caching: 7 skills
 ls skills/cicd/*.md          # CI/CD: 5 skills
 ls skills/infrastructure/*.md # Infrastructure: 6 skills
 ls skills/observability/*.md  # Observability: 5 skills
@@ -189,10 +200,13 @@ grep -l "Kubernetes" skills/**/*.md
 
 ### 3. Compose Workflows
 ```bash
-# Full-stack web app
+# Full-stack web app with caching
 skills/api/rest-api-design.md
 + skills/frontend/nextjs-app-router.md
 + skills/database/postgres-schema-design.md
++ skills/caching/redis-caching-patterns.md
++ skills/caching/http-caching.md
++ skills/caching/cdn-edge-caching.md
 + skills/cicd/github-actions-workflows.md
 
 # ML/AI deployment with DSPy
@@ -200,6 +214,15 @@ skills/ml/dspy-setup.md
 + skills/ml/dspy-modules.md
 + skills/modal-gpu-workloads.md
 + skills/modal-web-endpoints.md
+
+# Full-stack caching strategy
+skills/caching/caching-fundamentals.md
++ skills/caching/service-worker-caching.md (browser)
++ skills/caching/http-caching.md (HTTP layer)
++ skills/caching/cdn-edge-caching.md (CDN edge)
++ skills/caching/redis-caching-patterns.md (application)
++ skills/caching/cache-invalidation-strategies.md
++ skills/caching/cache-performance-monitoring.md
 
 # Data pipeline
 skills/redpanda-streaming.md
@@ -233,16 +256,17 @@ skills/plt/type-systems.md
 │
 ├── README.md              # This file
 │
-└── skills/                # 215 atomic skills across 40 categories
+└── skills/                # 222 atomic skills across 41 categories
     │
     ├── _INDEX.md          # Full catalog with use cases and workflows
     │
-    ├── Core Foundation (79 skills)
+    ├── Core Foundation (86 skills)
     │   ├── api/           # REST, GraphQL, auth, rate limiting (7)
     │   ├── testing/       # Unit, integration, e2e, TDD (6)
     │   ├── containers/    # Docker, Compose, security (5)
     │   ├── frontend/      # React, Next.js, performance, a11y (9)
     │   ├── database/      # Postgres, MongoDB, Redis, Redpanda, Iceberg, DuckDB (11)
+    │   ├── caching/       # Multi-layer caching: fundamentals, HTTP, CDN, Redis, invalidation, Service Workers, monitoring (7)
     │   ├── beads-*.md     # Workflow & task management (4)
     │   ├── skill-*.md     # Meta skills: discovery & planning (5)
     │   ├── swiftui-*.md   # iOS/Swift native development (6)
@@ -366,6 +390,7 @@ skills/skill-creation.md           # Template and guidelines
 | **Mobile** | SwiftUI, React Native | 10 | iOS native, cross-platform |
 | **Cloud** | AWS, GCP, Modal, Vercel, Cloudflare | 27 | Serverless, GPU, edge, compute, storage, networking |
 | **Database** | Postgres, Mongo, Redis, Redpanda, Iceberg, DuckDB | 11 | OLTP, NoSQL, streaming, analytics |
+| **Caching** | Redis, HTTP, CDN (Cloudflare/Fastly/CloudFront), Service Workers | 7 | Multi-layer caching, invalidation, performance monitoring |
 | **ML/AI** | DSPy, HuggingFace, Unsloth, Diffusion | 21 | LLM orchestration, fine-tuning, image generation, model hub |
 | **IR** | Elasticsearch, Vector DBs, Ranking, Recommenders | 5 | Search, semantic retrieval, recommendations |
 | **Systems** | WebAssembly, eBPF | 8 | Browser/server wasm, observability, networking, security |
@@ -381,7 +406,7 @@ skills/skill-creation.md           # Template and guidelines
 All skills are validated through automated CI/CD pipelines:
 
 - ✅ **Code Block Validation**: 800+ Python/Swift/TypeScript/Bash blocks syntax-checked
-- ✅ **Frontmatter Validation**: 215 skills with proper YAML frontmatter
+- ✅ **Frontmatter Validation**: 222 skills with proper YAML frontmatter
 - ✅ **Date Validation**: All "Last Updated" dates verified (no future dates)
 - ✅ **Format Compliance**: Atomic skill guidelines enforced (~250-500 lines)
 - ✅ **Cross-References**: Related skills linked for discoverability
@@ -399,4 +424,4 @@ Feel free to fork and adapt for your own use.
 
 ---
 
-**Total: 215 atomic skills** | **Average: 380 lines/skill** | **40 categories** | **100% CI-validated**
+**Total: 222 atomic skills** | **Average: 380 lines/skill** | **41 categories** | **100% CI-validated**

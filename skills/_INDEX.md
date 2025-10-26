@@ -113,6 +113,26 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ---
 
+### Caching & Performance (7 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `caching-fundamentals.md` | Core caching patterns (Cache-Aside, Write-Through), eviction policies (LRU, LFU, TTL), cache key design | ~400 |
+| `http-caching.md` | Browser/HTTP caching, Cache-Control headers, ETag, Last-Modified, immutable assets | ~420 |
+| `cdn-edge-caching.md` | CDN optimization (Cloudflare, Fastly, CloudFront), Edge TTL, cache warming, geo-caching | ~450 |
+| `redis-caching-patterns.md` | Application-level caching with Redis, distributed caching, cache stampede prevention, session storage | ~420 |
+| `cache-invalidation-strategies.md` | Time-based, event-based, key-based, version-based invalidation; Netflix case study (30% CPU reduction) | ~400 |
+| `service-worker-caching.md` | PWA caching, Service Worker lifecycle, Workbox, offline-first, background sync | ~420 |
+| `cache-performance-monitoring.md` | Cache metrics (hit ratio, latency), Redis INFO, CDN analytics, load testing, alerts | ~380 |
+
+**Common workflows:**
+- New caching layer: `caching-fundamentals.md` → `redis-caching-patterns.md` → `cache-invalidation-strategies.md`
+- Full-stack caching: `service-worker-caching.md` (browser) → `http-caching.md` (HTTP) → `cdn-edge-caching.md` (CDN) → `redis-caching-patterns.md` (app)
+- Optimization: `cache-performance-monitoring.md` → Identify bottlenecks → Apply appropriate caching skill
+- CDN setup: `http-caching.md` → `cdn-edge-caching.md` → `cache-invalidation-strategies.md`
+
+---
+
 ### Workflow & Task Management (6 skills)
 
 | Skill | Use When | Lines |
@@ -751,6 +771,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 **Containers/Docker:** Search `docker-*.md`, `container-*.md`, `dockerfile-*.md`
 **Frontend/React:** Search `react-*.md`, `nextjs-*.md`, `web-*.md`, `frontend-*.md` | `elegant-design/` for UI/UX design systems
 **Database/PostgreSQL:** Search `postgres-*.md`, `database-*.md`, `mongodb-*.md`, `redis-*.md`, `orm-*.md`
+**Caching:** Search `caching/*.md`, `cache-*.md`
 **Swift/SwiftUI:** Search `swiftui-*.md`, `swift-*.md`, `ios-*.md`
 **Modal.com:** Search `modal-*.md`
 **Networking:** Search `network-*.md`, `mtls-*.md`, `tailscale-*.md`, `nat-*.md`, `mosh-*.md`
@@ -858,8 +879,9 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ### By Problem Domain
 
-**Performance-critical:** `zig-memory-management.md`, `modal-gpu-workloads.md`, `tui-best-practices.md`, `frontend-performance.md`, `postgres-query-optimization.md`, `ci-optimization.md`, `react-native-performance.md`
+**Performance-critical:** `zig-memory-management.md`, `modal-gpu-workloads.md`, `tui-best-practices.md`, `frontend-performance.md`, `postgres-query-optimization.md`, `ci-optimization.md`, `react-native-performance.md`, `caching/*.md` (all caching skills)
 **Async/concurrent:** `swift-concurrency.md`, `bubbletea-architecture.md`, `ratatui-architecture.md`, `react-data-fetching.md`, `stream-processing.md`
+**Caching & Optimization:** `caching-fundamentals.md`, `http-caching.md`, `cdn-edge-caching.md`, `redis-caching-patterns.md`, `cache-invalidation-strategies.md`, `service-worker-caching.md`, `cache-performance-monitoring.md`
 **Security:** `mtls-implementation.md`, `tailscale-vpn.md`, `network-resilience-patterns.md`, `container-security.md`, `api-authentication.md`, `api-authorization.md`, `ci-security.md`, `infrastructure-security.md`
 **UI/UX:** `elegant-design/SKILL.md`, `swiftui-*.md`, `bubbletea-*.md`, `ratatui-*.md`, `react-component-patterns.md`, `web-accessibility.md`, `react-native-*.md`
 **API Development:** `rest-api-design.md`, `graphql-schema-design.md`, `api-authentication.md`, `api-rate-limiting.md`
@@ -1037,6 +1059,23 @@ This index catalogs all atomic skills available in the skills system, organized 
 2. `modal-performance-debugging.md` - Performance issues
 3. `modal-gpu-workloads.md` - GPU optimization
 
+### Full-Stack Caching Strategy
+1. `caching-fundamentals.md` - Core patterns and eviction policies
+2. `service-worker-caching.md` - Browser/PWA caching layer
+3. `http-caching.md` - HTTP headers and conditional requests
+4. `cdn-edge-caching.md` - CDN edge optimization
+5. `redis-caching-patterns.md` - Application-level caching
+6. `cache-invalidation-strategies.md` - Invalidation patterns
+7. `cache-performance-monitoring.md` - Monitor and optimize
+
+### High-Performance API with Caching
+1. `rest-api-design.md` - API structure
+2. `redis-caching-patterns.md` - Cache-Aside pattern
+3. `cache-invalidation-strategies.md` - Event-based invalidation
+4. `http-caching.md` - Cache-Control headers
+5. `cdn-edge-caching.md` - CDN for static assets
+6. `cache-performance-monitoring.md` - Track hit ratio
+
 ### Numerical Computing
 1. `linear-algebra-computation.md` - Matrix operations
 2. `optimization-algorithms.md` - SGD/Adam/L-BFGS
@@ -1085,6 +1124,10 @@ This index catalogs all atomic skills available in the skills system, organized 
 | P2P connection | nat-traversal.md, network-resilience-patterns.md | 1→2 |
 | Optimize database | postgres-query-optimization.md, database-connection-pooling.md | 1→2 |
 | Improve frontend perf | frontend-performance.md, web-accessibility.md | 1→2 |
+| Add caching layer | caching-fundamentals.md, redis-caching-patterns.md, cache-performance-monitoring.md | 1→2→3 |
+| Implement full-stack caching | service-worker-caching.md, http-caching.md, cdn-edge-caching.md, redis-caching-patterns.md | 1→2→3→4 |
+| Optimize CDN caching | http-caching.md, cdn-edge-caching.md, cache-invalidation-strategies.md | 1→2→3 |
+| Monitor cache performance | cache-performance-monitoring.md, cache-invalidation-strategies.md | 1→2 |
 | Setup CI/CD pipeline | github-actions-workflows.md, ci-testing-strategy.md, cd-deployment-patterns.md | 1→2→3 |
 | Setup observability | structured-logging.md, metrics-instrumentation.md, distributed-tracing.md | 1→2→3 |
 | Build data pipeline | etl-patterns.md, data-validation.md, pipeline-orchestration.md | 1→2→3 |
@@ -1119,18 +1162,19 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ## Total Skills Count
 
-- **215 atomic skills** across 40 categories
+- **222 atomic skills** across 41 categories
 - **Average 350 lines** per skill
 - **100% focused** - each skill has single clear purpose
 - **Cross-referenced** - related skills linked for discoverability
 
 ### By Category Breakdown
-**Core Foundation** (79 skills):
+**Core Foundation** (86 skills):
 - API Design: 7 skills
 - Testing: 6 skills
 - Containers: 5 skills
 - Frontend: 9 skills (including elegant-design)
 - Database: 11 skills
+- Caching & Performance: 7 skills (NEW - caching fundamentals, HTTP, CDN, Redis, invalidation, Service Workers, monitoring)
 - Workflow & Task Management: 6 skills (including typed-holes refactoring)
 - Quality & Content Review: 1 skill (anti-slop detection and cleanup)
 - Meta Skills: 4 skills (skill discovery and planning)
@@ -1198,5 +1242,5 @@ See `MIGRATION_GUIDE.md` for detailed mapping.
 ---
 
 **Last Updated:** 2025-10-25
-**Total Skills:** 215
+**Total Skills:** 222
 **Format Version:** 1.0 (Atomic)
