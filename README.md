@@ -1,15 +1,15 @@
 # Claude Code Development Reference
 
-A comprehensive skills library and development guidelines for working with Claude Code across 284 atomic, composable skills spanning 30 technology domains.
+A comprehensive skills library and development guidelines for working with Claude Code across 283 atomic, composable skills spanning 33 technology domains.
 
 ## Overview
 
 This repository serves as a complete reference for software development best practices, workflows, and atomic skills. Each skill is focused (~320 lines average), tested in production, and designed to compose with others for complex workflows.
 
 **Key Features**:
-- **Auto-Discovery**: 27 gateway Agent Skills automatically activate based on task context
+- **Auto-Discovery**: 31 gateway Agent Skills automatically activate based on task context
 - **Progressive Loading**: 60-84% context reduction via tiered architecture
-- **284 Skills**: Comprehensive coverage across backend, frontend, data, ML, mathematics, and more
+- **283 Skills**: Comprehensive coverage across backend, frontend, data, ML, mathematics, and more
 - **Production-Tested**: Real-world patterns from building systems at scale
 
 **Use this when:**
@@ -296,6 +296,8 @@ skills/plt/type-systems.md
 ```
 .
 ├── CLAUDE.md              # Comprehensive development guidelines
+│                          # - Multi-agent orchestration system
+│                          # - Work Plan Protocol (4-phase development)
 │                          # - Beads task management workflow
 │                          # - Language stack standards (uv, cargo, zig, etc.)
 │                          # - Testing protocols (commit before testing!)
@@ -304,55 +306,72 @@ skills/plt/type-systems.md
 │
 ├── README.md              # This file
 │
-└── skills/                # 247 atomic skills across 43 categories
+└── skills/                # 283 atomic skills across 33 categories
     │
-    ├── _INDEX.md          # Full catalog with use cases and workflows
+    ├── README.md          # Skills catalog with progressive loading architecture
     │
-    ├── Core Foundation (108 skills)
+    ├── Gateway Skills (31 auto-discovered Agent Skills)
+    │   ├── discover-api/           # REST, GraphQL, authentication
+    │   ├── discover-database/      # PostgreSQL, MongoDB, Redis
+    │   ├── discover-frontend/      # React, Next.js, UI components
+    │   ├── discover-testing/       # Unit, integration, e2e, TDD
+    │   ├── discover-ml/            # Machine learning, models
+    │   ├── discover-math/          # Mathematics, algorithms
+    │   ├── discover-cloud/         # Serverless, cloud platforms
+    │   ├── discover-tui/           # Terminal UI (Bubble Tea, Ratatui)
+    │   ├── discover-zig/           # Zig systems programming
+    │   ├── discover-networking/    # SSH, mTLS, VPN, resilience
+    │   ├── discover-workflow/      # Beads task management
+    │   └── ... 20 more gateways
+    │
+    ├── Category Indexes (30 detailed reference indexes)
+    │   ├── api/INDEX.md            # API design skills overview
+    │   ├── database/INDEX.md       # Database skills overview
+    │   ├── frontend/INDEX.md       # Frontend skills overview
+    │   └── ... 27 more category indexes
+    │
+    ├── Core Skills by Category
     │   ├── api/           # REST, GraphQL, auth, rate limiting (7)
     │   ├── testing/       # Unit, integration, e2e, TDD (6)
     │   ├── containers/    # Docker, Compose, security (5)
-    │   ├── frontend/      # React, Next.js, performance, a11y (9)
+    │   ├── frontend/      # React, Next.js, performance, a11y (8)
     │   ├── database/      # Postgres, MongoDB, Redis, Redpanda, Iceberg, DuckDB (11)
-    │   ├── caching/       # Multi-layer caching: fundamentals, HTTP, CDN, Redis, invalidation, Service Workers, monitoring (7)
-    │   ├── build-systems/ # Make, CMake, Gradle, Maven, Bazel, cross-platform, optimization (8)
-    │   ├── debugging/     # GDB, LLDB, Python, browser, remote, production, memory, concurrency, profiling, containers, network, distributed (14)
-    │   ├── beads-*.md     # Workflow & task management (4)
-    │   ├── skill-*.md     # Meta skills: discovery & planning (5)
-    │   ├── swiftui-*.md   # iOS/Swift native development (6)
-    │   ├── modal-*.md     # Modal.com serverless + GPU (8)
-    │   ├── network-*.md   # Tailscale, mTLS, Mosh, NAT (5)
-    │   ├── bubbletea-*.md # TUI development Go/Rust (5)
-    │   ├── zig-*.md       # Zig systems programming (6)
-    │   ├── anti-slop/     # AI slop detection and cleanup (1)
-    │   └── typed-holes-refactor/ # Systematic refactoring (1)
+    │   ├── caching/       # Multi-layer caching (7)
+    │   ├── build-systems/ # Make, CMake, Gradle, Maven, Bazel (8)
+    │   ├── debugging/     # GDB, LLDB, Python, browser, production (14)
+    │   ├── mobile/        # iOS/Swift, SwiftUI, SwiftData, React Native (10)
+    │   ├── modal/         # Modal.com serverless + GPU (8)
+    │   ├── networking/    # SSH, mTLS, VPN, Tailscale, NAT traversal (5)
+    │   ├── tui/           # Terminal UI: Bubble Tea, Ratatui (5)
+    │   ├── zig/           # Zig systems programming (6)
+    │   ├── workflow/      # Beads task management (4)
+    │   ├── anti-slop/     # AI slop detection and cleanup (Agent Skill)
+    │   ├── elegant-design/ # World-class UI design (Agent Skill)
+    │   ├── typed-holes-refactor/ # Systematic refactoring (Agent Skill)
+    │   └── skill-*.md     # Meta skills: discovery & planning (5, at root)
     │
-    ├── Cloud Platforms (13 skills)
-    │   ├── cloud/aws/     # Lambda, API Gateway, EC2, Storage, Databases, Networking, IAM (7)
-    │   └── cloud/gcp/     # Compute, Storage, Databases, Networking, IAM, Serverless (6)
-    │
-    ├── Advanced Infrastructure (28 skills)
-    │   ├── cicd/          # GitHub Actions, testing, deployment (5)
-    │   ├── infrastructure/# Terraform, K8s, AWS, Cloudflare (6)
-    │   ├── observability/ # Logging, metrics, tracing, alerting, dashboards, OTel, cost optimization, incident debugging (8)
+    ├── Infrastructure & DevOps
+    │   ├── cloud/         # Cloud platforms (13)
+    │   ├── cicd/          # GitHub Actions, automation (4)
+    │   ├── infrastructure/# Terraform, Cloudflare Workers (6)
+    │   ├── observability/ # Logging, metrics, tracing, OTel (8)
+    │   ├── deployment/    # Heroku, Netlify platforms (6)
     │   ├── realtime/      # WebSocket, SSE, pub/sub (4)
     │   └── data/          # ETL, streaming, batch processing (5)
     │
-    ├── Collaboration & Process (17 skills)
-    │   ├── collaboration/github/  # Repositories, PRs, issues, security, Actions (5)
-    │   ├── product/       # PRD writing: structure, requirements, user stories, specs (4)
-    │   └── engineering/   # RFC writing: structure, design, consensus, decisions (4)
+    ├── Collaboration & Process
+    │   ├── collaboration/ # GitHub, CodeTour (6)
+    │   ├── product/       # PRD writing (4)
+    │   └── engineering/   # RFC writing (4)
     │
-    └── Specialized Domains (81 skills)
-        ├── ml/            # DSPy, HuggingFace, LLM fine-tuning, diffusion models (21)
-        ├── ir/            # Information Retrieval: search, vector, ranking, recommendations (5)
-        ├── wasm/          # WebAssembly: fundamentals, Rust, browser, server (4)
-        ├── ebpf/          # eBPF: fundamentals, tracing, networking, security (4)
+    └── Specialized Domains
+        ├── ml/            # DSPy, HuggingFace, LLM, RAG (30)
+        ├── math/          # Linear algebra, topology, category theory (19)
+        ├── plt/           # Type systems, verification, typed holes (13)
         ├── formal/        # SAT/SMT solvers, Lean 4, CSP (10)
-        ├── deployment/    # Heroku, Netlify platforms (6)
-        ├── math/          # Linear algebra, topology, category theory, etc. (11)
-        ├── plt/           # Lambda calculus, type systems, verification, typed holes (13)
-        └── mobile/        # React Native development (4)
+        ├── ir/            # Information Retrieval (5)
+        ├── wasm/          # WebAssembly (4)
+        └── ebpf/          # eBPF kernel programming (4)
 ```
 
 ## Development Philosophy
@@ -437,7 +456,7 @@ skills/skill-creation.md           # Template and guidelines
 |--------|-------------|--------|------------------|
 | **Backend** | Python, Zig, Rust, Go | 18 | Systems programming, async, memory safety |
 | **Frontend** | React, Next.js, TypeScript | 9 | SSR, performance, a11y, SEO, elegant design |
-| **Mobile** | SwiftUI, React Native | 10 | iOS native, cross-platform |
+| **Mobile** | SwiftUI, Swift, React Native | 10 | iOS native, SwiftData, Swift concurrency, cross-platform |
 | **Build Systems** | Make, CMake, Gradle, Maven, Bazel | 8 | C/C++ builds, JVM builds, monorepos, cross-platform, optimization |
 | **Debugging** | GDB, LLDB, pdb, DevTools, Valgrind, ThreadSanitizer | 14 | Native, language, production, memory, concurrency, profiling, infrastructure |
 | **Cloud** | AWS, GCP, Modal, Vercel, Cloudflare | 27 | Serverless, GPU, edge, compute, storage, networking |
@@ -459,10 +478,11 @@ skills/skill-creation.md           # Template and guidelines
 All skills are validated through automated CI/CD pipelines:
 
 - ✅ **Code Block Validation**: 1100+ Python/Swift/TypeScript/Bash/C/Java blocks syntax-checked
-- ✅ **Frontmatter Validation**: 226 skills with proper YAML frontmatter
+- ✅ **Frontmatter Validation**: 283 skills with proper YAML frontmatter
 - ✅ **Date Validation**: All "Last Updated" dates verified (no future dates)
 - ✅ **Format Compliance**: Atomic skill guidelines enforced (~250-500 lines)
 - ✅ **Cross-References**: Related skills linked for discoverability
+- ✅ **Gateway System**: 31 auto-discovery Agent Skills for progressive loading
 
 ## Contributing
 
@@ -477,4 +497,4 @@ Feel free to fork and adapt for your own use.
 
 ---
 
-**Total: 226 atomic skills** | **Average: 420 lines/skill** | **45 categories** | **100% CI-validated**
+**Total: 283 atomic skills** | **31 gateway Agent Skills** | **33 categories** | **60-84% context reduction** | **100% CI-validated**
