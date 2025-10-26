@@ -2,10 +2,30 @@
 
 ## Category Overview
 
-**Total Skills**: 4
+**Total Skills**: 10
 **Category**: mobile
 
 ## Skills in This Category
+
+### ios-networking.md
+**Description**: Building network layers for iOS/macOS apps
+
+**Load this skill**:
+```bash
+cat skills/mobile/ios-networking.md
+```
+
+---
+
+### ios-testing.md
+**Description**: Writing unit tests for iOS/macOS apps
+
+**Load this skill**:
+```bash
+cat skills/mobile/ios-testing.md
+```
+
+---
 
 ### react-native-native-modules.md
 **Description**: Accessing iOS-specific APIs not available in React Native
@@ -47,6 +67,46 @@ cat skills/mobile/react-native-setup.md
 
 ---
 
+### swift-concurrency.md
+**Description**: Working with async/await in Swift
+
+**Load this skill**:
+```bash
+cat skills/mobile/swift-concurrency.md
+```
+
+---
+
+### swiftdata-persistence.md
+**Description**: Building iOS/macOS apps with local persistence
+
+**Load this skill**:
+```bash
+cat skills/mobile/swiftdata-persistence.md
+```
+
+---
+
+### swiftui-architecture.md
+**Description**: Building iOS/macOS apps with SwiftUI
+
+**Load this skill**:
+```bash
+cat skills/mobile/swiftui-architecture.md
+```
+
+---
+
+### swiftui-navigation.md
+**Description**: Implementing navigation in iOS 17+ apps
+
+**Load this skill**:
+```bash
+cat skills/mobile/swiftui-navigation.md
+```
+
+---
+
 ## Loading All Skills
 
 ```bash
@@ -54,10 +114,10 @@ cat skills/mobile/react-native-setup.md
 ls skills/mobile/*.md
 
 # Load specific skills
+cat skills/mobile/ios-networking.md
+cat skills/mobile/ios-testing.md
 cat skills/mobile/react-native-native-modules.md
-cat skills/mobile/react-native-navigation.md
-cat skills/mobile/react-native-performance.md
-# ... and 1 more
+# ... and 7 more
 ```
 
 ## Related Categories
