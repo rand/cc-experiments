@@ -486,7 +486,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ---
 
-### Advanced Mathematics (4 skills)
+### Advanced Mathematics (11 skills)
 
 | Skill | Use When | Lines |
 |-------|----------|-------|
@@ -494,11 +494,40 @@ This index catalogs all atomic skills available in the skills system, organized 
 | `optimization-algorithms.md` | Numerical optimization, gradient descent, constrained optimization | ~360 |
 | `numerical-methods.md` | Solving ODEs/PDEs, numerical integration, root finding | ~340 |
 | `probability-statistics.md` | Statistical analysis, hypothesis testing, Bayesian methods | ~330 |
+| `topology-point-set.md` | General topology, metric spaces, continuity, compactness, separation axioms | ~400 |
+| `topology-algebraic.md` | Fundamental groups, homology, homotopy theory, persistent homology (TDA) | ~420 |
+| `category-theory-foundations.md` | Categories, functors, natural transformations, adjunctions, monads | ~450 |
+| `differential-equations.md` | ODEs, PDEs, analytical/numerical methods, phase plane analysis | ~400 |
+| `abstract-algebra.md` | Groups, rings, fields, Galois theory, homomorphisms | ~420 |
+| `set-theory.md` | ZFC axioms, ordinals, cardinals, axiom of choice, forcing | ~380 |
+| `number-theory.md` | Primes, modular arithmetic, Diophantine equations, RSA cryptography | ~400 |
 
 **Common workflows:**
 - ML foundations: `linear-algebra-computation.md` → `optimization-algorithms.md`
-- Scientific computing: `numerical-methods.md` → `optimization-algorithms.md`
+- Scientific computing: `numerical-methods.md` → `differential-equations.md` → `optimization-algorithms.md`
 - Data analysis: `probability-statistics.md` → `data-validation.md`
+- Topology foundations: `topology-point-set.md` → `topology-algebraic.md`
+- Abstract algebra: `set-theory.md` → `abstract-algebra.md` → `number-theory.md`
+- Category theory: `category-theory-foundations.md` → `abstract-algebra.md` (categorical algebra)
+
+---
+
+### Programming Language Theory (6 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `lambda-calculus.md` | Understanding λ-calculus, Church encodings, β-reduction, combinators | ~420 |
+| `type-systems.md` | Type checking, inference, polymorphism, subtyping, soundness | ~450 |
+| `dependent-types.md` | Π-types, Σ-types, indexed families, proof assistants (Lean, Coq, Agda) | ~400 |
+| `curry-howard.md` | Propositions as types, proofs as programs, extracting verified code | ~380 |
+| `operational-semantics.md` | Small-step/big-step semantics, evaluation strategies, reduction systems | ~420 |
+| `program-verification.md` | Hoare logic, SMT-based verification, refinement types, separation logic | ~400 |
+
+**Common workflows:**
+- PL foundations: `lambda-calculus.md` → `type-systems.md` → `operational-semantics.md`
+- Dependent types: `type-systems.md` → `dependent-types.md` → `curry-howard.md`
+- Formal verification: `operational-semantics.md` → `program-verification.md` → `formal/lean-proof-basics.md`
+- Type theory: `lambda-calculus.md` → `type-systems.md` → `dependent-types.md` → `curry-howard.md`
 
 ---
 
@@ -550,7 +579,8 @@ This index catalogs all atomic skills available in the skills system, organized 
 **LLM Fine-tuning:** Search `ml/unsloth-*.md`, `ml/huggingface-*.md`, `ml/llm-*.md`, `ml/lora-*.md`
 **DSPy Framework:** Search `ml/dspy-*.md`
 **Diffusion Models:** Search `ml/diffusion-*.md`, `ml/stable-diffusion-*.md`
-**Advanced Mathematics:** Search `math/*.md`, `math/linear-algebra-*.md`, `math/optimization-*.md`, `math/numerical-*.md`, `math/probability-*.md`
+**Advanced Mathematics:** Search `math/*.md` | Numerical: `math/linear-algebra-*.md`, `math/optimization-*.md`, `math/numerical-*.md`, `math/probability-*.md` | Pure math: `math/topology-*.md`, `math/category-theory-*.md`, `math/differential-equations.md`, `math/abstract-algebra.md`, `math/set-theory.md`, `math/number-theory.md`
+**Programming Language Theory:** Search `plt/*.md`, `plt/lambda-calculus.md`, `plt/type-systems.md`, `plt/dependent-types.md`, `plt/curry-howard.md`, `plt/operational-semantics.md`, `plt/program-verification.md`
 **React Native:** Search `mobile/react-native-*.md`
 
 ### By Task Type
@@ -885,8 +915,8 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ## Total Skills Count
 
-- **142 atomic skills** across 29 categories
-- **Average 310 lines** per skill
+- **155 atomic skills** across 31 categories
+- **Average 320 lines** per skill
 - **100% focused** - each skill has single clear purpose
 - **Cross-referenced** - related skills linked for discoverability
 
@@ -913,7 +943,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 - Real-time: 4 skills
 - Data Pipelines: 5 skills
 
-**Specialized Domains** (40 skills):
+**Specialized Domains** (53 skills):
 - SAT/SMT Solvers: 3 skills
 - Lean 4: 4 skills
 - Constraint Satisfaction: 3 skills
@@ -922,7 +952,8 @@ This index catalogs all atomic skills available in the skills system, organized 
 - LLM Fine-tuning: 4 skills
 - DSPy Framework: 7 skills
 - Diffusion Models: 3 skills
-- Advanced Mathematics: 4 skills
+- Advanced Mathematics: 11 skills (4 numerical + 7 pure math)
+- Programming Language Theory: 6 skills
 - React Native: 4 skills
 - Formal Methods: 2 skills (verification-focused)
 
@@ -946,5 +977,5 @@ See `MIGRATION_GUIDE.md` for detailed mapping.
 ---
 
 **Last Updated:** 2025-10-25
-**Total Skills:** 142
+**Total Skills:** 155
 **Format Version:** 1.0 (Atomic)
