@@ -1,6 +1,6 @@
 # Claude Code Development Reference
 
-A comprehensive skills library and development guidelines for working with Claude Code across 162 atomic, composable skills spanning 31 technology domains.
+A comprehensive skills library and development guidelines for working with Claude Code across 215 atomic, composable skills spanning 40 technology domains.
 
 ## Overview
 
@@ -33,12 +33,15 @@ This repository serves as a complete reference for software development best pra
 - **Swift/SwiftUI**: iOS native (iOS 17+), Swift concurrency, SwiftData
 - **React Native**: Cross-platform mobile development
 
-### Cloud & Infrastructure (30 skills)
+### Cloud & Infrastructure (43 skills)
+**Cloud Platforms:**
+- **AWS**: Lambda functions, API Gateway, EC2 compute, S3/EBS/EFS storage, RDS/DynamoDB databases, VPC networking, IAM security (7 skills)
+- **GCP**: Compute Engine/Cloud Run/GKE, Cloud Storage, Cloud SQL/Firestore/Spanner, VPC networking, IAM, Cloud Functions/App Engine (6 skills)
+
 **Serverless & Edge:**
 - **Modal.com**: GPU workloads (L40S/H100), serverless functions, web endpoints
 - **Cloudflare Workers**: Edge computing, KV storage, Durable Objects
 - **Vercel**: Serverless functions, edge runtime, automatic deployments
-- **AWS Lambda**: Serverless architecture, IAM patterns
 - **Heroku/Netlify**: Platform deployment, add-ons, optimization
 
 **Infrastructure as Code:**
@@ -84,12 +87,29 @@ This repository serves as a complete reference for software development best pra
 - Performance testing, load testing
 - Test coverage strategies
 
-### Specialized Domains (60 skills)
+### Specialized Domains (85 skills)
 
-**Machine Learning:**
+**Collaboration & Process:**
+- **GitHub**: Repository management, pull requests, issues/projects, security features, Actions (5 skills)
+- **PRD Writing**: Structure/templates, requirements gathering, user stories, technical specs (4 skills)
+- **RFC Writing**: Structure/format, technical design, consensus building, decision documentation (4 skills)
+
+**Machine Learning & AI:**
 - **DSPy Framework**: Signatures, modules, optimizers, RAG, assertions (7 skills)
-- **LLM Fine-tuning**: Unsloth, HuggingFace AutoTrain, LoRA/PEFT, dataset prep (4 skills)
+- **HuggingFace**: Hub, Transformers, Datasets, Spaces, AutoTrain (5 skills)
+- **LLM Fine-tuning**: Unsloth, LoRA/PEFT, dataset prep (3 skills)
 - **Diffusion Models**: Stable Diffusion deployment, fine-tuning basics (3 skills)
+
+**Information Retrieval:**
+- **Search**: TF-IDF, BM25, Elasticsearch, inverted indexes (1 skill)
+- **Vector Search**: Dense retrieval, embeddings, vector databases (1 skill)
+- **Ranking**: Learning to rank, cross-encoders, reranking (1 skill)
+- **Recommendations**: Collaborative filtering, content-based, hybrid systems (1 skill)
+- **Query Understanding**: Query expansion, spell correction, semantic search (1 skill)
+
+**Systems Programming:**
+- **WebAssembly**: Fundamentals, Rust toolchain, browser integration, server-side (4 skills)
+- **eBPF**: Fundamentals, tracing/observability, networking, security monitoring (4 skills)
 
 **Formal Methods:**
 - **SAT/SMT Solvers**: Z3 basics, SAT solving strategies, SMT theory (3 skills)
@@ -136,11 +156,16 @@ cat skills/skill-prompt-discovery.md # Extract tech signals from requirements
 # By technology
 ls skills/zig-*.md           # Zig: 6 skills
 ls skills/swiftui-*.md       # SwiftUI: 4 skills
-ls skills/modal-*.md         # Modal.com: 6 base + 2 troubleshooting
+ls skills/modal-*.md         # Modal.com: 8 skills
 ls skills/api/*.md           # API design: 7 skills
+ls skills/cloud/aws/*.md     # AWS: 7 skills
+ls skills/cloud/gcp/*.md     # GCP: 6 skills
 ls skills/formal/*.md        # Formal methods: 10 skills
-ls skills/ml/*.md            # Machine learning: 14 skills (DSPy, LLM, diffusion)
-ls skills/plt/*.md           # Programming language theory: 6 skills
+ls skills/ml/*.md            # Machine learning: 21 skills (DSPy, HuggingFace, LLM, diffusion)
+ls skills/plt/*.md           # Programming language theory: 13 skills
+ls skills/ir/*.md            # Information Retrieval: 5 skills
+ls skills/wasm/*.md          # WebAssembly: 4 skills
+ls skills/ebpf/*.md          # eBPF: 4 skills
 
 # By category directory
 ls skills/cicd/*.md          # CI/CD: 5 skills
@@ -149,12 +174,17 @@ ls skills/observability/*.md  # Observability: 5 skills
 ls skills/deployment/*.md     # Deployment: 6 skills
 ls skills/math/*.md          # Mathematics: 11 skills
 ls skills/mobile/*.md        # Mobile: 4 skills
+ls skills/collaboration/github/*.md  # GitHub: 5 skills
+ls skills/product/*.md       # PRD Writing: 4 skills
+ls skills/engineering/*.md   # RFC Writing: 4 skills
 
 # By task
 grep -l "GraphQL" skills/**/*.md
 grep -l "streaming" skills/**/*.md
 grep -l "topology" skills/**/*.md
 grep -l "verification" skills/**/*.md
+grep -l "Lambda" skills/**/*.md
+grep -l "Kubernetes" skills/**/*.md
 ```
 
 ### 3. Compose Workflows
@@ -203,11 +233,11 @@ skills/plt/type-systems.md
 │
 ├── README.md              # This file
 │
-└── skills/                # 162 atomic skills across 31 categories
+└── skills/                # 215 atomic skills across 40 categories
     │
     ├── _INDEX.md          # Full catalog with use cases and workflows
     │
-    ├── Core Foundation (77 skills)
+    ├── Core Foundation (79 skills)
     │   ├── api/           # REST, GraphQL, auth, rate limiting (7)
     │   ├── testing/       # Unit, integration, e2e, TDD (6)
     │   ├── containers/    # Docker, Compose, security (5)
@@ -223,6 +253,10 @@ skills/plt/type-systems.md
     │   ├── anti-slop/     # AI slop detection and cleanup (1)
     │   └── typed-holes-refactor/ # Systematic refactoring (1)
     │
+    ├── Cloud Platforms (13 skills)
+    │   ├── cloud/aws/     # Lambda, API Gateway, EC2, Storage, Databases, Networking, IAM (7)
+    │   └── cloud/gcp/     # Compute, Storage, Databases, Networking, IAM, Serverless (6)
+    │
     ├── Advanced Infrastructure (25 skills)
     │   ├── cicd/          # GitHub Actions, testing, deployment (5)
     │   ├── infrastructure/# Terraform, K8s, AWS, Cloudflare (6)
@@ -230,12 +264,20 @@ skills/plt/type-systems.md
     │   ├── realtime/      # WebSocket, SSE, pub/sub (4)
     │   └── data/          # ETL, streaming, batch processing (5)
     │
-    └── Specialized Domains (53 skills)
+    ├── Collaboration & Process (17 skills)
+    │   ├── collaboration/github/  # Repositories, PRs, issues, security, Actions (5)
+    │   ├── product/       # PRD writing: structure, requirements, user stories, specs (4)
+    │   └── engineering/   # RFC writing: structure, design, consensus, decisions (4)
+    │
+    └── Specialized Domains (81 skills)
+        ├── ml/            # DSPy, HuggingFace, LLM fine-tuning, diffusion models (21)
+        ├── ir/            # Information Retrieval: search, vector, ranking, recommendations (5)
+        ├── wasm/          # WebAssembly: fundamentals, Rust, browser, server (4)
+        ├── ebpf/          # eBPF: fundamentals, tracing, networking, security (4)
         ├── formal/        # SAT/SMT solvers, Lean 4, CSP (10)
-        ├── ml/            # DSPy, LLM fine-tuning, diffusion models (14)
         ├── deployment/    # Heroku, Netlify platforms (6)
         ├── math/          # Linear algebra, topology, category theory, etc. (11)
-        ├── plt/           # Lambda calculus, type systems, verification (6)
+        ├── plt/           # Lambda calculus, type systems, verification, typed holes (13)
         └── mobile/        # React Native development (4)
 ```
 
@@ -322,9 +364,12 @@ skills/skill-creation.md           # Template and guidelines
 | **Backend** | Python, Zig, Rust, Go | 18 | Systems programming, async, memory safety |
 | **Frontend** | React, Next.js, TypeScript | 9 | SSR, performance, a11y, SEO, elegant design |
 | **Mobile** | SwiftUI, React Native | 10 | iOS native, cross-platform |
-| **Cloud** | Modal, AWS, Vercel, Cloudflare | 14 | Serverless, GPU, edge computing |
+| **Cloud** | AWS, GCP, Modal, Vercel, Cloudflare | 27 | Serverless, GPU, edge, compute, storage, networking |
 | **Database** | Postgres, Mongo, Redis, Redpanda, Iceberg, DuckDB | 11 | OLTP, NoSQL, streaming, analytics |
-| **ML/AI** | DSPy, Unsloth, HuggingFace, Diffusion | 14 | LLM orchestration, fine-tuning, image generation |
+| **ML/AI** | DSPy, HuggingFace, Unsloth, Diffusion | 21 | LLM orchestration, fine-tuning, image generation, model hub |
+| **IR** | Elasticsearch, Vector DBs, Ranking, Recommenders | 5 | Search, semantic retrieval, recommendations |
+| **Systems** | WebAssembly, eBPF | 8 | Browser/server wasm, observability, networking, security |
+| **Collaboration** | GitHub, PRD, RFC | 17 | Repository management, product specs, technical design |
 | **Formal** | Z3, Lean 4, CSP | 10 | Proof systems, constraint solving |
 | **Math** | Linear algebra, topology, category theory, etc. | 11 | Numerical + pure mathematics |
 | **PLT** | Lambda calculus, type systems, typed holes, Hazel, LLM integration | 13 | Language design, live programming, AI-assisted coding |
@@ -335,8 +380,8 @@ skills/skill-creation.md           # Template and guidelines
 
 All skills are validated through automated CI/CD pipelines:
 
-- ✅ **Code Block Validation**: 506+ Python/Swift/TypeScript blocks syntax-checked
-- ✅ **Frontmatter Validation**: 155 skills with proper YAML frontmatter
+- ✅ **Code Block Validation**: 800+ Python/Swift/TypeScript/Bash blocks syntax-checked
+- ✅ **Frontmatter Validation**: 215 skills with proper YAML frontmatter
 - ✅ **Date Validation**: All "Last Updated" dates verified (no future dates)
 - ✅ **Format Compliance**: Atomic skill guidelines enforced (~250-500 lines)
 - ✅ **Cross-References**: Related skills linked for discoverability
@@ -354,4 +399,4 @@ Feel free to fork and adapt for your own use.
 
 ---
 
-**Total: 162 atomic skills** | **Average: 320 lines/skill** | **31 categories** | **100% CI-validated**
+**Total: 215 atomic skills** | **Average: 380 lines/skill** | **40 categories** | **100% CI-validated**
