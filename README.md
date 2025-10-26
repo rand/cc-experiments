@@ -1,10 +1,16 @@
 # Claude Code Development Reference
 
-A comprehensive skills library and development guidelines for working with Claude Code across 226 atomic, composable skills spanning 45 technology domains.
+A comprehensive skills library and development guidelines for working with Claude Code across 284 atomic, composable skills spanning 30 technology domains.
 
 ## Overview
 
 This repository serves as a complete reference for software development best practices, workflows, and atomic skills. Each skill is focused (~320 lines average), tested in production, and designed to compose with others for complex workflows.
+
+**Key Features**:
+- **Auto-Discovery**: 27 gateway Agent Skills automatically activate based on task context
+- **Progressive Loading**: 60-84% context reduction via tiered architecture
+- **284 Skills**: Comprehensive coverage across backend, frontend, data, ML, mathematics, and more
+- **Production-Tested**: Real-world patterns from building systems at scale
 
 **Use this when:**
 - Starting a new project and need architecture patterns
@@ -13,6 +19,23 @@ This repository serves as a complete reference for software development best pra
 - Building complex multi-technology systems
 - Onboarding to a new codebase
 - Learning advanced mathematics or programming language theory
+
+## Quick Start
+
+**Auto-discovery** (Recommended):
+Just start working. Claude Code will automatically activate relevant gateway skills based on your task.
+
+**Manual discovery**:
+```bash
+# View skills catalog
+cat skills/README.md
+
+# Browse a category
+cat skills/api/INDEX.md
+
+# Load a specific skill
+cat skills/api/rest-api-design.md
+```
 
 ## What's Covered
 
