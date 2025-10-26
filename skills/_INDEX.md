@@ -533,6 +533,45 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ---
 
+### Machine Learning - LLM Evaluation & Routing (8 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `ml/llm-benchmarks-evaluation.md` | MMLU, HellaSwag, BBH, HumanEval benchmarks; lm-evaluation-harness, LightEval | ~724 |
+| `ml/llm-evaluation-frameworks.md` | Arize Phoenix (OpenTelemetry), Braintrust, LangSmith, Langfuse observability | ~921 |
+| `ml/llm-as-judge.md` | Pairwise/pointwise/reference-guided eval; Prometheus 2, G-Eval, bias mitigation | ~1089 |
+| `ml/rag-evaluation-metrics.md` | RAGAS metrics (Faithfulness, Answer Relevancy, Context Precision/Recall) | ~969 |
+| `ml/custom-llm-evaluation.md` | Domain-specific metrics, RLHF, adversarial testing, bias evaluation | ~1053 |
+| `ml/llm-model-routing.md` | RouteLLM, RoRF, semantic routing; GPT-4o vs Claude vs Gemini routing | ~562 |
+| `ml/llm-model-selection.md` | 2025 model comparison, capability matrix, strategic stack approach | ~551 |
+| `ml/multi-model-orchestration.md` | Pipeline/ensemble/cascade patterns, Arize Phoenix multi-model tracing | ~721 |
+
+**Common workflows:**
+- Evaluation setup: `llm-benchmarks-evaluation.md` → `llm-evaluation-frameworks.md` (Arize Phoenix)
+- RAG evaluation: `rag-evaluation-metrics.md` → `llm-as-judge.md` → `llm-evaluation-frameworks.md`
+- Custom evaluation: `custom-llm-evaluation.md` → `llm-as-judge.md` (Prometheus 2) → `llm-evaluation-frameworks.md`
+- Model routing: `llm-model-selection.md` → `llm-model-routing.md` → `multi-model-orchestration.md`
+- Cost optimization: `llm-model-selection.md` (pricing) → `llm-model-routing.md` (85% reduction)
+
+---
+
+### Machine Learning - Advanced RAG (4 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `ml/hybrid-search-rag.md` | Vector + BM25 fusion, RRF, Elasticsearch/Weaviate/Qdrant/Pinecone | ~656 |
+| `ml/rag-reranking-techniques.md` | Cross-encoder, tensor-based, LLM-as-reranker; Cohere/BGE/ms-marco | ~623 |
+| `ml/graph-rag.md` | Microsoft GraphRAG, entity extraction, community detection, multihop reasoning | ~696 |
+| `ml/hierarchical-rag.md` | Multi-level structures, recursive summarization, parent-child chunks | ~694 |
+
+**Common workflows:**
+- Hybrid RAG: `dspy-rag.md` → `hybrid-search-rag.md` → `rag-reranking-techniques.md`
+- Advanced RAG pipeline: `hybrid-search-rag.md` → `rag-reranking-techniques.md` → `rag-evaluation-metrics.md`
+- GraphRAG: `graph-rag.md` → `llm-as-judge.md` (quality eval) → `rag-evaluation-metrics.md`
+- Hierarchical docs: `hierarchical-rag.md` → `rag-reranking-techniques.md` → `rag-evaluation-metrics.md`
+
+---
+
 ### Diffusion Models (3 skills)
 
 | Skill | Use When | Lines |
@@ -852,6 +891,9 @@ This index catalogs all atomic skills available in the skills system, organized 
 **Heroku:** Search `deployment/heroku-*.md`
 **Netlify:** Search `deployment/netlify-*.md`
 **LLM Fine-tuning:** Search `ml/unsloth-*.md`, `ml/huggingface-*.md`, `ml/llm-*.md`, `ml/lora-*.md`
+**LLM Evaluation:** Search `ml/llm-benchmarks-*.md`, `ml/llm-evaluation-*.md`, `ml/llm-as-judge.md`, `ml/rag-evaluation-*.md`, `ml/custom-llm-*.md`
+**LLM Routing:** Search `ml/llm-model-routing.md`, `ml/llm-model-selection.md`, `ml/multi-model-*.md`
+**Advanced RAG:** Search `ml/hybrid-search-*.md`, `ml/rag-reranking-*.md`, `ml/graph-rag.md`, `ml/hierarchical-rag.md`
 **DSPy Framework:** Search `ml/dspy-*.md`
 **Diffusion Models:** Search `ml/diffusion-*.md`, `ml/stable-diffusion-*.md`
 **Advanced Mathematics:** Search `math/*.md`, `math/graph/*.md` | Numerical: `math/linear-algebra-*.md`, `math/optimization-*.md`, `math/numerical-*.md`, `math/probability-*.md` | Pure math: `math/topology-*.md`, `math/category-theory-*.md`, `math/differential-equations.md`, `math/abstract-algebra.md`, `math/set-theory.md`, `math/number-theory.md` | Graph theory: `math/graph/graph-theory-fundamentals.md`, `math/graph/graph-data-structures.md`, `math/graph/graph-traversal-algorithms.md`, `math/graph/shortest-path-algorithms.md`, `math/graph/minimum-spanning-tree.md`, `math/graph/network-flow-algorithms.md`, `math/graph/advanced-graph-algorithms.md`, `math/graph/graph-applications.md`
@@ -1234,6 +1276,13 @@ This index catalogs all atomic skills available in the skills system, organized 
 | Fine-tune LLM | llm-dataset-preparation.md, unsloth-finetuning.md, lora-peft-techniques.md | 1→2→3 |
 | Build DSPy QA system | dspy-setup.md, dspy-signatures.md, dspy-modules.md, dspy-optimizers.md | 1→2→3→4 |
 | Build DSPy RAG pipeline | dspy-setup.md, dspy-rag.md, dspy-optimizers.md, dspy-evaluation.md | 1→2→3→4 |
+| Evaluate LLM with benchmarks | llm-benchmarks-evaluation.md, llm-evaluation-frameworks.md | 1→2 |
+| Setup LLM evaluation pipeline | llm-evaluation-frameworks.md (Arize Phoenix), llm-as-judge.md, rag-evaluation-metrics.md | 1→2→3 |
+| Evaluate RAG system | rag-evaluation-metrics.md (RAGAS), llm-as-judge.md, llm-evaluation-frameworks.md | 1→2→3 |
+| Route between multiple LLMs | llm-model-selection.md, llm-model-routing.md, multi-model-orchestration.md | 1→2→3 |
+| Build hybrid search RAG | hybrid-search-rag.md, rag-reranking-techniques.md, rag-evaluation-metrics.md | 1→2→3 |
+| Build GraphRAG system | graph-rag.md, llm-as-judge.md (quality eval), rag-evaluation-metrics.md | 1→2→3 |
+| Build hierarchical RAG | hierarchical-rag.md, rag-reranking-techniques.md, rag-evaluation-metrics.md | 1→2→3 |
 | Fine-tune diffusion model | diffusion-model-basics.md, diffusion-finetuning.md, stable-diffusion-deployment.md | 1→2→3 |
 | Deploy to Heroku | heroku-deployment.md, heroku-addons.md | 1→2 |
 | Deploy to Netlify | netlify-deployment.md, netlify-functions.md | 1→2 |
@@ -1255,8 +1304,8 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ## Total Skills Count
 
-- **247 atomic skills** across 43 categories
-- **Average 350 lines** per skill
+- **259 atomic skills** across 45 categories
+- **Average 380 lines** per skill
 - **100% focused** - each skill has single clear purpose
 - **Cross-referenced** - related skills linked for discoverability
 
@@ -1297,10 +1346,12 @@ This index catalogs all atomic skills available in the skills system, organized 
 - Heroku: 3 skills
 - Netlify: 3 skills *(moved from Specialized Domains)*
 
-**Machine Learning & AI** (21 skills):
+**Machine Learning & AI** (33 skills):
 - LLM Fine-tuning: 4 skills
 - HuggingFace: 5 skills (Hub, Transformers, Datasets, Spaces, AutoTrain)
 - DSPy Framework: 7 skills
+- LLM Evaluation & Routing: 8 skills (Benchmarks, Frameworks, LLM-as-judge, RAGAS, Custom eval, Routing, Selection, Orchestration)
+- Advanced RAG: 4 skills (Hybrid search, Reranking, GraphRAG, Hierarchical)
 - Diffusion Models: 3 skills
 - Information Retrieval: 5 skills (Search, Vector Search, Ranking, Recommendations, Query Understanding)
 
@@ -1337,5 +1388,5 @@ See `MIGRATION_GUIDE.md` for detailed mapping.
 ---
 
 **Last Updated:** 2025-10-26
-**Total Skills:** 247
+**Total Skills:** 259
 **Format Version:** 1.0 (Atomic)

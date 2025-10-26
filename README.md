@@ -1,6 +1,6 @@
 # Claude Code Development Reference
 
-A comprehensive skills library and development guidelines for working with Claude Code across 247 atomic, composable skills spanning 43 technology domains.
+A comprehensive skills library and development guidelines for working with Claude Code across 259 atomic, composable skills spanning 45 technology domains.
 
 ## Overview
 
@@ -125,6 +125,9 @@ This repository serves as a complete reference for software development best pra
 - **RFC Writing**: Structure/format, technical design, consensus building, decision documentation (4 skills)
 
 **Machine Learning & AI:**
+- **LLM Evaluation**: Benchmarks (MMLU, HellaSwag, HumanEval), frameworks (Arize Phoenix, Braintrust, LangSmith), LLM-as-judge (Prometheus 2, G-Eval), RAGAS metrics, custom evaluation (5 skills)
+- **Model Routing & Selection**: RouteLLM framework, model comparison (GPT-4o, Claude, Gemini, DeepSeek), multi-model orchestration, cost optimization (3 skills)
+- **Advanced RAG**: Hybrid search (vector + BM25), reranking (cross-encoder, LLM-as-reranker), GraphRAG (Microsoft 2024), hierarchical retrieval (4 skills)
 - **DSPy Framework**: Signatures, modules, optimizers, RAG, assertions (7 skills)
 - **HuggingFace**: Hub, Transformers, Datasets, Spaces, AutoTrain (5 skills)
 - **LLM Fine-tuning**: Unsloth, LoRA/PEFT, dataset prep (3 skills)
@@ -417,7 +420,7 @@ skills/skill-creation.md           # Template and guidelines
 | **Cloud** | AWS, GCP, Modal, Vercel, Cloudflare | 27 | Serverless, GPU, edge, compute, storage, networking |
 | **Database** | Postgres, Mongo, Redis, Redpanda, Iceberg, DuckDB | 11 | OLTP, NoSQL, streaming, analytics |
 | **Caching** | Redis, HTTP, CDN (Cloudflare/Fastly/CloudFront), Service Workers | 7 | Multi-layer caching, invalidation, performance monitoring |
-| **ML/AI** | DSPy, HuggingFace, Unsloth, Diffusion | 21 | LLM orchestration, fine-tuning, image generation, model hub |
+| **ML/AI** | DSPy, HuggingFace, Unsloth, Arize Phoenix, Prometheus, GraphRAG | 33 | LLM orchestration, evaluation (benchmarks, LLM-as-judge, RAGAS), model routing, advanced RAG (hybrid, reranking, GraphRAG), fine-tuning |
 | **IR** | Elasticsearch, Vector DBs, Ranking, Recommenders | 5 | Search, semantic retrieval, recommendations |
 | **Systems** | WebAssembly, eBPF | 8 | Browser/server wasm, observability, networking, security |
 | **Collaboration** | GitHub, PRD, RFC | 17 | Repository management, product specs, technical design |
@@ -432,8 +435,8 @@ skills/skill-creation.md           # Template and guidelines
 
 All skills are validated through automated CI/CD pipelines:
 
-- ✅ **Code Block Validation**: 1000+ Python/Swift/TypeScript/Bash/C/Java blocks syntax-checked
-- ✅ **Frontmatter Validation**: 247 skills with proper YAML frontmatter
+- ✅ **Code Block Validation**: 1100+ Python/Swift/TypeScript/Bash/C/Java blocks syntax-checked
+- ✅ **Frontmatter Validation**: 259 skills with proper YAML frontmatter
 - ✅ **Date Validation**: All "Last Updated" dates verified (no future dates)
 - ✅ **Format Compliance**: Atomic skill guidelines enforced (~250-500 lines)
 - ✅ **Cross-References**: Related skills linked for discoverability
@@ -451,4 +454,4 @@ Feel free to fork and adapt for your own use.
 
 ---
 
-**Total: 247 atomic skills** | **Average: 380 lines/skill** | **43 categories** | **100% CI-validated**
+**Total: 259 atomic skills** | **Average: 420 lines/skill** | **45 categories** | **100% CI-validated**
