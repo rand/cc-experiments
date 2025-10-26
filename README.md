@@ -1,6 +1,6 @@
 # Claude Code Development Reference
 
-A comprehensive skills library and development guidelines for working with Claude Code across 155 atomic, composable skills spanning 31 technology domains.
+A comprehensive skills library and development guidelines for working with Claude Code across 162 atomic, composable skills spanning 31 technology domains.
 
 ## Overview
 
@@ -100,10 +100,11 @@ This repository serves as a complete reference for software development best pra
 - **Numerical**: Linear algebra, optimization algorithms, numerical methods, probability/statistics (4 skills)
 - **Pure Math**: Topology (point-set, algebraic), category theory, differential equations, abstract algebra, set theory, number theory (7 skills)
 
-**Programming Language Theory** (6 skills):
-- Lambda calculus, type systems, dependent types
-- Curry-Howard correspondence, operational semantics
-- Program verification (Hoare logic, SMT-based verification)
+**Programming Language Theory** (13 skills):
+- **Core PLT**: Lambda calculus, type systems, dependent types
+- **Curry-Howard & Semantics**: Propositions as types, operational semantics, program verification
+- **Typed Holes & Live Programming**: Hazel/Hazelnut calculus, structure editors, incremental typing (OOPSLA 2025)
+- **AI-Assisted Programming**: LLM + typed holes integration (OOPSLA 2024), static context for code synthesis
 
 **Real-time & Networking:**
 - WebSocket implementation, Server-Sent Events
@@ -202,7 +203,7 @@ skills/plt/type-systems.md
 │
 ├── README.md              # This file
 │
-└── skills/                # 155 atomic skills across 31 categories
+└── skills/                # 162 atomic skills across 31 categories
     │
     ├── _INDEX.md          # Full catalog with use cases and workflows
     │
@@ -306,6 +307,14 @@ skills/skill-creation.md           # Template and guidelines
 4. Use `ios-networking.md` → API integration
 5. Deploy backend with `redpanda-streaming.md` + `modal-web-endpoints.md`
 
+### Scenario: AI-Assisted Programming with Typed Holes
+1. Start with `plt/typed-holes-foundations.md` → Understand gradual typing and bidirectional checking
+2. Study `plt/typed-holes-llm.md` → Learn OOPSLA 2024 approach to LLM + static types
+3. Implement language server integration → Extract type context from holes
+4. Build LLM integration → Type-driven prompts, validation pipeline, ranking
+5. Add interactive refinement → User + LLM collaboration via holes
+6. Optional: `plt/live-programming-holes.md` → Real-time feedback with incremental typing
+
 ## Technology Coverage Matrix
 
 | Domain | Technologies | Skills | Key Capabilities |
@@ -318,7 +327,7 @@ skills/skill-creation.md           # Template and guidelines
 | **ML/AI** | DSPy, Unsloth, HuggingFace, Diffusion | 14 | LLM orchestration, fine-tuning, image generation |
 | **Formal** | Z3, Lean 4, CSP | 10 | Proof systems, constraint solving |
 | **Math** | Linear algebra, topology, category theory, etc. | 11 | Numerical + pure mathematics |
-| **PLT** | Lambda calculus, type systems, verification | 6 | Language design, formal verification |
+| **PLT** | Lambda calculus, type systems, typed holes, Hazel, LLM integration | 13 | Language design, live programming, AI-assisted coding |
 | **DevOps** | GitHub Actions, Terraform, K8s, Docker | 16 | CI/CD, IaC, containers |
 | **Data** | ETL, Streaming, Batch | 10 | Pipelines, real-time, analytics |
 
@@ -345,4 +354,4 @@ Feel free to fork and adapt for your own use.
 
 ---
 
-**Total: 155 atomic skills** | **Average: 320 lines/skill** | **31 categories** | **100% CI-validated**
+**Total: 162 atomic skills** | **Average: 320 lines/skill** | **31 categories** | **100% CI-validated**

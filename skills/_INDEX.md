@@ -512,7 +512,9 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ---
 
-### Programming Language Theory (6 skills)
+### Programming Language Theory (13 skills)
+
+**Core PLT:**
 
 | Skill | Use When | Lines |
 |-------|----------|-------|
@@ -523,11 +525,26 @@ This index catalogs all atomic skills available in the skills system, organized 
 | `operational-semantics.md` | Small-step/big-step semantics, evaluation strategies, reduction systems | ~420 |
 | `program-verification.md` | Hoare logic, SMT-based verification, refinement types, separation logic | ~400 |
 
+**Typed Holes & Live Programming:**
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `typed-holes-foundations.md` | Typed holes basics, gradual typing, bidirectional typing, hole semantics | ~400 |
+| `hazelnut-calculus.md` | Structure editor calculus, edit actions, zipper navigation, Grove | ~420 |
+| `typed-holes-semantics.md` | Advanced hole semantics: closures, pattern matching, error localization, polymorphism | ~400 |
+| `typed-holes-interaction.md` | IDE integration, goal-directed programming, tactics, proof search, elaborator reflection | ~380 |
+| `live-programming-holes.md` | Hazel environment, live evaluation, incremental typing (OOPSLA 2025), collaboration | ~420 |
+| `structure-editors.md` | Structure editor design, projectional editing, rendering, text integration | ~400 |
+| `typed-holes-llm.md` | LLM + typed holes (OOPSLA 2024), static context, validation, ranking, AI pair programming | ~450 |
+
 **Common workflows:**
 - PL foundations: `lambda-calculus.md` → `type-systems.md` → `operational-semantics.md`
 - Dependent types: `type-systems.md` → `dependent-types.md` → `curry-howard.md`
 - Formal verification: `operational-semantics.md` → `program-verification.md` → `formal/lean-proof-basics.md`
 - Type theory: `lambda-calculus.md` → `type-systems.md` → `dependent-types.md` → `curry-howard.md`
+- Typed holes theory: `typed-holes-foundations.md` → `hazelnut-calculus.md` → `typed-holes-semantics.md`
+- Typed holes practice: `typed-holes-interaction.md` → `live-programming-holes.md` → `structure-editors.md`
+- AI-assisted coding: `typed-holes-foundations.md` → `typed-holes-llm.md` → Implement LSP+LLM integration
 
 ---
 
@@ -580,7 +597,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 **DSPy Framework:** Search `ml/dspy-*.md`
 **Diffusion Models:** Search `ml/diffusion-*.md`, `ml/stable-diffusion-*.md`
 **Advanced Mathematics:** Search `math/*.md` | Numerical: `math/linear-algebra-*.md`, `math/optimization-*.md`, `math/numerical-*.md`, `math/probability-*.md` | Pure math: `math/topology-*.md`, `math/category-theory-*.md`, `math/differential-equations.md`, `math/abstract-algebra.md`, `math/set-theory.md`, `math/number-theory.md`
-**Programming Language Theory:** Search `plt/*.md`, `plt/lambda-calculus.md`, `plt/type-systems.md`, `plt/dependent-types.md`, `plt/curry-howard.md`, `plt/operational-semantics.md`, `plt/program-verification.md`
+**Programming Language Theory:** Search `plt/*.md`, `plt/lambda-calculus.md`, `plt/type-systems.md`, `plt/dependent-types.md`, `plt/curry-howard.md`, `plt/operational-semantics.md`, `plt/program-verification.md`, `plt/typed-holes-*.md`, `plt/hazelnut-calculus.md`, `plt/live-programming-holes.md`, `plt/structure-editors.md`
 **React Native:** Search `mobile/react-native-*.md`
 
 ### By Task Type
@@ -943,7 +960,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 - Real-time: 4 skills
 - Data Pipelines: 5 skills
 
-**Specialized Domains** (53 skills):
+**Specialized Domains** (60 skills):
 - SAT/SMT Solvers: 3 skills
 - Lean 4: 4 skills
 - Constraint Satisfaction: 3 skills
@@ -953,7 +970,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 - DSPy Framework: 7 skills
 - Diffusion Models: 3 skills
 - Advanced Mathematics: 11 skills (4 numerical + 7 pure math)
-- Programming Language Theory: 6 skills
+- Programming Language Theory: 13 skills (6 core + 7 typed holes & live programming)
 - React Native: 4 skills
 - Formal Methods: 2 skills (verification-focused)
 
@@ -977,5 +994,5 @@ See `MIGRATION_GUIDE.md` for detailed mapping.
 ---
 
 **Last Updated:** 2025-10-25
-**Total Skills:** 155
+**Total Skills:** 162
 **Format Version:** 1.0 (Atomic)
