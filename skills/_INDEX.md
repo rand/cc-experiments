@@ -1304,7 +1304,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ## Total Skills Count
 
-- **259 atomic skills** across 45 categories
+- **226 atomic skills** across 45 categories
 - **Average 380 lines** per skill
 - **100% focused** - each skill has single clear purpose
 - **Cross-referenced** - related skills linked for discoverability
@@ -1388,5 +1388,5 @@ See `MIGRATION_GUIDE.md` for detailed mapping.
 ---
 
 **Last Updated:** 2025-10-26
-**Total Skills:** 259
+**Total Skills:** 226
 **Format Version:** 1.0 (Atomic)

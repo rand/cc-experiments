@@ -1,6 +1,6 @@
 # Claude Code Development Reference
 
-A comprehensive skills library and development guidelines for working with Claude Code across 259 atomic, composable skills spanning 45 technology domains.
+A comprehensive skills library and development guidelines for working with Claude Code across 226 atomic, composable skills spanning 45 technology domains.
 
 ## Overview
 
@@ -436,7 +436,7 @@ skills/skill-creation.md           # Template and guidelines
 All skills are validated through automated CI/CD pipelines:
 
 - ✅ **Code Block Validation**: 1100+ Python/Swift/TypeScript/Bash/C/Java blocks syntax-checked
-- ✅ **Frontmatter Validation**: 259 skills with proper YAML frontmatter
+- ✅ **Frontmatter Validation**: 226 skills with proper YAML frontmatter
 - ✅ **Date Validation**: All "Last Updated" dates verified (no future dates)
 - ✅ **Format Compliance**: Atomic skill guidelines enforced (~250-500 lines)
 - ✅ **Cross-References**: Related skills linked for discoverability
@@ -454,4 +454,4 @@ Feel free to fork and adapt for your own use.
 
 ---
 
-**Total: 259 atomic skills** | **Average: 420 lines/skill** | **45 categories** | **100% CI-validated**
+**Total: 226 atomic skills** | **Average: 420 lines/skill** | **45 categories** | **100% CI-validated**
