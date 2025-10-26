@@ -486,7 +486,9 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ---
 
-### Advanced Mathematics (11 skills)
+### Advanced Mathematics (19 skills)
+
+**Numerical & Applied:**
 
 | Skill | Use When | Lines |
 |-------|----------|-------|
@@ -494,6 +496,11 @@ This index catalogs all atomic skills available in the skills system, organized 
 | `optimization-algorithms.md` | Numerical optimization, gradient descent, constrained optimization | ~360 |
 | `numerical-methods.md` | Solving ODEs/PDEs, numerical integration, root finding | ~340 |
 | `probability-statistics.md` | Statistical analysis, hypothesis testing, Bayesian methods | ~330 |
+
+**Pure Mathematics:**
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
 | `topology-point-set.md` | General topology, metric spaces, continuity, compactness, separation axioms | ~400 |
 | `topology-algebraic.md` | Fundamental groups, homology, homotopy theory, persistent homology (TDA) | ~420 |
 | `category-theory-foundations.md` | Categories, functors, natural transformations, adjunctions, monads | ~450 |
@@ -502,6 +509,19 @@ This index catalogs all atomic skills available in the skills system, organized 
 | `set-theory.md` | ZFC axioms, ordinals, cardinals, axiom of choice, forcing | ~380 |
 | `number-theory.md` | Primes, modular arithmetic, Diophantine equations, RSA cryptography | ~400 |
 
+**Graph Theory:**
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `graph/graph-theory-fundamentals.md` | Core graph concepts, graph types, properties, theorems (Handshaking, Euler, Kuratowski) | ~400 |
+| `graph/graph-data-structures.md` | Adjacency matrix/list, edge lists, CSR, space-time tradeoffs | ~420 |
+| `graph/graph-traversal-algorithms.md` | BFS, DFS, topological sort, strongly connected components, cycle detection | ~400 |
+| `graph/shortest-path-algorithms.md` | Dijkstra, Bellman-Ford, Floyd-Warshall, A* pathfinding | ~450 |
+| `graph/minimum-spanning-tree.md` | Kruskal, Prim, union-find, MST applications | ~380 |
+| `graph/network-flow-algorithms.md` | Ford-Fulkerson, Edmonds-Karp, max flow, min cut, bipartite matching | ~420 |
+| `graph/advanced-graph-algorithms.md` | Graph coloring, clique finding, vertex cover, matching (Blossom) | ~420 |
+| `graph/graph-applications.md` | Social networks, routing, dependency resolution, recommendations | ~400 |
+
 **Common workflows:**
 - ML foundations: `linear-algebra-computation.md` → `optimization-algorithms.md`
 - Scientific computing: `numerical-methods.md` → `differential-equations.md` → `optimization-algorithms.md`
@@ -509,6 +529,10 @@ This index catalogs all atomic skills available in the skills system, organized 
 - Topology foundations: `topology-point-set.md` → `topology-algebraic.md`
 - Abstract algebra: `set-theory.md` → `abstract-algebra.md` → `number-theory.md`
 - Category theory: `category-theory-foundations.md` → `abstract-algebra.md` (categorical algebra)
+- Graph algorithms: `graph/graph-theory-fundamentals.md` → `graph/graph-data-structures.md` → `graph/graph-traversal-algorithms.md`
+- Shortest paths: `graph/graph-theory-fundamentals.md` → `graph/shortest-path-algorithms.md` → `graph/graph-applications.md`
+- Network optimization: `graph/minimum-spanning-tree.md` → `graph/network-flow-algorithms.md` → `graph/advanced-graph-algorithms.md`
+- Real-world graphs: `graph/graph-traversal-algorithms.md` → `graph/shortest-path-algorithms.md` → `graph/graph-applications.md`
 
 ---
 
@@ -750,7 +774,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 **LLM Fine-tuning:** Search `ml/unsloth-*.md`, `ml/huggingface-*.md`, `ml/llm-*.md`, `ml/lora-*.md`
 **DSPy Framework:** Search `ml/dspy-*.md`
 **Diffusion Models:** Search `ml/diffusion-*.md`, `ml/stable-diffusion-*.md`
-**Advanced Mathematics:** Search `math/*.md` | Numerical: `math/linear-algebra-*.md`, `math/optimization-*.md`, `math/numerical-*.md`, `math/probability-*.md` | Pure math: `math/topology-*.md`, `math/category-theory-*.md`, `math/differential-equations.md`, `math/abstract-algebra.md`, `math/set-theory.md`, `math/number-theory.md`
+**Advanced Mathematics:** Search `math/*.md`, `math/graph/*.md` | Numerical: `math/linear-algebra-*.md`, `math/optimization-*.md`, `math/numerical-*.md`, `math/probability-*.md` | Pure math: `math/topology-*.md`, `math/category-theory-*.md`, `math/differential-equations.md`, `math/abstract-algebra.md`, `math/set-theory.md`, `math/number-theory.md` | Graph theory: `math/graph/graph-theory-fundamentals.md`, `math/graph/graph-data-structures.md`, `math/graph/graph-traversal-algorithms.md`, `math/graph/shortest-path-algorithms.md`, `math/graph/minimum-spanning-tree.md`, `math/graph/network-flow-algorithms.md`, `math/graph/advanced-graph-algorithms.md`, `math/graph/graph-applications.md`
 **Programming Language Theory:** Search `plt/*.md`, `plt/lambda-calculus.md`, `plt/type-systems.md`, `plt/dependent-types.md`, `plt/curry-howard.md`, `plt/operational-semantics.md`, `plt/program-verification.md`, `plt/typed-holes-*.md`, `plt/hazelnut-calculus.md`, `plt/live-programming-holes.md`, `plt/structure-editors.md`
 **React Native:** Search `mobile/react-native-*.md`
 **AWS Cloud:** Search `cloud/aws/*.md`, `aws-*.md`
