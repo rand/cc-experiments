@@ -1,83 +1,104 @@
 #!/bin/bash
 
 # Install script for /skills slash command
-# Non-destructive installation for Claude Code
+# Integrated with cc-experiments gateway architecture
 
 set -e
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-COMMAND_FILE="$SCRIPT_DIR/skills.md"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+COMMAND_FILE="$REPO_ROOT/slash-commands/skills/skills.md"
+SKILLS_CATALOG="$REPO_ROOT/skills/README.md"
 INSTALL_DIR="$HOME/.claude/commands"
-INSTALL_PATH="$INSTALL_DIR/skills.md"
 
-echo "━━━ /skills Slash Command Installer ━━━"
+echo "━━━ /skills Command Installer ━━━"
 echo ""
 
-# Check if skills.md exists in this directory
+# Validate repository structure
 if [ ! -f "$COMMAND_FILE" ]; then
-    # Check if we're already in the commands directory
-    if [ -f "$HOME/.claude/commands/skills.md" ]; then
-        echo "✓ /skills command is already installed!"
-        echo ""
-        echo "Location: $HOME/.claude/commands/skills.md"
-        echo ""
-        echo "Try it: /skills"
-        exit 0
-    fi
-
-    echo "✗ Error: skills.md not found in current directory"
+    echo "✗ Error: Command file not found"
+    echo "  Expected: $COMMAND_FILE"
     echo ""
-    echo "Please run this script from the cc-slash-skill directory:"
-    echo "  cd /path/to/cc-slash-skill"
-    echo "  ./install.sh"
+    echo "Please run this installer from the cc-experiments repository root:"
+    echo "  cd /path/to/cc-experiments"
+    echo "  ./slash-commands/install.sh"
     exit 1
 fi
 
-# Create commands directory if it doesn't exist
-if [ ! -d "$INSTALL_DIR" ]; then
-    echo "Creating commands directory: $INSTALL_DIR"
-    mkdir -p "$INSTALL_DIR"
+if [ ! -f "$SKILLS_CATALOG" ]; then
+    echo "✗ Error: Skills catalog not found"
+    echo "  Expected: $SKILLS_CATALOG"
+    echo ""
+    echo "This installer must be run from cc-experiments repository."
+    echo "The gateway architecture requires skills/README.md"
+    exit 1
 fi
 
+# Verify gateway architecture
+GATEWAY_COUNT=$(find "$REPO_ROOT/skills" -name "discover-*" -type d 2>/dev/null | wc -l | tr -d ' ')
+if [ "$GATEWAY_COUNT" -lt 25 ]; then
+    echo "⚠ Warning: Expected ~27 gateway skills, found $GATEWAY_COUNT"
+    echo "  Gateway architecture may not be fully set up"
+    echo ""
+fi
+
+# Check for _INDEX.md.archive (confirms new architecture)
+if [ ! -f "$REPO_ROOT/skills/_INDEX.md.archive" ]; then
+    echo "⚠ Warning: Old architecture detected"
+    echo "  skills/_INDEX.md.archive not found"
+    echo "  The /skills command expects the gateway architecture"
+    echo ""
+fi
+
+# Create commands directory
+mkdir -p "$INSTALL_DIR"
+
 # Check if already installed
-if [ -f "$INSTALL_PATH" ]; then
+if [ -f "$INSTALL_DIR/skills.md" ]; then
     echo "⚠ /skills command is already installed"
     echo ""
     read -p "Overwrite existing installation? [y/N] " -n 1 -r
-    echo
+    echo ""
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
         echo "Installation cancelled"
         exit 0
     fi
-    echo "Backing up existing file to skills.md.backup"
-    cp "$INSTALL_PATH" "$INSTALL_PATH.backup"
+
+    # Backup existing
+    if [ -L "$INSTALL_DIR/skills.md" ]; then
+        echo "Removing existing symlink..."
+    else
+        echo "Backing up existing file to skills.md.backup..."
+        cp "$INSTALL_DIR/skills.md" "$INSTALL_DIR/skills.md.backup"
+    fi
+    rm "$INSTALL_DIR/skills.md"
 fi
 
-# Install the command
-echo "Installing /skills command..."
-cp "$COMMAND_FILE" "$INSTALL_PATH"
-
-# Verify installation
-if [ -f "$INSTALL_PATH" ]; then
-    echo ""
-    echo "✓ Successfully installed!"
-    echo ""
-    echo "Location: $INSTALL_PATH"
-    echo "Size: $(wc -c < "$INSTALL_PATH") bytes"
-    echo ""
-    echo "━━━ Next Steps ━━━"
-    echo ""
-    echo "1. Restart your Claude Code session (if running)"
-    echo "2. Try the command:"
-    echo "   /skills              # Context-aware recommendations"
-    echo "   /skills frontend     # Browse category"
-    echo "   /skills postgres     # Search for skills"
-    echo "   /skills list         # All categories"
-    echo ""
-    echo "Documentation: $SCRIPT_DIR/README.md"
-    echo "Uninstall: ./uninstall.sh"
-    echo ""
+# Try symlink first (enables auto-updates)
+if ln -sf "$COMMAND_FILE" "$INSTALL_DIR/skills.md" 2>/dev/null; then
+    echo "✓ Symlinked /skills command"
+    echo "  Auto-updates enabled: changes in repo reflect immediately"
 else
-    echo "✗ Installation failed"
-    exit 1
+    cp "$COMMAND_FILE" "$INSTALL_DIR/skills.md"
+    echo "✓ Copied /skills command"
+    echo "  Note: Re-run installer after updating skills.md in repo"
 fi
+
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "Installation complete!"
+echo ""
+echo "Skills Architecture:"
+echo "  284 skills across 30 categories"
+echo "  27 gateway skills for auto-discovery"
+echo "  Progressive loading (60-84% context reduction)"
+echo ""
+echo "Usage:"
+echo "  /skills              # Browse 284 skills, 27 categories"
+echo "  /skills api          # View API skills gateway"
+echo "  /skills frontend     # View frontend skills"
+echo "  /skills ml           # View ML/AI skills"
+echo "  /skills postgres     # Search for Postgres skills"
+echo "  /skills list         # Show all categories"
+echo ""
+echo "Progressive loading: Gateway → Category → Skill"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
