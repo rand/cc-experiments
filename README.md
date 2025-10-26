@@ -1,6 +1,6 @@
 # Claude Code Development Reference
 
-A comprehensive skills library and development guidelines for working with Claude Code across 222 atomic, composable skills spanning 41 technology domains.
+A comprehensive skills library and development guidelines for working with Claude Code across 247 atomic, composable skills spanning 43 technology domains.
 
 ## Overview
 
@@ -33,7 +33,25 @@ This repository serves as a complete reference for software development best pra
 - **Swift/SwiftUI**: iOS native (iOS 17+), Swift concurrency, SwiftData
 - **React Native**: Cross-platform mobile development
 
-### Cloud & Infrastructure (43 skills)
+### Build Systems & Debugging (22 skills)
+**Build Systems:**
+- **Make**: Makefile syntax, targets, pattern rules, automatic variables, phony targets
+- **CMake**: Modern CMake (3.20+, 4.0.2), target-based approach, find_package, FetchContent
+- **Gradle**: Kotlin DSL, dependency management, version catalogs, build cache
+- **Maven**: POM structure, dependency management, lifecycle phases, plugins
+- **Bazel**: BUILD files, hermetic builds, remote caching, Starlark rules, monorepo patterns
+- **Cross-platform**: Platform detection, conditional compilation, toolchains
+- **Build Optimization**: Incremental builds, build caching (ccache, sccache), parallel builds
+
+**Debugging:**
+- **Native Debugging**: GDB (C/C++), LLDB (macOS/Swift, 50x faster step-over), TUI mode
+- **Language Debugging**: Python (pdb, ipdb, VSCode), browser DevTools (performance, memory)
+- **Production Debugging**: Remote debugging, non-intrusive debugging, dynamic logging, sampling profilers
+- **Specialized Debugging**: Memory leaks (Valgrind, AddressSanitizer), concurrency (ThreadSanitizer, race detection)
+- **System Debugging**: Core dumps, crash debugging (fuzzing with AFL/libFuzzer), performance profiling (perf, pprof, flame graphs)
+- **Infrastructure Debugging**: Container debugging (docker exec, kubectl debug), network debugging (tcpdump, Wireshark), distributed systems debugging
+
+### Cloud & Infrastructure (46 skills)
 **Cloud Platforms:**
 - **AWS**: Lambda functions, API Gateway, EC2 compute, S3/EBS/EFS storage, RDS/DynamoDB databases, VPC networking, IAM security (7 skills)
 - **GCP**: Compute Engine/Cloud Run/GKE, Cloud Storage, Cloud SQL/Firestore/Spanner, VPC networking, IAM, Cloud Functions/App Engine (6 skills)
@@ -51,9 +69,11 @@ This repository serves as a complete reference for software development best pra
 
 **CI/CD & Observability:**
 - **GitHub Actions**: Workflows, matrix builds, caching, security
-- **Structured Logging**: JSON logging, correlation IDs
-- **Metrics & Tracing**: Prometheus, OpenTelemetry, distributed tracing
-- **Alerting**: Alert design, on-call patterns, runbooks
+- **Structured Logging**: JSON logging, correlation IDs, log aggregation
+- **Metrics & Tracing**: Prometheus, StatsD, OpenTelemetry integration, distributed tracing, cardinality management
+- **Alerting & Dashboards**: Alert conditions, on-call patterns, Grafana dashboards, SLO monitoring
+- **Observability Cost**: Cost optimization, sampling strategies, log reduction, metrics aggregation
+- **Incident Response**: Production incident debugging, logs→metrics→traces workflow, time-travel debugging, RCA
 
 ### Data & Databases (21 skills)
 **Relational:**
@@ -178,10 +198,12 @@ ls skills/wasm/*.md          # WebAssembly: 4 skills
 ls skills/ebpf/*.md          # eBPF: 4 skills
 
 # By category directory
+ls skills/build-systems/*.md  # Build Systems: 8 skills (Make, CMake, Gradle, Maven, Bazel)
+ls skills/debugging/*.md      # Debugging: 14 skills (GDB, LLDB, Python, browser, remote, production, etc.)
 ls skills/caching/*.md        # Caching: 7 skills
 ls skills/cicd/*.md          # CI/CD: 5 skills
 ls skills/infrastructure/*.md # Infrastructure: 6 skills
-ls skills/observability/*.md  # Observability: 5 skills
+ls skills/observability/*.md  # Observability: 8 skills (logging, metrics, tracing, OTel, cost, incidents)
 ls skills/deployment/*.md     # Deployment: 6 skills
 ls skills/math/*.md          # Mathematics: 11 skills
 ls skills/mobile/*.md        # Mobile: 4 skills
@@ -256,17 +278,19 @@ skills/plt/type-systems.md
 │
 ├── README.md              # This file
 │
-└── skills/                # 222 atomic skills across 41 categories
+└── skills/                # 247 atomic skills across 43 categories
     │
     ├── _INDEX.md          # Full catalog with use cases and workflows
     │
-    ├── Core Foundation (86 skills)
+    ├── Core Foundation (108 skills)
     │   ├── api/           # REST, GraphQL, auth, rate limiting (7)
     │   ├── testing/       # Unit, integration, e2e, TDD (6)
     │   ├── containers/    # Docker, Compose, security (5)
     │   ├── frontend/      # React, Next.js, performance, a11y (9)
     │   ├── database/      # Postgres, MongoDB, Redis, Redpanda, Iceberg, DuckDB (11)
     │   ├── caching/       # Multi-layer caching: fundamentals, HTTP, CDN, Redis, invalidation, Service Workers, monitoring (7)
+    │   ├── build-systems/ # Make, CMake, Gradle, Maven, Bazel, cross-platform, optimization (8)
+    │   ├── debugging/     # GDB, LLDB, Python, browser, remote, production, memory, concurrency, profiling, containers, network, distributed (14)
     │   ├── beads-*.md     # Workflow & task management (4)
     │   ├── skill-*.md     # Meta skills: discovery & planning (5)
     │   ├── swiftui-*.md   # iOS/Swift native development (6)
@@ -281,10 +305,10 @@ skills/plt/type-systems.md
     │   ├── cloud/aws/     # Lambda, API Gateway, EC2, Storage, Databases, Networking, IAM (7)
     │   └── cloud/gcp/     # Compute, Storage, Databases, Networking, IAM, Serverless (6)
     │
-    ├── Advanced Infrastructure (25 skills)
+    ├── Advanced Infrastructure (28 skills)
     │   ├── cicd/          # GitHub Actions, testing, deployment (5)
     │   ├── infrastructure/# Terraform, K8s, AWS, Cloudflare (6)
-    │   ├── observability/ # Logging, metrics, tracing, alerting (5)
+    │   ├── observability/ # Logging, metrics, tracing, alerting, dashboards, OTel, cost optimization, incident debugging (8)
     │   ├── realtime/      # WebSocket, SSE, pub/sub (4)
     │   └── data/          # ETL, streaming, batch processing (5)
     │
@@ -388,6 +412,8 @@ skills/skill-creation.md           # Template and guidelines
 | **Backend** | Python, Zig, Rust, Go | 18 | Systems programming, async, memory safety |
 | **Frontend** | React, Next.js, TypeScript | 9 | SSR, performance, a11y, SEO, elegant design |
 | **Mobile** | SwiftUI, React Native | 10 | iOS native, cross-platform |
+| **Build Systems** | Make, CMake, Gradle, Maven, Bazel | 8 | C/C++ builds, JVM builds, monorepos, cross-platform, optimization |
+| **Debugging** | GDB, LLDB, pdb, DevTools, Valgrind, ThreadSanitizer | 14 | Native, language, production, memory, concurrency, profiling, infrastructure |
 | **Cloud** | AWS, GCP, Modal, Vercel, Cloudflare | 27 | Serverless, GPU, edge, compute, storage, networking |
 | **Database** | Postgres, Mongo, Redis, Redpanda, Iceberg, DuckDB | 11 | OLTP, NoSQL, streaming, analytics |
 | **Caching** | Redis, HTTP, CDN (Cloudflare/Fastly/CloudFront), Service Workers | 7 | Multi-layer caching, invalidation, performance monitoring |
@@ -399,14 +425,15 @@ skills/skill-creation.md           # Template and guidelines
 | **Math** | Linear algebra, topology, category theory, etc. | 11 | Numerical + pure mathematics |
 | **PLT** | Lambda calculus, type systems, typed holes, Hazel, LLM integration | 13 | Language design, live programming, AI-assisted coding |
 | **DevOps** | GitHub Actions, Terraform, K8s, Docker | 16 | CI/CD, IaC, containers |
+| **Observability** | Prometheus, OpenTelemetry, Grafana, structured logging | 8 | Metrics, tracing, logs, dashboards, cost optimization, incident response |
 | **Data** | ETL, Streaming, Batch | 10 | Pipelines, real-time, analytics |
 
 ## Quality Assurance
 
 All skills are validated through automated CI/CD pipelines:
 
-- ✅ **Code Block Validation**: 800+ Python/Swift/TypeScript/Bash blocks syntax-checked
-- ✅ **Frontmatter Validation**: 222 skills with proper YAML frontmatter
+- ✅ **Code Block Validation**: 1000+ Python/Swift/TypeScript/Bash/C/Java blocks syntax-checked
+- ✅ **Frontmatter Validation**: 247 skills with proper YAML frontmatter
 - ✅ **Date Validation**: All "Last Updated" dates verified (no future dates)
 - ✅ **Format Compliance**: Atomic skill guidelines enforced (~250-500 lines)
 - ✅ **Cross-References**: Related skills linked for discoverability
@@ -424,4 +451,4 @@ Feel free to fork and adapt for your own use.
 
 ---
 
-**Total: 222 atomic skills** | **Average: 380 lines/skill** | **41 categories** | **100% CI-validated**
+**Total: 247 atomic skills** | **Average: 380 lines/skill** | **43 categories** | **100% CI-validated**

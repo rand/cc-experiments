@@ -133,6 +133,58 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ---
 
+### Build Systems (8 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `make-fundamentals.md` | Makefile syntax, targets, dependencies, pattern rules, automatic variables, phony targets | ~420 |
+| `cmake-patterns.md` | Modern CMake (3.20+, 4.0.2), target-based approach, find_package, FetchContent, generator expressions | ~450 |
+| `gradle-jvm-builds.md` | Gradle Kotlin DSL, dependency management, version catalogs, build cache, multi-project builds | ~420 |
+| `maven-configuration.md` | POM structure, dependency management, lifecycle phases, plugins, multi-module projects | ~400 |
+| `bazel-monorepos.md` | BUILD files, hermetic builds, remote caching, Starlark rules, monorepo patterns | ~450 |
+| `build-system-selection.md` | Decision matrix (Make/CMake/Gradle/Maven/Bazel), monorepo vs polyrepo, migration strategies | ~420 |
+| `cross-platform-builds.md` | Platform detection, conditional compilation, CMake/Zig cross-compilation, toolchains | ~400 |
+| `build-optimization.md` | Incremental builds, build caching (ccache, sccache), parallel builds, profiling | ~420 |
+
+**Common workflows:**
+- C/C++ project: `make-fundamentals.md` or `cmake-patterns.md` → `cross-platform-builds.md` → `build-optimization.md`
+- Java project: `gradle-jvm-builds.md` or `maven-configuration.md` → `build-optimization.md`
+- Monorepo: `bazel-monorepos.md` → `build-optimization.md`
+- Choosing build system: `build-system-selection.md` → Selected system skill
+- Optimize builds: `build-optimization.md` → Apply caching and parallel strategies
+
+---
+
+### Debugging (14 skills)
+
+| Skill | Use When | Lines |
+|-------|----------|-------|
+| `gdb-fundamentals.md` | C/C++ debugging, breakpoints, stack traces, variable inspection, GDB commands, TUI mode | ~440 |
+| `lldb-macos-debugging.md` | macOS/iOS debugging, Swift/Obj-C debugging, LLDB vs GDB, Xcode integration, 50x faster step-over | ~420 |
+| `python-debugging.md` | Python debugging (pdb, ipdb), VSCode/PyCharm, pytest debugging, remote debugging, profiling | ~400 |
+| `browser-devtools.md` | Chrome/Firefox DevTools, Sources panel, performance profiling, memory analysis, React/Vue DevTools | ~450 |
+| `remote-debugging.md` | SSH port forwarding, VSCode Remote, container debugging, Kubernetes debugging, symbol files | ~420 |
+| `production-debugging.md` | Non-intrusive debugging, dynamic logging, feature flags, sampling profilers, observability correlation | ~430 |
+| `memory-leak-debugging.md` | Heap profiling (Valgrind, AddressSanitizer, heaptrack), Python/Go/Rust memory debugging | ~440 |
+| `concurrency-debugging.md` | Race detection (ThreadSanitizer), deadlock debugging, data races, lock ordering, Go race detector | ~430 |
+| `core-dump-analysis.md` | Core dump generation, GDB/LLDB analysis, Python PyStack, automated crash reporting (Sentry) | ~420 |
+| `crash-debugging.md` | Signal handling, crash reproduction, fuzzing (AFL, libFuzzer), crash telemetry | ~410 |
+| `performance-profiling.md` | CPU profiling (perf, pprof, py-spy), flame graphs, sampling vs instrumentation, PGO | ~450 |
+| `container-debugging.md` | Docker exec, kubectl debug, ephemeral containers, distroless debugging, sidecar patterns | ~410 |
+| `network-debugging.md` | tcpdump, Wireshark, curl debugging, DNS tools (dig), network tracing (strace, dtrace, lsof) | ~420 |
+| `distributed-systems-debugging.md` | Distributed tracing, cross-service debugging, request replay, traffic shadowing, chaos engineering | ~440 |
+
+**Common workflows:**
+- Debug C/C++ crash: `gdb-fundamentals.md` → `core-dump-analysis.md` → `crash-debugging.md`
+- Debug Python app: `python-debugging.md` → `performance-profiling.md` → `memory-leak-debugging.md`
+- Debug production: `production-debugging.md` → `distributed-systems-debugging.md` → Observability skills
+- Debug memory issues: `memory-leak-debugging.md` → `performance-profiling.md`
+- Debug concurrency: `concurrency-debugging.md` → `performance-profiling.md`
+- Debug containers: `container-debugging.md` → `remote-debugging.md` → `network-debugging.md`
+- Debug distributed system: `distributed-systems-debugging.md` → `network-debugging.md` → `production-debugging.md`
+
+---
+
 ### Workflow & Task Management (6 skills)
 
 | Skill | Use When | Lines |
@@ -313,7 +365,7 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ---
 
-### Observability Skills (5 skills)
+### Observability Skills (8 skills)
 
 | Skill | Use When | Lines |
 |-------|----------|-------|
@@ -322,11 +374,16 @@ This index catalogs all atomic skills available in the skills system, organized 
 | `distributed-tracing.md` | OpenTelemetry, spans, trace context, sampling | ~280 |
 | `alerting-strategy.md` | Alert conditions, severity levels, on-call, alert fatigue | ~250 |
 | `dashboard-design.md` | Grafana, visualization types, SLO dashboards, troubleshooting | ~260 |
+| `opentelemetry-integration.md` | OTel Collector, auto-instrumentation, traces/metrics/logs correlation, backend integrations (Grafana/Datadog/New Relic) | ~460 |
+| `observability-cost-optimization.md` | Cardinality management, sampling strategies, log reduction, metrics aggregation, OTel cost reduction | ~420 |
+| `production-incident-debugging.md` | Incident triage (logs→metrics→traces), RCA with observability, time-travel debugging, runbooks, postmortems | ~440 |
 
 **Common workflows:**
-- Observability stack: `structured-logging.md` → `metrics-instrumentation.md` → `distributed-tracing.md`
+- Full observability stack: `opentelemetry-integration.md` → `structured-logging.md` → `metrics-instrumentation.md` → `distributed-tracing.md`
 - Monitoring setup: `metrics-instrumentation.md` → `alerting-strategy.md` → `dashboard-design.md`
-- Debugging production: `distributed-tracing.md` → `structured-logging.md`
+- Incident response: `production-incident-debugging.md` → `distributed-tracing.md` → `structured-logging.md`
+- Cost optimization: `observability-cost-optimization.md` → Optimize sampling/cardinality → Monitor with `dashboard-design.md`
+- OTel adoption: `opentelemetry-integration.md` → `distributed-tracing.md` → `metrics-instrumentation.md`
 
 ---
 
@@ -772,6 +829,8 @@ This index catalogs all atomic skills available in the skills system, organized 
 **Frontend/React:** Search `react-*.md`, `nextjs-*.md`, `web-*.md`, `frontend-*.md` | `elegant-design/` for UI/UX design systems
 **Database/PostgreSQL:** Search `postgres-*.md`, `database-*.md`, `mongodb-*.md`, `redis-*.md`, `orm-*.md`
 **Caching:** Search `caching/*.md`, `cache-*.md`
+**Build Systems:** Search `build-systems/*.md`, `make-*.md`, `cmake-*.md`, `gradle-*.md`, `maven-*.md`, `bazel-*.md`
+**Debugging:** Search `debugging/*.md`, `gdb-*.md`, `lldb-*.md`, `debug-*.md`, `profiling-*.md`, `memory-*.md`, `concurrency-*.md`
 **Swift/SwiftUI:** Search `swiftui-*.md`, `swift-*.md`, `ios-*.md`
 **Modal.com:** Search `modal-*.md`
 **Networking:** Search `network-*.md`, `mtls-*.md`, `tailscale-*.md`, `nat-*.md`, `mosh-*.md`
@@ -822,6 +881,29 @@ This index catalogs all atomic skills available in the skills system, organized 
 - React Native: `react-native-setup.md`
 - Heroku deployment: `heroku-deployment.md`
 - Netlify deployment: `netlify-deployment.md`
+
+**Build systems:**
+- C/C++ project: `make-fundamentals.md` or `cmake-patterns.md`
+- Java project: `gradle-jvm-builds.md` or `maven-configuration.md`
+- Monorepo: `bazel-monorepos.md`
+- Choose build system: `build-system-selection.md`
+- Cross-platform: `cross-platform-builds.md`
+- Optimize builds: `build-optimization.md`
+
+**Debugging:**
+- C/C++ debugging: `gdb-fundamentals.md` or `lldb-macos-debugging.md`
+- Python debugging: `python-debugging.md`
+- Browser debugging: `browser-devtools.md`
+- Remote debugging: `remote-debugging.md`
+- Production debugging: `production-debugging.md`
+- Memory leaks: `memory-leak-debugging.md`
+- Concurrency issues: `concurrency-debugging.md`
+- Core dumps: `core-dump-analysis.md`
+- Crashes: `crash-debugging.md`
+- Performance: `performance-profiling.md`
+- Containers: `container-debugging.md`
+- Network issues: `network-debugging.md`
+- Distributed systems: `distributed-systems-debugging.md`
 
 **Testing:**
 - Unit tests: `unit-testing-patterns.md`
@@ -1105,6 +1187,17 @@ This index catalogs all atomic skills available in the skills system, organized 
 | Build REST API | rest-api-design.md, api-authentication.md, api-authorization.md | 1→2→3 |
 | Build GraphQL API | graphql-schema-design.md, api-authentication.md, api-authorization.md | 1→2→3 |
 | Build Next.js app | nextjs-app-router.md, react-component-patterns.md, react-data-fetching.md | 1→2→3 |
+| Setup C/C++ build | make-fundamentals.md or cmake-patterns.md, cross-platform-builds.md, build-optimization.md | 1→2→3 |
+| Setup Java build | gradle-jvm-builds.md or maven-configuration.md, build-optimization.md | 1→2 |
+| Setup monorepo build | bazel-monorepos.md, build-optimization.md | 1→2 |
+| Choose build system | build-system-selection.md | 1 |
+| Debug C/C++ crash | gdb-fundamentals.md or lldb-macos-debugging.md, core-dump-analysis.md, crash-debugging.md | 1→2→3 |
+| Debug Python app | python-debugging.md, performance-profiling.md, memory-leak-debugging.md | 1→2→3 |
+| Debug memory leak | memory-leak-debugging.md, performance-profiling.md | 1→2 |
+| Debug concurrency | concurrency-debugging.md, performance-profiling.md | 1→2 |
+| Debug production | production-debugging.md, distributed-systems-debugging.md | 1→2 |
+| Debug containers | container-debugging.md, remote-debugging.md, network-debugging.md | 1→2→3 |
+| Performance profiling | performance-profiling.md, build-optimization.md | 1→2 |
 | Design elegant UI | elegant-design/SKILL.md, react-component-patterns.md, web-accessibility.md | 1→2→3 |
 | Build chat interface | elegant-design/SKILL.md (read interactive/chat-and-messaging.md), react-component-patterns.md | 1→2 |
 | Build terminal/code UI | elegant-design/SKILL.md (read interactive/terminals-and-code.md), react-component-patterns.md | 1→2 |
@@ -1162,19 +1255,21 @@ This index catalogs all atomic skills available in the skills system, organized 
 
 ## Total Skills Count
 
-- **222 atomic skills** across 41 categories
+- **247 atomic skills** across 43 categories
 - **Average 350 lines** per skill
 - **100% focused** - each skill has single clear purpose
 - **Cross-referenced** - related skills linked for discoverability
 
 ### By Category Breakdown
-**Core Foundation** (86 skills):
+**Core Foundation** (108 skills):
 - API Design: 7 skills
 - Testing: 6 skills
 - Containers: 5 skills
 - Frontend: 9 skills (including elegant-design)
 - Database: 11 skills
-- Caching & Performance: 7 skills (NEW - caching fundamentals, HTTP, CDN, Redis, invalidation, Service Workers, monitoring)
+- Caching & Performance: 7 skills (caching fundamentals, HTTP, CDN, Redis, invalidation, Service Workers, monitoring)
+- Build Systems: 8 skills (Make, CMake, Gradle, Maven, Bazel, selection, cross-platform, optimization)
+- Debugging: 14 skills (GDB, LLDB, Python, browser, remote, production, memory, concurrency, core dumps, crashes, profiling, containers, network, distributed)
 - Workflow & Task Management: 6 skills (including typed-holes refactoring)
 - Quality & Content Review: 1 skill (anti-slop detection and cleanup)
 - Meta Skills: 4 skills (skill discovery and planning)
@@ -1188,10 +1283,10 @@ This index catalogs all atomic skills available in the skills system, organized 
 - AWS: 7 skills (Lambda, API Gateway, EC2, Storage, Databases, Networking, IAM/Security)
 - GCP: 6 skills (Compute, Storage, Databases, Networking, IAM/Security, Serverless)
 
-**Advanced Infrastructure** (25 skills):
+**Advanced Infrastructure** (28 skills):
 - CI/CD: 5 skills
 - Infrastructure: 6 skills
-- Observability: 5 skills
+- Observability: 8 skills (logging, metrics, tracing, alerting, dashboards, OpenTelemetry, cost optimization, incident debugging)
 - Real-time: 4 skills
 - Data Pipelines: 5 skills
 
@@ -1241,6 +1336,6 @@ See `MIGRATION_GUIDE.md` for detailed mapping.
 
 ---
 
-**Last Updated:** 2025-10-25
-**Total Skills:** 222
+**Last Updated:** 2025-10-26
+**Total Skills:** 247
 **Format Version:** 1.0 (Atomic)
