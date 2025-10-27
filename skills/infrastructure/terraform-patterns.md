@@ -730,6 +730,119 @@ resource "aws_db_instance" "main" {
 
 ---
 
+## Level 3: Resources
+
+**Location**: `/Users/rand/src/cc-polymath/skills/infrastructure/terraform-best-practices/resources/`
+
+### Comprehensive Reference
+
+**`REFERENCE.md`** (1,875 lines)
+- Complete Terraform best practices guide
+- State management strategies and troubleshooting
+- Module design patterns and composition
+- Variable management and validation
+- Security best practices and encryption
+- Cost optimization techniques
+- CI/CD integration patterns
+- Multi-environment strategies
+- Performance optimization
+- Disaster recovery procedures
+
+### Executable Scripts
+
+**`scripts/analyze_terraform.py`** - Terraform code analyzer
+- Detects security vulnerabilities and anti-patterns
+- Checks for hardcoded secrets, unencrypted resources
+- Validates naming conventions and tagging
+- Identifies overly permissive IAM policies and security groups
+- Suggests improvements and best practices
+- Supports JSON and table output formats
+
+```bash
+./analyze_terraform.py .
+./analyze_terraform.py --json --output report.json terraform/
+./analyze_terraform.py --severity high --format table .
+```
+
+**`scripts/validate_state.py`** - State file health checker
+- Validates state file integrity and structure
+- Detects orphaned resources and duplicates
+- Checks for circular dependencies
+- Analyzes state lineage and serial numbers
+- Identifies sensitive data exposure
+- Optionally checks for infrastructure drift
+
+```bash
+./validate_state.py
+./validate_state.py --remote --json
+./validate_state.py --check-drift --output state-report.json
+```
+
+**`scripts/cost_estimate.sh`** - Infrastructure cost estimator
+- Estimates monthly costs from Terraform plans
+- Integrates with Infracost for accurate pricing
+- Provides cost breakdowns by resource type
+- Compares costs across environments
+- Supports budget limits and threshold alerts
+- Outputs in table, JSON, or CSV formats
+
+```bash
+./cost_estimate.sh
+./cost_estimate.sh --json --output costs.json
+./cost_estimate.sh --budget 5000 --threshold 80
+./cost_estimate.sh --compare production-costs.json
+```
+
+### Production Examples
+
+**Reusable Modules**:
+- `examples/modules/vpc/` - Production-ready VPC with multi-AZ, NAT gateways, flow logs
+- `examples/modules/eks/` - EKS cluster with node groups and IRSA
+- `examples/modules/rds/` - RDS with encryption, backups, monitoring
+
+**Environment Configurations**:
+- `examples/environments/dev/` - Development environment (cost-optimized)
+- `examples/environments/prod/` - Production environment (HA, redundant)
+
+**Best Practices Examples**:
+- `examples/good-practices/security.tf` - Encryption, least privilege IAM, secure networking
+- `examples/bad-practices/anti-patterns.tf` - Common mistakes with explanations and fixes
+
+### Usage
+
+1. **Code Quality Analysis**:
+   ```bash
+   cd /path/to/terraform/project
+   /path/to/analyze_terraform.py . --severity high
+   ```
+
+2. **State Validation**:
+   ```bash
+   cd /path/to/terraform/project
+   /path/to/validate_state.py --check-drift
+   ```
+
+3. **Cost Estimation**:
+   ```bash
+   cd /path/to/terraform/project
+   /path/to/cost_estimate.sh --budget 10000 --json
+   ```
+
+4. **Module Reuse**:
+   ```hcl
+   module "vpc" {
+     source = "/path/to/terraform-best-practices/resources/examples/modules/vpc"
+
+     name               = "production"
+     cidr_block         = "10.0.0.0/16"
+     availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
+   }
+   ```
+
+All scripts support `--help` for detailed usage information.
+
+---
+
 ## Related Skills
 
 **Infrastructure**:

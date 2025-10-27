@@ -624,6 +624,147 @@ metric2 = Counter('errors_total', 'Errors', ['method'])
 
 ---
 
+## Level 3: Resources
+
+This skill has **Level 3 Resources** available with comprehensive reference material, production-ready scripts, and runnable examples.
+
+### Resource Structure
+
+```
+metrics-instrumentation/resources/
+├── REFERENCE.md                    # Comprehensive reference (1,985 lines)
+│   ├── Metric types deep-dive (Counter, Gauge, Histogram, Summary)
+│   ├── Metric naming and label best practices
+│   ├── Cardinality management strategies
+│   ├── PromQL query language reference
+│   ├── Recording rules and alerting rules
+│   ├── Instrumentation patterns (Python, Go, Node.js, Rust)
+│   ├── Exporters (node_exporter, blackbox, custom)
+│   ├── Service discovery configurations
+│   ├── Storage, retention, and federation
+│   ├── Grafana integration
+│   ├── Performance optimization techniques
+│   ├── Production best practices
+│   └── Troubleshooting guide
+│
+├── scripts/                        # Production-ready analysis tools
+│   ├── analyze_metrics.py          # Cardinality analyzer
+│   ├── validate_promql.py          # PromQL query validator
+│   └── test_exporter.sh            # Exporter testing tool
+│
+└── examples/                       # Runnable examples
+    ├── python/
+    │   ├── flask_metrics.py        # Instrumented Flask app
+    │   ├── requirements.txt
+    │   └── Dockerfile
+    ├── go/
+    │   ├── http_metrics.go         # Instrumented Go HTTP server
+    │   └── go.mod
+    ├── typescript/
+    │   ├── express_metrics.ts      # Instrumented Express app
+    │   ├── package.json
+    │   └── tsconfig.json
+    ├── prometheus/
+    │   ├── prometheus.yml          # Comprehensive config
+    │   ├── rules.yml               # Recording rules
+    │   └── alerts.yml              # Alerting rules
+    ├── grafana/
+    │   └── dashboards/
+    │       └── http-metrics.json   # Sample dashboard
+    └── docker/
+        ├── docker-compose.yml      # Full stack (Prometheus + Grafana)
+        └── README.md
+```
+
+### Key Resources
+
+**REFERENCE.md** (1,985 lines): Comprehensive guide covering:
+- Prometheus architecture and data model
+- All metric types with detailed examples
+- Metric naming conventions and label best practices
+- Cardinality explosion detection and prevention
+- Complete PromQL reference with 50+ query examples
+- Recording rules for performance optimization
+- Alerting rules with severity levels
+- Instrumentation patterns for 4 languages
+- Official and custom exporters
+- Service discovery for Kubernetes, Consul, EC2
+- Storage configuration and remote write
+- Grafana dashboard design
+- Performance tuning and troubleshooting
+
+**analyze_metrics.py**: Production-ready cardinality analyzer
+- Connects to Prometheus or analyzes metrics files
+- Detects high-cardinality labels
+- Identifies naming convention violations
+- Provides optimization recommendations
+- Outputs human-readable or JSON format
+- Example: `analyze_metrics.py --url http://localhost:9090 --json`
+
+**validate_promql.py**: PromQL query validator
+- Validates syntax and best practices
+- Checks for common anti-patterns
+- Tests queries against live Prometheus
+- Measures execution time and result size
+- Example: `validate_promql.py --query 'rate(http_requests_total[5m])' --url http://localhost:9090`
+
+**test_exporter.sh**: Exporter testing tool
+- Tests metrics endpoints for correctness
+- Validates Prometheus text format
+- Checks HELP and TYPE annotations
+- Detects naming convention issues
+- Identifies potential cardinality problems
+- Example: `test_exporter.sh --url http://localhost:8080/metrics`
+
+**Runnable Examples**:
+- Flask, Go, and Express applications with full instrumentation
+- Complete Prometheus configuration with service discovery
+- Recording rules and alerting rules
+- Grafana dashboard JSON
+- Docker Compose stack for quick deployment
+
+### Usage
+
+```bash
+# Access comprehensive reference
+cat metrics-instrumentation/resources/REFERENCE.md
+
+# Analyze metrics from Prometheus
+./scripts/analyze_metrics.py --url http://localhost:9090
+
+# Validate PromQL queries
+./scripts/validate_promql.py --query 'sum(rate(http_requests_total[5m]))'
+
+# Test metrics endpoint
+./scripts/test_exporter.sh --url http://localhost:8080/metrics
+
+# Run example Flask app
+cd examples/python
+pip install -r requirements.txt
+python flask_metrics.py
+# Metrics at http://localhost:8080/metrics
+
+# Run full stack with Docker
+cd examples/docker
+docker-compose up -d
+# Prometheus: http://localhost:9090
+# Grafana: http://localhost:3000 (admin/admin)
+```
+
+### When to Use Level 3 Resources
+
+Use these resources when:
+- Designing metrics architecture for new services
+- Debugging cardinality or performance issues
+- Learning PromQL query patterns
+- Setting up recording rules and alerts
+- Instrumenting applications in Python, Go, or Node.js
+- Configuring Prometheus for production
+- Building Grafana dashboards
+- Training team members on metrics best practices
+
+---
+
 ## Related Skills
 
 - **structured-logging.md** - Complementary log-based observability
@@ -633,5 +774,6 @@ metric2 = Counter('errors_total', 'Errors', ['method'])
 
 ---
 
-**Last Updated**: 2025-10-18
+**Last Updated**: 2025-10-27
 **Format Version**: 1.0 (Atomic)
+**Level 3 Resources**: Available

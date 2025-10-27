@@ -1,0 +1,32 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: development
+
+namePrefix: dev-
+
+commonLabels:
+  environment: dev
+
+bases:
+  - ../../base
+
+replicas:
+  - name: web-app
+    count: 1
+
+images:
+  - name: nginx
+    newTag: 1.25-alpine
+
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/cpu
+        value: 50m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/cpu
+        value: 100m
+    target:
+      kind: Deployment
+      name: web-app

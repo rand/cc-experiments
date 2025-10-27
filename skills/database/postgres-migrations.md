@@ -645,5 +645,93 @@ Before Running Migrations:
 
 ---
 
-**Last Updated**: 2025-10-18
+## Level 3: Resources
+
+**Location**: `/Users/rand/src/cc-polymath/skills/database/postgres-migrations/resources/`
+
+This skill includes comprehensive Level 3 resources for advanced migration management:
+
+### REFERENCE.md (~1,800 lines)
+Comprehensive reference covering:
+- Migration fundamentals and best practices
+- Schema versioning strategies (forward-only, bidirectional, immutable)
+- Deep dive into migration tools (Flyway, golang-migrate, Alembic, Liquibase, dbmate, Atlas)
+- Writing safe migrations (idempotency, transactions, constraints)
+- Zero-downtime patterns (add column, add index, rename, change type)
+- PostgreSQL lock behavior reference
+- Data migrations and batching strategies
+- Testing migrations (local, staging, CI/CD)
+- Rollback strategies (down migrations, backups, PITR, blue-green)
+- Common pitfalls and solutions
+- Advanced topics (schema drift, multi-tenancy, partitions)
+
+### Scripts (3 production-ready tools)
+
+**analyze_migration.py** - Migration safety analyzer
+- Detects unsafe DDL operations (locks, table rewrites)
+- Identifies missing idempotency guards
+- Warns about data loss operations
+- Checks transaction compatibility
+- Suggests safer alternatives
+- JSON output for CI/CD integration
+
+**generate_migration.py** - Migration file generator
+- Supports multiple migration tools (Flyway, golang-migrate, Alembic, dbmate)
+- Template-based generation (add table, add column, add index, etc.)
+- Auto-generates safe, idempotent SQL
+- Includes rollback scripts
+- Dry-run mode for preview
+
+**test_migration.sh** - Docker-based migration tester
+- Spins up temporary PostgreSQL instance
+- Loads production schema dumps
+- Applies migrations
+- Tests rollback (for supported tools)
+- Verifies schema integrity
+- Auto-cleanup on exit
+- JSON output for CI/CD
+
+### Examples
+
+**python/alembic_migrations/** - Complete Alembic setup
+- Configuration files (alembic.ini, env.py)
+- Example migrations (initial schema, add tables)
+- README with setup and usage instructions
+
+**sql/safe_migrations/** - Safe migration patterns
+- Add nullable column
+- Add index concurrently
+- Add table with constraints
+- Add constraint with NOT VALID pattern
+
+**sql/unsafe_migrations/** - What NOT to do
+- Add NOT NULL column without default
+- Create index without CONCURRENTLY
+- Rename column directly
+- Large UPDATE without batching
+
+**docker/** - Testing environment
+- docker-compose.yml with PostgreSQL + Flyway + pgAdmin
+- Complete testing workflows
+- CI/CD integration examples
+
+### Usage
+
+```bash
+# Analyze migration for safety
+./resources/scripts/analyze_migration.py migration.sql
+
+# Generate migration from template
+./resources/scripts/generate_migration.py --tool flyway --template add-column \
+  --table users --column phone:varchar
+
+# Test migration in Docker
+./resources/scripts/test_migration.sh --migrations-dir migrations/ --test-rollback
+```
+
+See `resources/scripts/README.md` for complete documentation.
+
+---
+
+**Last Updated**: 2025-10-27
 **Format Version**: 1.0 (Atomic)
