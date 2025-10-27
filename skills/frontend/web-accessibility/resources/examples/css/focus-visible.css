@@ -1,0 +1,475 @@
+/**
+ * Accessible Focus Indicators
+ *
+ * This CSS file demonstrates various approaches to creating visible,
+ * accessible focus indicators that work across different browsers and
+ * contexts while respecting user preferences.
+ */
+
+/* ==========================================================================
+   Base Focus Styles
+   ========================================================================== */
+
+/**
+ * Never completely remove focus indicators!
+ * This is a critical accessibility violation.
+ */
+
+/* ❌ BAD: Removes all focus indicators */
+/*
+*:focus {
+  outline: none;
+}
+*/
+
+/* ✅ GOOD: Provide visible focus indicators */
+*:focus {
+  outline: 2px solid #0066cc;
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   :focus-visible for Modern Browsers
+   ========================================================================== */
+
+/**
+ * :focus-visible only shows focus when keyboard navigating
+ * This provides a better UX by not showing focus on mouse click
+ * while maintaining keyboard accessibility.
+ */
+
+/* Remove default focus, add focus-visible */
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid #0066cc;
+  outline-offset: 2px;
+}
+
+/* Fallback for browsers without :focus-visible */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ==========================================================================
+   Component-Specific Focus Styles
+   ========================================================================== */
+
+/* Links */
+a:focus-visible {
+  outline: 2px solid #0066cc;
+  outline-offset: 2px;
+  text-decoration: underline;
+}
+
+/* Buttons */
+button:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid #0066cc;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.2);
+}
+
+/* Form inputs */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #0066cc;
+  outline-offset: 0;
+  border-color: #0066cc;
+}
+
+/* Checkboxes and radio buttons */
+input[type="checkbox"]:focus-visible,
+input[type="radio"]:focus-visible {
+  outline: 2px solid #0066cc;
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   High Contrast Mode Support
+   ========================================================================== */
+
+/**
+ * Ensure focus indicators are visible in Windows High Contrast Mode
+ */
+
+@media (prefers-contrast: high) {
+  *:focus-visible {
+    outline-width: 3px;
+    outline-offset: 3px;
+  }
+
+  button:focus-visible,
+  [role="button"]:focus-visible {
+    outline-width: 3px;
+    outline-offset: 3px;
+  }
+}
+
+/* ==========================================================================
+   Dark Mode Support
+   ========================================================================== */
+
+/**
+ * Adjust focus indicators for dark backgrounds
+ */
+
+@media (prefers-color-scheme: dark) {
+  *:focus-visible {
+    outline-color: #66b3ff;
+  }
+
+  button:focus-visible,
+  [role="button"]:focus-visible {
+    outline-color: #66b3ff;
+    box-shadow: 0 0 0 4px rgba(102, 179, 255, 0.3);
+  }
+
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline-color: #66b3ff;
+    border-color: #66b3ff;
+  }
+}
+
+/* ==========================================================================
+   Skip Link Focus
+   ========================================================================== */
+
+/**
+ * Skip links should be visually hidden until focused
+ */
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 9999;
+  padding: 1rem 1.5rem;
+  background-color: #000;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.skip-link:focus {
+  left: 50%;
+  transform: translateX(-50%);
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Focus Within (Parent Focus Indication)
+   ========================================================================== */
+
+/**
+ * Highlight parent container when a child element has focus
+ * Useful for complex form groups or navigation menus
+ */
+
+.form-group:focus-within {
+  background-color: #f0f7ff;
+  border-radius: 4px;
+  padding: 0.5rem;
+  margin: -0.5rem;
+}
+
+.nav-item:focus-within {
+  background-color: #e6f2ff;
+}
+
+/* ==========================================================================
+   Custom Focus Indicators
+   ========================================================================== */
+
+/**
+ * Primary button with custom focus
+ */
+
+.btn-primary {
+  background-color: #0066cc;
+  color: white;
+  border: 2px solid #0066cc;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0052a3;
+  border-color: #0052a3;
+}
+
+.btn-primary:focus-visible {
+  outline: 2px solid #0066cc;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.25);
+}
+
+/**
+ * Secondary button with custom focus
+ */
+
+.btn-secondary {
+  background-color: transparent;
+  color: #0066cc;
+  border: 2px solid #0066cc;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #e6f2ff;
+}
+
+.btn-secondary:focus-visible {
+  outline: 2px solid #0066cc;
+  outline-offset: 2px;
+  background-color: #e6f2ff;
+}
+
+/**
+ * Danger button with custom focus
+ */
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+  border: 2px solid #dc3545;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+.btn-danger:focus-visible {
+  outline: 2px solid #dc3545;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.25);
+}
+
+/* ==========================================================================
+   Card/Container Focus
+   ========================================================================== */
+
+/**
+ * Focusable card component
+ */
+
+.card {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: all 0.2s ease;
+}
+
+.card:focus-visible {
+  outline: 2px solid #0066cc;
+  outline-offset: 2px;
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.15);
+}
+
+/* ==========================================================================
+   Custom Checkbox/Radio Focus
+   ========================================================================== */
+
+/**
+ * Custom styled checkbox with accessible focus
+ */
+
+.custom-checkbox {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+
+.custom-checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  margin: 0;
+}
+
+.custom-checkbox .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #fff;
+  border: 2px solid #666;
+  border-radius: 3px;
+}
+
+.custom-checkbox input[type="checkbox"]:checked ~ .checkmark {
+  background-color: #0066cc;
+  border-color: #0066cc;
+}
+
+.custom-checkbox input[type="checkbox"]:focus-visible ~ .checkmark {
+  outline: 2px solid #0066cc;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.2);
+}
+
+/* Checkmark icon */
+.custom-checkbox .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.custom-checkbox input[type="checkbox"]:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* ==========================================================================
+   Focus Indicator Animations
+   ========================================================================== */
+
+/**
+ * Animated focus indicator
+ * Note: Keep animations subtle and respect prefers-reduced-motion
+ */
+
+.animated-focus:focus-visible {
+  outline: 2px solid #0066cc;
+  outline-offset: 2px;
+  animation: focusPulse 1s ease-in-out;
+}
+
+@keyframes focusPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(0, 102, 204, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(0, 102, 204, 0);
+  }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .animated-focus:focus-visible {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   Focus Trap (for modals)
+   ========================================================================== */
+
+/**
+ * When modal is open, only elements inside should be focusable
+ */
+
+body.modal-open {
+  overflow: hidden;
+}
+
+body.modal-open > *:not(.modal) {
+  /* Hide other content from assistive technologies */
+  visibility: hidden;
+}
+
+.modal {
+  visibility: visible;
+}
+
+/* ==========================================================================
+   Keyboard-Only Focus (JS Enhancement)
+   ========================================================================== */
+
+/**
+ * If you detect keyboard usage with JavaScript, you can add a class
+ * to show focus only during keyboard navigation
+ */
+
+/* Default: no focus */
+body:not(.keyboard-nav) *:focus {
+  outline: none;
+}
+
+/* Keyboard navigation: show focus */
+body.keyboard-nav *:focus {
+  outline: 2px solid #0066cc;
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Print Styles
+   ========================================================================== */
+
+/**
+ * Remove focus indicators in print
+ */
+
+@media print {
+  *:focus,
+  *:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+/* ==========================================================================
+   Example Usage
+   ========================================================================== */
+
+/**
+ * HTML Example:
+ *
+ * <button class="btn-primary">Primary Button</button>
+ * <button class="btn-secondary">Secondary Button</button>
+ * <a href="#" class="card">Focusable Card</a>
+ *
+ * <label class="custom-checkbox">
+ *   <input type="checkbox">
+ *   <span class="checkmark"></span>
+ *   Agree to terms
+ * </label>
+ */
+
+/**
+ * JavaScript Example (keyboard-only focus):
+ *
+ * // Detect keyboard usage
+ * let usingKeyboard = false;
+ *
+ * document.addEventListener('keydown', (e) => {
+ *   if (e.key === 'Tab') {
+ *     usingKeyboard = true;
+ *     document.body.classList.add('keyboard-nav');
+ *   }
+ * });
+ *
+ * document.addEventListener('mousedown', () => {
+ *   usingKeyboard = false;
+ *   document.body.classList.remove('keyboard-nav');
+ * });
+ */

@@ -689,5 +689,94 @@ test('should have no accessibility violations', async () => {
 
 ---
 
-**Last Updated**: 2025-10-18
+## Level 3: Resources
+
+**Location**: `skills/frontend/web-accessibility/resources/`
+
+### REFERENCE.md
+
+Comprehensive 1,900+ line reference covering:
+- **WCAG Guidelines**: Complete Level A, AA, AAA criteria with code examples
+- **ARIA Reference**: All roles, states, and properties with usage patterns
+- **Semantic HTML**: Document structure, heading hierarchy, lists, tables, forms
+- **Keyboard Navigation**: Tab order, focus management, roving tabindex
+- **Screen Reader Support**: Hidden text, live regions, form labels, announcements
+- **Focus Management**: Focus traps, restoration, programmatic focus
+- **Color and Contrast**: WCAG ratios, color blindness, testing tools
+- **Forms and Validation**: Labels, error messages, aria-invalid, error summaries
+- **Dynamic Content**: Loading states, live announcements, progress indicators
+- **Testing Tools**: axe-core, Lighthouse, manual testing workflows
+- **Common Patterns**: Modals, accordions, tabs, dropdowns, comboboxes
+- **Mobile Accessibility**: Touch targets, gestures, viewport, screen readers
+- **Anti-Patterns**: Common mistakes with fixes
+
+### Scripts
+
+**check_accessibility.py** (Python, executable)
+- Automated accessibility auditing with axe-core via Selenium
+- Scans web pages for WCAG violations
+- Multiple standards: WCAG 2.1/2.2 Level A/AA/AAA
+- Output: text, JSON, or HTML reports
+- Batch URL processing
+- Usage: `./check_accessibility.py <url> [--standard wcag2aa] [--json]`
+
+**analyze_aria.py** (Python, executable)
+- Analyzes ARIA usage in HTML/JSX files
+- Detects invalid roles, attributes, and values
+- Checks for common mistakes (redundant roles, hidden focusable elements)
+- Validates ARIA patterns and requirements
+- Usage: `./analyze_aria.py <path> [--recursive] [--json]`
+
+**test_keyboard_nav.js** (Node.js/Puppeteer, executable)
+- Tests keyboard navigation patterns with Puppeteer
+- Verifies tab order, focus indicators, keyboard traps
+- Checks skip links, interactive elements, modals, menus
+- Reports: text or JSON
+- Usage: `./test_keyboard_nav.js <url> [--json]`
+
+### Examples
+
+**react/accessible-modal.tsx**
+- Complete accessible modal dialog component
+- Focus trap (Tab/Shift+Tab cycle)
+- Escape key to close
+- Focus restoration
+- ARIA attributes (role="dialog", aria-modal, aria-labelledby)
+- Backdrop click to close
+
+**react/accessible-form.tsx**
+- Accessible form with validation
+- Proper labels and aria-describedby
+- Error messages with aria-invalid
+- Error summary with focus management
+- Client-side validation
+- Required field indicators
+
+**react/accessible-dropdown.tsx**
+- ARIA combobox pattern
+- Keyboard navigation (Arrow keys, Enter, Escape)
+- aria-activedescendant for active option
+- Search/filter functionality
+- Proper focus management
+
+**html/semantic-examples.html**
+- Complete semantic HTML document
+- Proper heading hierarchy
+- Skip links
+- Semantic landmarks (header, nav, main, aside, footer)
+- Accessible forms, tables, lists
+- Figure with caption
+
+**css/focus-visible.css**
+- Modern focus indicator patterns
+- :focus-visible for keyboard-only focus
+- High contrast mode support
+- Dark mode support
+- Custom focus styles for buttons, inputs, cards
+- Skip link styles
+- Animated focus (respecting prefers-reduced-motion)
+
+---
+
+**Last Updated**: 2025-10-27
 **Format Version**: 1.0 (Atomic)

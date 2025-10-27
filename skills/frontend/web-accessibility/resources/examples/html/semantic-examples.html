@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Semantic HTML Examples - Accessibility Demo</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      color: #333;
+    }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      z-index: 999;
+      padding: 1em;
+      background-color: #000;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .skip-link:focus {
+      left: 50%;
+      transform: translateX(-50%);
+      top: 0;
+    }
+
+    /* Header */
+    header {
+      background-color: #f8f9fa;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-radius: 8px;
+    }
+
+    /* Navigation */
+    nav ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav a {
+      color: #0066cc;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+    }
+
+    nav a:hover,
+    nav a:focus {
+      text-decoration: underline;
+      background-color: #e6f2ff;
+      border-radius: 4px;
+    }
+
+    /* Main content */
+    main {
+      margin-bottom: 2rem;
+    }
+
+    /* Articles */
+    article {
+      background-color: #fff;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    article header {
+      background: none;
+      padding: 0;
+      margin-bottom: 1rem;
+    }
+
+    /* Aside */
+    aside {
+      background-color: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #343a40;
+      color: #fff;
+      padding: 2rem;
+      border-radius: 8px;
+      margin-top: 3rem;
+    }
+
+    footer a {
+      color: #adb5bd;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    th {
+      background-color: #f8f9fa;
+      font-weight: bold;
+    }
+
+    /* Forms */
+    form {
+      background-color: #f8f9fa;
+      padding: 2rem;
+      border-radius: 8px;
+      margin: 2rem 0;
+    }
+
+    fieldset {
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    legend {
+      font-weight: bold;
+      padding: 0 0.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 2px solid #0066cc;
+      outline-offset: 2px;
+    }
+
+    button {
+      background-color: #0066cc;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0052a3;
+    }
+
+    button:focus {
+      outline: 2px solid #0066cc;
+      outline-offset: 2px;
+    }
+
+    /* Lists */
+    dl {
+      background-color: #f8f9fa;
+      padding: 1rem;
+      border-radius: 4px;
+    }
+
+    dt {
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+
+    dt:first-child {
+      margin-top: 0;
+    }
+
+    dd {
+      margin-left: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Figure */
+    figure {
+      background-color: #f8f9fa;
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 2rem 0;
+    }
+
+    figcaption {
+      margin-top: 0.5rem;
+      font-style: italic;
+      color: #666;
+    }
+
+    /* Code */
+    code {
+      background-color: #f8f9fa;
+      padding: 0.125rem 0.25rem;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* Utility classes */
+    .required {
+      color: #dc3545;
+    }
+
+    .hint {
+      font-size: 0.875rem;
+      color: #666;
+      margin-top: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Skip link for keyboard navigation -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Page header with logo and navigation -->
+  <header>
+    <div>
+      <h1>Semantic HTML Examples</h1>
+      <p>Demonstrating accessible, semantic HTML structure</p>
+    </div>
+
+    <!-- Main navigation -->
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#examples">Examples</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content area -->
+  <main id="main-content">
+    <!-- Article with proper heading hierarchy -->
+    <article>
+      <header>
+        <h2>Understanding Semantic HTML</h2>
+        <p>
+          By <span class="author">John Doe</span> on
+          <time datetime="2025-10-27">October 27, 2025</time>
+        </p>
+      </header>
+
+      <section>
+        <h3>What is Semantic HTML?</h3>
+        <p>
+          Semantic HTML uses elements that clearly describe their meaning to
+          both the browser and the developer. Examples include
+          <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>,
+          <code>&lt;main&gt;</code>, <code>&lt;article&gt;</code>, and
+          <code>&lt;footer&gt;</code>.
+        </p>
+      </section>
+
+      <section>
+        <h3>Benefits</h3>
+        <ul>
+          <li>Improved accessibility for screen readers</li>
+          <li>Better SEO (search engines understand content structure)</li>
+          <li>Easier to maintain and read code</li>
+          <li>Consistent styling and behavior</li>
+        </ul>
+      </section>
+
+      <footer>
+        <p>
+          <a href="#article">Read more about semantic HTML</a>
+        </p>
+      </footer>
+    </article>
+
+    <!-- Data table with proper headers -->
+    <section>
+      <h2>Data Table Example</h2>
+      <table>
+        <caption>Employee Salaries for 2025</caption>
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Title</th>
+            <th scope="col">Salary</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">John Doe</th>
+            <td>Software Engineer</td>
+            <td>$100,000</td>
+          </tr>
+          <tr>
+            <th scope="row">Jane Smith</th>
+            <td>UX Designer</td>
+            <td>$95,000</td>
+          </tr>
+          <tr>
+            <th scope="row">Bob Johnson</th>
+            <td>Product Manager</td>
+            <td>$110,000</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th scope="row" colspan="2">Total</th>
+            <td>$305,000</td>
+          </tr>
+        </tfoot>
+      </table>
+    </section>
+
+    <!-- Form with proper labels and structure -->
+    <section>
+      <h2>Contact Form Example</h2>
+      <form action="/submit" method="post">
+        <fieldset>
+          <legend>Personal Information</legend>
+
+          <label for="name">
+            Full Name <span class="required" aria-label="required">*</span>
+          </label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            required
+            aria-required="true"
+            autocomplete="name"
+          >
+
+          <label for="email">
+            Email Address <span class="required" aria-label="required">*</span>
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            aria-required="true"
+            autocomplete="email"
+            aria-describedby="email-hint"
+          >
+          <p id="email-hint" class="hint">We'll never share your email</p>
+
+          <label for="phone">Phone Number</label>
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            autocomplete="tel"
+            aria-describedby="phone-hint"
+          >
+          <p id="phone-hint" class="hint">Optional: Include area code</p>
+        </fieldset>
+
+        <fieldset>
+          <legend>Preferences</legend>
+
+          <label for="country">Country</label>
+          <select id="country" name="country" autocomplete="country">
+            <option value="">Select a country</option>
+            <option value="us">United States</option>
+            <option value="uk">United Kingdom</option>
+            <option value="ca">Canada</option>
+            <option value="au">Australia</option>
+          </select>
+
+          <fieldset>
+            <legend>Preferred Contact Method</legend>
+
+            <input
+              id="contact-email"
+              type="radio"
+              name="contact"
+              value="email"
+              checked
+            >
+            <label for="contact-email">Email</label>
+            <br>
+
+            <input
+              id="contact-phone"
+              type="radio"
+              name="contact"
+              value="phone"
+            >
+            <label for="contact-phone">Phone</label>
+            <br>
+
+            <input
+              id="contact-mail"
+              type="radio"
+              name="contact"
+              value="mail"
+            >
+            <label for="contact-mail">Mail</label>
+          </fieldset>
+
+          <input
+            id="subscribe"
+            type="checkbox"
+            name="subscribe"
+            value="yes"
+          >
+          <label for="subscribe">Subscribe to newsletter</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Message</legend>
+
+          <label for="message">Your Message</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="5"
+            maxlength="500"
+            aria-describedby="message-hint"
+          ></textarea>
+          <p id="message-hint" class="hint">Maximum 500 characters</p>
+        </fieldset>
+
+        <button type="submit">Submit Form</button>
+      </form>
+    </section>
+
+    <!-- Description list -->
+    <section>
+      <h2>Glossary Example</h2>
+      <dl>
+        <dt>HTML</dt>
+        <dd>HyperText Markup Language - the standard markup language for web pages</dd>
+
+        <dt>CSS</dt>
+        <dd>Cascading Style Sheets - used to style and layout web pages</dd>
+
+        <dt>ARIA</dt>
+        <dd>Accessible Rich Internet Applications - technical specification for accessibility</dd>
+
+        <dt>WCAG</dt>
+        <dd>Web Content Accessibility Guidelines - recommendations for making web content accessible</dd>
+      </dl>
+    </section>
+
+    <!-- Figure with caption -->
+    <section>
+      <h2>Figure Example</h2>
+      <figure>
+        <img
+          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect width='400' height='300' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%23666'%3EChart Placeholder%3C/text%3E%3C/svg%3E"
+          alt="Bar chart showing quarterly sales data for 2025"
+          width="400"
+          height="300"
+        >
+        <figcaption>
+          Figure 1: Quarterly sales data for 2025. Q4 shows significant growth
+          compared to previous quarters.
+        </figcaption>
+      </figure>
+    </section>
+  </main>
+
+  <!-- Sidebar content -->
+  <aside>
+    <h2>Related Resources</h2>
+    <nav aria-label="Related resources">
+      <ul>
+        <li><a href="https://www.w3.org/WAI/WCAG21/quickref/">WCAG Quick Reference</a></li>
+        <li><a href="https://www.w3.org/TR/wai-aria-1.2/">ARIA Specification</a></li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML">MDN HTML Reference</a></li>
+        <li><a href="https://webaim.org/">WebAIM Resources</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Page footer -->
+  <footer>
+    <nav aria-label="Footer">
+      <h2>Quick Links</h2>
+      <ul style="list-style: none; padding: 0; display: flex; gap: 2rem;">
+        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href="/terms">Terms of Service</a></li>
+        <li><a href="/accessibility">Accessibility Statement</a></li>
+        <li><a href="/contact">Contact Us</a></li>
+      </ul>
+    </nav>
+
+    <p>&copy; 2025 Accessibility Examples. All rights reserved.</p>
+    <p>
+      <a href="#top">Back to top</a>
+    </p>
+  </footer>
+
+  <script>
+    // Example: Announce form submission to screen readers
+    document.querySelector('form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Create live region announcement
+      const announcement = document.createElement('div');
+      announcement.setAttribute('role', 'status');
+      announcement.setAttribute('aria-live', 'polite');
+      announcement.setAttribute('aria-atomic', 'true');
+      announcement.style.position = 'absolute';
+      announcement.style.left = '-9999px';
+      announcement.textContent = 'Form submitted successfully!';
+
+      document.body.appendChild(announcement);
+
+      setTimeout(() => {
+        document.body.removeChild(announcement);
+        alert('Form submitted! (This is a demo, no data was sent)');
+      }, 1000);
+    });
+  </script>
+</body>
+</html>

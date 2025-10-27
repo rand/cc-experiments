@@ -1,0 +1,23 @@
+# Prometheus configuration for WebSocket monitoring
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  # WebSocket server metrics
+  - job_name: 'websocket'
+    static_configs:
+      - targets: ['websocket:8080']
+    metrics_path: '/metrics'
+
+  # Nginx metrics (if available)
+  - job_name: 'nginx'
+    static_configs:
+      - targets: ['nginx:80']
+    metrics_path: '/nginx_status'
+
+  # Redis metrics (if redis_exporter is added)
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis:6379']

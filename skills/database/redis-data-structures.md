@@ -590,6 +590,198 @@ DISCARD             # Cancel transaction
 
 ---
 
+## Level 3: Resources
+
+### Comprehensive Reference
+
+**`resources/REFERENCE.md`** (1,800+ lines)
+Comprehensive guide covering:
+- All Redis data structures (String, List, Set, Sorted Set, Hash, Stream, Bitmap, HyperLogLog, Geospatial)
+- Time complexity for every operation
+- Memory optimization techniques and encodings
+- Persistence strategies (RDB, AOF, hybrid)
+- Replication and clustering architectures
+- Pub/Sub patterns and limitations
+- Transactions and pipelining
+- Lua scripting patterns
+- Caching strategies (cache-aside, write-through, write-behind)
+- Common patterns (rate limiting, locks, leaderboards, queues)
+- Production best practices and troubleshooting
+
+### Executable Scripts
+
+**`resources/scripts/analyze_redis.py`**
+Analyze Redis memory usage and key patterns:
+```bash
+# Analyze all keys
+./analyze_redis.py
+
+# Analyze specific pattern
+./analyze_redis.py --pattern "user:*"
+
+# Find large keys
+./analyze_redis.py --large-keys --threshold 5
+
+# Detailed pattern analysis
+./analyze_redis.py --analyze-pattern "session:*"
+
+# JSON output
+./analyze_redis.py --json
+```
+
+Features:
+- Memory usage analysis with pattern detection
+- Key pattern extraction (replaces IDs with placeholders)
+- Type and encoding distribution
+- TTL analysis
+- Optimization recommendations
+- Large key detection
+
+**`resources/scripts/benchmark_operations.py`**
+Benchmark Redis operations:
+```bash
+# Run all benchmarks
+./benchmark_operations.py
+
+# Benchmark specific data structure
+./benchmark_operations.py --benchmark strings
+
+# More iterations
+./benchmark_operations.py --iterations 10000
+
+# JSON output
+./benchmark_operations.py --json
+```
+
+Benchmarks:
+- String operations (SET, GET, INCR)
+- List operations (LPUSH, RPUSH, LPOP, LRANGE)
+- Set operations (SADD, SISMEMBER, SINTER)
+- Sorted set operations (ZADD, ZSCORE, ZRANGE, ZRANK)
+- Hash operations (HSET, HGET, HINCRBY, HGETALL)
+- Pipelining vs individual commands
+- Different data sizes (64B to 16KB)
+
+Output includes ops/sec, avg/p50/p95/p99 latency.
+
+**`resources/scripts/test_patterns.sh`**
+Test common Redis patterns:
+```bash
+# Test all patterns
+./test_patterns.sh
+
+# Test specific pattern
+./test_patterns.sh --pattern cache
+
+# JSON output
+./test_patterns.sh --json
+```
+
+Tests:
+- Cache pattern (cache-aside with TTL)
+- Queue pattern (FIFO, reliable queue with BRPOPLPUSH)
+- Pub/Sub pattern (publish, subscribe, pattern matching)
+- Distributed lock pattern (acquire, release with Lua)
+- Leaderboard pattern (ZADD, rankings, increments)
+- Rate limiting (counter-based, sliding window)
+
+### Runnable Examples
+
+**Python Examples:**
+
+1. **`examples/python/caching_patterns.py`** - Caching strategies:
+   - Cache-aside (lazy loading)
+   - Write-through (sync cache + DB)
+   - Write-behind (async DB writes)
+   - Performance comparison
+   - Mock database for demonstration
+
+2. **`examples/python/rate_limiter.py`** - Rate limiting algorithms:
+   - Sliding window (sorted set based)
+   - Token bucket (Lua script based)
+   - Fixed window (simple counter)
+   - Comparison across algorithms
+   - API tier simulation (free vs premium)
+
+3. **`examples/python/session_store.py`** - Session management:
+   - Basic session CRUD operations
+   - Multiple sessions per user
+   - Shopping cart integration
+   - Session expiration handling
+   - User session statistics
+
+**Node.js Examples:**
+
+1. **`examples/node/leaderboard.js`** - Leaderboard implementation:
+   - Basic leaderboard operations
+   - Time-based leaderboards (daily, weekly, monthly)
+   - Score range queries
+   - Players around position
+   - Multiple leaderboards (casual, ranked, tournament)
+
+2. **`examples/node/pubsub_example.js`** - Pub/Sub messaging:
+   - Basic publish/subscribe
+   - Pattern subscriptions
+   - Chat room implementation
+   - Notification system
+   - Multiple subscribers demonstration
+   - Cache invalidation via pub/sub
+
+**Docker Examples:**
+
+**`examples/docker/`** - Complete Docker Compose configurations:
+
+Configurations provided:
+- **Basic Redis**: Simple instance with persistence
+- **Configured Redis**: Password, memory limits, custom config
+- **Master-Replica**: Replication setup (1 master + 2 replicas)
+- **Redis Sentinel**: High availability (master + replicas + 3 sentinels)
+- **Redis Cluster**: Sharded setup (6 nodes with replicas)
+- **Management UIs**: Redis Commander and Redis Insight
+
+Quick start:
+```bash
+# Basic Redis
+docker-compose up redis
+
+# Redis with replication
+docker-compose up redis-master redis-replica-1 redis-replica-2
+
+# Redis Cluster
+docker-compose up redis-cluster-1 redis-cluster-2 redis-cluster-3 \
+                  redis-cluster-4 redis-cluster-5 redis-cluster-6
+
+# Create cluster
+docker exec -it redis-cluster-1 redis-cli --cluster create \
+  redis-cluster-1:7000 redis-cluster-2:7001 redis-cluster-3:7002 \
+  redis-cluster-4:7003 redis-cluster-5:7004 redis-cluster-6:7005 \
+  --cluster-replicas 1 --cluster-yes
+
+# Web UI
+docker-compose up redis redis-commander
+# Access at http://localhost:8081
+```
+
+Includes:
+- Production-ready configurations
+- Persistence setup (RDB + AOF)
+- Networking configuration
+- Volume management
+- Health checks
+- README with troubleshooting
+
+### Usage
+
+All scripts support:
+- `--help` flag for detailed usage
+- `--json` flag for machine-readable output
+- Connection parameters (`--host`, `--port`, `--password`, `--db`)
+- Verbose mode (`--verbose` or `-v`)
+
+All examples are self-contained and runnable with minimal setup.
+
+---
+
 ## Related Skills
 
 - `postgres-query-optimization.md` - When to cache database queries

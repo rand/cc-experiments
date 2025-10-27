@@ -837,5 +837,117 @@ Security:
 
 ---
 
-**Last Updated**: 2025-10-18
+## Level 3: Resources
+
+This skill includes comprehensive Level 3 resources in the `/resources/` directory:
+
+### Reference Material (`resources/REFERENCE.md`)
+
+Comprehensive 1,800+ line reference covering:
+- REST principles (stateless, resource-based, uniform interface)
+- HTTP methods (GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD)
+- Status codes (proper usage for 2xx, 3xx, 4xx, 5xx)
+- URL design and resource naming
+- Request/response formats (JSON, content negotiation)
+- Pagination strategies (offset, cursor, page-based)
+- Filtering, sorting, and searching
+- Versioning strategies (URI, header, content negotiation)
+- Error handling and problem details (RFC 7807)
+- HATEOAS and hypermedia
+- Rate limiting and throttling
+- Caching (ETags, Cache-Control, conditional requests)
+- Authentication and authorization
+- CORS
+- API documentation (OpenAPI/Swagger)
+- Security best practices
+- Performance optimization
+- Testing strategies
+- Common patterns and anti-patterns
+
+### Executable Scripts (`resources/scripts/`)
+
+**validate_api.py**:
+- Validate REST API design against best practices
+- Check resource naming conventions, HTTP method usage, status codes
+- Validate response format consistency, security headers, rate limiting
+- Support for OpenAPI specs and custom formats
+- JSON output for CI/CD integration
+
+**generate_openapi.py**:
+- Generate OpenAPI specs from Python (FastAPI, Flask) or JavaScript (Express) code
+- Convert Swagger 2.0 to OpenAPI 3.0
+- Generate client code (Python, JavaScript, TypeScript) from OpenAPI specs
+- Automatic endpoint detection and schema generation
+
+**test_api.sh**:
+- Test REST API endpoints with various scenarios
+- CRUD operations, error handling, authentication
+- Pagination, filtering, sorting, caching
+- Rate limiting, CORS, content negotiation
+- Save responses and generate JSON reports
+
+### Complete Examples (`resources/examples/`)
+
+**python/fastapi_rest.py**:
+- Complete REST API with FastAPI
+- Resource-based endpoints, proper HTTP methods and status codes
+- Pagination, filtering, sorting
+- Authentication with Bearer tokens
+- Rate limiting, caching headers
+- Error handling with RFC 7807 format
+- Request validation with Pydantic
+
+**node/express_rest.js**:
+- Complete REST API with Express.js
+- Middleware for authentication, rate limiting, validation
+- Error handling and logging
+- Security headers with Helmet
+- Request ID tracking
+
+**openapi/petstore.yaml**:
+- Complete OpenAPI 3.0 specification
+- User management API example
+- Components, schemas, responses
+- Security schemes (Bearer auth)
+- Pagination, filtering, error responses
+
+**typescript/api_client.ts**:
+- Type-safe API client
+- Request/response interceptors
+- Retry logic and error handling
+- Caching with ETags
+- TypeScript interfaces for all models
+
+**curl/test_requests.sh**:
+- Comprehensive curl examples
+- CRUD operations, filtering, sorting, pagination
+- Error handling, authentication, conditional requests
+- CORS preflight, rate limiting, compression
+- Bulk operations and async patterns
+
+### Usage
+
+```bash
+# Validate API design
+./resources/scripts/validate_api.py openapi.json --type spec --json
+
+# Generate OpenAPI from code
+./resources/scripts/generate_openapi.py from-code api.py --framework fastapi -o openapi.json
+
+# Test API endpoints
+./resources/scripts/test_api.sh --url https://api.example.com --api-key TOKEN --verbose
+
+# Run curl examples
+cd resources/examples/curl && ./test_requests.sh
+
+# Run FastAPI example
+cd resources/examples/python && python fastapi_rest.py
+
+# Run Express example
+cd resources/examples/node && node express_rest.js
+```
+
+---
+
+**Last Updated**: 2025-10-27
 **Format Version**: 1.0 (Atomic)
