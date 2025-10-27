@@ -110,6 +110,19 @@ coverage/
 # Beads task management
 .beads/
 
+# Claude Code workspace (personal)
+.claude/
+
+# Maintenance files (not for plugin distribution)
+CLAUDE.md
+ENHANCEMENT*.md
+*ENHANCEMENT*.md
+SKILLS_USAGE_GUIDE.md
+skills/_INDEX.md.archive
+skills/MIGRATION_GUIDE.md
+skills/REFACTORING_SUMMARY.md
+skills/_archive/
+
 # OS
 Thumbs.db
 Desktop.ini
