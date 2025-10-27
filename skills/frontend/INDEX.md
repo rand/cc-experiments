@@ -2,10 +2,20 @@
 
 ## Category Overview
 
-**Total Skills**: 8
+**Total Skills**: 10
 **Category**: frontend
 
 ## Skills in This Category
+
+### browser-concurrency.md
+**Description**: Service Workers, SharedWorkers, and multi-threading patterns
+
+**Load this skill**:
+```bash
+cat skills/frontend/browser-concurrency.md
+```
+
+---
 
 ### frontend-performance.md
 **Description**: Optimizing application performance
@@ -87,6 +97,16 @@ cat skills/frontend/web-accessibility.md
 
 ---
 
+### web-workers.md
+**Description**: Offloading computation with Web Workers and message passing
+
+**Load this skill**:
+```bash
+cat skills/frontend/web-workers.md
+```
+
+---
+
 ## Loading All Skills
 
 ```bash
@@ -94,10 +114,10 @@ cat skills/frontend/web-accessibility.md
 ls skills/frontend/*.md
 
 # Load specific skills
+cat skills/frontend/browser-concurrency.md
 cat skills/frontend/frontend-performance.md
 cat skills/frontend/nextjs-app-router.md
-cat skills/frontend/nextjs-seo.md
-# ... and 5 more
+# ... and 7 more
 ```
 
 ## Related Categories

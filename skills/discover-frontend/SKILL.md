@@ -24,7 +24,7 @@ This skill auto-activates when you're working with:
 
 ### Quick Reference
 
-The Frontend category contains 8 core skills (+ elegant-design):
+The Frontend category contains 10 core skills (+ elegant-design):
 
 1. **react-component-patterns** - Component design, composition, hooks, performance
 2. **nextjs-app-router** - Next.js 14+ App Router, Server Components, routing
@@ -34,7 +34,9 @@ The Frontend category contains 8 core skills (+ elegant-design):
 6. **web-accessibility** - WCAG 2.1 AA compliance, ARIA, keyboard navigation
 7. **frontend-performance** - Bundle optimization, Core Web Vitals, code splitting
 8. **nextjs-seo** - SEO with Next.js, metadata API, structured data
-9. **elegant-design/SKILL.md** - World-class accessible interfaces (separate Agent Skill)
+9. **web-workers** - Web Workers API, message passing, offloading computation
+10. **browser-concurrency** - Service Workers, SharedWorkers, Worklets, PWAs
+11. **elegant-design/SKILL.md** - World-class accessible interfaces (separate Agent Skill)
 
 ### Load Full Category Details
 
@@ -70,6 +72,10 @@ cat skills/frontend/react-form-handling.md
 # Quality and performance
 cat skills/frontend/web-accessibility.md
 cat skills/frontend/frontend-performance.md
+
+# Concurrency and workers
+cat skills/frontend/web-workers.md
+cat skills/frontend/browser-concurrency.md
 
 # Design system and UI (Agent Skill - auto-discovered separately)
 # elegant-design/SKILL.md activates independently for UI design work
@@ -111,6 +117,15 @@ cat skills/frontend/react-state-management.md  # Manage form state
 cat skills/frontend/frontend-performance.md    # Optimize bundle
 cat skills/frontend/web-accessibility.md       # Ensure accessibility
 cat skills/frontend/nextjs-seo.md              # Optimize SEO
+```
+
+### CPU-Intensive Features & PWAs
+**Sequence**: Workers → Concurrency → Performance
+
+```bash
+cat skills/frontend/web-workers.md             # Offload heavy computation
+cat skills/frontend/browser-concurrency.md     # Service Workers, offline support
+cat skills/frontend/frontend-performance.md    # Optimize overall performance
 ```
 
 ## Skill Selection Guide
@@ -169,6 +184,22 @@ cat skills/frontend/nextjs-seo.md              # Optimize SEO
 - Structured data (JSON-LD)
 - Sitemap and robots.txt
 - Dynamic metadata
+
+**Web Workers** → `web-workers.md`:
+- Offloading heavy computation
+- Web Workers API and message passing
+- Transferable objects for zero-copy
+- React integration with custom hooks
+- Worker pools for parallel processing
+- TypeScript type safety
+
+**Browser Concurrency** → `browser-concurrency.md`:
+- Service Workers for offline support and PWAs
+- SharedWorkers for cross-tab state
+- Audio/Paint/Animation Worklets
+- Background sync and push notifications
+- Caching strategies
+- BroadcastChannel for cross-tab messaging
 
 ## Integration with Other Skills
 
@@ -248,6 +279,16 @@ cat skills/frontend/web-accessibility.md
 **"Improve SEO"**:
 ```bash
 cat skills/frontend/nextjs-seo.md
+```
+
+**"Offload heavy computation"**:
+```bash
+cat skills/frontend/web-workers.md
+```
+
+**"Build a PWA with offline support"**:
+```bash
+cat skills/frontend/browser-concurrency.md
 ```
 
 ## React vs Next.js Decision
