@@ -1,500 +1,399 @@
-# Claude Code Development Reference
+# Atomic Skills for Claude Code
 
-A comprehensive skills library and development guidelines for working with Claude Code across 283 atomic, composable skills spanning 33 technology domains.
+**Context-efficient development knowledge via progressive skill discovery**
 
-## Overview
+This repository solves a fundamental problem: how to give Claude Code access to comprehensive development knowledge without overwhelming its context window on boot. The solution is 283 atomic, composable skills organized through a multi-tier discovery system.
 
-This repository serves as a complete reference for software development best practices, workflows, and atomic skills. Each skill is focused (~320 lines average), tested in production, and designed to compose with others for complex workflows.
+## The Problem: Context vs Coverage
 
-**Key Features**:
-- **Auto-Discovery**: 31 gateway Agent Skills automatically activate based on task context
-- **Progressive Loading**: 60-84% context reduction via tiered architecture
-- **283 Skills**: Comprehensive coverage across backend, frontend, data, ML, mathematics, and more
-- **Production-Tested**: Real-world patterns from building systems at scale
+Traditional approaches face a dilemma:
+- **Load everything upfront** → 25K+ tokens consumed before any real work begins
+- **Load nothing** → Claude lacks essential patterns and best practices
+- **Manual loading** → Users must know what exists to ask for it
 
-**Use this when:**
-- Starting a new project and need architecture patterns
-- Working with unfamiliar technologies or frameworks
-- Need production-ready workflows and best practices
-- Building complex multi-technology systems
-- Onboarding to a new codebase
-- Learning advanced mathematics or programming language theory
+This creates an impossible tradeoff between comprehensive coverage and context efficiency.
 
-## Quick Start
+## The Solution: Atomic Skills + Progressive Discovery
 
-**Auto-discovery** (Recommended):
-Just start working. Claude Code will automatically activate relevant gateway skills based on your task.
+### Atomic Skills (283 total)
+Each skill is **focused, self-contained, and composable**:
+- Average 320 lines - small enough to load quickly
+- Single responsibility - covers one clear topic
+- Production-tested - real patterns from building at scale
+- Cross-referenced - links to related skills for composition
 
-**Manual discovery**:
-```bash
-# View skills catalog
-cat skills/README.md
+**Why atomic matters**: Loading 5 focused skills (1.5K tokens) beats loading one monolithic guide (8K tokens) when you only need specific knowledge. Granularity enables precision.
 
-# Browse a category
-cat skills/api/INDEX.md
+### Three-Tier Architecture
 
-# Load a specific skill
-cat skills/api/rest-api-design.md
-```
+**Tier 1: Gateway Skills (31 auto-discovered Agent Skills)**
+Lightweight entry points that activate automatically based on keywords:
+- `discover-api` → triggers on "REST", "GraphQL", "authentication"
+- `discover-database` → triggers on "PostgreSQL", "MongoDB", "Redis"
+- `discover-zig` → triggers on "Zig", "comptime", "allocators"
+
+Each gateway is ~200 lines with quick reference and loading commands.
+
+**Tier 2: Category Indexes (30 detailed references)**
+Full skill listings with descriptions, use cases, and workflows:
+- `api/INDEX.md` → All 7 API skills with integration patterns
+- `database/INDEX.md` → All 11 database skills with decision trees
+- Only loaded when browsing or planning work
+
+**Tier 3: Individual Skills (on-demand)**
+Complete implementation guides loaded only when needed:
+- `api/rest-api-design.md` → Full REST patterns
+- `database/postgres-query-optimization.md` → EXPLAIN plans, indexes
+
+### Why This Works
+
+**Context efficiency**: 60-84% reduction vs monolithic index
+- Old approach: Load 25K token index on boot
+- New approach: Load 2-5K tokens of relevant gateways as needed
+- Result: More context available for actual code and conversation
+
+**No boot overhead**: Claude Code starts with zero skills loaded
+- Gateway skills auto-discover based on your prompt keywords
+- Manual loading available when auto-discovery isn't enough
+- System scales to hundreds more skills without boot cost
+
+**Discoverability**: Users don't need to know what exists
+- Keywords in prompts trigger relevant gateways automatically
+- Gateways show what's available in their domain
+- Progressive loading: gateway → index → specific skill
 
 ## What's Covered
 
-### Languages & Frameworks (31 skills)
-**Backend/Systems:**
-- **Python**: Modern development with `uv` package manager
-- **Zig**: Systems programming with comptime, allocators, C interop
-- **Rust**: Ownership patterns, async/tokio, error handling
-- **Go**: Clean architecture, error handling, TUI development with Bubble Tea
+### Core Development (125 skills)
 
-**Frontend:**
-- **TypeScript**: Strict mode, Next.js 14+ App Router, React patterns
-- **React**: Component patterns, state management, data fetching, forms
-- **Next.js**: App Router, SEO optimization, performance
-- **Elegant Design**: World-class accessible interfaces, chat/terminal/code UIs, design systems
+**Languages & Frameworks**:
+- **Backend**: Python (uv), Zig, Rust, Go (31 skills)
+- **Frontend**: React, Next.js, TypeScript, Elegant Design (9 skills)
+- **Mobile**: SwiftUI, Swift concurrency, SwiftData, React Native (10 skills)
 
-**Mobile:**
-- **Swift/SwiftUI**: iOS native (iOS 17+), Swift concurrency, SwiftData
-- **React Native**: Cross-platform mobile development
+**Infrastructure & DevOps**:
+- **Build Systems**: Make, CMake, Gradle, Maven, Bazel, cross-platform (8 skills)
+- **Debugging**: GDB, LLDB, Python, browser, memory, concurrency, production, distributed systems (14 skills)
+- **Cloud**: AWS (7), GCP (6), Modal.com, Cloudflare Workers, Vercel (13 skills)
+- **Containers**: Docker, Kubernetes, security (5 skills)
+- **CI/CD**: GitHub Actions, pipelines (4 skills)
+- **Observability**: Logging, metrics, tracing, OpenTelemetry, incident response (8 skills)
 
-### Build Systems & Debugging (22 skills)
-**Build Systems:**
-- **Make**: Makefile syntax, targets, pattern rules, automatic variables, phony targets
-- **CMake**: Modern CMake (3.20+, 4.0.2), target-based approach, find_package, FetchContent
-- **Gradle**: Kotlin DSL, dependency management, version catalogs, build cache
-- **Maven**: POM structure, dependency management, lifecycle phases, plugins
-- **Bazel**: BUILD files, hermetic builds, remote caching, Starlark rules, monorepo patterns
-- **Cross-platform**: Platform detection, conditional compilation, toolchains
-- **Build Optimization**: Incremental builds, build caching (ccache, sccache), parallel builds
-
-**Debugging:**
-- **Native Debugging**: GDB (C/C++), LLDB (macOS/Swift, 50x faster step-over), TUI mode
-- **Language Debugging**: Python (pdb, ipdb, VSCode), browser DevTools (performance, memory)
-- **Production Debugging**: Remote debugging, non-intrusive debugging, dynamic logging, sampling profilers
-- **Specialized Debugging**: Memory leaks (Valgrind, AddressSanitizer), concurrency (ThreadSanitizer, race detection)
-- **System Debugging**: Core dumps, crash debugging (fuzzing with AFL/libFuzzer), performance profiling (perf, pprof, flame graphs)
-- **Infrastructure Debugging**: Container debugging (docker exec, kubectl debug), network debugging (tcpdump, Wireshark), distributed systems debugging
-
-### Cloud & Infrastructure (46 skills)
-**Cloud Platforms:**
-- **AWS**: Lambda functions, API Gateway, EC2 compute, S3/EBS/EFS storage, RDS/DynamoDB databases, VPC networking, IAM security (7 skills)
-- **GCP**: Compute Engine/Cloud Run/GKE, Cloud Storage, Cloud SQL/Firestore/Spanner, VPC networking, IAM, Cloud Functions/App Engine (6 skills)
-
-**Serverless & Edge:**
-- **Modal.com**: GPU workloads (L40S/H100), serverless functions, web endpoints
-- **Cloudflare Workers**: Edge computing, KV storage, Durable Objects
-- **Vercel**: Serverless functions, edge runtime, automatic deployments
-- **Heroku/Netlify**: Platform deployment, add-ons, optimization
-
-**Infrastructure as Code:**
-- **Terraform**: Resource patterns, state management
-- **Kubernetes**: Pod design, services, deployments
-- **Docker**: Multi-stage builds, security, optimization
-
-**CI/CD & Observability:**
-- **GitHub Actions**: Workflows, matrix builds, caching, security
-- **Structured Logging**: JSON logging, correlation IDs, log aggregation
-- **Metrics & Tracing**: Prometheus, StatsD, OpenTelemetry integration, distributed tracing, cardinality management
-- **Alerting & Dashboards**: Alert conditions, on-call patterns, Grafana dashboards, SLO monitoring
-- **Observability Cost**: Cost optimization, sampling strategies, log reduction, metrics aggregation
-- **Incident Response**: Production incident debugging, logs→metrics→traces workflow, time-travel debugging, RCA
-
-### Data & Databases (21 skills)
-**Relational:**
-- **Postgres**: Query optimization, migrations, schema design, EXPLAIN plans
-- **Database Patterns**: Connection pooling, ORMs, transaction management
-
-**NoSQL & Caching:**
-- **MongoDB**: Document design, embedding vs referencing
-- **Redis**: Data structures, caching, sessions, rate limiting
-
-**Modern Data Stack:**
-- **Redpanda/Kafka**: Streaming architecture, event-driven patterns, rpk CLI
-- **Apache Iceberg**: Table format, time travel, schema evolution, ACID
-- **DuckDB**: In-process analytics, direct file querying, OLAP queries
-
-**Data Engineering:**
-- **ETL Patterns**: Extract, transform, load workflows
-- **Stream Processing**: Real-time data pipelines
-- **Batch Processing**: Scheduled data jobs, orchestration
-
-### Caching & Performance (7 skills)
-**Multi-Layer Caching:**
-- **Fundamentals**: Cache-Aside, Write-Through, Write-Behind patterns; LRU/LFU/TTL eviction
-- **HTTP Caching**: Cache-Control, ETag, Last-Modified, immutable assets
-- **CDN Edge**: Cloudflare/Fastly/CloudFront optimization, Edge TTL, cache warming
-- **Application Cache**: Redis patterns, distributed caching, cache stampede prevention
-- **Invalidation**: Time-based, event-based, key-based, version-based strategies
-- **PWA/Service Workers**: Offline-first, Workbox, background sync
-- **Monitoring**: Hit ratio metrics, Redis INFO, CDN analytics, load testing
-
-### API Design & Testing (13 skills)
-**API Patterns:**
-- REST API design, versioning, pagination
-- GraphQL schema design, resolvers, federation
-- Authentication/authorization (JWT, OAuth, RBAC)
-- Rate limiting, error handling, API versioning
-
-**Testing:**
-- Unit testing patterns, TDD workflows
-- Integration testing, e2e testing
-- Performance testing, load testing
-- Test coverage strategies
+**Data & APIs**:
+- **Databases**: Postgres, MongoDB, Redis, Redpanda, Iceberg, DuckDB (11 skills)
+- **Caching**: Multi-layer (browser, HTTP, CDN, Redis), invalidation strategies (7 skills)
+- **API Design**: REST, GraphQL, auth, rate limiting, versioning (7 skills)
+- **Data Engineering**: ETL, streaming, batch processing (5 skills)
+- **Testing**: Unit, integration, e2e, TDD, coverage (6 skills)
 
 ### Specialized Domains (85 skills)
 
-**Collaboration & Process:**
-- **GitHub**: Repository management, pull requests, issues/projects, security features, Actions (5 skills)
-- **PRD Writing**: Structure/templates, requirements gathering, user stories, technical specs (4 skills)
-- **RFC Writing**: Structure/format, technical design, consensus building, decision documentation (4 skills)
-
-**Machine Learning & AI:**
-- **LLM Evaluation**: Benchmarks (MMLU, HellaSwag, HumanEval), frameworks (Arize Phoenix, Braintrust, LangSmith), LLM-as-judge (Prometheus 2, G-Eval), RAGAS metrics, custom evaluation (5 skills)
-- **Model Routing & Selection**: RouteLLM framework, model comparison (GPT-4o, Claude, Gemini, DeepSeek), multi-model orchestration, cost optimization (3 skills)
-- **Advanced RAG**: Hybrid search (vector + BM25), reranking (cross-encoder, LLM-as-reranker), GraphRAG (Microsoft 2024), hierarchical retrieval (4 skills)
+**Machine Learning & AI** (33 skills):
+- **LLM Evaluation**: Benchmarks (MMLU, HellaSwag), frameworks (Arize Phoenix, Braintrust), LLM-as-judge (Prometheus, G-Eval), RAGAS metrics
+- **Model Routing**: RouteLLM, model comparison, multi-model orchestration
+- **Advanced RAG**: Hybrid search, reranking (cross-encoder, LLM), GraphRAG, hierarchical retrieval
 - **DSPy Framework**: Signatures, modules, optimizers, RAG, assertions (7 skills)
 - **HuggingFace**: Hub, Transformers, Datasets, Spaces, AutoTrain (5 skills)
-- **LLM Fine-tuning**: Unsloth, LoRA/PEFT, dataset prep (3 skills)
-- **Diffusion Models**: Stable Diffusion deployment, fine-tuning basics (3 skills)
+- **Fine-tuning**: Unsloth, LoRA/PEFT, dataset prep (3 skills)
 
-**Information Retrieval:**
-- **Search**: TF-IDF, BM25, Elasticsearch, inverted indexes (1 skill)
-- **Vector Search**: Dense retrieval, embeddings, vector databases (1 skill)
-- **Ranking**: Learning to rank, cross-encoders, reranking (1 skill)
-- **Recommendations**: Collaborative filtering, content-based, hybrid systems (1 skill)
-- **Query Understanding**: Query expansion, spell correction, semantic search (1 skill)
+**Information Retrieval** (5 skills):
+- Search fundamentals (TF-IDF, BM25, Elasticsearch)
+- Vector search (dense retrieval, embeddings)
+- Ranking & reranking (learning to rank, cross-encoders)
+- Recommendation systems (collaborative, content-based, hybrid)
+- Query understanding (expansion, spell correction, semantic search)
 
-**Systems Programming:**
-- **WebAssembly**: Fundamentals, Rust toolchain, browser integration, server-side (4 skills)
-- **eBPF**: Fundamentals, tracing/observability, networking, security monitoring (4 skills)
+**Programming Language Theory** (13 skills):
+- Lambda calculus, type systems, dependent types
+- Curry-Howard correspondence, operational semantics
+- Program verification with Hoare logic
+- **Typed Holes & Live Programming**: Hazel/Hazelnut calculus, incremental typing
+- **AI-Assisted Programming**: LLM + typed holes integration (OOPSLA 2024), type-driven code synthesis
 
-**Formal Methods:**
-- **SAT/SMT Solvers**: Z3 basics, SAT solving strategies, SMT theory (3 skills)
+**Formal Methods** (10 skills):
+- **SAT/SMT Solvers**: Z3 basics, SAT strategies, SMT theory (3 skills)
 - **Lean 4**: Proof basics, tactics, mathlib4, theorem proving (4 skills)
 - **Constraint Satisfaction**: CSP modeling, propagation, backtracking (3 skills)
 
 **Advanced Mathematics** (11 skills):
-- **Numerical**: Linear algebra, optimization algorithms, numerical methods, probability/statistics (4 skills)
+- **Numerical**: Linear algebra, optimization, probability/statistics (4 skills)
 - **Pure Math**: Topology (point-set, algebraic), category theory, differential equations, abstract algebra, set theory, number theory (7 skills)
 
-**Programming Language Theory** (13 skills):
-- **Core PLT**: Lambda calculus, type systems, dependent types
-- **Curry-Howard & Semantics**: Propositions as types, operational semantics, program verification
-- **Typed Holes & Live Programming**: Hazel/Hazelnut calculus, structure editors, incremental typing (OOPSLA 2025)
-- **AI-Assisted Programming**: LLM + typed holes integration (OOPSLA 2024), static context for code synthesis
+**Systems Programming** (8 skills):
+- **WebAssembly**: Fundamentals, Rust toolchain, browser integration, server-side (4 skills)
+- **eBPF**: Fundamentals, tracing/observability, networking, security monitoring (4 skills)
 
-**Real-time & Networking:**
-- WebSocket implementation, Server-Sent Events
-- Pub/sub patterns, real-time sync
-- Tailscale VPN, mTLS, NAT traversal
-- Network resilience patterns, Mosh
+**Collaboration & Process** (14 skills):
+- **GitHub**: Repository management, pull requests, issues/projects, security, Actions (5 skills)
+- **PRD Writing**: Structure, requirements gathering, user stories, technical specs (4 skills)
+- **RFC Writing**: Structure, technical design, consensus building, decision docs (4 skills)
 
-**Workflow & Productivity:**
-- **Beads**: Task management, context strategies, multi-session workflows
-- **TUI Development**: Bubble Tea (Go), Ratatui (Rust)
-- **Meta Skills**: Intelligent skill discovery for repos and prompts
-- **Typed Holes Refactor**: Systematic TDD-based refactoring methodology
-- **Anti-Slop**: Detection and cleanup of AI-generated "slop" in text, code, and design
+**Real-time & Networking** (5 skills):
+- WebSocket, Server-Sent Events, pub/sub patterns
+- Tailscale VPN, mTLS, NAT traversal, Mosh
+- Network resilience patterns
+
+### Workflow & Meta Skills (7 skills)
+
+- **Beads**: AI-native task management, context strategies, multi-session workflows (4 skills)
+- **TUI Development**: Bubble Tea (Go), Ratatui (Rust) (5 skills)
+- **Skill Discovery**: Intelligent skill activation for repos and prompts (5 skills)
+- **Anti-Slop**: Detection and cleanup of AI-generated patterns (Agent Skill)
+- **Elegant Design**: World-class accessible interfaces, design systems (Agent Skill)
+- **Typed Holes Refactor**: Systematic TDD-based refactoring (Agent Skill)
 
 ## Quick Start
 
-### 1. New Project Setup
-```bash
-# Read CLAUDE.md for project initiation protocol
-# Covers: Requirements clarification, tech stack decisions, project structure
+### Auto-Discovery (Recommended)
+Just start working. Claude Code automatically activates relevant gateway skills based on your task keywords.
 
-# Use meta skills for intelligent discovery
-cat skills/skill-repo-discovery.md   # Analyze existing codebases
-cat skills/skill-prompt-discovery.md # Extract tech signals from requirements
+**Example**: Mention "REST API with PostgreSQL" → `discover-api` and `discover-database` gateways activate automatically.
+
+### Manual Loading
+When you need to browse or plan:
+
+```bash
+# Browse skills catalog
+cat skills/README.md
+
+# View a category
+cat skills/api/INDEX.md          # All API skills
+cat skills/database/INDEX.md     # All database skills
+
+# Load a gateway
+cat skills/discover-ml/SKILL.md  # ML gateway with quick reference
+
+# Load specific skills
+cat skills/api/rest-api-design.md
+cat skills/database/postgres-query-optimization.md
 ```
 
-### 2. Find Relevant Skills
+### Composing Workflows
+
+Skills are designed to combine for complex workflows:
+
+**Full-stack web app**:
 ```bash
-# By technology
-ls skills/zig-*.md           # Zig: 6 skills
-ls skills/swiftui-*.md       # SwiftUI: 4 skills
-ls skills/modal-*.md         # Modal.com: 8 skills
-ls skills/api/*.md           # API design: 7 skills
-ls skills/cloud/aws/*.md     # AWS: 7 skills
-ls skills/cloud/gcp/*.md     # GCP: 6 skills
-ls skills/formal/*.md        # Formal methods: 10 skills
-ls skills/ml/*.md            # Machine learning: 21 skills (DSPy, HuggingFace, LLM, diffusion)
-ls skills/plt/*.md           # Programming language theory: 13 skills
-ls skills/ir/*.md            # Information Retrieval: 5 skills
-ls skills/wasm/*.md          # WebAssembly: 4 skills
-ls skills/ebpf/*.md          # eBPF: 4 skills
-
-# By category directory
-ls skills/build-systems/*.md  # Build Systems: 8 skills (Make, CMake, Gradle, Maven, Bazel)
-ls skills/debugging/*.md      # Debugging: 14 skills (GDB, LLDB, Python, browser, remote, production, etc.)
-ls skills/caching/*.md        # Caching: 7 skills
-ls skills/cicd/*.md          # CI/CD: 5 skills
-ls skills/infrastructure/*.md # Infrastructure: 6 skills
-ls skills/observability/*.md  # Observability: 8 skills (logging, metrics, tracing, OTel, cost, incidents)
-ls skills/deployment/*.md     # Deployment: 6 skills
-ls skills/math/*.md          # Mathematics: 11 skills
-ls skills/mobile/*.md        # Mobile: 4 skills
-ls skills/collaboration/github/*.md  # GitHub: 5 skills
-ls skills/product/*.md       # PRD Writing: 4 skills
-ls skills/engineering/*.md   # RFC Writing: 4 skills
-
-# By task
-grep -l "GraphQL" skills/**/*.md
-grep -l "streaming" skills/**/*.md
-grep -l "topology" skills/**/*.md
-grep -l "verification" skills/**/*.md
-grep -l "Lambda" skills/**/*.md
-grep -l "Kubernetes" skills/**/*.md
+cat skills/api/rest-api-design.md
+cat skills/frontend/nextjs-app-router.md
+cat skills/database/postgres-schema-design.md
+cat skills/caching/redis-caching-patterns.md
+cat skills/cicd/github-actions-workflows.md
 ```
 
-### 3. Compose Workflows
+**ML deployment with DSPy**:
 ```bash
-# Full-stack web app with caching
-skills/api/rest-api-design.md
-+ skills/frontend/nextjs-app-router.md
-+ skills/database/postgres-schema-design.md
-+ skills/caching/redis-caching-patterns.md
-+ skills/caching/http-caching.md
-+ skills/caching/cdn-edge-caching.md
-+ skills/cicd/github-actions-workflows.md
+cat skills/ml/dspy-setup.md
+cat skills/ml/dspy-modules.md
+cat skills/modal/modal-gpu-workloads.md
+cat skills/modal/modal-web-endpoints.md
+cat skills/observability/structured-logging.md
+```
 
-# ML/AI deployment with DSPy
-skills/ml/dspy-setup.md
-+ skills/ml/dspy-modules.md
-+ skills/modal-gpu-workloads.md
-+ skills/modal-web-endpoints.md
+**Multi-layer caching strategy**:
+```bash
+cat skills/caching/caching-fundamentals.md
+cat skills/caching/service-worker-caching.md    # Browser
+cat skills/caching/http-caching.md              # HTTP layer
+cat skills/caching/cdn-edge-caching.md          # CDN edge
+cat skills/caching/redis-caching-patterns.md    # Application
+cat skills/caching/cache-invalidation-strategies.md
+```
 
-# Full-stack caching strategy
-skills/caching/caching-fundamentals.md
-+ skills/caching/service-worker-caching.md (browser)
-+ skills/caching/http-caching.md (HTTP layer)
-+ skills/caching/cdn-edge-caching.md (CDN edge)
-+ skills/caching/redis-caching-patterns.md (application)
-+ skills/caching/cache-invalidation-strategies.md
-+ skills/caching/cache-performance-monitoring.md
-
-# Data pipeline
-skills/redpanda-streaming.md
-+ skills/data/stream-processing.md
-+ skills/apache-iceberg.md
-+ skills/observability/structured-logging.md
-
-# iOS app
-skills/swiftui-architecture.md
-+ skills/swift-concurrency.md
-+ skills/swiftdata-persistence.md
-+ skills/ios-networking.md
-
-# Formal verification
-skills/plt/type-systems.md
-+ skills/plt/program-verification.md
-+ skills/formal/z3-solver-basics.md
-+ skills/formal/lean-proof-basics.md
+**iOS app with streaming backend**:
+```bash
+cat skills/mobile/swiftui-architecture.md
+cat skills/mobile/swift-concurrency.md
+cat skills/mobile/swiftdata-persistence.md
+cat skills/mobile/ios-networking.md
+cat skills/database/redpanda-streaming.md
 ```
 
 ## Repository Structure
 
 ```
 .
-├── CLAUDE.md              # Comprehensive development guidelines
-│                          # - Multi-agent orchestration system
-│                          # - Work Plan Protocol (4-phase development)
-│                          # - Beads task management workflow
-│                          # - Language stack standards (uv, cargo, zig, etc.)
-│                          # - Testing protocols (commit before testing!)
-│                          # - Cloud deployment patterns
-│                          # - Anti-patterns & violations
+├── CLAUDE.md              # Development guidelines & protocols
+│                          # - Multi-agent orchestration
+│                          # - Work Plan Protocol (4 phases)
+│                          # - Language standards (uv, cargo, zig)
+│                          # - Testing protocols
+│                          # - Anti-patterns
 │
 ├── README.md              # This file
 │
-└── skills/                # 283 atomic skills across 33 categories
+└── skills/                # 283 atomic skills, 31 gateways, 30 categories
     │
-    ├── README.md          # Skills catalog with progressive loading architecture
+    ├── README.md          # Skills catalog
     │
     ├── Gateway Skills (31 auto-discovered Agent Skills)
     │   ├── discover-api/           # REST, GraphQL, authentication
     │   ├── discover-database/      # PostgreSQL, MongoDB, Redis
     │   ├── discover-frontend/      # React, Next.js, UI components
-    │   ├── discover-testing/       # Unit, integration, e2e, TDD
     │   ├── discover-ml/            # Machine learning, models
     │   ├── discover-math/          # Mathematics, algorithms
+    │   ├── discover-plt/           # Programming language theory
+    │   ├── discover-formal/        # Formal methods, verification
     │   ├── discover-cloud/         # Serverless, cloud platforms
-    │   ├── discover-tui/           # Terminal UI (Bubble Tea, Ratatui)
     │   ├── discover-zig/           # Zig systems programming
     │   ├── discover-networking/    # SSH, mTLS, VPN, resilience
-    │   ├── discover-workflow/      # Beads task management
+    │   ├── discover-workflow/      # Beads, context strategies
     │   └── ... 20 more gateways
     │
-    ├── Category Indexes (30 detailed reference indexes)
-    │   ├── api/INDEX.md            # API design skills overview
-    │   ├── database/INDEX.md       # Database skills overview
-    │   ├── frontend/INDEX.md       # Frontend skills overview
-    │   └── ... 27 more category indexes
+    ├── Category Indexes (30 detailed references)
+    │   ├── api/INDEX.md            # All API skills overview
+    │   ├── database/INDEX.md       # All database skills overview
+    │   ├── ml/INDEX.md             # All ML skills overview
+    │   └── ... 27 more indexes
     │
-    ├── Core Skills by Category
-    │   ├── api/           # REST, GraphQL, auth, rate limiting (7)
-    │   ├── testing/       # Unit, integration, e2e, TDD (6)
-    │   ├── containers/    # Docker, Compose, security (5)
-    │   ├── frontend/      # React, Next.js, performance, a11y (8)
-    │   ├── database/      # Postgres, MongoDB, Redis, Redpanda, Iceberg, DuckDB (11)
-    │   ├── caching/       # Multi-layer caching (7)
-    │   ├── build-systems/ # Make, CMake, Gradle, Maven, Bazel (8)
-    │   ├── debugging/     # GDB, LLDB, Python, browser, production (14)
-    │   ├── mobile/        # iOS/Swift, SwiftUI, SwiftData, React Native (10)
-    │   ├── modal/         # Modal.com serverless + GPU (8)
-    │   ├── networking/    # SSH, mTLS, VPN, Tailscale, NAT traversal (5)
-    │   ├── tui/           # Terminal UI: Bubble Tea, Ratatui (5)
-    │   ├── zig/           # Zig systems programming (6)
-    │   ├── workflow/      # Beads task management (4)
-    │   ├── anti-slop/     # AI slop detection and cleanup (Agent Skill)
-    │   ├── elegant-design/ # World-class UI design (Agent Skill)
-    │   ├── typed-holes-refactor/ # Systematic refactoring (Agent Skill)
-    │   └── skill-*.md     # Meta skills: discovery & planning (5, at root)
-    │
-    ├── Infrastructure & DevOps
-    │   ├── cloud/         # Cloud platforms (13)
-    │   ├── cicd/          # GitHub Actions, automation (4)
-    │   ├── infrastructure/# Terraform, Cloudflare Workers (6)
-    │   ├── observability/ # Logging, metrics, tracing, OTel (8)
-    │   ├── deployment/    # Heroku, Netlify platforms (6)
-    │   ├── realtime/      # WebSocket, SSE, pub/sub (4)
-    │   └── data/          # ETL, streaming, batch processing (5)
-    │
-    ├── Collaboration & Process
-    │   ├── collaboration/ # GitHub, CodeTour (6)
-    │   ├── product/       # PRD writing (4)
-    │   └── engineering/   # RFC writing (4)
-    │
-    └── Specialized Domains
+    └── Skills by Category
+        ├── api/           # REST, GraphQL, auth (7)
+        ├── database/      # Postgres, MongoDB, Redis, streaming (11)
+        ├── frontend/      # React, Next.js, performance (8)
+        ├── mobile/        # iOS/Swift, SwiftUI, SwiftData (10)
+        ├── testing/       # Unit, integration, e2e (6)
+        ├── caching/       # Multi-layer caching (7)
+        ├── build-systems/ # Make, CMake, Gradle, Maven, Bazel (8)
+        ├── debugging/     # GDB, LLDB, production, memory (14)
+        ├── cloud/         # AWS, GCP, Modal, serverless (13)
+        ├── containers/    # Docker, Kubernetes (5)
+        ├── cicd/          # GitHub Actions, pipelines (4)
+        ├── observability/ # Logging, metrics, tracing (8)
         ├── ml/            # DSPy, HuggingFace, LLM, RAG (30)
+        ├── ir/            # Information retrieval (5)
         ├── math/          # Linear algebra, topology, category theory (19)
         ├── plt/           # Type systems, verification, typed holes (13)
-        ├── formal/        # SAT/SMT solvers, Lean 4, CSP (10)
-        ├── ir/            # Information Retrieval (5)
+        ├── formal/        # SAT/SMT, Lean, CSP (10)
         ├── wasm/          # WebAssembly (4)
-        └── ebpf/          # eBPF kernel programming (4)
+        ├── ebpf/          # eBPF kernel programming (4)
+        ├── networking/    # SSH, mTLS, VPN, NAT traversal (5)
+        ├── tui/           # Terminal UI: Bubble Tea, Ratatui (5)
+        ├── zig/           # Zig systems programming (6)
+        ├── workflow/      # Beads task management (4)
+        ├── data/          # ETL, streaming, batch (5)
+        ├── deployment/    # Heroku, Netlify (6)
+        ├── realtime/      # WebSocket, SSE, pub/sub (4)
+        ├── collaboration/ # GitHub, CodeTour (6)
+        ├── product/       # PRD writing (4)
+        ├── engineering/   # RFC writing (4)
+        ├── infrastructure/# Terraform, Cloudflare Workers (6)
+        │
+        ├── Agent Skills (Root)
+        │   ├── anti-slop/          # AI slop detection & cleanup
+        │   ├── elegant-design/     # World-class UI design
+        │   └── typed-holes-refactor/ # Systematic refactoring
+        │
+        └── Meta Skills (Root)
+            ├── skill-repo-discovery.md    # Analyze repos for skills
+            ├── skill-prompt-discovery.md  # Extract signals from prompts
+            ├── skill-creation.md          # Create new skills
+            └── skill-*-planning.md        # Planning workflows
 ```
+
+## Technology Coverage
+
+| Domain | Technologies | Skills | Gateway |
+|--------|-------------|--------|---------|
+| **Backend** | Python, Zig, Rust, Go | 18 | discover-backend |
+| **Frontend** | React, Next.js, TypeScript | 9 | discover-frontend |
+| **Mobile** | SwiftUI, Swift, React Native | 10 | discover-mobile |
+| **Build** | Make, CMake, Gradle, Maven, Bazel | 8 | discover-build-systems |
+| **Debug** | GDB, LLDB, pdb, DevTools, Valgrind | 14 | discover-debugging |
+| **Cloud** | AWS, GCP, Modal, Vercel, Cloudflare | 27 | discover-cloud |
+| **Database** | Postgres, Mongo, Redis, Redpanda, Iceberg | 11 | discover-database |
+| **Caching** | Redis, HTTP, CDN, Service Workers | 7 | discover-caching |
+| **ML/AI** | DSPy, HuggingFace, Arize, GraphRAG | 33 | discover-ml |
+| **IR** | Elasticsearch, Vector DBs, Ranking | 5 | discover-ir |
+| **Systems** | WebAssembly, eBPF | 8 | discover-wasm, discover-ebpf |
+| **Collaboration** | GitHub, PRD, RFC | 17 | discover-collaboration, discover-product, discover-engineering |
+| **Formal** | Z3, Lean 4, CSP | 10 | discover-formal |
+| **Math** | Linear algebra, topology, category theory | 19 | discover-math |
+| **PLT** | Lambda calculus, type systems, typed holes | 13 | discover-plt |
+| **DevOps** | GitHub Actions, Terraform, K8s, Docker | 16 | discover-cicd, discover-infrastructure, discover-containers |
+| **Observability** | Prometheus, OpenTelemetry, Grafana | 8 | discover-observability |
+| **Networking** | SSH, mTLS, VPN, Tailscale, NAT | 5 | discover-networking |
+| **TUI** | Bubble Tea, Ratatui | 5 | discover-tui |
+| **Zig** | Build systems, C interop, memory management | 6 | discover-zig |
+| **Workflow** | Beads, context strategies | 4 | discover-workflow |
 
 ## Development Philosophy
 
-### Atomic Skills
-- **Focused**: Each skill covers one clear topic (~320 lines average)
-- **Composable**: Skills combine for complex workflows
-- **Production-tested**: All patterns used in real projects
-- **Cross-referenced**: Related skills linked for discovery
-- **Agent-compatible**: YAML frontmatter enables programmatic discovery
+### Atomic & Composable
+- **Focused**: Each skill covers one topic (~320 lines)
+- **Self-contained**: Can be loaded independently
+- **Cross-referenced**: Links to related skills
+- **Production-tested**: Real patterns from building at scale
 
-### Quality Gates
-1. **Critical Thinking**: Push back on vague requirements
-2. **Standards Enforcement**: Correct package managers (uv not pip, etc.)
-3. **Testing Protocol**: Always commit before testing
-4. **Error Handling**: No TODOs/mocks - implement or file issue
-5. **Code Quality**: All Python code blocks validated, frontmatter verified
-6. **Date Validation**: No future dates in "Last Updated" fields
+### Progressive Discovery
+- **Zero boot cost**: No skills loaded until needed
+- **Automatic activation**: Gateway skills trigger on keywords
+- **Manual override**: Browse and load specific skills
+- **Context efficient**: Load only what's relevant
 
-### Discovery-Driven
-```bash
-# For new repositories
-skills/skill-repo-discovery.md    # Analyze codebase → identify skills
+### Quality Standards
+- ✅ **Code Block Validation**: 1100+ blocks syntax-checked
+- ✅ **Frontmatter Validation**: 283 skills with YAML metadata
+- ✅ **Date Validation**: No future dates in "Last Updated"
+- ✅ **CI/CD Pipeline**: Automated validation on every commit
+- ✅ **Cross-References**: Related skills linked for discoverability
 
-# For user requests
-skills/skill-prompt-discovery.md  # Extract tech signals → activate skills
+## CLAUDE.md Development Guidelines
 
-# For planning
-skills/skill-repo-planning.md     # Plan missing skills for repos
-skills/skill-prompt-planning.md   # Plan missing skills for prompts
+This repository includes comprehensive development guidelines in `CLAUDE.md`:
 
-# For creating new skills
-skills/skill-creation.md           # Template and guidelines
-```
+- **Multi-Agent Orchestration**: Coordinated system with Orchestrator, Optimizer, Reviewer, Executor
+- **Work Plan Protocol**: 4-phase development (Prompt→Spec→Full Spec→Plan→Artifacts)
+- **Beads Workflow**: AI-native task management with dependencies
+- **Language Standards**: Correct tools (uv not pip, etc.)
+- **Testing Protocol**: Commit before testing (mandatory)
+- **Anti-Patterns**: Critical violations and recovery procedures
 
 ## Example Use Cases
 
-### Scenario: Build ML-powered API with DSPy
-1. Read `skill-prompt-discovery.md` → identifies: Modal, FastAPI, DSPy skills
-2. Compose workflow:
-   - `ml/dspy-setup.md` → Configure DSPy with Modal-hosted models
-   - `ml/dspy-modules.md` → Build RAG pipeline
-   - `ml/dspy-optimizers.md` → Optimize prompts with BootstrapFewShot
-   - `modal-gpu-workloads.md` → Deploy on L40S GPU
-   - `modal-web-endpoints.md` → Expose FastAPI endpoint
-   - `api/rest-api-design.md` → Design API contract
-   - `api/api-rate-limiting.md` → Protect endpoint
-   - `observability/structured-logging.md` → Add logging
+### Build ML-powered API
+```bash
+cat skills/ml/dspy-setup.md              # Configure DSPy
+cat skills/ml/dspy-modules.md            # Build RAG pipeline
+cat skills/ml/dspy-optimizers.md         # Optimize prompts
+cat skills/modal/modal-gpu-workloads.md  # Deploy on GPU
+cat skills/modal/modal-web-endpoints.md  # Expose API
+cat skills/api/rest-api-design.md        # Design contract
+cat skills/api/api-rate-limiting.md      # Protect endpoint
+```
 
-### Scenario: Formal Verification of Algorithms
-1. Start with `plt/type-systems.md` → Understand type soundness
-2. Add `plt/dependent-types.md` → Learn Π-types and Σ-types
-3. Use `plt/program-verification.md` → Apply Hoare logic
-4. Implement in `formal/lean-proof-basics.md` → Formalize in Lean 4
-5. Verify with `formal/z3-solver-basics.md` → SMT-based checking
+### Formal Verification
+```bash
+cat skills/plt/type-systems.md           # Type soundness
+cat skills/plt/dependent-types.md        # Π-types, Σ-types
+cat skills/plt/program-verification.md   # Hoare logic
+cat skills/formal/lean-proof-basics.md   # Formalize in Lean
+cat skills/formal/z3-solver-basics.md    # SMT checking
+```
 
-### Scenario: Advanced Math for ML
-1. Read `math/linear-algebra-computation.md` → Matrix operations
-2. Add `math/optimization-algorithms.md` → Gradient descent
-3. Study `math/category-theory-foundations.md` → Functors and monads
-4. Apply `math/probability-statistics.md` → Statistical analysis
-5. Combine with `ml/dspy-optimizers.md` → Optimize ML pipelines
+### AI-Assisted Programming
+```bash
+cat skills/plt/typed-holes-foundations.md  # Gradual typing
+cat skills/plt/typed-holes-llm.md          # LLM integration
+cat skills/plt/live-programming-holes.md   # Real-time feedback
+```
 
-### Scenario: Build iOS App with Streaming
-1. Read `swiftui-architecture.md` → MVVM setup
-2. Add `swift-concurrency.md` → async/await patterns
-3. Implement `swiftdata-persistence.md` → local storage
-4. Use `ios-networking.md` → API integration
-5. Deploy backend with `redpanda-streaming.md` + `modal-web-endpoints.md`
-
-### Scenario: AI-Assisted Programming with Typed Holes
-1. Start with `plt/typed-holes-foundations.md` → Understand gradual typing and bidirectional checking
-2. Study `plt/typed-holes-llm.md` → Learn OOPSLA 2024 approach to LLM + static types
-3. Implement language server integration → Extract type context from holes
-4. Build LLM integration → Type-driven prompts, validation pipeline, ranking
-5. Add interactive refinement → User + LLM collaboration via holes
-6. Optional: `plt/live-programming-holes.md` → Real-time feedback with incremental typing
-
-## Technology Coverage Matrix
-
-| Domain | Technologies | Skills | Key Capabilities |
-|--------|-------------|--------|------------------|
-| **Backend** | Python, Zig, Rust, Go | 18 | Systems programming, async, memory safety |
-| **Frontend** | React, Next.js, TypeScript | 9 | SSR, performance, a11y, SEO, elegant design |
-| **Mobile** | SwiftUI, Swift, React Native | 10 | iOS native, SwiftData, Swift concurrency, cross-platform |
-| **Build Systems** | Make, CMake, Gradle, Maven, Bazel | 8 | C/C++ builds, JVM builds, monorepos, cross-platform, optimization |
-| **Debugging** | GDB, LLDB, pdb, DevTools, Valgrind, ThreadSanitizer | 14 | Native, language, production, memory, concurrency, profiling, infrastructure |
-| **Cloud** | AWS, GCP, Modal, Vercel, Cloudflare | 27 | Serverless, GPU, edge, compute, storage, networking |
-| **Database** | Postgres, Mongo, Redis, Redpanda, Iceberg, DuckDB | 11 | OLTP, NoSQL, streaming, analytics |
-| **Caching** | Redis, HTTP, CDN (Cloudflare/Fastly/CloudFront), Service Workers | 7 | Multi-layer caching, invalidation, performance monitoring |
-| **ML/AI** | DSPy, HuggingFace, Unsloth, Arize Phoenix, Prometheus, GraphRAG | 33 | LLM orchestration, evaluation (benchmarks, LLM-as-judge, RAGAS), model routing, advanced RAG (hybrid, reranking, GraphRAG), fine-tuning |
-| **IR** | Elasticsearch, Vector DBs, Ranking, Recommenders | 5 | Search, semantic retrieval, recommendations |
-| **Systems** | WebAssembly, eBPF | 8 | Browser/server wasm, observability, networking, security |
-| **Collaboration** | GitHub, PRD, RFC | 17 | Repository management, product specs, technical design |
-| **Formal** | Z3, Lean 4, CSP | 10 | Proof systems, constraint solving |
-| **Math** | Linear algebra, topology, category theory, etc. | 11 | Numerical + pure mathematics |
-| **PLT** | Lambda calculus, type systems, typed holes, Hazel, LLM integration | 13 | Language design, live programming, AI-assisted coding |
-| **DevOps** | GitHub Actions, Terraform, K8s, Docker | 16 | CI/CD, IaC, containers |
-| **Observability** | Prometheus, OpenTelemetry, Grafana, structured logging | 8 | Metrics, tracing, logs, dashboards, cost optimization, incident response |
-| **Data** | ETL, Streaming, Batch | 10 | Pipelines, real-time, analytics |
-
-## Quality Assurance
-
-All skills are validated through automated CI/CD pipelines:
-
-- ✅ **Code Block Validation**: 1100+ Python/Swift/TypeScript/Bash/C/Java blocks syntax-checked
-- ✅ **Frontmatter Validation**: 283 skills with proper YAML frontmatter
-- ✅ **Date Validation**: All "Last Updated" dates verified (no future dates)
-- ✅ **Format Compliance**: Atomic skill guidelines enforced (~250-500 lines)
-- ✅ **Cross-References**: Related skills linked for discoverability
-- ✅ **Gateway System**: 31 auto-discovery Agent Skills for progressive loading
+### Multi-Layer Caching
+```bash
+cat skills/caching/caching-fundamentals.md           # Core patterns
+cat skills/caching/service-worker-caching.md         # Browser layer
+cat skills/caching/http-caching.md                   # HTTP layer
+cat skills/caching/cdn-edge-caching.md               # CDN layer
+cat skills/caching/redis-caching-patterns.md         # Application layer
+cat skills/caching/cache-invalidation-strategies.md  # Invalidation
+cat skills/caching/cache-performance-monitoring.md   # Monitoring
+```
 
 ## Contributing
 
-This is a personal reference repository maintained through practical development experience. Skills are:
-- Added when new technologies are mastered
-- Updated when better patterns emerge
-- Refined based on production use
-- Kept atomic and focused
-- Validated through automated testing
+This is a personal reference repository maintained through practical development experience. Skills are added when new technologies are mastered, updated when better patterns emerge, and refined based on production use.
 
 Feel free to fork and adapt for your own use.
 
 ---
 
-**Total: 283 atomic skills** | **31 gateway Agent Skills** | **33 categories** | **60-84% context reduction** | **100% CI-validated**
+**283 atomic skills** • **31 gateway Agent Skills** • **33 categories** • **100% CI-validated**
