@@ -2,7 +2,7 @@
 
 **Context-efficient development knowledge via progressive skill discovery**
 
-This repository solves a fundamental problem: how to give Claude Code access to comprehensive development knowledge without overwhelming its context window on boot. The solution is 283 atomic, composable skills organized through a multi-tier discovery system.
+This repository solves a tradeoff problem: how to give Claude Code access to comprehensive development knowledge without overwhelming its context window on boot. The solution is 283 atomic, composable skills organized through a multi-tier discovery system.
 
 ## The Problem: Context vs Coverage
 
