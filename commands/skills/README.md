@@ -23,23 +23,23 @@ All without leaving your Claude Code session.
 
 ## Installation
 
-### Quick Install
+### Plugin Installation (Recommended)
+
+The `/skills` command is part of the **cc-polymath** Claude Code plugin. Install the entire plugin to get all 292 skills and commands:
 
 ```bash
-# Copy the command file to your personal commands directory
-cp ~/.claude/commands/skills.md ~/.claude/commands/skills.md
+/plugin install https://github.com/rand/cc-polymath
 ```
 
-**Already installed!** The file is at `~/.claude/commands/skills.md`
+That's it! The plugin auto-registers all skills and commands, including `/skills`.
 
 ### Verify Installation
 
 ```bash
-# Check the command exists
-ls -la ~/.claude/commands/skills.md
+/plugin list
 ```
 
-You should see the file listed. Next time you start Claude Code, `/skills` will be available.
+You should see `cc-polymath` in the list of installed plugins. The `/skills` command is now available.
 
 ## Usage
 
@@ -187,24 +187,21 @@ It **never modifies**:
 
 ## Uninstallation
 
-### Complete Removal
+### Plugin Uninstallation
 
 ```bash
-# Remove the command file
-rm ~/.claude/commands/skills.md
+/plugin uninstall cc-polymath
 ```
 
-**That's it!** No traces left, no cleanup needed.
+**That's it!** All skills, commands, and plugin data are cleanly removed.
 
 ### Verify Removal
 
 ```bash
-# Check it's gone
-ls ~/.claude/commands/skills.md
-# Should output: No such file or directory
+/plugin list
 ```
 
-The next time you restart Claude Code, `/skills` will no longer be available.
+The `cc-polymath` plugin should no longer appear in the list. All commands (including `/skills`) are automatically unregistered.
 
 ## Compatibility
 
@@ -232,9 +229,9 @@ The next time you restart Claude Code, `/skills` will no longer be available.
 **Problem:** `/skills` doesn't work in Claude Code
 
 **Solution:**
-1. Verify file exists: `ls ~/.claude/commands/skills.md`
-2. Restart Claude Code session
-3. Try again
+1. Verify plugin installed: `/plugin list` (should show `cc-polymath`)
+2. If not installed: `/plugin install https://github.com/rand/cc-polymath`
+3. Restart Claude Code session if needed
 
 ### No Recommendations
 
@@ -300,12 +297,13 @@ cd ~/projects/slow-app
 
 ## Technical Details
 
-- **File:** `~/.claude/commands/skills.md`
+- **Plugin:** cc-polymath v2.0.0
+- **File:** Auto-installed to `~/.claude/plugins/cc-polymath/commands/skills.md`
 - **Size:** ~10 KB (325 lines)
 - **Format:** Markdown with YAML frontmatter
-- **Dependencies:** None (uses Claude Code built-in slash command system)
+- **Dependencies:** None (uses Claude Code plugin system)
 - **Skills:** 292 skills, 28 gateways, 31 categories
-- **Compatibility:** Claude Code v2.0+
+- **Compatibility:** Claude Code v2.0+ with plugin support
 
 ## Contributing
 
@@ -332,8 +330,8 @@ This slash command is provided as-is for use with Claude Code and compatible wit
 **Quick Reference:**
 
 ```bash
-# Install
-cp skills.md ~/.claude/commands/skills.md
+# Install Plugin
+/plugin install https://github.com/rand/cc-polymath
 
 # Use
 /skills                  # Context-aware recommendations
@@ -341,6 +339,6 @@ cp skills.md ~/.claude/commands/skills.md
 /skills postgres         # Search for skills
 /skills list             # All categories
 
-# Uninstall
-rm ~/.claude/commands/skills.md
+# Uninstall Plugin
+/plugin uninstall cc-polymath
 ```

@@ -1,6 +1,12 @@
 # Atomic Skills for Claude Code
 
+[![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-Plugin-blue)](https://docs.claude.com/en/docs/claude-code/plugins)
+[![Skills](https://img.shields.io/badge/Skills-292-green)](skills/)
+[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+
 **Context-efficient development knowledge via progressive skill discovery**
+
+> **Claude Code Plugin**: Install with `/plugin install https://github.com/rand/cc-polymath`
 
 This repository solves a tradeoff problem: how to give Claude Code access to comprehensive development knowledge without overwhelming its context window on boot. The solution is atomic, composable skills organized through a multi-tier discovery system.
 
@@ -144,7 +150,21 @@ Complete implementation guides loaded only when needed:
 
 ## Quick Start
 
-### Auto-Discovery (Recommended)
+### Installation
+
+**As Claude Code Plugin (Recommended)**:
+```bash
+/plugin install https://github.com/rand/cc-polymath
+```
+
+That's it! All 292 skills and the `/skills` command are immediately available.
+
+**For local development or testing**:
+```bash
+/plugin install /Users/rand/src/cc-polymath
+```
+
+### Auto-Discovery (How It Works)
 Just start working. Claude Code automatically activates relevant gateway skills based on your task keywords.
 
 **Example**: Mention "REST API with PostgreSQL" → `discover-api` and `discover-database` gateways activate automatically.

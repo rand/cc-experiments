@@ -1,0 +1,25 @@
+{
+  "name": "cc-polymath",
+  "version": "2.0.0",
+  "description": "292 atomic skills with gateway-based progressive loading for Claude Code. Comprehensive coverage of API design, databases, ML, diagrams (Mermaid), mathematics, testing, infrastructure, and more.",
+  "author": "rand",
+  "homepage": "https://github.com/rand/cc-polymath",
+  "repository": "https://github.com/rand/cc-polymath",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "gateway",
+    "progressive-loading",
+    "diagrams",
+    "mermaid",
+    "ml",
+    "api",
+    "database",
+    "testing",
+    "infrastructure",
+    "mathematics",
+    "debugging",
+    "frontend",
+    "backend"
+  ]
+}
