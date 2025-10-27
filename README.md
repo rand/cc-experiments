@@ -6,12 +6,12 @@ This repository solves a fundamental problem: how to give Claude Code access to 
 
 ## The Problem: Context vs Coverage
 
-Traditional approaches face a dilemma:
+Using the default mechanism with many atomic skills yields a dilemma:
 - **Load everything upfront** → 25K+ tokens consumed before any real work begins
 - **Load nothing** → Claude lacks essential patterns and best practices
 - **Manual loading** → Users must know what exists to ask for it
 
-This creates an impossible tradeoff between comprehensive coverage and context efficiency.
+This creates an challenging tradeoff between comprehensive coverage and context efficiency.
 
 ## The Solution: Atomic Skills + Progressive Discovery
 
@@ -392,7 +392,7 @@ cat skills/caching/cache-performance-monitoring.md   # Monitoring
 
 This is a personal reference repository maintained through practical development experience. Skills are added when new technologies are mastered, updated when better patterns emerge, and refined based on production use.
 
-Feel free to fork and adapt for your own use.
+Feel free to fork and adapt for your own use. Pull requests welcome.
 
 ---
 
