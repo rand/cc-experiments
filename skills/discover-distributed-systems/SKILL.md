@@ -23,23 +23,25 @@ This skill auto-activates when you're working with:
 
 ### Quick Reference
 
-The Distributed Systems category contains 15 skills:
+The Distributed Systems category contains 17 skills:
 
 1. **cap-theorem** - CAP theorem, consistency vs availability trade-offs
 2. **consensus-raft** - RAFT consensus, leader election, log replication
 3. **consensus-paxos** - Paxos consensus, Basic/Multi-Paxos
 4. **crdt-fundamentals** - Conflict-free Replicated Data Types basics
 5. **crdt-types** - Specific CRDT implementations (LWW, OR-Set, RGA)
-6. **vector-clocks** - Causality tracking, happens-before
-7. **logical-clocks** - Lamport clocks, logical time
-8. **eventual-consistency** - Consistency levels, quorums, BASE
-9. **conflict-resolution** - LWW, multi-value, semantic resolution
-10. **replication-strategies** - Primary-backup, multi-primary, chain, quorum
-11. **partitioning-sharding** - Hash/range/consistent hashing, rebalancing
-12. **distributed-locks** - Redlock, ZooKeeper locks, fencing tokens
-13. **leader-election** - Bully, ring, consensus-based election
-14. **gossip-protocols** - Epidemic protocols, failure detection
-15. **probabilistic-data-structures** - Bloom filters, HyperLogLog, Count-Min Sketch
+6. **dotted-version-vectors** - Compact causality, sibling management, optimized vector clocks
+7. **interval-tree-clocks** - Dynamic causality, fork/join, scalable tracking
+8. **vector-clocks** - Causality tracking, happens-before
+9. **logical-clocks** - Lamport clocks, logical time
+10. **eventual-consistency** - Consistency levels, quorums, BASE
+11. **conflict-resolution** - LWW, multi-value, semantic resolution
+12. **replication-strategies** - Primary-backup, multi-primary, chain, quorum
+13. **partitioning-sharding** - Hash/range/consistent hashing, rebalancing
+14. **distributed-locks** - Redlock, ZooKeeper locks, fencing tokens
+15. **leader-election** - Bully, ring, consensus-based election
+16. **gossip-protocols** - Epidemic protocols, failure detection
+17. **probabilistic-data-structures** - Bloom filters, HyperLogLog, Count-Min Sketch
 
 ### Load Full Category Details
 
@@ -90,6 +92,14 @@ cat skills/distributed-systems/replication-strategies.md
 cat skills/distributed-systems/crdt-fundamentals.md
 cat skills/distributed-systems/vector-clocks.md
 cat skills/distributed-systems/conflict-resolution.md
+```
+
+### Advanced Causality Tracking
+```bash
+# Vector clocks → Dotted version vectors → Interval tree clocks
+cat skills/distributed-systems/vector-clocks.md
+cat skills/distributed-systems/dotted-version-vectors.md
+cat skills/distributed-systems/interval-tree-clocks.md
 ```
 
 ### Scaling Data

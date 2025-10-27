@@ -2,7 +2,7 @@
 
 ## Category Overview
 
-**Total Skills**: 15
+**Total Skills**: 17
 **Category**: distributed-systems
 
 ## Skills in This Category
@@ -53,6 +53,26 @@ cat skills/distributed-systems/crdt-fundamentals.md
 **Load this skill**:
 ```bash
 cat skills/distributed-systems/crdt-types.md
+```
+
+---
+
+### dotted-version-vectors.md
+**Description**: Dotted version vectors for efficient sibling management, compact causality tracking, reducing metadata overhead compared to pure vector clocks
+
+**Load this skill**:
+```bash
+cat skills/distributed-systems/dotted-version-vectors.md
+```
+
+---
+
+### interval-tree-clocks.md
+**Description**: Interval tree clocks for dynamic systems, scalable causality tracking, fork/join operations, avoiding process ID exhaustion
+
+**Load this skill**:
+```bash
+cat skills/distributed-systems/interval-tree-clocks.md
 ```
 
 ---
@@ -167,7 +187,7 @@ ls skills/distributed-systems/*.md
 cat skills/distributed-systems/cap-theorem.md
 cat skills/distributed-systems/consensus-raft.md
 cat skills/distributed-systems/crdt-fundamentals.md
-# ... and 12 more
+# ... and 14 more
 ```
 
 ## Related Categories
