@@ -708,6 +708,115 @@ VideoObject - Video content
 
 ---
 
+## Level 3: Resources
+
+This skill includes comprehensive Level 3 resources in `skills/frontend/nextjs-seo/resources/`:
+
+### Reference Documentation
+
+**REFERENCE.md** (~1000 lines): Comprehensive reference guide covering:
+- Metadata API (static and dynamic)
+- Open Graph Protocol (website, article, product, video)
+- Twitter Cards (all card types)
+- Structured data (JSON-LD schemas for all content types)
+- Sitemap generation (static, dynamic, multi-language)
+- Robots.txt configuration
+- Canonical URLs
+- Meta tags best practices
+- Core Web Vitals and performance
+- Image optimization for SEO
+- Internationalization (i18n) for SEO
+- Advanced patterns and testing
+
+### Executable Scripts
+
+Located in `resources/scripts/`:
+
+1. **check_seo.py** - SEO tag validation tool
+   - Validates meta tags, Open Graph, Twitter Cards, structured data
+   - Checks title/description lengths
+   - Verifies canonical URLs and robots directives
+   - Reports issues, warnings, and successes
+   - JSON output support
+   - Usage: `./check_seo.py <url> [--json] [--output file.json]`
+
+2. **generate_sitemap.py** - Next.js sitemap generator
+   - Scans App Router directory structure
+   - Supports dynamic routes ([param], [...slug], [[...slug]])
+   - Auto-assigns priorities based on path depth
+   - Customizable exclusions
+   - XML and JSON output
+   - Usage: `./generate_sitemap.py [--app-dir ./app] [--base-url https://example.com] [--output public/sitemap.xml]`
+
+3. **test_metadata.js** - Metadata validation utility
+   - Analyzes Next.js page files for metadata exports
+   - Validates static and dynamic metadata
+   - Checks for required fields
+   - TypeScript type checking
+   - Error handling validation
+   - Usage: `./test_metadata.js <path-to-page> [--json] [--params id=123]`
+
+### TypeScript Examples
+
+Located in `resources/examples/typescript/`:
+
+1. **app-router-metadata.tsx** - Complete metadata examples
+   - Static metadata (layouts and pages)
+   - Dynamic metadata with database queries
+   - Multi-language metadata
+   - Environment-based metadata
+   - Paginated content
+   - Error handling patterns
+
+2. **dynamic-og-images.tsx** - Dynamic OG image generation
+   - Basic dynamic images with next/og
+   - Blog post images with custom fonts
+   - Product images with layouts
+   - Author profile images
+   - Stats/metrics images
+   - Multi-style images based on category
+   - Branded images with logos
+
+3. **structured-data.ts** - JSON-LD schema examples
+   - Organization schema
+   - Article schema
+   - Product schema (with reviews and ratings)
+   - Breadcrumb schema
+   - FAQ schema
+   - Local business schema
+   - WebSite search action
+   - Video schema
+   - Course schema
+   - Event schema
+   - Reusable TypeScript types and components
+
+4. **sitemap.ts** - Sitemap generation patterns
+   - Static sitemaps
+   - Dynamic sitemaps with database
+   - Multi-language sitemaps
+   - Custom priority calculations
+   - Exclusion filters
+   - Paginated content
+   - Sitemap indexes for large sites
+   - Caching strategies
+   - Error handling
+
+5. **robots.ts** - robots.txt patterns
+   - Basic robots.txt
+   - Multiple user agents
+   - Environment-specific rules
+   - E-commerce configurations
+   - Blog/content site rules
+   - SaaS application rules
+   - Custom crawl delays
+   - Block specific bots
+   - Regional configurations
+   - Helper functions
+
+All scripts are executable with `--help` flags and support `--json` output for automation.
+
+---
+
 ## Related Skills
 
 - `nextjs-app-router.md` - Metadata API, generateMetadata
@@ -716,5 +825,5 @@ VideoObject - Video content
 
 ---
 
-**Last Updated**: 2025-10-18
+**Last Updated**: 2025-10-27
 **Format Version**: 1.0 (Atomic)

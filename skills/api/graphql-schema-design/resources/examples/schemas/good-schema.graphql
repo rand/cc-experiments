@@ -1,0 +1,518 @@
+# GraphQL Schema - Best Practices Example
+#
+# This schema demonstrates:
+# - Proper naming conventions
+# - Complete documentation
+# - Connection-based pagination
+# - Error handling with unions
+# - Input types for mutations
+# - Interface usage
+# - Enum types
+
+# Custom Scalars
+"""ISO 8601 datetime with timezone"""
+scalar DateTime
+
+"""RFC 5322 email address"""
+scalar Email
+
+"""RFC 3986 URL"""
+scalar URL
+
+"""RFC 4122 UUID"""
+scalar UUID
+
+# Interfaces
+"""Global object identification"""
+interface Node {
+  """Globally unique identifier"""
+  id: ID!
+}
+
+"""Timestamped entities"""
+interface Timestamped {
+  """Creation timestamp"""
+  createdAt: DateTime!
+  """Last update timestamp"""
+  updatedAt: DateTime!
+}
+
+"""Error interface"""
+interface Error {
+  """Human-readable error message"""
+  message: String!
+  """Machine-readable error code"""
+  code: ErrorCode!
+}
+
+# Enums
+"""User role enumeration"""
+enum UserRole {
+  """Full system access"""
+  ADMIN
+  """Content moderation access"""
+  MODERATOR
+  """Standard user access"""
+  USER
+  """Limited guest access"""
+  GUEST
+}
+
+"""Post publication status"""
+enum PostStatus {
+  """Draft, not publicly visible"""
+  DRAFT
+  """Published and visible"""
+  PUBLISHED
+  """Archived, read-only"""
+  ARCHIVED
+}
+
+"""Error codes for client handling"""
+enum ErrorCode {
+  VALIDATION_ERROR
+  NOT_FOUND
+  UNAUTHORIZED
+  FORBIDDEN
+  CONFLICT
+  RATE_LIMITED
+  INTERNAL_ERROR
+}
+
+"""Sort direction"""
+enum SortDirection {
+  ASC
+  DESC
+}
+
+# Object Types
+"""User entity"""
+type User implements Node & Timestamped {
+  """Globally unique identifier"""
+  id: ID!
+
+  """Unique username"""
+  username: String!
+
+  """Email address"""
+  email: Email!
+
+  """Display name"""
+  displayName: String!
+
+  """Avatar image URL"""
+  avatarUrl: URL
+
+  """User role"""
+  role: UserRole!
+
+  """Account verification status"""
+  isVerified: Boolean!
+
+  """Creation timestamp"""
+  createdAt: DateTime!
+
+  """Last update timestamp"""
+  updatedAt: DateTime!
+
+  """User's posts with optional filtering"""
+  posts(
+    """Limit number of results"""
+    first: Int = 10
+    """Pagination cursor"""
+    after: String
+    """Filter by status"""
+    status: PostStatus
+  ): PostConnection!
+
+  """Follower count"""
+  followerCount: Int!
+
+  """Following count"""
+  followingCount: Int!
+}
+
+"""Blog post entity"""
+type Post implements Node & Timestamped {
+  """Globally unique identifier"""
+  id: ID!
+
+  """Post title"""
+  title: String!
+
+  """Post content (Markdown)"""
+  content: String!
+
+  """Publication status"""
+  status: PostStatus!
+
+  """Post author"""
+  author: User!
+
+  """Post tags"""
+  tags: [String!]!
+
+  """View count"""
+  viewCount: Int!
+
+  """Like count"""
+  likeCount: Int!
+
+  """Creation timestamp"""
+  createdAt: DateTime!
+
+  """Last update timestamp"""
+  updatedAt: DateTime!
+
+  """Comments on this post"""
+  comments(first: Int = 10, after: String): CommentConnection!
+}
+
+"""Comment on a post"""
+type Comment implements Node & Timestamped {
+  """Globally unique identifier"""
+  id: ID!
+
+  """Comment content"""
+  content: String!
+
+  """Comment author"""
+  author: User!
+
+  """Parent post"""
+  post: Post!
+
+  """Creation timestamp"""
+  createdAt: DateTime!
+
+  """Last update timestamp"""
+  updatedAt: DateTime!
+}
+
+# Pagination Types (Relay Connection Pattern)
+"""Pagination information"""
+type PageInfo {
+  """Whether more edges exist following the set"""
+  hasNextPage: Boolean!
+
+  """Whether more edges exist prior to the set"""
+  hasPreviousPage: Boolean!
+
+  """Cursor of the first edge"""
+  startCursor: String
+
+  """Cursor of the last edge"""
+  endCursor: String
+}
+
+"""Post edge in connection"""
+type PostEdge {
+  """Pagination cursor"""
+  cursor: String!
+
+  """The post node"""
+  node: Post!
+}
+
+"""Paginated posts"""
+type PostConnection {
+  """List of edges"""
+  edges: [PostEdge!]!
+
+  """Pagination information"""
+  pageInfo: PageInfo!
+
+  """Total count (expensive, use sparingly)"""
+  totalCount: Int
+}
+
+"""Comment edge in connection"""
+type CommentEdge {
+  """Pagination cursor"""
+  cursor: String!
+
+  """The comment node"""
+  node: Comment!
+}
+
+"""Paginated comments"""
+type CommentConnection {
+  """List of edges"""
+  edges: [CommentEdge!]!
+
+  """Pagination information"""
+  pageInfo: PageInfo!
+
+  """Total count"""
+  totalCount: Int
+}
+
+# Input Types
+"""Input for filtering users"""
+input UserFilterInput {
+  """Filter by role"""
+  role: UserRole
+
+  """Filter by verification status"""
+  isVerified: Boolean
+
+  """Filter by creation date (after)"""
+  createdAfter: DateTime
+
+  """Filter by creation date (before)"""
+  createdBefore: DateTime
+
+  """Search username"""
+  username: String
+}
+
+"""Input for sorting users"""
+input UserSortInput {
+  """Field to sort by"""
+  field: UserSortField!
+
+  """Sort direction"""
+  direction: SortDirection!
+}
+
+"""Fields to sort users by"""
+enum UserSortField {
+  CREATED_AT
+  UPDATED_AT
+  USERNAME
+  FOLLOWER_COUNT
+}
+
+"""Input for creating a post"""
+input CreatePostInput {
+  """Post title"""
+  title: String!
+
+  """Post content (Markdown)"""
+  content: String!
+
+  """Post tags"""
+  tags: [String!]
+
+  """Publication status"""
+  status: PostStatus = DRAFT
+}
+
+"""Input for updating a post"""
+input UpdatePostInput {
+  """Updated title"""
+  title: String
+
+  """Updated content"""
+  content: String
+
+  """Updated tags"""
+  tags: [String!]
+
+  """Updated status"""
+  status: PostStatus
+}
+
+"""Input for creating a comment"""
+input CreateCommentInput {
+  """Post ID to comment on"""
+  postId: ID!
+
+  """Comment content"""
+  content: String!
+}
+
+# Error Types
+"""Validation error"""
+type ValidationError implements Error {
+  """Error message"""
+  message: String!
+
+  """Error code"""
+  code: ErrorCode!
+
+  """Field that failed validation"""
+  field: String!
+
+  """Validation rule that failed"""
+  rule: String!
+}
+
+"""Entity not found error"""
+type NotFoundError implements Error {
+  """Error message"""
+  message: String!
+
+  """Error code"""
+  code: ErrorCode!
+
+  """Type of entity not found"""
+  entityType: String!
+
+  """ID that was not found"""
+  entityId: ID!
+}
+
+"""Authorization error"""
+type AuthError implements Error {
+  """Error message"""
+  message: String!
+
+  """Error code"""
+  code: ErrorCode!
+
+  """Required permission"""
+  requiredPermission: String
+}
+
+# Payload Types
+"""Result of creating a post"""
+type CreatePostPayload {
+  """Whether the operation succeeded"""
+  success: Boolean!
+
+  """Errors that occurred"""
+  errors: [Error!]!
+
+  """The created post"""
+  post: Post
+
+  """Edge for inserting into connections"""
+  postEdge: PostEdge
+}
+
+"""Result of updating a post"""
+type UpdatePostPayload {
+  """Whether the operation succeeded"""
+  success: Boolean!
+
+  """Errors that occurred"""
+  errors: [Error!]!
+
+  """The updated post"""
+  post: Post
+}
+
+"""Result of deleting a post"""
+type DeletePostPayload {
+  """Whether the operation succeeded"""
+  success: Boolean!
+
+  """Errors that occurred"""
+  errors: [Error!]!
+
+  """ID of deleted post"""
+  deletedPostId: ID
+}
+
+"""Result of creating a comment"""
+type CreateCommentPayload {
+  """Whether the operation succeeded"""
+  success: Boolean!
+
+  """Errors that occurred"""
+  errors: [Error!]!
+
+  """The created comment"""
+  comment: Comment
+
+  """Edge for inserting into connections"""
+  commentEdge: CommentEdge
+}
+
+# Root Types
+"""Root query type"""
+type Query {
+  """Get current authenticated user"""
+  viewer: User
+
+  """Get any node by global ID"""
+  node(id: ID!): Node
+
+  """Get multiple nodes by global IDs"""
+  nodes(ids: [ID!]!): [Node]!
+
+  """Get user by ID"""
+  user(id: ID!): User
+
+  """Get user by username"""
+  userByUsername(username: String!): User
+
+  """List users with filtering and pagination"""
+  users(
+    """Number of results"""
+    first: Int = 20
+    """Pagination cursor"""
+    after: String
+    """Filter criteria"""
+    filter: UserFilterInput
+    """Sort order"""
+    sort: UserSortInput
+  ): [User!]!
+
+  """Get post by ID"""
+  post(id: ID!): Post
+
+  """List posts with filtering and pagination"""
+  posts(
+    """Number of results"""
+    first: Int = 20
+    """Pagination cursor"""
+    after: String
+    """Filter by status"""
+    status: PostStatus
+    """Filter by author ID"""
+    authorId: ID
+    """Filter by tags"""
+    tags: [String!]
+  ): PostConnection!
+
+  """Search posts by text"""
+  searchPosts(
+    """Search query"""
+    query: String!
+    """Number of results"""
+    first: Int = 20
+    """Pagination cursor"""
+    after: String
+  ): PostConnection!
+}
+
+"""Root mutation type"""
+type Mutation {
+  """Create a new post"""
+  createPost(input: CreatePostInput!): CreatePostPayload!
+
+  """Update an existing post"""
+  updatePost(id: ID!, input: UpdatePostInput!): UpdatePostPayload!
+
+  """Delete a post"""
+  deletePost(id: ID!): DeletePostPayload!
+
+  """Create a comment"""
+  createComment(input: CreateCommentInput!): CreateCommentPayload!
+
+  """Like a post"""
+  likePost(postId: ID!): Post!
+
+  """Unlike a post"""
+  unlikePost(postId: ID!): Post!
+
+  """Follow a user"""
+  followUser(userId: ID!): User!
+
+  """Unfollow a user"""
+  unfollowUser(userId: ID!): User!
+}
+
+"""Root subscription type"""
+type Subscription {
+  """Subscribe to new posts"""
+  postCreated: Post!
+
+  """Subscribe to post updates"""
+  postUpdated(postId: ID!): Post!
+
+  """Subscribe to new comments on a post"""
+  commentCreated(postId: ID!): Comment!
+}

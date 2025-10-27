@@ -663,6 +663,158 @@ npm install -g jest --watch  # CLI watch mode
 
 ---
 
+## Level 3: Resources
+
+### Comprehensive Reference
+
+**Location**: `skills/engineering/test-driven-development/resources/REFERENCE.md` (~900 lines)
+
+Complete reference covering:
+- TDD fundamentals and the three laws
+- Red-Green-Refactor cycle in depth
+- Test-first development principles
+- Unit test design patterns (fixtures, builders, object mothers)
+- Test doubles and mocking strategies (dummies, stubs, spies, mocks, fakes)
+- Inside-Out vs Outside-In TDD approaches
+- ATDD (Acceptance Test-Driven Development)
+- BDD (Behavior-Driven Development)
+- TDD with different paradigms (OOP, functional, property-based)
+- Common TDD mistakes and solutions
+- Refactoring safely with tests
+- TDD metrics and benefits (coverage, defect density, velocity)
+- TDD in different contexts (Web APIs, frontend, databases, CLI tools)
+- Advanced TDD techniques (mutation testing, contract testing, characterization tests)
+- TDD anti-patterns (Free Ride, The Liar, The Mockery, The Inspector, The Slowpoke)
+
+### Scripts
+
+**Location**: `skills/engineering/test-driven-development/resources/scripts/`
+
+**1. TDD Session Tracker** (`tdd_session.py`)
+- Interactive tracker for Red-Green-Refactor cycles
+- Times each phase (RED, GREEN, REFACTOR)
+- Tracks cycle metrics and session statistics
+- Identifies slow phases and suggests improvements
+- Exports session data to JSON for analysis
+```bash
+# Start interactive TDD session
+./tdd_session.py start
+
+# Analyze completed session
+./tdd_session.py analyze --session-file session.json
+
+# Get session statistics
+./tdd_session.py stats --session-file session.json --json
+```
+
+**2. TDD Metrics Analyzer** (`analyze_tdd_metrics.py`)
+- Calculate test-to-code ratios
+- Analyze coverage trends and progression
+- Detect test smells and anti-patterns
+- Generate TDD health scores (0-100)
+- Track metrics across git history
+```bash
+# Calculate test-to-code ratio
+./analyze_tdd_metrics.py ratio --source-dir src/ --test-dir tests/
+
+# Analyze TDD health
+./analyze_tdd_metrics.py health --source-dir src/ --test-dir tests/ --coverage-file .coverage
+
+# Track metrics across commits
+./analyze_tdd_metrics.py history --repo-dir . --commits 10 --json
+```
+
+**3. Test Template Generator** (`generate_test_template.sh`)
+- Generate language-specific test templates
+- Support for Python (pytest), TypeScript (Jest), Rust, Go
+- BDD (Given-When-Then) or AAA (Arrange-Act-Assert) styles
+- Includes fixtures, parameterized tests, and best practices
+```bash
+# Python pytest template
+./generate_test_template.sh python Calculator --framework pytest
+
+# TypeScript Jest template with BDD style
+./generate_test_template.sh typescript UserService --style bdd
+
+# Rust test template
+./generate_test_template.sh rust string_utils
+
+# Go table-driven test template
+./generate_test_template.sh go Validator
+```
+
+### Examples
+
+**Location**: `skills/engineering/test-driven-development/resources/examples/`
+
+**Python** (`python/tdd_example.py`)
+- String Calculator kata showing full TDD progression
+- Before/after comparison (implementation-first vs test-first)
+- Complete Red-Green-Refactor cycles for each requirement
+- Demonstrates incremental development and continuous refactoring
+- Test suite evolution from simple to comprehensive
+
+**TypeScript** (`typescript/tdd_example.test.ts`)
+- Bowling Game kata in TypeScript with Jest
+- Shows TDD rhythm in a stateful object
+- Demonstrates test organization with describe blocks
+- Helper functions to reduce test duplication
+- Complete progression from gutter game to perfect game
+
+**Rust** (`rust/tdd_example.rs`)
+- Stack implementation showing TDD with Rust's type system
+- Demonstrates Result<T, E> error handling in tests
+- Shows how ownership/borrowing influences test design
+- Property-based testing examples (with proptest)
+- Nested test modules for organization
+
+**Workflow Guide** (`workflows/tdd-workflow.md`)
+- Daily TDD workflow (morning routine, core cycle, end of day)
+- Project setup for TDD (frameworks, configuration, IDE setup)
+- Feature development step-by-step guide
+- Debugging workflow when tests fail
+- Refactoring workflow with TDD safety net
+- Code review checklist for TDD
+- Common scenarios (new feature, bug fix, validation, legacy code, external dependencies)
+
+### Usage
+
+**Start a TDD session**:
+```bash
+cd skills/engineering/test-driven-development/resources
+./scripts/tdd_session.py start
+```
+
+**Generate test template for new feature**:
+```bash
+./scripts/generate_test_template.sh python UserAuthentication --framework pytest --style bdd
+```
+
+**Check TDD health**:
+```bash
+./scripts/analyze_tdd_metrics.py health \
+  --source-dir ../../../src \
+  --test-dir ../../../tests \
+  --coverage-file ../../../.coverage
+```
+
+**Study examples**:
+```bash
+# Python example with full TDD progression
+cat examples/python/tdd_example.py
+
+# TypeScript kata
+cat examples/typescript/tdd_example.test.ts
+
+# Rust with type system
+cat examples/rust/tdd_example.rs
+
+# Complete workflow guide
+cat examples/workflows/tdd-workflow.md
+```
+
+---
+
 ## Related Skills
 
 - **engineering-code-review**: Reviewing tests in PRs

@@ -669,5 +669,93 @@ hadolint Dockerfile
 
 ---
 
-**Last Updated**: 2025-10-18
+## Level 3: Resources
+
+This skill has comprehensive Level 3 resources in `skills/containers/dockerfile-optimization/resources/`.
+
+### REFERENCE.md
+
+Comprehensive 900+ line reference covering:
+- Multi-stage builds (basic patterns, advanced patterns, parallel builds)
+- Layer caching strategies (cache invalidation, optimization techniques, BuildKit cache mounts)
+- Base image selection (alpine, slim, distroless, scratch comparisons)
+- .dockerignore best practices (templates, language-specific patterns)
+- Security hardening (non-root users, minimal attack surface, secret management)
+- Image size optimization (reduction techniques, real-world examples)
+- Build time optimization (BuildKit features, parallel stages, remote caching)
+- Runtime optimization (startup time, memory, CPU, disk I/O)
+- Dockerfile best practices (instruction order, anti-patterns, exec vs shell form)
+- BuildKit features (cache mounts, secret mounts, SSH mounts, heredoc syntax)
+- Health checks and signal handling (graceful shutdown patterns)
+- Resource limits (CPU, memory, disk I/O constraints)
+- Performance benchmarking techniques
+- Real-world optimization examples with before/after comparisons
+
+### Scripts
+
+Production-ready executable scripts with `--help` and `--json` support:
+
+1. **analyze_dockerfile.py** (500+ lines)
+   - Analyzes Dockerfiles for anti-patterns and security issues
+   - Detects: root user, latest tags, inefficient layers, missing .dockerignore
+   - Calculates optimization score (0-100)
+   - Provides specific recommendations
+   - Usage: `./analyze_dockerfile.py Dockerfile [--json] [--min-score 80]`
+
+2. **optimize_image.sh** (400+ lines)
+   - Analyzes Docker images with size and layer breakdown
+   - Identifies optimization opportunities
+   - Optional: Builds optimized version with comparison
+   - Shows before/after size reduction percentage
+   - Usage: `./optimize_image.sh [--build] [--json] myapp:latest`
+
+3. **benchmark_builds.py** (500+ lines)
+   - Benchmarks build times with different strategies
+   - Compares: cached, no-cache, BuildKit, legacy builder, parallel stages
+   - Measures image sizes and build durations
+   - Provides speedup analysis and recommendations
+   - Usage: `./benchmark_builds.py [--all] [--json] myapp`
+
+### Examples
+
+#### Optimized Dockerfiles by Language
+
+- **python-optimized.Dockerfile**: Multi-stage, slim base, cache mounts, non-root user
+- **node-optimized.Dockerfile**: Alpine base, production deps only, dumb-init
+- **go-optimized.Dockerfile**: Scratch base, static binary, minimal size (<10MB)
+- **rust-optimized.Dockerfile**: Cargo cache mounts, debian-slim runtime
+- **multi-stage-example.Dockerfile**: Parallel stages, test stage, multiple targets
+
+#### Before/After Optimization Examples
+
+- **python-before.Dockerfile** → **python-after.Dockerfile**: 1.2GB → 150MB (87% reduction)
+- **node-before.Dockerfile** → **node-after.Dockerfile**: 1.1GB → 180MB (83% reduction)
+- **COMPARISON.md**: Detailed analysis of optimization techniques and impact
+
+### Usage
+
+```bash
+# Analyze Dockerfile for issues
+cd skills/containers/dockerfile-optimization/resources/scripts
+./analyze_dockerfile.py /path/to/Dockerfile
+
+# Get JSON output for CI/CD integration
+./analyze_dockerfile.py Dockerfile --json --min-score 80
+
+# Analyze existing image
+./optimize_image.sh myapp:latest
+
+# Build optimized version and compare
+./optimize_image.sh --build myapp:latest
+
+# Benchmark different build strategies
+./benchmark_builds.py --all myapp
+
+# Compare specific strategies
+./benchmark_builds.py -s cached -s buildkit -s parallel myapp --json
+```
+
+---
+
+**Last Updated**: 2025-10-27
 **Format Version**: 1.0 (Atomic)

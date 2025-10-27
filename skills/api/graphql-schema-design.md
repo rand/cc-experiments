@@ -454,6 +454,162 @@ query Search($query: String!) {
 
 ---
 
+## Level 3: Resources
+
+### Reference Documentation
+
+**Location**: `skills/api/graphql-schema-design/resources/REFERENCE.md`
+
+Comprehensive 900+ line reference covering:
+- GraphQL schema design principles and best practices
+- Complete type system (scalars, objects, interfaces, unions, enums, inputs)
+- Schema patterns (Node, Connection, Payload, Error types)
+- Query and mutation design with examples
+- Subscription patterns for real-time updates
+- Error handling strategies and types
+- Pagination (offset-based, cursor-based, Relay connections)
+- Performance optimization (DataLoader, complexity analysis, caching)
+- Security (authentication, authorization, rate limiting, validation)
+- Schema versioning and deprecation strategies
+- Schema federation and stitching
+- Testing strategies for schemas
+- Complete anti-patterns catalog
+
+### Executable Scripts
+
+**Location**: `skills/api/graphql-schema-design/resources/scripts/`
+
+1. **analyze_schema.py** - GraphQL schema analyzer
+   - Analyzes GraphQL schemas for anti-patterns and best practices
+   - Detects naming convention violations
+   - Checks documentation coverage
+   - Validates pagination patterns
+   - Identifies nullability issues
+   - Checks mutation design patterns
+   - Calculates quality score (0-100)
+   - Output: Human-readable report or JSON
+
+   ```bash
+   ./analyze_schema.py schema.graphql
+   ./analyze_schema.py schema.graphql --json
+   ./analyze_schema.py schema.graphql --min-score 80
+   ```
+
+2. **generate_types.py** - TypeScript type generator
+   - Generates TypeScript type definitions from GraphQL schemas
+   - Supports all GraphQL type system features
+   - Handles custom scalars, enums, interfaces, unions
+   - Configurable nullability handling
+   - JSON output for programmatic use
+   - Output: TypeScript .d.ts file or JSON
+
+   ```bash
+   ./generate_types.py schema.graphql -o types.ts
+   ./generate_types.py schema.graphql --nullable-by-default
+   ./generate_types.py schema.graphql --json
+   ```
+
+3. **benchmark_queries.js** - GraphQL query benchmarking tool
+   - Benchmarks GraphQL query performance
+   - Concurrent request support
+   - Detailed timing metrics (min, max, avg, p50, p90, p95, p99)
+   - Throughput calculation (requests/sec)
+   - Payload size analysis
+   - Warmup phase support
+   - Custom headers and authentication
+   - JSON output for CI/CD integration
+
+   ```bash
+   ./benchmark_queries.js -e http://localhost:4000/graphql -q "{ users { id } }"
+   ./benchmark_queries.js -e http://localhost:4000/graphql --query-file query.graphql -c 10 -i 100
+   ./benchmark_queries.js -e http://localhost:4000/graphql -q "{ posts { title } }" --json
+   ```
+
+### Code Examples
+
+**Location**: `skills/api/graphql-schema-design/resources/examples/`
+
+1. **python/graphql_server.py** - Strawberry GraphQL server
+   - Complete GraphQL server using Strawberry (Python)
+   - Type-safe schema with Python type hints
+   - DataLoader for N+1 prevention
+   - Connection-based pagination
+   - Error handling with union types
+   - Authentication and authorization
+   - Input types and payload types
+   - Runnable example with FastAPI
+
+2. **typescript/graphql_server.ts** - Apollo Server implementation
+   - Complete GraphQL server using Apollo Server
+   - Type-safe resolvers with TypeScript
+   - DataLoader batching patterns
+   - Relay-style pagination
+   - Error handling with interfaces
+   - Context-based authentication
+   - Subscription support
+   - Runnable standalone server
+
+3. **typescript/graphql_client.ts** - Apollo Client implementation
+   - Complete GraphQL client using Apollo Client
+   - Type-safe queries and mutations
+   - Fragment composition
+   - Cache management strategies
+   - Pagination handling
+   - Optimistic updates
+   - Real-time query watching
+   - Error handling patterns
+
+4. **schemas/good-schema.graphql** - Best practices schema
+   - Production-ready schema demonstrating all best practices
+   - Complete documentation for all types and fields
+   - Proper naming conventions (PascalCase, camelCase, SCREAMING_SNAKE_CASE)
+   - Node interface for global object identification
+   - Relay connection pattern for pagination
+   - Error handling with interface types
+   - Input types for all mutations
+   - Payload types with success/errors fields
+   - Custom scalars (DateTime, Email, URL, UUID)
+   - Comprehensive type system usage
+
+5. **schemas/anti-patterns.graphql** - Anti-patterns catalog
+   - Comprehensive catalog of 30+ GraphQL anti-patterns
+   - Each pattern documented with explanation
+   - Shows incorrect approaches with comments
+   - Covers naming, structure, performance, and design issues
+   - Use as negative reference ("what NOT to do")
+
+### Usage
+
+All scripts are executable and include `--help`:
+
+```bash
+cd skills/api/graphql-schema-design/resources/scripts
+./analyze_schema.py --help
+./generate_types.py --help
+./benchmark_queries.js --help
+```
+
+Examples are runnable with dependencies installed:
+
+```bash
+# Python server
+cd examples/python
+pip install strawberry-graphql fastapi uvicorn
+python graphql_server.py
+
+# TypeScript server
+cd examples/typescript
+npm install @apollo/server dataloader
+ts-node graphql_server.ts
+
+# TypeScript client
+cd examples/typescript
+npm install @apollo/client
+ts-node graphql_client.ts
+```
+
+---
+
 ## Related Skills
 
 - `rest-api-design.md` - Comparing REST vs GraphQL
@@ -463,5 +619,5 @@ query Search($query: String!) {
 
 ---
 
-**Last Updated**: 2025-10-18
+**Last Updated**: 2025-10-27
 **Format Version**: 1.0 (Atomic)

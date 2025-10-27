@@ -1,0 +1,141 @@
+version: '3.8'
+
+# Jaeger All-in-One Deployment with OpenTelemetry Collector
+#
+# This compose file deploys:
+# - Jaeger (all-in-one): Collector, query service, and UI
+# - OpenTelemetry Collector: Receives traces and forwards to Jaeger
+# - Example services with tracing instrumentation
+#
+# Usage:
+#   docker-compose -f jaeger-compose.yml up -d
+#
+# Access Jaeger UI: http://localhost:16686
+# Send traces to: localhost:4317 (OTLP gRPC) or localhost:4318 (OTLP HTTP)
+
+services:
+  # Jaeger All-in-One (collector + query + UI)
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: jaeger
+    environment:
+      - COLLECTOR_ZIPKIN_HOST_PORT=:9411
+      - COLLECTOR_OTLP_ENABLED=true
+    ports:
+      # Jaeger UI
+      - "16686:16686"
+      # Jaeger collector (Thrift)
+      - "14268:14268"
+      # Jaeger collector (gRPC)
+      - "14250:14250"
+      # Jaeger agent (Thrift compact)
+      - "6831:6831/udp"
+      # Jaeger agent (Thrift binary)
+      - "6832:6832/udp"
+      # Jaeger agent (config)
+      - "5778:5778"
+      # Zipkin compatible endpoint
+      - "9411:9411"
+      # OTLP gRPC receiver
+      - "4317:4317"
+      # OTLP HTTP receiver
+      - "4318:4318"
+    networks:
+      - tracing
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:16686"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # OpenTelemetry Collector (optional - for advanced processing)
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    container_name: otel-collector
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      # OTLP gRPC receiver
+      - "4317:4317"
+      # OTLP HTTP receiver
+      - "4318:4318"
+      # Prometheus metrics
+      - "8889:8889"
+      # Health check
+      - "13133:13133"
+    depends_on:
+      - jaeger
+    networks:
+      - tracing
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:13133"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Example: Python service with tracing
+  user-service:
+    build:
+      context: ../python
+      dockerfile: Dockerfile
+    container_name: user-service
+    environment:
+      - SERVICE_NAME=user-service
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - PORT=8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - otel-collector
+    networks:
+      - tracing
+    restart: unless-stopped
+
+  # Example: Node.js service with tracing
+  order-service:
+    build:
+      context: ../typescript
+      dockerfile: Dockerfile
+    container_name: order-service
+    environment:
+      - SERVICE_NAME=order-service
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - PORT=8002
+    ports:
+      - "8002:8002"
+    depends_on:
+      - otel-collector
+    networks:
+      - tracing
+    restart: unless-stopped
+
+  # Example: Go service with tracing
+  payment-service:
+    build:
+      context: ../go
+      dockerfile: Dockerfile
+    container_name: payment-service
+    environment:
+      - SERVICE_NAME=payment-service
+      - OTEL_EXPORTER_OTLP_ENDPOINT=otel-collector:4317
+      - PORT=8003
+    ports:
+      - "8003:8003"
+    depends_on:
+      - otel-collector
+    networks:
+      - tracing
+    restart: unless-stopped
+
+networks:
+  tracing:
+    name: tracing-network
+    driver: bridge
+
+# Optional: Persist Jaeger data
+# volumes:
+#   jaeger-data:
+#     driver: local
