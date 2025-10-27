@@ -1,6 +1,6 @@
 # Skills Catalog
 
-**Total Skills**: 292 across 31 categories
+**Total Skills**: 293 across 31 categories
 **Gateway Skills**: 28 (auto-discovered by Claude Code)
 **Agent Skills**: 3 (elegant-design, anti-slop, typed-holes-refactor)
 
@@ -386,6 +386,17 @@ cat skills/modal/INDEX.md
 
 ---
 
+### Workflow (5 skills)
+**Gateway**: `discover-workflow`
+**Keywords**: Beads, workflow, task management, synthesis, cleanup, consolidation, roadmap
+**Skills**: Beads workflow, dependency management, multi-session patterns, context strategies, project synthesis
+
+```bash
+cat skills/workflow/INDEX.md
+```
+
+---
+
 ## Quick Reference
 
 ### Find Skills by Technology
@@ -407,8 +418,7 @@ cat skills/modal/INDEX.md
 
 ### Root-Level Skills
 
-45 skills at root level (not yet categorized):
-- Beads workflow skills (beads-*.md)
+40 skills at root level (not yet categorized):
 - Zig skills (zig-*.md)
 - TUI skills (bubbletea-*.md, ratatui-*.md)
 - iOS skills (swift*.md, ios-*.md, swiftui-*.md)

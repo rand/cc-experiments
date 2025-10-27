@@ -2,7 +2,7 @@
 
 ## Category Overview
 
-**Total Skills**: 4
+**Total Skills**: 5
 **Category**: workflow
 
 ## Skills in This Category
@@ -47,6 +47,16 @@ cat skills/workflow/beads-workflow.md
 
 ---
 
+### project-synthesis.md
+**Description**: Synthesize scattered project artifacts into unified roadmap. Use when projects have accumulated sprawl across multiple planning documents, inconsistent naming, orphaned tests, or Beads issues out of sync with reality.
+
+**Load this skill**:
+```bash
+cat skills/workflow/project-synthesis.md
+```
+
+---
+
 ## Loading All Skills
 
 ```bash
@@ -57,7 +67,8 @@ ls skills/workflow/*.md
 cat skills/workflow/beads-context-strategies.md
 cat skills/workflow/beads-dependency-management.md
 cat skills/workflow/beads-multi-session-patterns.md
-# ... and 1 more
+cat skills/workflow/beads-workflow.md
+cat skills/workflow/project-synthesis.md
 ```
 
 ## Related Categories
