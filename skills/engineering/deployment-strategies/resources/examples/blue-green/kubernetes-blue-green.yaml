@@ -1,0 +1,279 @@
+# Blue-Green Deployment for Kubernetes
+#
+# This example demonstrates a complete blue-green deployment setup using
+# Kubernetes Deployments and Services.
+#
+# Usage:
+#   1. Deploy blue environment: kubectl apply -f kubernetes-blue-green.yaml
+#   2. Test blue environment
+#   3. Deploy green environment with new version
+#   4. Switch traffic: kubectl patch service myapp -p '{"spec":{"selector":{"version":"green"}}}'
+#   5. Monitor and verify
+#   6. Rollback if needed: kubectl patch service myapp -p '{"spec":{"selector":{"version":"blue"}}}'
+
+---
+# Blue Deployment (Current/Stable Version)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-blue
+  namespace: production
+  labels:
+    app: myapp
+    version: blue
+spec:
+  replicas: 3
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: myapp
+      version: blue
+
+  template:
+    metadata:
+      labels:
+        app: myapp
+        version: blue
+        deployment: blue-green
+    spec:
+      # Pod disruption budget ensures availability during cluster maintenance
+      terminationGracePeriodSeconds: 60
+
+      containers:
+      - name: myapp
+        image: myapp:v1.0.0
+        imagePullPolicy: Always
+
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+
+        # Resource limits prevent resource exhaustion
+        resources:
+          requests:
+            cpu: 250m
+            memory: 512Mi
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+
+        # Liveness probe - restart if unhealthy
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+
+        # Readiness probe - critical for zero-downtime switch
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 2
+
+        # Environment variables
+        env:
+        - name: APP_VERSION
+          value: "v1.0.0"
+        - name: ENVIRONMENT
+          value: "blue"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: database-credentials
+              key: url
+
+        # Graceful shutdown
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "sleep 15"]
+
+---
+# Green Deployment (New Version)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-green
+  namespace: production
+  labels:
+    app: myapp
+    version: green
+spec:
+  replicas: 3
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: myapp
+      version: green
+
+  template:
+    metadata:
+      labels:
+        app: myapp
+        version: green
+        deployment: blue-green
+    spec:
+      terminationGracePeriodSeconds: 60
+
+      containers:
+      - name: myapp
+        image: myapp:v1.1.0  # New version
+        imagePullPolicy: Always
+
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+
+        resources:
+          requests:
+            cpu: 250m
+            memory: 512Mi
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 2
+
+        env:
+        - name: APP_VERSION
+          value: "v1.1.0"
+        - name: ENVIRONMENT
+          value: "green"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: database-credentials
+              key: url
+
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "sleep 15"]
+
+---
+# Service (Traffic Router)
+# Switch between blue and green by changing selector.version
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp
+  namespace: production
+  labels:
+    app: myapp
+spec:
+  type: LoadBalancer
+  sessionAffinity: None
+
+  selector:
+    app: myapp
+    version: blue  # Change to 'green' to switch traffic
+
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+    protocol: TCP
+
+---
+# Service for testing green environment before switch
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-green-preview
+  namespace: production
+  labels:
+    app: myapp
+    environment: preview
+spec:
+  type: ClusterIP
+
+  selector:
+    app: myapp
+    version: green  # Always points to green
+
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+    protocol: TCP
+
+---
+# Pod Disruption Budget - ensures availability during voluntary disruptions
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: myapp-pdb
+  namespace: production
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: myapp
+
+---
+# HorizontalPodAutoscaler (optional)
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: myapp-blue-hpa
+  namespace: production
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: myapp-blue
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: myapp-green-hpa
+  namespace: production
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: myapp-green
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70

@@ -648,3 +648,284 @@ def test_user_login(driver):
 - Cypress: Great DX, Chromium-only
 - Selenium: Legacy, wide language support
 - Puppeteer: Chrome-only, good for scraping
+
+## Level 3: Resources
+
+### Comprehensive Reference
+
+**[REFERENCE.md](resources/REFERENCE.md)** (99KB) - Complete E2E testing guide:
+
+1. E2E Testing Philosophy and Strategy
+2. The Testing Pyramid and E2E Position
+3. Choosing an E2E Framework (Playwright vs Cypress vs Selenium)
+4. Page Object Model (POM) - Design patterns and architecture
+5. Selector Strategies (CSS, XPath, test IDs, accessibility)
+6. Waiting Strategies (explicit, implicit, auto-wait)
+7. Authentication and Session Management
+8. Test Data Management (fixtures, factories, seeding)
+9. Network Interception and Mocking
+10. Visual Regression Testing
+11. Cross-Browser Testing
+12. Handling Complex Interactions (drag-drop, file uploads, iframes)
+13. Test Organization and Structure
+14. Flakiness Reduction Techniques
+15. Parallelization and Performance
+16. CI/CD Integration
+17. Debugging Strategies
+18. Accessibility Testing
+19. Mobile and Responsive Testing
+20. Common Anti-Patterns
+21. Best Practices
+22. Real-World Test Suites
+
+**Coverage**: Framework selection, POM architecture, selector strategies, waiting patterns, authentication, mocking, visual regression, cross-browser, flakiness reduction, CI/CD, debugging, accessibility, mobile testing, and production examples.
+
+### Automation Scripts
+
+**[run_e2e_tests.py](resources/scripts/run_e2e_tests.py)** (600 lines)
+Execute E2E test suites with comprehensive orchestration and reporting:
+```bash
+# Run Playwright tests across browsers
+./run_e2e_tests.py --framework playwright --browsers chromium firefox webkit
+
+# Run with test environment
+./run_e2e_tests.py --start-env --compose-file docker-compose.test.yml
+
+# Parallel execution with retries
+./run_e2e_tests.py --parallel --retries 2 --timeout 60
+
+# Output JSON results
+./run_e2e_tests.py --json
+```
+
+**Features**:
+- Multi-framework support (Playwright, Cypress, Selenium)
+- Browser matrix testing (chromium, firefox, webkit, edge)
+- Parallel execution with configurable workers
+- Retry logic for flaky tests
+- Test environment orchestration (Docker Compose)
+- Detailed reporting with pass rates
+- Artifact collection (screenshots, videos, traces)
+- JSON output for CI integration
+
+**[analyze_flakiness.py](resources/scripts/analyze_flakiness.py)** (600 lines)
+Analyze E2E test stability and identify flaky tests:
+```bash
+# Analyze flakiness over 30 days
+./analyze_flakiness.py --results-dir test-results --days 30
+
+# Find tests with >10% failure rate
+./analyze_flakiness.py --threshold 0.1 --min-runs 5
+
+# Detailed analysis with recommendations
+./analyze_flakiness.py --verbose
+
+# Export as JSON
+./analyze_flakiness.py --json
+```
+
+**Features**:
+- Historical analysis across multiple test runs
+- Flake rate calculation per test
+- Root cause identification (timeouts, timing, network, state, race conditions)
+- Severity classification (high, medium, low)
+- Browser-specific flakiness detection
+- Common error pattern recognition
+- Actionable recommendations
+- Trend analysis over time
+
+**[generate_page_object.py](resources/scripts/generate_page_object.py)** (800 lines)
+Generate Page Object Model classes from HTML, URLs, or existing tests:
+```bash
+# Generate from URL
+./generate_page_object.py --url https://example.com/login \
+  --framework playwright --language typescript
+
+# Generate from HTML file
+./generate_page_object.py --html page.html --framework cypress
+
+# Generate from existing test
+./generate_page_object.py --test tests/login.spec.ts --framework playwright
+
+# Output as JSON structure
+./generate_page_object.py --url https://example.com/dashboard --json
+```
+
+**Features**:
+- Multi-framework support (Playwright, Cypress, Selenium)
+- Multi-language output (TypeScript, Python, Java)
+- HTML parsing and element extraction
+- Test ID discovery (data-testid, data-test, data-cy)
+- Action inference (login, search, form submission)
+- Component composition
+- Selector optimization
+- Best practice patterns
+
+### Production Examples
+
+**Playwright Examples** ([resources/examples/playwright/](resources/examples/playwright/)):
+- **fixtures/** - Custom fixtures for authentication, test data
+- **pages/** - Page Object Model implementations
+- **tests/** - Complete test suites with real-world patterns
+
+**Cypress Examples** ([resources/examples/cypress/](resources/examples/cypress/)):
+- Complete e-commerce checkout flow
+- Custom commands and utilities
+- API mocking strategies
+- Visual regression tests
+
+**Selenium Examples** ([resources/examples/selenium/](resources/examples/selenium/)):
+- Python pytest integration
+- Page Object Model architecture
+- Cross-browser test configuration
+
+**Configuration Examples** ([resources/examples/config/](resources/examples/config/)):
+- `playwright.config.ts` - Multi-browser, parallel, retry config
+- `cypress.config.ts` - Video recording, screenshots, baseUrl
+- `pytest.ini` - Selenium with pytest configuration
+
+**Docker Examples** ([resources/examples/docker/](resources/examples/docker/)):
+- `docker-compose.test.yml` - Complete test environment
+- `Dockerfile.playwright` - Playwright container image
+- `Dockerfile.cypress` - Cypress container image
+
+### Usage Workflow
+
+**1. Choose Framework and Setup**:
+```bash
+# Playwright (recommended)
+npm install -D @playwright/test
+npx playwright install
+
+# Cypress
+npm install -D cypress
+
+# Selenium + pytest
+pip install selenium pytest pytest-xdist
+```
+
+**2. Generate Page Objects**:
+```bash
+# Generate from your application
+./generate_page_object.py --url http://localhost:3000/login \
+  --framework playwright --output-dir tests/pages/
+```
+
+**3. Write Tests Using POM**:
+```typescript
+// tests/auth.spec.ts
+import { test, expect } from '@playwright/test';
+import { LoginPage } from './pages/LoginPage';
+
+test('user can login', async ({ page }) => {
+  const loginPage = new LoginPage(page);
+  await loginPage.goto();
+  await loginPage.login('user@example.com', 'password123');
+
+  await expect(page).toHaveURL('/dashboard');
+});
+```
+
+**4. Run Tests**:
+```bash
+# Local development
+./run_e2e_tests.py --framework playwright --headed --verbose
+
+# CI/CD pipeline
+./run_e2e_tests.py --framework playwright \
+  --browsers chromium firefox webkit \
+  --parallel --retries 2 \
+  --start-env --compose-file docker-compose.test.yml \
+  --json > results.json
+```
+
+**5. Analyze Flakiness**:
+```bash
+# After accumulating test history
+./analyze_flakiness.py --results-dir test-results \
+  --days 14 --threshold 0.15 --verbose
+```
+
+**6. Iterate and Improve**:
+- Review flakiness report recommendations
+- Update selectors to use test IDs
+- Add explicit waits for dynamic content
+- Mock flaky external dependencies
+- Refactor highly flaky tests
+
+### Integration Points
+
+**CI/CD (GitHub Actions)**:
+```yaml
+- name: Run E2E Tests
+  run: |
+    ./run_e2e_tests.py \
+      --framework playwright \
+      --parallel \
+      --retries 2 \
+      --json > results.json
+
+- name: Analyze Flakiness
+  if: always()
+  run: |
+    ./analyze_flakiness.py --json > flakiness.json
+
+- name: Upload Artifacts
+  uses: actions/upload-artifact@v3
+  with:
+    name: e2e-results
+    path: |
+      test-results/
+      results.json
+      flakiness.json
+```
+
+**Local Development**:
+```bash
+# Quick feedback loop
+npm run dev &  # Start app
+./run_e2e_tests.py --headed --pattern "login*"
+```
+
+**Quality Gates**:
+```bash
+# Enforce flakiness threshold
+if [ $(./analyze_flakiness.py --json | jq '.summary.overall_flake_rate') -gt 0.05 ]; then
+  echo "Flake rate >5%, failing build"
+  exit 1
+fi
+```
+
+### Best Practices from Resources
+
+**From REFERENCE.md**:
+- Follow the 10/20/70 rule (10% E2E, 20% integration, 70% unit)
+- Use Page Object Model for all E2E tests
+- Prefer data-testid selectors over CSS/XPath
+- Implement auto-wait (Playwright) or explicit waits
+- Mock external dependencies
+- Run critical path tests first
+- Parallelize independent tests
+- Retry flaky tests (max 2-3 retries)
+- Clean test data between runs
+- Use visual regression sparingly
+
+**From Scripts**:
+- Automate test execution with run_e2e_tests.py
+- Monitor flakiness continuously
+- Generate Page Objects to reduce boilerplate
+- Use JSON output for CI integration
+- Collect artifacts (screenshots, videos) on failure
+- Start test environment automatically
+- Configure retries per test or suite
+- Analyze trends over time
+
+**From Examples**:
+- Organize tests by feature/workflow
+- Use fixtures for authentication
+- Create reusable components
+- Document test intent clearly
+- Handle loading/error states
+- Test keyboard navigation
+- Verify accessibility
+- Test responsive layouts

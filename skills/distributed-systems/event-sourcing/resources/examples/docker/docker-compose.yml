@@ -1,0 +1,185 @@
+# Event Sourcing Stack - Docker Compose
+#
+# Complete event sourcing environment with:
+# - PostgreSQL (Event Store + Read Models)
+# - EventStoreDB (Alternative event store)
+# - Kafka (Event streaming)
+# - Redis (Caching)
+# - pgAdmin (Database UI)
+#
+# Usage:
+#   docker-compose up -d
+#   docker-compose logs -f app
+#   docker-compose down
+
+version: '3.8'
+
+services:
+  # PostgreSQL - Event Store and Read Models
+  postgres:
+    image: postgres:16-alpine
+    container_name: event-store-postgres
+    environment:
+      POSTGRES_DB: eventstore
+      POSTGRES_USER: eventuser
+      POSTGRES_PASSWORD: eventpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init-eventstore.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U eventuser -d eventstore"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - eventstore-network
+
+  # PostgreSQL - Read Models (separate database)
+  postgres-readmodel:
+    image: postgres:16-alpine
+    container_name: readmodel-postgres
+    environment:
+      POSTGRES_DB: readmodel
+      POSTGRES_USER: readuser
+      POSTGRES_PASSWORD: readpass
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-readmodel-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U readuser -d readmodel"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - eventstore-network
+
+  # EventStoreDB - Purpose-built event store
+  eventstoredb:
+    image: eventstore/eventstore:latest
+    container_name: eventstoredb
+    environment:
+      EVENTSTORE_CLUSTER_SIZE: 1
+      EVENTSTORE_RUN_PROJECTIONS: All
+      EVENTSTORE_START_STANDARD_PROJECTIONS: "true"
+      EVENTSTORE_HTTP_PORT: 2113
+      EVENTSTORE_INSECURE: "true"
+      EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP: "true"
+    ports:
+      - "1113:1113"  # TCP
+      - "2113:2113"  # HTTP
+    volumes:
+      - eventstoredb-data:/var/lib/eventstore
+      - eventstoredb-logs:/var/log/eventstore
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:2113/health/live || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    networks:
+      - eventstore-network
+
+  # Kafka - Event streaming
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - eventstore-network
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    networks:
+      - eventstore-network
+
+  # Redis - Caching and pub/sub
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - eventstore-network
+
+  # pgAdmin - Database UI
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+      - postgres-readmodel
+    networks:
+      - eventstore-network
+
+volumes:
+  postgres-data:
+    driver: local
+  postgres-readmodel-data:
+    driver: local
+  eventstoredb-data:
+    driver: local
+  eventstoredb-logs:
+    driver: local
+  redis-data:
+    driver: local
+  pgadmin-data:
+    driver: local
+
+networks:
+  eventstore-network:
+    driver: bridge
+
+# Connection strings for applications:
+#
+# PostgreSQL Event Store:
+#   postgresql://eventuser:eventpass@localhost:5432/eventstore
+#
+# PostgreSQL Read Model:
+#   postgresql://readuser:readpass@localhost:5433/readmodel
+#
+# EventStoreDB:
+#   esdb://localhost:2113?tls=false
+#   Web UI: http://localhost:2113
+#
+# Kafka:
+#   localhost:9092
+#
+# Redis:
+#   redis://localhost:6379
+#
+# pgAdmin:
+#   http://localhost:5050
+#   Login: admin@example.com / admin

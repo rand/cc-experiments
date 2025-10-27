@@ -1,0 +1,166 @@
+// Complete service definition demonstrating all RPC types
+syntax = "proto3";
+
+package examples.v1;
+
+option go_package = "github.com/example/proto/examples/v1;examplesv1";
+option java_multiple_files = true;
+option java_package = "com.example.examples.v1";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+// User Service demonstrating all four RPC types
+service UserService {
+  // Unary RPC: Single request → Single response
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
+  rpc DeleteUser(DeleteUserRequest) returns (google.protobuf.Empty);
+
+  // Server streaming RPC: Single request → Multiple responses
+  rpc ListUsers(ListUsersRequest) returns (stream User);
+  rpc WatchUserChanges(WatchUserChangesRequest) returns (stream UserEvent);
+
+  // Client streaming RPC: Multiple requests → Single response
+  rpc CreateUsers(stream CreateUserRequest) returns (CreateUsersResponse);
+  rpc UploadUserData(stream UploadDataChunk) returns (UploadDataResponse);
+
+  // Bidirectional streaming RPC: Multiple requests ↔ Multiple responses
+  rpc Chat(stream ChatMessage) returns (stream ChatMessage);
+  rpc CollaborativeEdit(stream EditOperation) returns (stream EditOperation);
+}
+
+// Domain Models
+
+message User {
+  string id = 1;
+  string email = 2;
+  string name = 3;
+  int32 age = 4;
+  UserStatus status = 5;
+  repeated string tags = 6;
+  map<string, string> metadata = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+}
+
+enum UserStatus {
+  USER_STATUS_UNSPECIFIED = 0;
+  USER_STATUS_ACTIVE = 1;
+  USER_STATUS_INACTIVE = 2;
+  USER_STATUS_DELETED = 3;
+}
+
+// Unary RPC Messages
+
+message GetUserRequest {
+  string id = 1;
+}
+
+message GetUserResponse {
+  User user = 1;
+}
+
+message CreateUserRequest {
+  string email = 1;
+  string name = 2;
+  int32 age = 3;
+  repeated string tags = 4;
+}
+
+message CreateUserResponse {
+  User user = 1;
+  string message = 2;
+}
+
+message UpdateUserRequest {
+  string id = 1;
+  string name = 2;
+  int32 age = 3;
+  repeated string tags = 4;
+}
+
+message UpdateUserResponse {
+  User user = 1;
+}
+
+message DeleteUserRequest {
+  string id = 1;
+}
+
+// Server Streaming Messages
+
+message ListUsersRequest {
+  int32 page_size = 1;
+  string page_token = 2;
+  UserStatus status_filter = 3;
+}
+
+message WatchUserChangesRequest {
+  repeated string user_ids = 1;
+}
+
+message UserEvent {
+  enum EventType {
+    EVENT_TYPE_UNSPECIFIED = 0;
+    EVENT_TYPE_CREATED = 1;
+    EVENT_TYPE_UPDATED = 2;
+    EVENT_TYPE_DELETED = 3;
+  }
+
+  EventType type = 1;
+  User user = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
+
+// Client Streaming Messages
+
+message CreateUsersResponse {
+  repeated User users = 1;
+  int32 created_count = 2;
+  int32 failed_count = 3;
+}
+
+message UploadDataChunk {
+  oneof data {
+    UploadMetadata metadata = 1;
+    bytes chunk = 2;
+  }
+}
+
+message UploadMetadata {
+  string filename = 1;
+  int64 total_size = 2;
+  string content_type = 3;
+}
+
+message UploadDataResponse {
+  string file_id = 1;
+  int64 bytes_uploaded = 2;
+}
+
+// Bidirectional Streaming Messages
+
+message ChatMessage {
+  string user_id = 1;
+  string content = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
+
+message EditOperation {
+  string document_id = 1;
+  string user_id = 2;
+  int32 position = 3;
+  string text = 4;
+
+  enum OperationType {
+    OPERATION_TYPE_UNSPECIFIED = 0;
+    OPERATION_TYPE_INSERT = 1;
+    OPERATION_TYPE_DELETE = 2;
+    OPERATION_TYPE_REPLACE = 3;
+  }
+
+  OperationType type = 5;
+  google.protobuf.Timestamp timestamp = 6;
+}

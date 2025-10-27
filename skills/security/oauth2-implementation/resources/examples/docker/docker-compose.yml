@@ -1,0 +1,151 @@
+# OAuth 2.0 Complete Environment with Keycloak
+#
+# This docker-compose file sets up a complete OAuth 2.0 environment including:
+# - Keycloak (Authorization Server)
+# - PostgreSQL (Token/User Storage)
+# - Resource Server (Example API)
+# - Client Application (Example Web App)
+# - Nginx (Reverse Proxy)
+#
+# Usage:
+#   docker-compose up -d
+#   docker-compose logs -f
+#   docker-compose down
+#
+# Access:
+#   Keycloak Admin: http://localhost:8080/admin (admin/admin)
+#   API:            http://localhost:8081/api
+#   Client App:     http://localhost:8082
+#   Nginx:          http://localhost (routes all services)
+
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: oauth-postgres
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - oauth-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U keycloak"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Keycloak Authorization Server
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0
+    container_name: oauth-keycloak
+    command: start-dev
+    environment:
+      # Database
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak_password
+
+      # Admin User
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+
+      # Hostname
+      KC_HOSTNAME_STRICT: 'false'
+      KC_HTTP_ENABLED: 'true'
+
+      # Features
+      KC_FEATURES: token-exchange,admin-fine-grained-authz
+
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - oauth-network
+    healthcheck:
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/8080 && echo -e 'GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\n\\r\\n' >&3 && cat <&3 | grep -q '200 OK'"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+
+  # Resource Server (Example API)
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: oauth-api
+    environment:
+      OAUTH_ISSUER: http://keycloak:8080/realms/demo
+      OAUTH_JWKS_URI: http://keycloak:8080/realms/demo/protocol/openid-connect/certs
+      OAUTH_INTROSPECT_URI: http://keycloak:8080/realms/demo/protocol/openid-connect/token/introspect
+      API_PORT: 8000
+    ports:
+      - "8081:8000"
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    networks:
+      - oauth-network
+    # Placeholder - replace with your actual API implementation
+    # Example using Flask:
+    # command: python app.py
+
+  # Client Application (Example Web App)
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: oauth-client
+    environment:
+      OAUTH_AUTH_SERVER: http://localhost:8080/realms/demo
+      OAUTH_CLIENT_ID: demo-client
+      OAUTH_CLIENT_SECRET: demo-client-secret
+      OAUTH_REDIRECT_URI: http://localhost:8082/callback
+      API_BASE_URL: http://api:8000
+    ports:
+      - "8082:5000"
+    depends_on:
+      - keycloak
+      - api
+    networks:
+      - oauth-network
+    # Placeholder - replace with your actual client implementation
+    # Example using Flask:
+    # command: python app.py
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: oauth-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - keycloak
+      - api
+      - client
+    networks:
+      - oauth-network
+
+volumes:
+  postgres_data:
+    driver: local
+  keycloak_data:
+    driver: local
+
+networks:
+  oauth-network:
+    driver: bridge
