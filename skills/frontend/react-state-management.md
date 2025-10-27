@@ -720,6 +720,103 @@ const completedCount = useStore(
 
 ---
 
+## Level 3: Resources
+
+### Comprehensive Reference
+- **REFERENCE.md**: Complete React state management guide (900+ lines)
+  - All state categories (local, shared, server, URL, form)
+  - React built-in hooks (useState, useReducer, useContext)
+  - External libraries (Zustand, Jotai, Redux Toolkit, MobX, Recoil)
+  - Server state (TanStack Query, SWR)
+  - URL state management
+  - Form state (React Hook Form, Formik)
+  - Decision trees and comparison matrices
+  - Performance optimization patterns
+  - State colocation strategies
+  - Immutability patterns
+  - Common patterns and anti-patterns
+
+### Executable Scripts
+Located in `resources/scripts/`:
+
+1. **analyze_state.py** - Analyze React component state patterns
+   - Detects state management approaches (useState, useReducer, Context)
+   - Identifies prop drilling issues
+   - Finds stale closure risks
+   - Detects unnecessary derived state
+   - Suggests optimization opportunities
+   - Reports state complexity metrics
+   ```bash
+   ./analyze_state.py ./src
+   ./analyze_state.py ./src --json
+   ```
+
+2. **benchmark_renders.js** - Benchmark render performance
+   - Simulates component trees with different state patterns
+   - Measures render count and timing
+   - Compares useState, Context, Zustand, Jotai
+   - Reports performance metrics
+   ```bash
+   ./benchmark_renders.js
+   ./benchmark_renders.js --depth 20 --updates 500
+   ./benchmark_renders.js --json
+   ```
+
+3. **detect_unnecessary_renders.js** - Detect unnecessary re-renders
+   - Identifies components that should use React.memo
+   - Finds props that change on every render (object/array literals)
+   - Detects missing dependencies in useMemo/useCallback
+   - Finds unstable callback props
+   - Reports context overuse
+   ```bash
+   ./detect_unnecessary_renders.js ./src
+   ./detect_unnecessary_renders.js ./components --json
+   ```
+
+### TypeScript Examples
+Located in `resources/examples/typescript/`:
+
+1. **zustand-store.ts** - Complete Zustand patterns
+   - Basic store with actions
+   - Async operations
+   - Slices pattern for large stores
+   - Middleware (persist, immer)
+   - Selectors and performance
+
+2. **tanstack-query-hooks.ts** - TanStack Query (React Query) patterns
+   - Basic queries and mutations
+   - Optimistic updates
+   - Pagination and infinite queries
+   - Dependent and parallel queries
+   - Query invalidation
+   - Cache management
+
+3. **context-provider.tsx** - React Context patterns
+   - Basic Context
+   - Optimized Context (split state/dispatch)
+   - Context with useReducer
+   - Context composition
+   - Selector pattern
+   - Performance optimization
+
+4. **react-hook-form-example.tsx** - Form state management
+   - Basic forms with Zod validation
+   - Complex nested fields
+   - Field arrays (dynamic forms)
+   - Controlled components
+   - Custom validation
+   - Async validation
+
+5. **immutable-updates.ts** - Immutable state patterns
+   - Array operations (add, remove, update, sort)
+   - Object operations (shallow, nested)
+   - Complex state operations
+   - Using Immer for complex updates
+   - Performance considerations
+   - Common patterns
+
+---
+
 ## Related Skills
 
 - `react-component-patterns.md` - useState, useContext, custom hooks
@@ -729,5 +826,5 @@ const completedCount = useStore(
 
 ---
 
-**Last Updated**: 2025-10-18
+**Last Updated**: 2025-10-27
 **Format Version**: 1.0 (Atomic)

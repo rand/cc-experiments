@@ -610,6 +610,94 @@ http HEAD https://example.com
 - [ ] Set Permissions-Policy to disable unused features
 - [ ] Regular security header audits
 
+## Level 3: Resources
+
+### Comprehensive Reference
+
+**Location**: `skills/security/security-headers/resources/REFERENCE.md`
+
+The REFERENCE.md file (1200+ lines) provides exhaustive coverage of:
+- All major security headers (HSTS, CSP, X-Frame-Options, X-Content-Type-Options, etc.)
+- Complete CSP directives reference (script-src, style-src, img-src, connect-src, etc.)
+- CSP Levels 1, 2, and 3 feature comparison
+- SameSite cookie attributes (Strict, Lax, None)
+- Referrer-Policy options and privacy considerations
+- Permissions-Policy (Feature-Policy successor)
+- CORS headers configuration patterns
+- Cookie security attributes and prefixes (__Secure-, __Host-)
+- Attack vectors and mitigations (XSS, clickjacking, CSRF, MIME sniffing)
+- Browser compatibility matrices
+- Testing and validation tools
+- Implementation patterns for Nginx, Apache, Express, Flask, Django, Next.js
+- Security header grading criteria (Mozilla Observatory, SecurityHeaders.com)
+- Advanced topics: nonce rotation, CSP for SPAs, Subresource Integrity (SRI)
+
+### Executable Scripts
+
+**Location**: `skills/security/security-headers/resources/scripts/`
+
+1. **check_headers.py** - Security headers scanner and grading tool
+   - Scans URLs for security headers
+   - Grades security posture (A+ to F)
+   - Analyzes header configuration and identifies issues
+   - Provides detailed recommendations
+   - Supports JSON output for CI/CD integration
+   - Usage: `./check_headers.py https://example.com --json`
+
+2. **generate_csp.py** - CSP policy generator from site crawl
+   - Crawls website to discover resource sources
+   - Generates CSP policy based on actual usage
+   - Supports strict mode and hash generation
+   - Identifies inline scripts and styles
+   - Provides detailed source analysis by directive
+   - Usage: `./generate_csp.py https://example.com --depth 3 --strict`
+
+3. **test_headers.sh** - Batch header testing across multiple domains
+   - Tests security headers across multiple URLs
+   - Supports batch testing from file
+   - Parallel execution for performance
+   - Multiple output formats (text, JSON, CSV)
+   - Header comparison across environments
+   - Usage: `./test_headers.sh -f domains.txt --output json`
+
+### Configuration Examples
+
+**Location**: `skills/security/security-headers/resources/examples/`
+
+1. **nginx-security-headers.conf** - Production-ready Nginx configuration
+   - Complete security headers for all response types
+   - CSP policies for static sites, SPAs, and SSR applications
+   - HSTS with preload configuration
+   - Permissions-Policy feature restrictions
+   - Cookie security attributes
+   - Special configurations for API endpoints and static assets
+
+2. **apache-security-headers.htaccess** - Apache .htaccess configuration
+   - mod_headers-based security header configuration
+   - CORS handling and preflight request support
+   - File access protection patterns
+   - MIME type configuration
+   - Cache control for static assets
+   - Environment-specific CSP policies
+
+3. **flask-security-headers.py** - Flask middleware implementation
+   - Production-ready SecurityHeaders middleware class
+   - CSP nonce generation per request
+   - Per-route CSP policy decorators
+   - Secure cookie helper functions
+   - Complete working Flask application example
+   - Both class-based and decorator-based approaches
+
+4. **next-security-headers.ts** - Next.js security headers configuration
+   - next.config.js static headers approach
+   - Middleware-based dynamic headers with nonces
+   - CSP nonce injection and access in components
+   - CSP violation report handler
+   - Complete examples for Server Components and Scripts
+   - TypeScript type definitions
+
+All scripts are executable, include --help documentation, and follow production-ready patterns.
+
 ## Related Skills
 
 - `security-input-validation.md` - CSP and XSS prevention

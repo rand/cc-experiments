@@ -486,6 +486,108 @@ class TestCRDT(unittest.TestCase):
 
 ---
 
+## Level 3: Resources
+
+**Location**: `skills/distributed-systems/crdt-fundamentals/resources/`
+
+### Reference Documentation
+
+**REFERENCE.md** (~950 lines): Comprehensive CRDT reference covering:
+- Theoretical foundation (strong eventual consistency, commutativity, semilattice structure)
+- Operation-based CRDTs: G-Counter, PN-Counter, G-Set, 2P-Set, OR-Set
+- State-based CRDTs: LWW-Element-Set, LWW-Register, MV-Register
+- Sequence CRDTs: RGA, WOOT, LSEQ, Logoot
+- Map and composite CRDTs (OR-Map, LWW-Map, JSON structures)
+- Conflict resolution semantics (LWW, MV, add-wins, remove-wins)
+- CRDT implementations (Automerge, Yjs, CRJSON, Riak, Redis, Akka)
+- CAP theorem positioning and tradeoffs
+- Performance characteristics (space/time complexity, network overhead)
+- Design patterns (layered CRDTs, intent preservation, constraints, hybrid consistency, undo)
+- Testing and verification strategies
+
+### Scripts
+
+**simulate_crdt.py**: Simulate CRDT operations with concurrent replicas
+- Implementations: G-Counter, PN-Counter, OR-Set, LWW-Set, RGA
+- Predefined scenarios demonstrating convergence
+- Support for custom operation sequences
+- JSON output for integration
+
+```bash
+# Simulate G-Counter with 3 replicas
+./simulate_crdt.py g-counter --replicas 3
+
+# Simulate OR-Set with concurrent add/remove
+./simulate_crdt.py or-set --scenario concurrent-ops --json
+
+# Simulate RGA text editing
+./simulate_crdt.py rga --scenario text-edit
+```
+
+**benchmark_merge.py**: Benchmark CRDT merge performance
+- Merge scaling with increasing state sizes
+- Replica scaling (2 to 20+ replicas)
+- Conflict rate impact on merge performance
+- Individual operation performance
+- Memory usage analysis
+
+```bash
+# Benchmark all CRDTs
+./benchmark_merge.py all --benchmark all
+
+# Benchmark specific CRDT with custom sizes
+./benchmark_merge.py or-set --benchmark merge-scaling --sizes 10,100,1000
+
+# JSON output for visualization
+./benchmark_merge.py pn-counter --json > results.json
+```
+
+**visualize_convergence.py**: Generate convergence diagrams
+- ASCII timeline visualization
+- Mermaid sequence diagrams
+- Graphviz DOT graphs
+- JSON data export
+
+```bash
+# ASCII visualization of linear convergence
+./visualize_convergence.py g-counter --scenario linear
+
+# Mermaid diagram for star topology
+./visualize_convergence.py or-set --scenario star --format mermaid
+
+# Export all formats
+./visualize_convergence.py g-counter --scenario partition --format all -o convergence.md
+```
+
+### Examples
+
+**Python**:
+- `g_counter.py`: G-Counter with serialization, distributed system simulation
+- `or_set.py`: OR-Set with add-wins semantics, shopping cart example
+- `lww_register.py`: LWW-Register with hybrid logical clocks, MV-Register
+
+**TypeScript**:
+- `yjs-collaborative-editing.ts`: Real-time collaborative text editing with Yjs
+  - Text, map, array synchronization
+  - Undo/redo support
+  - Observers and persistence
+  - Collaborative todo list
+
+**JavaScript**:
+- `automerge-example.js`: Automerge for JSON CRDTs
+  - Document collaboration
+  - Nested objects and lists
+  - History and time travel
+  - Conflict resolution
+
+All examples are runnable and include multiple scenarios demonstrating:
+- Basic CRDT operations
+- Concurrent operations and convergence
+- Distributed system simulation
+- Real-world applications
+
+---
+
 ## Related Skills
 
 - `distributed-systems-crdt-types` - Specific CRDT implementations

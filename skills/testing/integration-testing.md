@@ -685,6 +685,73 @@ describe('UserRepository', () => {
    → Resource leaks, port conflicts
 ```
 
+## Level 3: Resources
+
+### Comprehensive Reference
+See `/resources/REFERENCE.md` for in-depth coverage:
+- Testing pyramid and integration test positioning (958 lines)
+- Test scopes and boundaries (narrow, medium, broad)
+- Test doubles (dummies, stubs, fakes, mocks, spies) with detailed examples
+- Contract testing with Pact and Spring Cloud Contract
+- Service virtualization with WireMock and MockServer
+- Database testing strategies (in-memory, Docker, transactions, migrations)
+- External service testing (HTTP APIs, GraphQL, message queues)
+- API integration testing patterns (REST, authentication, performance)
+- Message queue testing (RabbitMQ, Kafka, event-driven systems)
+- CI/CD integration patterns (GitHub Actions, GitLab CI, Docker Compose)
+- Performance and load testing (response times, Locust, concurrency)
+- Common anti-patterns and solutions (12 detailed patterns)
+- Best practices (10 comprehensive guidelines)
+
+### Executable Scripts
+
+**`/resources/scripts/run_integration_tests.sh`**
+Orchestrates integration tests with automatic setup/teardown:
+- Starts Docker services (PostgreSQL, Redis, RabbitMQ, etc.)
+- Waits for health checks
+- Runs tests with multiple frameworks (pytest, vitest, jest, go)
+- Generates reports with coverage
+- Cleans up infrastructure
+- Supports parallel execution, custom patterns, timeouts
+- Usage: `./run_integration_tests.sh --coverage --parallel`
+
+**`/resources/scripts/analyze_test_coverage.py`**
+Analyzes integration test coverage across multiple dimensions:
+- Discovers test files and categorizes by type
+- Identifies tested vs untested components (endpoints, models, services, repositories)
+- Analyzes integration types (database, cache, queue, email, storage, API)
+- Generates actionable recommendations prioritized by impact
+- Outputs text or JSON reports
+- Usage: `./analyze_test_coverage.py --test-dir tests/integration --src-dir src`
+
+**`/resources/scripts/generate_test_report.py`**
+Generates comprehensive HTML/JSON reports from test results:
+- Parses JUnit XML and pytest JSON formats
+- Includes test execution details, durations, failures
+- Visualizes coverage data with progress bars
+- Provides interactive HTML reports with test filtering
+- Outputs JSON for CI/CD pipeline integration
+- Usage: `./generate_test_report.py --input results.xml --coverage coverage.xml --output report.html`
+
+### Runnable Examples
+
+**Python Examples** (`/resources/examples/python/`):
+- `test_api_integration.py`: FastAPI testing with TestClient, PostgreSQL testcontainers, full CRUD lifecycle, authentication, performance tests (300+ lines)
+- `test_database_integration.py`: Repository pattern testing, transactions, relationships, cascade deletes, constraint testing (400+ lines)
+
+**TypeScript Examples** (`/resources/examples/typescript/`):
+- `test_api_integration.test.ts`: Express API testing with Supertest, PostgreSQL Pool, CRUD operations, pagination, performance tests (350+ lines)
+
+**Docker Infrastructure** (`/resources/examples/docker/`):
+- `docker-compose-test.yml`: Complete test infrastructure with PostgreSQL, Redis, RabbitMQ, MongoDB, MySQL, MinIO, Elasticsearch, Mailhog, WireMock - all with health checks
+
+All scripts are production-ready with:
+- Comprehensive --help documentation
+- JSON output support for CI/CD
+- Error handling and exit codes
+- Verbose logging options
+- Cross-platform compatibility
+
 ## Related Skills
 
 **Foundation**:
