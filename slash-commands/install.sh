@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Install script for /skills slash command
-# Integrated with cc-experiments gateway architecture
+# Integrated with cc-polymath gateway architecture
 
 set -e
 
@@ -18,8 +18,8 @@ if [ ! -f "$COMMAND_FILE" ]; then
     echo "✗ Error: Command file not found"
     echo "  Expected: $COMMAND_FILE"
     echo ""
-    echo "Please run this installer from the cc-experiments repository root:"
-    echo "  cd /path/to/cc-experiments"
+    echo "Please run this installer from the cc-polymath repository root:"
+    echo "  cd /path/to/cc-polymath"
     echo "  ./slash-commands/install.sh"
     exit 1
 fi
@@ -28,7 +28,7 @@ if [ ! -f "$SKILLS_CATALOG" ]; then
     echo "✗ Error: Skills catalog not found"
     echo "  Expected: $SKILLS_CATALOG"
     echo ""
-    echo "This installer must be run from cc-experiments repository."
+    echo "This installer must be run from cc-polymath repository."
     echo "The gateway architecture requires skills/README.md"
     exit 1
 fi
