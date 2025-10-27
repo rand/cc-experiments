@@ -1,0 +1,196 @@
+{
+  "completion_suggester": {
+    "comment": "Fast autocomplete using completion suggester",
+    "query": {
+      "suggest": {
+        "product_suggest": {
+          "prefix": "lap",
+          "completion": {
+            "field": "suggest",
+            "size": 10,
+            "skip_duplicates": true,
+            "fuzzy": {
+              "fuzziness": "AUTO"
+            }
+          }
+        }
+      }
+    }
+  },
+  "completion_with_context": {
+    "comment": "Context-aware autocomplete (filter by category)",
+    "query": {
+      "suggest": {
+        "product_suggest": {
+          "prefix": "gam",
+          "completion": {
+            "field": "suggest",
+            "size": 5,
+            "contexts": {
+              "category": ["electronics"]
+            }
+          }
+        }
+      }
+    }
+  },
+  "match_bool_prefix": {
+    "comment": "Autocomplete using match_bool_prefix query",
+    "query": {
+      "query": {
+        "match_bool_prefix": {
+          "name": {
+            "query": "gam lap"
+          }
+        }
+      },
+      "_source": ["name", "price", "category"],
+      "size": 10
+    }
+  },
+  "edge_ngram_autocomplete": {
+    "comment": "Autocomplete using edge n-grams (most flexible)",
+    "query": {
+      "query": {
+        "match": {
+          "name.autocomplete": {
+            "query": "lap"
+          }
+        }
+      },
+      "_source": ["name", "price", "category"],
+      "size": 10
+    }
+  },
+  "prefix_query": {
+    "comment": "Simple prefix matching on keyword field",
+    "query": {
+      "query": {
+        "prefix": {
+          "name.keyword": {
+            "value": "Lap"
+          }
+        }
+      },
+      "_source": ["name", "price"],
+      "size": 10
+    }
+  },
+  "multi_field_autocomplete": {
+    "comment": "Autocomplete across multiple fields",
+    "query": {
+      "query": {
+        "bool": {
+          "should": [
+            {
+              "match_bool_prefix": {
+                "name": {
+                  "query": "gam lap",
+                  "boost": 3
+                }
+              }
+            },
+            {
+              "match_bool_prefix": {
+                "description": {
+                  "query": "gam lap",
+                  "boost": 1
+                }
+              }
+            },
+            {
+              "match_bool_prefix": {
+                "brand": {
+                  "query": "gam lap",
+                  "boost": 2
+                }
+              }
+            }
+          ]
+        }
+      },
+      "_source": ["name", "brand", "price"],
+      "size": 10
+    }
+  },
+  "autocomplete_with_filters": {
+    "comment": "Autocomplete with additional filters",
+    "query": {
+      "query": {
+        "bool": {
+          "must": [
+            {
+              "match_bool_prefix": {
+                "name": "lap"
+              }
+            }
+          ],
+          "filter": [
+            {"term": {"in_stock": true}},
+            {"range": {"price": {"lte": 2000}}}
+          ]
+        }
+      },
+      "_source": ["name", "price", "stock"],
+      "size": 10
+    }
+  },
+  "autocomplete_with_highlighting": {
+    "comment": "Autocomplete with highlighted matches",
+    "query": {
+      "query": {
+        "match_bool_prefix": {
+          "name": "lap"
+        }
+      },
+      "_source": ["name", "price"],
+      "highlight": {
+        "fields": {
+          "name": {
+            "type": "plain",
+            "number_of_fragments": 0
+          }
+        },
+        "pre_tags": ["<b>"],
+        "post_tags": ["</b>"]
+      },
+      "size": 10
+    }
+  },
+  "phrase_suggester": {
+    "comment": "Phrase correction for typos",
+    "query": {
+      "suggest": {
+        "phrase_suggestion": {
+          "text": "gaming lapto",
+          "phrase": {
+            "field": "name",
+            "size": 5,
+            "gram_size": 3,
+            "direct_generator": [
+              {
+                "field": "name",
+                "suggest_mode": "always"
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "term_suggester": {
+    "comment": "Single word typo correction",
+    "query": {
+      "suggest": {
+        "term_suggestion": {
+          "text": "laptp",
+          "term": {
+            "field": "name",
+            "size": 5,
+            "sort": "frequency"
+          }
+        }
+      }
+    }
+  }
+}

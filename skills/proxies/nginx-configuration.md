@@ -679,6 +679,250 @@ nginx -T
 
 ---
 
+## Level 3: Resources
+
+### Overview
+
+This skill includes comprehensive resources in the `resources/` directory:
+
+- **REFERENCE.md** (2,900+ lines): Complete Nginx configuration reference
+- **Scripts** (3 production-ready tools)
+- **Examples** (10+ configurations for different use cases)
+
+### REFERENCE.md
+
+Comprehensive 2,900+ line reference covering:
+
+**Core Topics**:
+- Nginx architecture and event model
+- Configuration contexts and directive inheritance
+- Complete directive reference (main, events, http, server, location)
+- Server block configuration
+- Location matching (exact, prefix, regex)
+- Upstream configuration and load balancing
+- Proxy configuration (headers, timeouts, buffering)
+- SSL/TLS configuration (protocols, ciphers, OCSP stapling)
+- Caching strategies (proxy_cache, FastCGI cache)
+- Security configuration (rate limiting, IP filtering)
+- Performance optimization (workers, buffers, compression)
+
+**Advanced Topics**:
+- Variables reference (request, connection, upstream, SSL)
+- Module system (core and third-party modules)
+- Best practices and configuration organization
+- Anti-patterns and troubleshooting
+- Real-world production configurations
+
+**Location**: `skills/proxies/nginx-configuration/resources/REFERENCE.md`
+
+### Scripts
+
+#### 1. validate_config.py
+
+**Purpose**: Validate Nginx configuration files for security and best practices
+
+**Features**:
+- Syntax validation (braces, semicolons)
+- Deprecated directive detection
+- Security checks (server_tokens, headers, SSL)
+- SSL/TLS configuration validation
+- Performance settings analysis
+- Best practices enforcement
+- Categorized issues with suggestions
+
+**Usage**:
+```bash
+# Basic validation
+./validate_config.py --config-file /etc/nginx/nginx.conf
+
+# JSON output
+./validate_config.py --config-file nginx.conf --json
+
+# Strict mode (warnings as errors)
+./validate_config.py --config-file nginx.conf --strict
+```
+
+**Output**: Detailed report with errors, warnings, and recommendations
+
+**Location**: `skills/proxies/nginx-configuration/resources/scripts/validate_config.py`
+
+#### 2. optimize_settings.py
+
+**Purpose**: Analyze system resources and recommend optimized Nginx settings
+
+**Features**:
+- Auto-detect system resources (CPU, memory)
+- Multiple traffic profiles (low, medium, high, api)
+- Calculates optimal worker_processes, worker_connections
+- Recommends buffer sizes based on request/response sizes
+- Optimizes keepalive, compression, and caching settings
+- Generates complete optimized configuration
+
+**Usage**:
+```bash
+# Optimize for high traffic
+./optimize_settings.py --traffic-profile high
+
+# Analyze current config
+./optimize_settings.py --current-config /etc/nginx/nginx.conf --traffic-profile medium
+
+# JSON output
+./optimize_settings.py --traffic-profile api --json
+```
+
+**Traffic Profiles**:
+- `low`: ~100 req/s, 500 concurrent connections
+- `medium`: ~1,000 req/s, 2,000 concurrent connections
+- `high`: ~10,000 req/s, 10,000 concurrent connections
+- `api`: ~5,000 req/s, optimized for API workloads
+
+**Location**: `skills/proxies/nginx-configuration/resources/scripts/optimize_settings.py`
+
+#### 3. test_performance.sh
+
+**Purpose**: Benchmark Nginx performance using wrk
+
+**Features**:
+- Connectivity testing
+- Load testing with configurable concurrency and duration
+- Latency percentiles (p50, p75, p90, p99)
+- Worker configuration testing
+- Cache effectiveness testing
+- SSL/TLS performance testing
+- JSON output support
+
+**Usage**:
+```bash
+# Basic test
+./test_performance.sh --url http://localhost
+
+# High concurrency test
+./test_performance.sh --url http://localhost --concurrency 100 --threads 4
+
+# Test cache effectiveness
+./test_performance.sh --url http://localhost --test-cache
+
+# JSON output
+./test_performance.sh --url http://localhost --json
+```
+
+**Requirements**: wrk, curl
+
+**Location**: `skills/proxies/nginx-configuration/resources/scripts/test_performance.sh`
+
+### Examples
+
+Production-ready configuration examples covering common use cases:
+
+#### 1. Reverse Proxy (`reverse-proxy/nginx.conf`)
+
+Complete reverse proxy with:
+- Load balancing (least_conn)
+- Health checks and failover
+- Connection pooling (keepalive)
+- WebSocket support
+- Static file serving
+- HTTP to HTTPS redirect
+
+#### 2. SSL Termination (`ssl-termination/nginx.conf`)
+
+Security-focused SSL/TLS configuration:
+- TLS 1.2 and 1.3 only
+- Modern cipher suites (Mozilla Modern)
+- OCSP stapling
+- Complete security headers (HSTS, CSP, etc.)
+- Diffie-Hellman parameters
+
+#### 3. Advanced Caching (`caching/nginx.conf`)
+
+Comprehensive caching strategies:
+- Multiple cache zones (API, static, dynamic)
+- Cache bypass conditions
+- Stale cache serving
+- Background cache updates
+- Cache lock (prevent stampede)
+- Cache status monitoring
+
+#### 4. Security Hardened (`security/hardened.conf`)
+
+Production security configuration:
+- Rate limiting (login, API, general)
+- IP whitelisting/blacklisting
+- User-agent and referer filtering
+- Attack pattern detection
+- Connection limits
+- Security headers
+- Custom error pages
+
+#### 5. High Performance (`high-performance/nginx.conf`)
+
+Optimized for maximum throughput:
+- Worker tuning (auto-scaling, CPU affinity)
+- Optimized buffers and timeouts
+- File cache (open_file_cache)
+- Connection pooling (128 keepalive)
+- Compression tuning
+- HTTP/2 optimization
+- SO_REUSEPORT for multi-core
+
+#### 6. Microservices Gateway (`microservices/nginx.conf`)
+
+API gateway for microservices:
+- Service routing (auth, user, product, order, payment)
+- Per-service rate limiting
+- Distributed tracing (X-Trace-ID)
+- Service-specific timeouts
+- Circuit breaking (proxy_next_upstream)
+- Health check aggregation
+
+#### 7. Docker Container (`docker/`)
+
+Production Docker setup:
+- Multi-stage Dockerfile
+- Security hardening (non-root user)
+- Health check script
+- docker-compose.yml with volumes
+- Custom configuration mounting
+
+#### 8. Python Config Generator (`python/config-generator.py`)
+
+Programmatic configuration generation:
+- Templates: reverse-proxy, ssl, static, load-balancer
+- Parameterized generation
+- JSON backend configuration
+- Command-line interface
+
+**Examples Location**: `skills/proxies/nginx-configuration/resources/examples/`
+
+### Quick Start
+
+```bash
+# 1. Read comprehensive reference
+cat skills/proxies/nginx-configuration/resources/REFERENCE.md
+
+# 2. Validate existing configuration
+./skills/proxies/nginx-configuration/resources/scripts/validate_config.py \
+  --config-file /etc/nginx/nginx.conf
+
+# 3. Generate optimized configuration
+./skills/proxies/nginx-configuration/resources/scripts/optimize_settings.py \
+  --traffic-profile high > nginx-optimized.conf
+
+# 4. Test performance
+./skills/proxies/nginx-configuration/resources/scripts/test_performance.sh \
+  --url http://localhost --concurrency 100
+
+# 5. Use example configurations
+cp skills/proxies/nginx-configuration/resources/examples/reverse-proxy/nginx.conf \
+  /etc/nginx/nginx.conf
+
+# 6. Generate custom configuration
+./skills/proxies/nginx-configuration/resources/examples/python/config-generator.py \
+  --template ssl --domain mysite.com --output nginx.conf
+```
+
+---
+
 ## Related Skills
 
 - `proxies-reverse-proxy` - Reverse proxy patterns

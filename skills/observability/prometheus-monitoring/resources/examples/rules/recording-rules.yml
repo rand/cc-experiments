@@ -1,0 +1,331 @@
+# Recording Rules
+# Precompute frequently used or expensive queries
+
+groups:
+  # HTTP Request Metrics
+  - name: http_request_metrics
+    interval: 30s
+    rules:
+      # Request rate per second (5m average)
+      - record: job:http_requests:rate5m
+        expr: |
+          sum by (job) (
+            rate(http_requests_total[5m])
+          )
+
+      # Request rate by endpoint
+      - record: job:http_requests:rate5m:by_endpoint
+        expr: |
+          sum by (job, endpoint, method) (
+            rate(http_requests_total[5m])
+          )
+
+      # Request rate by status code
+      - record: job:http_requests:rate5m:by_status
+        expr: |
+          sum by (job, status) (
+            rate(http_requests_total[5m])
+          )
+
+      # Error rate (5xx errors)
+      - record: job:http_errors:rate5m
+        expr: |
+          sum by (job) (
+            rate(http_requests_total{status=~"5.."}[5m])
+          )
+
+      # Error rate by endpoint
+      - record: job:http_errors:rate5m:by_endpoint
+        expr: |
+          sum by (job, endpoint) (
+            rate(http_requests_total{status=~"5.."}[5m])
+          )
+
+      # Error rate percentage
+      - record: job:http_errors:ratio
+        expr: |
+          sum by (job) (
+            rate(http_requests_total{status=~"5.."}[5m])
+          )
+          /
+          sum by (job) (
+            rate(http_requests_total[5m])
+          )
+
+      # Error rate percentage by endpoint
+      - record: job:http_errors:ratio:by_endpoint
+        expr: |
+          sum by (job, endpoint) (
+            rate(http_requests_total{status=~"5.."}[5m])
+          )
+          /
+          sum by (job, endpoint) (
+            rate(http_requests_total[5m])
+          )
+
+  # HTTP Latency Metrics
+  - name: http_latency_metrics
+    interval: 30s
+    rules:
+      # p50 latency
+      - record: job:http_latency:p50
+        expr: |
+          histogram_quantile(0.50,
+            sum by (job, le) (
+              rate(http_request_duration_seconds_bucket[5m])
+            )
+          )
+
+      # p90 latency
+      - record: job:http_latency:p90
+        expr: |
+          histogram_quantile(0.90,
+            sum by (job, le) (
+              rate(http_request_duration_seconds_bucket[5m])
+            )
+          )
+
+      # p95 latency
+      - record: job:http_latency:p95
+        expr: |
+          histogram_quantile(0.95,
+            sum by (job, le) (
+              rate(http_request_duration_seconds_bucket[5m])
+            )
+          )
+
+      # p99 latency
+      - record: job:http_latency:p99
+        expr: |
+          histogram_quantile(0.99,
+            sum by (job, le) (
+              rate(http_request_duration_seconds_bucket[5m])
+            )
+          )
+
+      # p99.9 latency
+      - record: job:http_latency:p999
+        expr: |
+          histogram_quantile(0.999,
+            sum by (job, le) (
+              rate(http_request_duration_seconds_bucket[5m])
+            )
+          )
+
+      # p95 latency by endpoint
+      - record: job:http_latency:p95:by_endpoint
+        expr: |
+          histogram_quantile(0.95,
+            sum by (job, endpoint, le) (
+              rate(http_request_duration_seconds_bucket[5m])
+            )
+          )
+
+      # p99 latency by endpoint
+      - record: job:http_latency:p99:by_endpoint
+        expr: |
+          histogram_quantile(0.99,
+            sum by (job, endpoint, le) (
+              rate(http_request_duration_seconds_bucket[5m])
+            )
+          )
+
+      # Average latency
+      - record: job:http_latency:avg
+        expr: |
+          rate(http_request_duration_seconds_sum[5m])
+          /
+          rate(http_request_duration_seconds_count[5m])
+
+  # Resource Utilization Metrics
+  - name: resource_utilization_metrics
+    interval: 30s
+    rules:
+      # CPU utilization percentage
+      - record: instance:node_cpu:utilization
+        expr: |
+          100 - (avg by (instance) (
+            rate(node_cpu_seconds_total{mode="idle"}[5m])
+          ) * 100)
+
+      # CPU utilization by mode
+      - record: instance:node_cpu:utilization:by_mode
+        expr: |
+          sum by (instance, mode) (
+            rate(node_cpu_seconds_total[5m])
+          ) * 100
+
+      # Memory utilization percentage
+      - record: instance:node_memory:utilization
+        expr: |
+          100 * (1 - (
+            node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes
+          ))
+
+      # Memory used bytes
+      - record: instance:node_memory:used_bytes
+        expr: |
+          node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes
+
+      # Disk utilization percentage
+      - record: instance:node_disk:utilization
+        expr: |
+          100 - (
+            node_filesystem_avail_bytes{fstype!~"tmpfs|fuse.*"}
+            / node_filesystem_size_bytes * 100
+          )
+
+      # Disk I/O rate (bytes/sec)
+      - record: instance:node_disk_io:rate
+        expr: |
+          sum by (instance, device) (
+            rate(node_disk_read_bytes_total[5m])
+            + rate(node_disk_written_bytes_total[5m])
+          )
+
+      # Network receive rate (bytes/sec)
+      - record: instance:node_network_receive:rate
+        expr: |
+          sum by (instance, device) (
+            rate(node_network_receive_bytes_total[5m])
+          )
+
+      # Network transmit rate (bytes/sec)
+      - record: instance:node_network_transmit:rate
+        expr: |
+          sum by (instance, device) (
+            rate(node_network_transmit_bytes_total[5m])
+          )
+
+      # Network total bandwidth (bytes/sec)
+      - record: instance:node_network:rate
+        expr: |
+          sum by (instance, device) (
+            rate(node_network_receive_bytes_total[5m])
+            + rate(node_network_transmit_bytes_total[5m])
+          )
+
+      # Load average saturation (load / cpu_count)
+      - record: instance:node_load:saturation
+        expr: |
+          node_load15
+          / count by (instance) (node_cpu_seconds_total{mode="idle"})
+
+  # Database Metrics
+  - name: database_metrics
+    interval: 30s
+    rules:
+      # MySQL queries per second
+      - record: job:mysql_queries:rate5m
+        expr: |
+          sum by (job) (
+            rate(mysql_global_status_queries[5m])
+          )
+
+      # MySQL slow queries per second
+      - record: job:mysql_slow_queries:rate5m
+        expr: |
+          sum by (job) (
+            rate(mysql_global_status_slow_queries[5m])
+          )
+
+      # PostgreSQL transactions per second
+      - record: job:postgres_transactions:rate5m
+        expr: |
+          sum by (job) (
+            rate(pg_stat_database_xact_commit[5m])
+            + rate(pg_stat_database_xact_rollback[5m])
+          )
+
+      # PostgreSQL commit rate
+      - record: job:postgres_commits:rate5m
+        expr: |
+          sum by (job) (
+            rate(pg_stat_database_xact_commit[5m])
+          )
+
+      # PostgreSQL rollback rate
+      - record: job:postgres_rollbacks:rate5m
+        expr: |
+          sum by (job) (
+            rate(pg_stat_database_xact_rollback[5m])
+          )
+
+  # Cluster-Level Aggregations
+  - name: cluster_aggregations
+    interval: 1m
+    rules:
+      # Cluster-wide request rate
+      - record: cluster:http_requests:rate5m
+        expr: |
+          sum(job:http_requests:rate5m)
+
+      # Cluster-wide error rate
+      - record: cluster:http_errors:ratio
+        expr: |
+          sum(job:http_errors:rate5m)
+          /
+          sum(job:http_requests:rate5m)
+
+      # Cluster-wide p95 latency
+      - record: cluster:http_latency:p95
+        expr: |
+          histogram_quantile(0.95,
+            sum by (le) (
+              rate(http_request_duration_seconds_bucket[5m])
+            )
+          )
+
+      # Cluster-wide CPU utilization
+      - record: cluster:node_cpu:utilization:avg
+        expr: |
+          avg(instance:node_cpu:utilization)
+
+      # Cluster-wide memory utilization
+      - record: cluster:node_memory:utilization:avg
+        expr: |
+          avg(instance:node_memory:utilization)
+
+  # SLI (Service Level Indicator) Metrics
+  - name: sli_metrics
+    interval: 30s
+    rules:
+      # Availability SLI (% of successful requests)
+      - record: sli:availability:ratio
+        expr: |
+          sum(rate(http_requests_total{status!~"5.."}[5m]))
+          /
+          sum(rate(http_requests_total[5m]))
+
+      # Availability by service
+      - record: sli:availability:ratio:by_job
+        expr: |
+          sum by (job) (rate(http_requests_total{status!~"5.."}[5m]))
+          /
+          sum by (job) (rate(http_requests_total[5m]))
+
+      # Latency SLI (% of requests < 500ms)
+      - record: sli:latency:ratio
+        expr: |
+          sum(rate(http_request_duration_seconds_bucket{le="0.5"}[5m]))
+          /
+          sum(rate(http_request_duration_seconds_count[5m]))
+
+      # Latency SLI by service
+      - record: sli:latency:ratio:by_job
+        expr: |
+          sum by (job) (rate(http_request_duration_seconds_bucket{le="0.5"}[5m]))
+          /
+          sum by (job) (rate(http_request_duration_seconds_count[5m]))
+
+      # Quality SLI (% of requests without errors)
+      - record: sli:quality:ratio
+        expr: |
+          sum(rate(http_requests_total{status=~"2..|3.."}[5m]))
+          /
+          sum(rate(http_requests_total[5m]))
+
+      # Throughput (requests per second)
+      - record: sli:throughput:rate5m
+        expr: |
+          sum(rate(http_requests_total[5m]))

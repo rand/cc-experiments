@@ -1,0 +1,214 @@
+name: 'Setup Application Environment'
+description: 'Composite action to setup application with caching and dependency installation'
+author: 'Your Organization'
+
+branding:
+  icon: 'package'
+  color: 'blue'
+
+inputs:
+  language:
+    description: 'Programming language (node/python/go/rust)'
+    required: true
+
+  version:
+    description: 'Language version to install'
+    required: false
+    default: 'latest'
+
+  cache:
+    description: 'Enable dependency caching'
+    required: false
+    default: 'true'
+
+  install-command:
+    description: 'Custom install command'
+    required: false
+
+  working-directory:
+    description: 'Working directory for operations'
+    required: false
+    default: '.'
+
+outputs:
+  cache-hit:
+    description: 'Whether dependencies were restored from cache'
+    value: ${{ steps.cache-check.outputs.cache-hit }}
+
+  language-version:
+    description: 'Installed language version'
+    value: ${{ steps.setup-language.outputs.version }}
+
+  install-time:
+    description: 'Time taken to install dependencies (seconds)'
+    value: ${{ steps.timing.outputs.duration }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Validate inputs
+      shell: bash
+      run: |
+        VALID_LANGUAGES="node python go rust"
+        if [[ ! "$VALID_LANGUAGES" =~ "${{ inputs.language }}" ]]; then
+          echo "Error: Invalid language: ${{ inputs.language }}"
+          echo "Valid options: node, python, go, rust"
+          exit 1
+        fi
+
+    - name: Start timing
+      id: start
+      shell: bash
+      run: echo "start=$(date +%s)" >> $GITHUB_OUTPUT
+
+    - name: Setup Node.js
+      if: inputs.language == 'node'
+      id: setup-node
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.version != 'latest' && inputs.version || '20' }}
+        cache: ${{ inputs.cache == 'true' && 'npm' || '' }}
+
+    - name: Setup Python
+      if: inputs.language == 'python'
+      id: setup-python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.version != 'latest' && inputs.version || '3.12' }}
+        cache: ${{ inputs.cache == 'true' && 'pip' || '' }}
+
+    - name: Setup Go
+      if: inputs.language == 'go'
+      id: setup-go
+      uses: actions/setup-go@v5
+      with:
+        go-version: ${{ inputs.version != 'latest' && inputs.version || '1.21' }}
+        cache: ${{ inputs.cache == 'true' && true || false }}
+
+    - name: Setup Rust
+      if: inputs.language == 'rust'
+      id: setup-rust
+      shell: bash
+      run: |
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+        VERSION="${{ inputs.version }}"
+        if [[ "$VERSION" != "latest" ]]; then
+          rustup install $VERSION
+          rustup default $VERSION
+        fi
+
+    - name: Get language version
+      id: setup-language
+      shell: bash
+      run: |
+        case "${{ inputs.language }}" in
+          node)
+            VERSION=$(node --version)
+            ;;
+          python)
+            VERSION=$(python --version | cut -d' ' -f2)
+            ;;
+          go)
+            VERSION=$(go version | cut -d' ' -f3)
+            ;;
+          rust)
+            VERSION=$(rustc --version | cut -d' ' -f2)
+            ;;
+        esac
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "Installed ${{ inputs.language }} $VERSION"
+
+    - name: Cache dependencies
+      if: inputs.cache == 'true'
+      id: cache-deps
+      uses: actions/cache@v4
+      with:
+        path: |
+          ${{ inputs.working-directory }}/node_modules
+          ${{ inputs.working-directory }}/.venv
+          ~/.cache/pip
+          ~/.cargo
+          ~/go/pkg/mod
+        key: ${{ runner.os }}-${{ inputs.language }}-deps-${{ hashFiles(format('{0}/**/package-lock.json', inputs.working-directory), format('{0}/**/requirements.txt', inputs.working-directory), format('{0}/**/go.sum', inputs.working-directory), format('{0}/**/Cargo.lock', inputs.working-directory)) }}
+        restore-keys: |
+          ${{ runner.os }}-${{ inputs.language }}-deps-
+
+    - name: Check cache status
+      id: cache-check
+      shell: bash
+      run: |
+        if [[ "${{ steps.cache-deps.outputs.cache-hit }}" == "true" ]]; then
+          echo "cache-hit=true" >> $GITHUB_OUTPUT
+          echo "✓ Dependencies restored from cache"
+        else
+          echo "cache-hit=false" >> $GITHUB_OUTPUT
+          echo "○ Dependencies not in cache"
+        fi
+
+    - name: Install Node.js dependencies
+      if: inputs.language == 'node' && steps.cache-check.outputs.cache-hit != 'true'
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        if [[ -n "${{ inputs.install-command }}" ]]; then
+          ${{ inputs.install-command }}
+        elif [[ -f "package-lock.json" ]]; then
+          npm ci
+        else
+          npm install
+        fi
+
+    - name: Install Python dependencies
+      if: inputs.language == 'python' && steps.cache-check.outputs.cache-hit != 'true'
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        if [[ -n "${{ inputs.install-command }}" ]]; then
+          ${{ inputs.install-command }}
+        elif [[ -f "requirements.txt" ]]; then
+          pip install -r requirements.txt
+        fi
+
+    - name: Install Go dependencies
+      if: inputs.language == 'go' && steps.cache-check.outputs.cache-hit != 'true'
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        if [[ -n "${{ inputs.install-command }}" ]]; then
+          ${{ inputs.install-command }}
+        else
+          go mod download
+        fi
+
+    - name: Install Rust dependencies
+      if: inputs.language == 'rust' && steps.cache-check.outputs.cache-hit != 'true'
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        if [[ -n "${{ inputs.install-command }}" ]]; then
+          ${{ inputs.install-command }}
+        else
+          cargo fetch
+        fi
+
+    - name: Calculate timing
+      id: timing
+      shell: bash
+      run: |
+        START=${{ steps.start.outputs.start }}
+        END=$(date +%s)
+        DURATION=$((END - START))
+        echo "duration=$DURATION" >> $GITHUB_OUTPUT
+        echo "Setup completed in ${DURATION}s"
+
+    - name: Print summary
+      shell: bash
+      run: |
+        echo "### Setup Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "- **Language**: ${{ inputs.language }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Version**: ${{ steps.setup-language.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Cache Hit**: ${{ steps.cache-check.outputs.cache-hit }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Duration**: ${{ steps.timing.outputs.duration }}s" >> $GITHUB_STEP_SUMMARY

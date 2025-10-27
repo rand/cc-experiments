@@ -1,0 +1,287 @@
+# Alerting Rules
+# Production-ready alerts with best practices
+
+groups:
+  # Service Health Alerts
+  - name: service_health
+    interval: 15s
+    rules:
+      - alert: ServiceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+          team: platform
+        annotations:
+          summary: "Service {{ $labels.job }} is down"
+          description: "Instance {{ $labels.instance }} has been down for more than 1 minute"
+          runbook: "https://wiki.example.com/runbooks/service-down"
+
+      - alert: InstanceFlapping
+        expr: changes(up[10m]) > 5
+        for: 5m
+        labels:
+          severity: warning
+          team: platform
+        annotations:
+          summary: "Instance {{ $labels.instance }} is flapping"
+          description: "Instance has restarted {{ $value }} times in the last 10 minutes"
+
+      - alert: HighRestartRate
+        expr: rate(process_start_time_seconds[15m]) > 0.01
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High restart rate on {{ $labels.job }}"
+          description: "Service is restarting {{ $value | humanize }} times per second"
+
+  # HTTP Error Rate Alerts
+  - name: http_error_rates
+    interval: 15s
+    rules:
+      - alert: HighErrorRate
+        expr: job:http_errors:ratio > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          team: backend
+        annotations:
+          summary: "High error rate on {{ $labels.job }}"
+          description: "Error rate is {{ $value | humanizePercentage }} (threshold: 5%)"
+          dashboard: "https://grafana.example.com/d/http-metrics"
+
+      - alert: CriticalErrorRate
+        expr: job:http_errors:ratio > 0.10
+        for: 2m
+        labels:
+          severity: critical
+          team: backend
+        annotations:
+          summary: "Critical error rate on {{ $labels.job }}"
+          description: "Error rate is {{ $value | humanizePercentage }} (threshold: 10%)"
+
+      - alert: HighEndpointErrorRate
+        expr: job:http_errors:ratio:by_endpoint > 0.10
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High error rate on {{ $labels.endpoint }}"
+          description: "Error rate is {{ $value | humanizePercentage }} for {{ $labels.job }}/{{ $labels.endpoint }}"
+
+  # Latency Alerts
+  - name: latency_alerts
+    interval: 15s
+    rules:
+      - alert: HighP95Latency
+        expr: job:http_latency:p95 > 1.0
+        for: 5m
+        labels:
+          severity: warning
+          team: backend
+        annotations:
+          summary: "High p95 latency on {{ $labels.job }}"
+          description: "p95 latency is {{ $value }}s (threshold: 1s)"
+
+      - alert: CriticalP99Latency
+        expr: job:http_latency:p99 > 5.0
+        for: 2m
+        labels:
+          severity: critical
+          team: backend
+        annotations:
+          summary: "Critical p99 latency on {{ $labels.job }}"
+          description: "p99 latency is {{ $value }}s (threshold: 5s)"
+
+      - alert: LatencyDegradation
+        expr: |
+          (job:http_latency:p95 / job:http_latency:p95 offset 1h) > 1.5
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Latency degradation on {{ $labels.job }}"
+          description: "p95 latency increased {{ $value | humanizePercentage }} compared to 1 hour ago"
+
+  # Resource Alerts
+  - name: resource_alerts
+    interval: 15s
+    rules:
+      - alert: HighCPU
+        expr: instance:node_cpu:utilization > 80
+        for: 10m
+        labels:
+          severity: warning
+          team: infrastructure
+        annotations:
+          summary: "High CPU on {{ $labels.instance }}"
+          description: "CPU usage is {{ $value | humanize }}%"
+
+      - alert: CriticalCPU
+        expr: instance:node_cpu:utilization > 95
+        for: 5m
+        labels:
+          severity: critical
+          team: infrastructure
+        annotations:
+          summary: "Critical CPU on {{ $labels.instance }}"
+          description: "CPU usage is {{ $value | humanize }}%"
+
+      - alert: HighMemory
+        expr: instance:node_memory:utilization > 85
+        for: 5m
+        labels:
+          severity: warning
+          team: infrastructure
+        annotations:
+          summary: "High memory on {{ $labels.instance }}"
+          description: "Memory usage is {{ $value | humanize }}%"
+
+      - alert: CriticalMemory
+        expr: instance:node_memory:utilization > 95
+        for: 2m
+        labels:
+          severity: critical
+          team: infrastructure
+        annotations:
+          summary: "Critical memory on {{ $labels.instance }}"
+          description: "Memory usage is {{ $value | humanize }}%"
+
+      - alert: DiskSpaceLow
+        expr: instance:node_disk:utilization > 80
+        for: 10m
+        labels:
+          severity: warning
+          team: infrastructure
+        annotations:
+          summary: "Low disk space on {{ $labels.instance }}"
+          description: "Disk {{ $labels.mountpoint }} is {{ $value | humanize }}% full"
+
+      - alert: DiskSpaceCritical
+        expr: instance:node_disk:utilization > 90
+        for: 5m
+        labels:
+          severity: critical
+          team: infrastructure
+        annotations:
+          summary: "Critical disk space on {{ $labels.instance }}"
+          description: "Disk {{ $labels.mountpoint }} is {{ $value | humanize }}% full"
+
+      - alert: DiskWillFillSoon
+        expr: |
+          predict_linear(
+            node_filesystem_avail_bytes{fstype!~"tmpfs|fuse.*"}[1h],
+            4 * 3600
+          ) < 0
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Disk will fill soon on {{ $labels.instance }}"
+          description: "Disk {{ $labels.mountpoint }} will fill in approximately 4 hours"
+
+  # Saturation Alerts
+  - name: saturation_alerts
+    interval: 15s
+    rules:
+      - alert: HighLoadAverage
+        expr: instance:node_load:saturation > 1.5
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High load average on {{ $labels.instance }}"
+          description: "Load average is {{ $value | humanize }}x CPU count"
+
+      - alert: NetworkSaturated
+        expr: instance:node_network:rate > 100 * 1024 * 1024
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Network saturated on {{ $labels.instance }}"
+          description: "Interface {{ $labels.device }} at {{ $value | humanize }}B/s"
+
+      - alert: TooManyOpenFiles
+        expr: |
+          process_open_fds / process_max_fds > 0.8
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Too many open files on {{ $labels.instance }}"
+          description: "{{ $value | humanizePercentage }} of file descriptors in use"
+
+  # Database Alerts
+  - name: database_alerts
+    interval: 15s
+    rules:
+      - alert: MySQLHighSlowQueries
+        expr: job:mysql_slow_queries:rate5m > 10
+        for: 10m
+        labels:
+          severity: warning
+          team: database
+        annotations:
+          summary: "High MySQL slow queries on {{ $labels.instance }}"
+          description: "{{ $value | humanize }} slow queries per second"
+
+      - alert: PostgreSQLHighRollbacks
+        expr: |
+          job:postgres_rollbacks:rate5m
+          / (job:postgres_commits:rate5m + job:postgres_rollbacks:rate5m)
+          > 0.05
+        for: 10m
+        labels:
+          severity: warning
+          team: database
+        annotations:
+          summary: "High PostgreSQL rollback rate on {{ $labels.instance }}"
+          description: "{{ $value | humanizePercentage }} of transactions are rolling back"
+
+  # Absence Alerts
+  - name: absence_alerts
+    interval: 1m
+    rules:
+      - alert: MetricsMissing
+        expr: absent(up{job="api-server"})
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Metrics missing for api-server"
+          description: "No metrics received from api-server for 5 minutes"
+
+      - alert: HTTPMetricsMissing
+        expr: absent(http_requests_total{job="api-server"})
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "HTTP metrics missing"
+          description: "No HTTP request metrics from api-server for 10 minutes"
+
+  # SLO Alerts
+  - name: slo_alerts
+    interval: 15s
+    rules:
+      - alert: AvailabilitySLOBreach
+        expr: sli:availability:ratio < 0.999
+        for: 5m
+        labels:
+          severity: critical
+          team: sre
+        annotations:
+          summary: "Availability SLO breach"
+          description: "Availability is {{ $value | humanizePercentage }} (SLO: 99.9%)"
+
+      - alert: LatencySLOBreach
+        expr: sli:latency:ratio < 0.95
+        for: 10m
+        labels:
+          severity: warning
+          team: sre
+        annotations:
+          summary: "Latency SLO breach"
+          description: "{{ $value | humanizePercentage }} of requests < 500ms (SLO: 95%)"

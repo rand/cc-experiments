@@ -1,0 +1,291 @@
+# PromQL Query Examples
+# Common query patterns for Prometheus
+
+### Basic Selectors ###
+
+# All time series for a metric
+http_requests_total
+
+# Filter by label (exact match)
+http_requests_total{status="200"}
+
+# Multiple label filters (AND)
+http_requests_total{status="200", method="GET"}
+
+# Regex matching
+http_requests_total{status=~"2.."}            # 2xx status codes
+http_requests_total{endpoint=~"/api/.*"}      # Endpoints starting with /api/
+
+# Negative matching
+http_requests_total{status!="200"}            # Not 200
+http_requests_total{status!~"2.."}            # Not 2xx
+
+
+### Rate and Increase ###
+
+# Requests per second (5m average)
+rate(http_requests_total[5m])
+
+# Total increase over 1 hour
+increase(http_requests_total[1h])
+
+# Instant rate (more sensitive, use sparingly)
+irate(http_requests_total[5m])
+
+
+### Aggregation ###
+
+# Total requests per second
+sum(rate(http_requests_total[5m]))
+
+# Requests per second by endpoint
+sum by (endpoint) (rate(http_requests_total[5m]))
+
+# Requests per second by status code
+sum by (status) (rate(http_requests_total[5m]))
+
+# Average across instances
+avg(http_request_duration_seconds)
+
+# Maximum latency
+max(http_request_duration_seconds)
+
+
+### Error Rates ###
+
+# Error rate (requests/sec)
+sum(rate(http_requests_total{status=~"5.."}[5m]))
+
+# Error rate percentage
+sum(rate(http_requests_total{status=~"5.."}[5m]))
+/
+sum(rate(http_requests_total[5m]))
+* 100
+
+# Error rate by endpoint
+sum by (endpoint) (rate(http_requests_total{status=~"5.."}[5m]))
+/
+sum by (endpoint) (rate(http_requests_total[5m]))
+
+
+### Latency Percentiles (Histogram) ###
+
+# p50 (median)
+histogram_quantile(0.50, rate(http_request_duration_seconds_bucket[5m]))
+
+# p95
+histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))
+
+# p99
+histogram_quantile(0.99, rate(http_request_duration_seconds_bucket[5m]))
+
+# p99 by endpoint
+histogram_quantile(0.99,
+  sum by (endpoint, le) (
+    rate(http_request_duration_seconds_bucket[5m])
+  )
+)
+
+# Average latency (from histogram)
+rate(http_request_duration_seconds_sum[5m])
+/
+rate(http_request_duration_seconds_count[5m])
+
+
+### CPU Metrics ###
+
+# CPU utilization (%)
+100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+
+# CPU by mode
+sum by (mode) (rate(node_cpu_seconds_total[5m])) * 100
+
+# Top 5 instances by CPU
+topk(5,
+  100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+)
+
+
+### Memory Metrics ###
+
+# Memory utilization (%)
+100 * (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes))
+
+# Memory used (bytes)
+node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes
+
+# Memory used (GB)
+(node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / 1024 / 1024 / 1024
+
+
+### Disk Metrics ###
+
+# Disk utilization (%)
+100 - (node_filesystem_avail_bytes / node_filesystem_size_bytes * 100)
+
+# Exclude tmpfs and other ephemeral filesystems
+100 - (
+  node_filesystem_avail_bytes{fstype!~"tmpfs|fuse.*"}
+  / node_filesystem_size_bytes * 100
+)
+
+# Disk I/O rate (bytes/sec)
+rate(node_disk_read_bytes_total[5m]) + rate(node_disk_written_bytes_total[5m])
+
+# Time until disk full (linear prediction)
+predict_linear(node_filesystem_avail_bytes[1h], 4 * 3600)  # 4 hours ahead
+
+
+### Network Metrics ###
+
+# Network receive rate (bytes/sec)
+rate(node_network_receive_bytes_total[5m])
+
+# Network transmit rate (bytes/sec)
+rate(node_network_transmit_bytes_total[5m])
+
+# Total bandwidth (receive + transmit)
+rate(node_network_receive_bytes_total[5m]) + rate(node_network_transmit_bytes_total[5m])
+
+# Network errors
+rate(node_network_receive_errs_total[5m])
+
+
+### Load Average and Saturation ###
+
+# Load average
+node_load1
+node_load5
+node_load15
+
+# Load saturation (load / CPU count)
+node_load1 / count by (instance) (node_cpu_seconds_total{mode="idle"})
+
+
+### Comparison and Arithmetic ###
+
+# Compare current vs 1 hour ago
+http_requests_total - http_requests_total offset 1h
+
+# Percentage change vs 1 hour ago
+(http_requests_total - http_requests_total offset 1h)
+/ http_requests_total offset 1h
+* 100
+
+# Ratio of errors to total requests
+sum(rate(http_requests_total{status=~"5.."}[5m]))
+/
+sum(rate(http_requests_total[5m]))
+
+
+### Topk and Bottomk ###
+
+# Top 10 endpoints by request rate
+topk(10, sum by (endpoint) (rate(http_requests_total[5m])))
+
+# Bottom 5 instances by available memory
+bottomk(5, node_memory_MemAvailable_bytes)
+
+
+### Absent (Missing Metrics) ###
+
+# Check if metric exists
+absent(up{job="api-server"})
+
+# Alert if metric missing
+absent(http_requests_total{job="api-server"})
+
+
+### Label Manipulation ###
+
+# Extract part of label
+label_replace(
+  up,
+  "instance_name",
+  "$1",
+  "instance",
+  "([^:]+):.*"
+)
+
+# Join labels
+label_join(
+  up,
+  "new_label",
+  "-",
+  "job", "instance"
+)
+
+
+### Time Functions ###
+
+# Day of week (0 = Sunday)
+day_of_week()
+
+# Hour of day (0-23)
+hour()
+
+# Current timestamp
+time()
+
+
+### Business Metrics ###
+
+# Orders per minute
+rate(orders_total[1m]) * 60
+
+# Revenue per hour
+rate(revenue_total_dollars[1h]) * 3600
+
+# Average order value
+rate(revenue_total_dollars[5m]) / rate(orders_total[5m])
+
+# Conversion rate (orders / page views)
+rate(orders_total[5m]) / rate(page_views_total[5m]) * 100
+
+
+### Apdex Score ###
+
+# Apdex = (satisfied + tolerating/2) / total
+# Satisfied: < 0.5s, Tolerating: 0.5-2s, Frustrated: > 2s
+(
+  sum(rate(http_request_duration_seconds_bucket{le="0.5"}[5m]))
+  +
+  sum(rate(http_request_duration_seconds_bucket{le="2"}[5m])) / 2
+)
+/
+sum(rate(http_request_duration_seconds_count[5m]))
+
+
+### Multi-Dimensional Analysis ###
+
+# Request rate by job, method, and status
+sum by (job, method, status) (rate(http_requests_total[5m]))
+
+# Top 5 error-producing endpoints
+topk(5,
+  sum by (endpoint) (rate(http_requests_total{status=~"5.."}[5m]))
+)
+
+# Services with error rate > 5%
+(
+  sum by (job) (rate(http_requests_total{status=~"5.."}[5m]))
+  /
+  sum by (job) (rate(http_requests_total[5m]))
+) > 0.05
+
+
+### Recording Rule Usage ###
+
+# Use precomputed recording rules (faster)
+job:http_requests:rate5m
+job:http_latency:p95
+instance:node_cpu:utilization
+
+
+### Federation Queries ###
+
+# Aggregate from federated Prometheus instances
+sum by (job) (up{prometheus_instance=~".*"})
+
+# Compare metrics across regions
+sum by (region) (rate(http_requests_total[5m]))

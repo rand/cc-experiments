@@ -768,3 +768,304 @@ def check_rate_limit():
 - **redis-patterns.md** - Redis optimization for rate limiting
 - **api-error-handling.md** - Proper 429 response patterns
 - **api-caching.md** - Reduce load to avoid rate limits
+
+---
+
+## Level 3: Resources
+
+### Overview
+
+The **api-rate-limiting** skill includes comprehensive resources for implementing production-grade rate limiting:
+
+- **REFERENCE.md**: 3,100+ line technical reference covering algorithms, implementations, and standards
+- **3 Scripts**: Testing, analysis, and benchmarking tools
+- **8 Examples**: Production-ready code in Python, Node.js, Go, and configuration examples
+
+### REFERENCE.md
+
+**Location**: `skills/api/api-rate-limiting/resources/REFERENCE.md`
+
+Comprehensive technical reference (3,100+ lines) covering:
+
+**Core Topics**:
+- Rate limiting fundamentals and algorithms (token bucket, leaky bucket, fixed/sliding window)
+- Distributed rate limiting with Redis and Lua scripts
+- HTTP headers and RFC 6585 compliance
+- Storage backends (Redis, Memcached, in-memory, PostgreSQL)
+- Implementation patterns for Flask, FastAPI, Express, Echo
+
+**Advanced Topics**:
+- Multi-tier rate limiting (per-second, per-minute, per-hour, per-day)
+- Limiting strategies (per-user, per-IP, per-endpoint, tiered)
+- Error handling and graceful degradation
+- Performance optimization and scalability
+- Security considerations and DDoS protection
+
+**Language Implementations**:
+- Python (FastAPI + Redis with async)
+- Go (Echo + Redis with golang.org/x/time/rate)
+- Node.js (Express + Redis with Lua scripts)
+
+**References**:
+- RFC 6585 (429 Too Many Requests)
+- RFC 7231 (Retry-After header)
+- IETF Draft: RateLimit Headers
+- Industry standards (GitHub, Twitter, Stripe)
+
+### Scripts
+
+**1. test_rate_limits.py** - API Rate Limiting Testing Tool
+
+Tests API rate limiting behavior by sending requests and analyzing responses.
+
+```bash
+# Test with burst
+./test_rate_limits.py --endpoint https://api.example.com/resource
+
+# Sustained load test
+./test_rate_limits.py --endpoint https://api.example.com --rps 10 --duration 60
+
+# Test boundary burst vulnerability
+./test_rate_limits.py --endpoint https://api.example.com --boundary-test --limit 100 --window 60
+
+# JSON output
+./test_rate_limits.py --endpoint https://api.example.com --json
+```
+
+Features:
+- Send burst or sustained requests
+- Measure thresholds and reset times
+- Validate rate limit headers (X-RateLimit-*, Retry-After)
+- Detect algorithm (token bucket, sliding window, fixed window)
+- Check RFC 6585 compliance
+- Detect boundary burst vulnerability
+
+**2. analyze_patterns.py** - Traffic Pattern Analysis Tool
+
+Analyzes API access logs to recommend optimal rate limit configurations.
+
+```bash
+# Analyze access log
+./analyze_patterns.py --log-file /var/log/nginx/access.log
+
+# JSON output
+./analyze_patterns.py --log-file access.log --json
+
+# Custom time window
+./analyze_patterns.py --log-file access.log --time-window 3600
+```
+
+Features:
+- Parse common log formats (Nginx, Apache, JSON)
+- Identify traffic patterns (burst, steady, abuse, scraping)
+- Detect potential abuse (high RPS, error rates)
+- Calculate percentiles (P50, P90, P95, P99)
+- Recommend rate limits per endpoint
+- Top endpoints and clients analysis
+
+**3. benchmark_throughput.py** - Performance Benchmarking Tool
+
+Benchmarks rate limiter implementation performance and compares algorithms.
+
+```bash
+# Benchmark single algorithm
+./benchmark_throughput.py --algorithm token_bucket
+
+# Compare all algorithms
+./benchmark_throughput.py --algorithm all
+
+# Custom load parameters
+./benchmark_throughput.py --algorithm sliding_window --concurrent-users 100 --requests 50
+
+# JSON output
+./benchmark_throughput.py --algorithm all --json
+```
+
+Features:
+- Test throughput (requests/second)
+- Measure latency (avg, median, P95, P99)
+- Compare algorithms (token bucket, sliding window, fixed window)
+- Test concurrent users
+- Measure Redis overhead
+- Generate performance report
+
+### Examples
+
+**Location**: `skills/api/api-rate-limiting/resources/examples/`
+
+**1. python/token_bucket.py** - Token Bucket with Redis
+
+Production-ready token bucket implementation using Redis and Lua scripts.
+
+Features:
+- Atomic operations with Lua
+- Configurable capacity and refill rate
+- Thread-safe distributed implementation
+- Graceful error handling (fail open)
+
+```python
+limiter = TokenBucket(redis_client, "user:123", capacity=100, refill_rate=10)
+if limiter.consume():
+    response = handle_request()
+else:
+    wait = limiter.wait_time()
+    return error_response(f"Rate limited. Retry in {wait:.1f}s", 429)
+```
+
+**2. python/sliding_window.py** - Sliding Window with Redis
+
+Sliding window implementation using Redis sorted sets for smooth rate limiting.
+
+Features:
+- No boundary burst vulnerability
+- Accurate request tracking with timestamps
+- Atomic operations with Lua
+- Memory-efficient with automatic cleanup
+
+```python
+limiter = SlidingWindow(redis_client, "user:123", limit=100, window_seconds=60)
+allowed, remaining = limiter.allow_request_with_remaining()
+if allowed:
+    print(f"Request allowed. {remaining} remaining")
+```
+
+**3. nodejs/express-rate-limiter.js** - Express Middleware
+
+Complete Express middleware for rate limiting with Redis backend.
+
+Features:
+- Fixed window rate limiting
+- Configurable per-route limits
+- Standard rate limit headers
+- Custom key generators
+- Graceful error handling (fail open)
+
+```javascript
+const rateLimiter = createRateLimiter(redisClient);
+app.use('/api', rateLimiter({ limit: 100, window: 60 }));
+```
+
+**4. go/rate_limiter.go** - Go Implementation
+
+Go rate limiter using golang.org/x/time/rate with Redis backend.
+
+Features:
+- Token bucket algorithm with burst support
+- Redis-backed distributed limiting
+- Thread-safe operations
+- Local in-memory option for single-instance apps
+
+```go
+limiter := NewRedisRateLimiter(redisClient, 100, 10)
+if limiter.Allow("user:123") {
+    // Process request
+}
+```
+
+**5. python/fastapi-limiter.py** - FastAPI Integration
+
+FastAPI rate limiting with async Redis operations and dependency injection.
+
+Features:
+- Async Redis operations
+- Dependency injection pattern
+- Configurable per-route limits
+- Standard rate limit headers
+- Middleware for global limits
+
+```python
+@app.get("/api/resource")
+async def get_resource(
+    _: None = Depends(rate_limit(limit=100, window=60))
+):
+    return {"data": "value"}
+```
+
+**6. redis/lua-rate-limiter.lua** - Lua Scripts Collection
+
+Complete collection of Lua scripts for atomic rate limiting in Redis.
+
+Includes:
+- Token bucket algorithm
+- Sliding window algorithm
+- Fixed window algorithm
+- Leaky bucket algorithm
+- Multi-tier rate limiting
+- Distributed lock operations
+
+**7. config/nginx-rate-limit.conf** - Nginx Configuration
+
+Production-ready Nginx configuration using limit_req module.
+
+Features:
+- Multiple rate limit zones
+- Per-endpoint limits
+- Burst handling (burst, nodelay, delay)
+- Custom error responses
+- IP whitelisting
+- Multi-tier limiting
+
+```nginx
+limit_req_zone $binary_remote_addr zone=api:10m rate=100r/s;
+
+location /api/ {
+    limit_req zone=api burst=200 delay=100;
+    proxy_pass http://backend;
+}
+```
+
+**8. python/distributed-limiter.py** - Advanced Distributed Limiter
+
+Complete distributed rate limiter supporting multiple algorithms and strategies.
+
+Features:
+- Multiple algorithms (token bucket, sliding window, fixed window)
+- Multi-tier limiting (per-second, per-minute, per-hour, per-day)
+- Graceful fallback on errors
+- Monitoring hooks
+- Thread-safe operations
+
+```python
+limiter = DistributedRateLimiter(redis_client)
+
+result = limiter.check_limit("user:123", limits={
+    "per_second": 10,
+    "per_minute": 100,
+    "per_hour": 1000
+})
+```
+
+### Quick Start
+
+1. **Read REFERENCE.md** for comprehensive algorithm explanations and best practices
+2. **Choose algorithm**: Token bucket (bursts), Sliding window (smooth), Fixed window (simple)
+3. **Pick example**: Start with your language/framework
+4. **Test with scripts**: Use test_rate_limits.py to validate behavior
+5. **Tune limits**: Use analyze_patterns.py on production logs
+6. **Benchmark**: Use benchmark_throughput.py to compare algorithms
+
+### Algorithm Selection Guide
+
+```
+NEED BURSTS?
+├─ Yes → Token Bucket (python/token_bucket.py)
+└─ No  → Need smooth limiting?
+         ├─ Yes → Sliding Window (python/sliding_window.py)
+         └─ No  → Fixed Window (simplest, nginx-rate-limit.conf)
+
+DISTRIBUTED?
+├─ Yes → Use Redis examples (all Python/Node.js/Go examples)
+└─ No  → Use in-memory (go/rate_limiter.go LocalRateLimiter)
+
+LANGUAGE?
+├─ Python  → fastapi-limiter.py or distributed-limiter.py
+├─ Node.js → express-rate-limiter.js
+├─ Go      → rate_limiter.go
+└─ Nginx   → nginx-rate-limit.conf
+```
+
+### Related Resources
+
+- **api-authentication.md** - User identification for per-user limits
+- **redis-patterns.md** - Redis optimization and Lua scripting
+- **api-error-handling.md** - Proper 429 response handling

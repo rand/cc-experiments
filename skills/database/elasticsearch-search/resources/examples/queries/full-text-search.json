@@ -1,0 +1,220 @@
+{
+  "basic_match": {
+    "comment": "Simple full-text search with relevance scoring",
+    "query": {
+      "query": {
+        "match": {
+          "description": {
+            "query": "fast laptop",
+            "operator": "and"
+          }
+        }
+      }
+    }
+  },
+  "multi_field_search": {
+    "comment": "Search across multiple fields with boosting",
+    "query": {
+      "query": {
+        "multi_match": {
+          "query": "gaming laptop",
+          "fields": ["name^3", "description^2", "features"],
+          "type": "best_fields",
+          "fuzziness": "AUTO"
+        }
+      }
+    }
+  },
+  "phrase_search": {
+    "comment": "Exact phrase matching with slop",
+    "query": {
+      "query": {
+        "match_phrase": {
+          "description": {
+            "query": "high performance processor",
+            "slop": 2
+          }
+        }
+      }
+    }
+  },
+  "bool_query_with_filters": {
+    "comment": "Complex search with must, should, and filter clauses",
+    "query": {
+      "query": {
+        "bool": {
+          "must": [
+            {
+              "multi_match": {
+                "query": "laptop",
+                "fields": ["name^2", "description"]
+              }
+            }
+          ],
+          "filter": [
+            {"term": {"category": "electronics"}},
+            {"term": {"in_stock": true}},
+            {"range": {"price": {"gte": 500, "lte": 2000}}}
+          ],
+          "should": [
+            {"term": {"brand": "Apple"}},
+            {"term": {"brand": "Dell"}},
+            {"range": {"rating": {"gte": 4.0}}}
+          ],
+          "must_not": [
+            {"term": {"tags": "refurbished"}}
+          ],
+          "minimum_should_match": 1
+        }
+      },
+      "sort": [
+        {"_score": "desc"},
+        {"rating": "desc"},
+        {"price": "asc"}
+      ],
+      "size": 20
+    }
+  },
+  "fuzzy_search": {
+    "comment": "Search with typo tolerance",
+    "query": {
+      "query": {
+        "match": {
+          "name": {
+            "query": "laptp",
+            "fuzziness": "AUTO",
+            "prefix_length": 2
+          }
+        }
+      }
+    }
+  },
+  "boosted_search": {
+    "comment": "Custom boosting based on multiple factors",
+    "query": {
+      "query": {
+        "function_score": {
+          "query": {
+            "multi_match": {
+              "query": "laptop",
+              "fields": ["name^2", "description"]
+            }
+          },
+          "functions": [
+            {
+              "filter": {"term": {"brand": "premium"}},
+              "weight": 2
+            },
+            {
+              "field_value_factor": {
+                "field": "rating",
+                "factor": 1.5,
+                "modifier": "sqrt",
+                "missing": 1
+              }
+            },
+            {
+              "field_value_factor": {
+                "field": "review_count",
+                "factor": 0.1,
+                "modifier": "log1p",
+                "missing": 0
+              }
+            },
+            {
+              "gauss": {
+                "created_at": {
+                  "origin": "now",
+                  "scale": "30d",
+                  "offset": "7d",
+                  "decay": 0.5
+                }
+              }
+            }
+          ],
+          "score_mode": "sum",
+          "boost_mode": "multiply"
+        }
+      }
+    }
+  },
+  "nested_search": {
+    "comment": "Search within nested objects (product variants)",
+    "query": {
+      "query": {
+        "nested": {
+          "path": "variants",
+          "query": {
+            "bool": {
+              "must": [
+                {"term": {"variants.color": "blue"}},
+                {"range": {"variants.price": {"lte": 1000}}},
+                {"range": {"variants.stock": {"gt": 0}}}
+              ]
+            }
+          },
+          "inner_hits": {
+            "size": 5,
+            "name": "matching_variants"
+          }
+        }
+      }
+    }
+  },
+  "highlighting_search": {
+    "comment": "Search with highlighted results",
+    "query": {
+      "query": {
+        "multi_match": {
+          "query": "fast gaming laptop",
+          "fields": ["name", "description", "features"]
+        }
+      },
+      "highlight": {
+        "fields": {
+          "name": {
+            "number_of_fragments": 0
+          },
+          "description": {
+            "fragment_size": 150,
+            "number_of_fragments": 3
+          },
+          "features": {
+            "fragment_size": 100,
+            "number_of_fragments": 2
+          }
+        },
+        "pre_tags": ["<mark>"],
+        "post_tags": ["</mark>"]
+      }
+    }
+  },
+  "search_with_source_filtering": {
+    "comment": "Only return specific fields",
+    "query": {
+      "query": {
+        "match": {
+          "category": "electronics"
+        }
+      },
+      "_source": ["name", "price", "brand", "rating"],
+      "size": 50
+    }
+  },
+  "search_after_pagination": {
+    "comment": "Efficient deep pagination with search_after",
+    "query": {
+      "query": {
+        "match": {
+          "category": "electronics"
+        }
+      },
+      "size": 20,
+      "sort": [
+        {"created_at": "desc"},
+        {"_id": "desc"}
+      ],
+      "search_after": ["2025-10-27T00:00:00Z", "abc123"]
+    }
+  }
+}

@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nginx-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # Configuration
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./conf.d:/etc/nginx/conf.d:ro
+      - ./snippets:/etc/nginx/snippets:ro
+
+      # SSL certificates
+      - ./certs:/etc/nginx/certs:ro
+
+      # Logs
+      - nginx-logs:/var/log/nginx
+
+      # Cache
+      - nginx-cache:/var/cache/nginx
+
+      # Static files
+      - ./html:/var/www/html:ro
+
+    networks:
+      - frontend
+      - backend
+
+    environment:
+      - TZ=UTC
+
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/healthcheck.sh"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+    labels:
+      - "com.example.description=Nginx reverse proxy"
+      - "com.example.service=nginx"
+
+  # Backend application (example)
+  app:
+    image: node:18-alpine
+    container_name: backend-app
+    restart: unless-stopped
+    working_dir: /app
+    command: npm start
+    volumes:
+      - ./app:/app
+    networks:
+      - backend
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+
+volumes:
+  nginx-logs:
+    driver: local
+  nginx-cache:
+    driver: local
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+    internal: true
