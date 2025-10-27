@@ -1,5 +1,5 @@
 ---
-description: Discover and activate relevant skills (284 skills, 27 gateways)
+description: Discover and activate relevant skills (292 skills, 28 gateways)
 argument-hint: [category|search-term] (optional)
 ---
 
@@ -64,6 +64,7 @@ Map to gateway keywords:
 - "ML", "model", "training" → **discover-ml**
 - "math", "linear algebra" → **discover-math**
 - "compiler", "parser", "AST" → **discover-plt**
+- "diagram", "flowchart", "Mermaid", "visualization" → **discover-diagrams**
 
 ### 4. Provide Contextual Recommendations
 
@@ -80,9 +81,9 @@ RECOMMENDED FOR THIS PROJECT:
 → discover-[category]
   cat skills/discover-[category]/SKILL.md
 
-CATEGORIES (284 skills):
-Frontend (8) | Database (8) | API (7) | Testing (6) | ML (30) | Math (19)
-Debugging (14) | Build Systems (8) | Caching (7) | Observability (8)
+CATEGORIES (292 skills):
+Frontend (8) | Database (8) | API (7) | Testing (6) | Diagrams (8) | ML (30)
+Math (19) | Debugging (14) | Build Systems (8) | Caching (7) | Observability (8)
 Containers (5) | CI/CD (4) | PLT (13) | Formal (10) | Cloud (13)
 
 COMMANDS:
@@ -192,9 +193,9 @@ RELATED: discover-observability, discover-caching
 
 **If ARGUMENT = "list":**
 
-Show all 27 gateway categories:
+Show all 28 gateway categories:
 ```
-ALL CATEGORIES (284 skills)
+ALL CATEGORIES (292 skills)
 
 BACKEND & DATA:
   discover-api (7)         - REST, GraphQL, auth, rate limiting
@@ -206,8 +207,9 @@ FRONTEND & MOBILE:
   discover-frontend (8)    - React, Next.js, state management, a11y
   discover-mobile (4)      - iOS, Swift, SwiftUI, concurrency
 
-TESTING:
+TESTING & DOCUMENTATION:
   discover-testing (6)     - Unit, integration, e2e, TDD, coverage
+  discover-diagrams (8)    - Mermaid flowcharts, sequence, ER, architecture, Gantt
 
 INFRASTRUCTURE:
   discover-containers (5)  - Docker, Kubernetes, security
@@ -319,4 +321,4 @@ ROOT-LEVEL SKILLS:
 - Keep output concise and actionable
 - Never modify the skills library
 - Provide clear, copy-paste commands
-- The catalog has: 284 skills, 27 gateways, 30 categories
+- The catalog has: 292 skills, 28 gateways, 31 categories

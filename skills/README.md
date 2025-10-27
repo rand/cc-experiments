@@ -1,7 +1,7 @@
 # Skills Catalog
 
-**Total Skills**: 284 across 30 categories
-**Gateway Skills**: 27 (auto-discovered by Claude Code)
+**Total Skills**: 292 across 31 categories
+**Gateway Skills**: 28 (auto-discovered by Claude Code)
 **Agent Skills**: 3 (elegant-design, anti-slop, typed-holes-refactor)
 
 ## Overview
@@ -82,6 +82,17 @@ cat skills/frontend/INDEX.md
 
 ```bash
 cat skills/testing/INDEX.md
+```
+
+---
+
+### Diagrams & Visualization (8 skills)
+**Gateway**: `discover-diagrams`
+**Keywords**: diagram, flowchart, sequence, architecture, ER, UML, Mermaid, visualization
+**Skills**: Flowcharts, sequence diagrams, class/state diagrams, ER diagrams, architecture (C4/block), charts (pie/XY/quadrant/radar), project diagrams (Gantt/timeline), specialized (Git/Sankey/mindmaps)
+
+```bash
+cat skills/diagrams/INDEX.md
 ```
 
 ---
