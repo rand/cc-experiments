@@ -570,4 +570,224 @@ certbot renew --dry-run --debug
 
 ---
 
+## Level 3: Resources
+
+**Location**: `/Users/rand/src/cc-polymath/skills/cryptography/certificate-management/resources/`
+
+This skill includes comprehensive Level 3 resources for production certificate management implementations:
+
+### REFERENCE.md (~3,100 lines)
+
+Comprehensive technical reference covering:
+- **Fundamentals**: Digital certificates, X.509 standard, trust chains, PKI concepts
+- **Certificate Components**: Subject, SANs, extensions, key usage, certificate formats (PEM, DER, PKCS#12)
+- **Certificate Lifecycle**: Generation, CSR creation, issuance, deployment, monitoring, renewal, rotation, revocation
+- **CA Hierarchies**: Root/intermediate CAs, public vs private CAs, trust models
+- **ACME Protocol**: Challenge types (HTTP-01, DNS-01, TLS-ALPN-01), ACME flow, client implementations
+- **Let's Encrypt**: Rate limits, staging environment, trust chain, wildcard certificates
+- **Certificate Automation**: Certbot usage, acme.sh, renewal hooks, systemd timers
+- **Kubernetes cert-manager**: Installation, issuers, certificate resources, ingress annotations
+- **Mutual TLS (mTLS)**: Server/client configuration, service mesh integration, zero-trust patterns
+- **Certificate Revocation**: CRL, OCSP, OCSP stapling, must-staple extension
+- **Certificate Transparency**: CT logs, monitoring, unauthorized certificate detection
+- **Certificate Pinning**: Public key pinning, HPKP (deprecated), mobile implementations
+- **Monitoring**: Prometheus exporters, expiration tracking, alerting strategies
+- **Best Practices**: Lifetime management, key protection, automation, testing, backup/recovery
+- **Common Issues**: Troubleshooting expired certs, chain issues, key mismatches, SAN errors
+- **Security**: Private key protection, validation requirements, weak cryptography avoidance
+- **Compliance**: PCI-DSS, HIPAA, SOC2, GDPR certificate requirements
+- **Tools**: OpenSSL, certbot, acme.sh, step CLI, cfssl, cert-manager, SSL Labs, testssl.sh
+
+### Scripts (3 production-ready tools)
+
+**validate_certificates.py** (580+ lines) - Comprehensive certificate validation
+- Validates certificates from remote hosts or local files
+- Checks expiration dates with configurable thresholds
+- Detects weak algorithms (MD5, SHA-1, weak RSA keys)
+- Validates certificate chains and hostname matching
+- SAN validation including wildcard matching
+- OCSP/CRL revocation checking support
+- Compliance validation (PCI-DSS, HIPAA, SOC2)
+- Batch validation from hosts file
+- JSON output for CI/CD integration
+- Detailed reporting with severity levels
+- Usage: `./validate_certificates.py --host example.com --compliance PCI-DSS --json`
+
+**renew_certificates.py** (450+ lines) - Automated ACME certificate renewal
+- ACME protocol automation (Let's Encrypt, ZeroSSL)
+- HTTP-01 and DNS-01 challenge support
+- Automatic renewal based on expiration thresholds
+- Pre/post/deploy hook support
+- Automatic backup before renewal
+- Rollback on renewal failure
+- Batch renewal of all expiring certificates
+- Dry-run mode for testing
+- Staging environment support
+- Custom ACME provider support
+- DNS provider integration (Cloudflare, Route53, etc.)
+- Usage: `./renew_certificates.py --domain example.com --dns-provider cloudflare --json`
+
+**monitor_cert_expiry.sh** (550+ lines) - Certificate expiration monitoring
+- Monitors certificates from remote hosts or local files
+- Configurable warning/critical thresholds
+- Multiple output formats (text, JSON, Prometheus, CSV)
+- Batch monitoring from hosts file
+- Directory scanning for certificate files
+- Email/webhook/Slack alerting
+- Certificate inventory export
+- OCSP revocation status checking
+- Prometheus metrics format for monitoring integration
+- Color-coded terminal output
+- Exit codes for CI/CD integration
+- Usage: `./monitor_cert_expiry.sh --hosts-file hosts.txt --format prometheus --alert-email admin@example.com`
+
+### Examples (6 production-ready implementations)
+
+**python/acme_automation.py** - ACME protocol automation from scratch
+- Account registration and key management
+- Certificate ordering with ACME protocol
+- HTTP-01 challenge implementation
+- DNS-01 challenge for wildcard certificates
+- CSR generation with multiple SANs
+- Complete ACME workflow demonstration
+- Staging environment support
+- Production-ready patterns
+
+**python/mtls_server_client.py** - Mutual TLS implementation
+- mTLS server with client certificate verification
+- mTLS client with certificate authentication
+- Certificate generation helper
+- TLS version and cipher suite configuration
+- Client certificate extraction and validation
+- Zero-trust authentication pattern
+- Service-to-service authentication example
+
+**python/prometheus_cert_exporter.py** - Prometheus metrics exporter
+- Exports certificate expiration metrics
+- Multi-host monitoring support
+- Prometheus-compatible metrics format
+- Certificate metadata collection
+- Expiration time tracking
+- Validity status monitoring
+- Error counting and duration tracking
+- Health check endpoint
+- Production-ready monitoring integration
+
+**kubernetes/cert-manager-setup.yaml** - Comprehensive cert-manager configuration
+- ClusterIssuers for Let's Encrypt (production and staging)
+- DNS-01 solvers (Cloudflare, Route53)
+- Certificate resources with SANs
+- Wildcard certificate examples
+- Ingress annotation automation
+- Namespace-scoped issuers
+- Private CA issuer configuration
+- mTLS client certificates
+- Certificate lifecycle management
+- Renewal configuration
+- Troubleshooting helpers
+
+**bash/certbot-automation.sh** - Complete certbot automation suite
+- HTTP-01 webroot validation
+- Nginx plugin integration
+- Wildcard certificates (manual and automated DNS)
+- DNS provider integration (Cloudflare, Route53)
+- Systemd timer setup for auto-renewal
+- Pre/post/deploy hooks
+- Certificate revocation
+- Force renewal
+- Staging environment testing
+- Custom CSR usage
+- Certificate monitoring
+- Nginx installation automation
+- 18+ production examples
+
+**config/nginx-ssl-best-practices.conf** - Production Nginx SSL configuration
+- Modern TLS 1.2/1.3 configuration
+- Strong cipher suite selection
+- OCSP stapling setup
+- HSTS and security headers
+- Let's Encrypt integration
+- HTTP to HTTPS redirect
+- Wildcard certificate support
+- mTLS configuration
+- Multiple domain examples
+- SSL Labs A+ rating configuration
+- Certificate renewal integration
+- PHP-FPM and reverse proxy examples
+
+### Quick Start
+
+```bash
+# Validate remote certificate
+cd /Users/rand/src/cc-polymath/skills/cryptography/certificate-management/resources/scripts
+./validate_certificates.py --host example.com --check-revocation
+
+# Renew certificate automatically
+./renew_certificates.py --domain example.com --webroot /var/www/html --post-hook "systemctl reload nginx"
+
+# Monitor certificate expiration
+./monitor_cert_expiry.sh --hosts-file hosts.txt --threshold-warning 30 --json
+
+# Export Prometheus metrics
+./monitor_cert_expiry.sh --hosts-file hosts.txt --format prometheus > /var/lib/prometheus/cert_metrics.prom
+
+# Run Python examples
+cd ../examples/python
+pip install cryptography acme josepy prometheus_client
+python acme_automation.py http01
+python mtls_server_client.py setup && python mtls_server_client.py server
+python prometheus_cert_exporter.py --hosts example.com:443
+
+# View comprehensive reference
+cd ../
+less REFERENCE.md
+```
+
+### Integration Notes
+
+**CI/CD Integration**:
+```yaml
+# .github/workflows/certificate-check.yml
+- name: Validate Certificates
+  run: |
+    ./scripts/validate_certificates.py \
+      --batch-file production-hosts.txt \
+      --compliance PCI-DSS \
+      --json \
+      --check-revocation
+```
+
+**Monitoring Setup**:
+```yaml
+# Prometheus scrape config
+scrape_configs:
+  - job_name: 'ssl-certificates'
+    static_configs:
+      - targets: ['localhost:9117']
+    scrape_interval: 60s
+```
+
+**Alerting**:
+```yaml
+# Prometheus alert rules
+- alert: CertificateExpiringSoon
+  expr: ssl_certificate_expiry_seconds < 86400 * 30
+  labels:
+    severity: warning
+  annotations:
+    summary: "Certificate expiring in < 30 days"
+```
+
+**Kubernetes Deployment**:
+```bash
+# Install cert-manager
+kubectl apply -f examples/kubernetes/cert-manager-setup.yaml
+
+# Check certificate status
+kubectl get certificates -A
+kubectl describe certificate example-com-tls
+```
+
+---
+
 **Last Updated**: 2025-10-27

@@ -1,0 +1,319 @@
+# Comprehensive cert-manager setup for Kubernetes
+# Automates certificate management with Let's Encrypt
+
+---
+# ClusterIssuer for Let's Encrypt Production
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    # Let's Encrypt production endpoint
+    server: https://acme-v02.api.letsencrypt.org/directory
+
+    # Email for ACME registration and renewal notifications
+    email: admin@example.com
+
+    # Secret to store ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-prod-account-key
+
+    # Challenge solvers
+    solvers:
+    # HTTP-01 solver (for regular domains)
+    - http01:
+        ingress:
+          class: nginx
+
+---
+# ClusterIssuer for Let's Encrypt Staging (testing)
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    # Let's Encrypt staging endpoint (for testing, doesn't count against rate limits)
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: admin@example.com
+    privateKeySecretRef:
+      name: letsencrypt-staging-account-key
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+
+---
+# ClusterIssuer for DNS-01 (wildcards) with Cloudflare
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-dns-cloudflare
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: admin@example.com
+    privateKeySecretRef:
+      name: letsencrypt-dns-account-key
+    solvers:
+    - dns01:
+        cloudflare:
+          email: admin@example.com
+          # Reference to Cloudflare API token secret
+          apiTokenSecretRef:
+            name: cloudflare-api-token
+            key: api-token
+
+---
+# Cloudflare API token secret (create this with your actual token)
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cloudflare-api-token
+  namespace: cert-manager
+type: Opaque
+stringData:
+  api-token: "your-cloudflare-api-token-here"
+
+---
+# ClusterIssuer for AWS Route53 DNS-01
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-dns-route53
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: admin@example.com
+    privateKeySecretRef:
+      name: letsencrypt-route53-account-key
+    solvers:
+    - dns01:
+        route53:
+          region: us-east-1
+          # Use IAM role for pods (recommended)
+          # OR provide access key (less secure)
+          # accessKeyID: AWS_ACCESS_KEY_ID
+          # secretAccessKeySecretRef:
+          #   name: route53-credentials
+          #   key: secret-access-key
+
+---
+# Example: Manual Certificate resource
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: example-com-tls
+  namespace: default
+spec:
+  # Secret where certificate will be stored
+  secretName: example-com-tls
+
+  # Reference to ClusterIssuer
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+
+  # Domains to include in certificate
+  dnsNames:
+  - example.com
+  - www.example.com
+  - api.example.com
+
+  # Private key configuration
+  privateKey:
+    algorithm: RSA
+    size: 2048
+    # Or use ECDSA for smaller keys:
+    # algorithm: ECDSA
+    # size: 256
+
+  # Renewal configuration
+  renewBefore: 720h  # 30 days before expiry
+
+---
+# Example: Wildcard certificate using DNS-01
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-example-com
+  namespace: default
+spec:
+  secretName: wildcard-example-com-tls
+  issuerRef:
+    name: letsencrypt-dns-cloudflare
+    kind: ClusterIssuer
+  dnsNames:
+  - '*.example.com'
+  - example.com  # Include apex domain too
+  privateKey:
+    algorithm: RSA
+    size: 2048
+
+---
+# Example: Ingress with automatic certificate (recommended approach)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-ingress
+  annotations:
+    # Automatically create certificate using cert-manager
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+
+    # Optional: Force HTTPS redirect
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+
+    # Optional: HSTS header
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "Strict-Transport-Security: max-age=31536000; includeSubDomains";
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - example.com
+    - www.example.com
+    # cert-manager will automatically create this secret
+    secretName: example-com-tls
+
+  rules:
+  - host: example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: example-service
+            port:
+              number: 80
+
+  - host: www.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: example-service
+            port:
+              number: 80
+
+---
+# Example: Namespace-scoped Issuer (instead of ClusterIssuer)
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: letsencrypt-prod
+  namespace: production
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: admin@example.com
+    privateKeySecretRef:
+      name: letsencrypt-prod-account-key
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+
+---
+# Example: Private CA Issuer (self-signed certificates for internal use)
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: private-ca
+spec:
+  ca:
+    # Reference to secret containing CA certificate and key
+    secretName: ca-key-pair
+
+---
+# Example: Monitoring - CertificateRequest to check status
+# cert-manager creates these automatically, but you can monitor them
+# kubectl get certificaterequests
+# kubectl describe certificaterequest <name>
+
+---
+# Example: Certificate with custom duration
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: short-lived-cert
+  namespace: default
+spec:
+  secretName: short-lived-cert-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+  - temp.example.com
+  # Certificate duration (Let's Encrypt forces max 90 days)
+  duration: 2160h  # 90 days
+  # Renew when 1/3 of duration remains (30 days)
+  renewBefore: 720h  # 30 days
+
+---
+# Example: mTLS with client certificates
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: client-cert
+  namespace: default
+spec:
+  secretName: client-cert-tls
+  issuerRef:
+    name: private-ca
+    kind: ClusterIssuer
+  commonName: "api-client-1"
+  dnsNames:
+  - client-1.internal
+  # Client authentication
+  usages:
+  - client auth
+  - digital signature
+  - key encipherment
+
+---
+# Example: Certificate for multiple SANs
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: multi-san-cert
+  namespace: default
+spec:
+  secretName: multi-san-cert-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+  - example.com
+  - www.example.com
+  - api.example.com
+  - blog.example.com
+  - shop.example.com
+  # Can also include IP addresses (not with Let's Encrypt)
+  # ipAddresses:
+  # - 192.0.2.1
+
+---
+# Helper: Force certificate renewal
+# kubectl annotate certificate example-com-tls cert-manager.io/issue-temporary-certificate="true" --overwrite
+
+# Helper: View certificate status
+# kubectl get certificates -A
+# kubectl describe certificate example-com-tls
+
+# Helper: View certificate events
+# kubectl get events --field-selector involvedObject.name=example-com-tls
+
+# Helper: View ACME challenges
+# kubectl get challenges
+# kubectl describe challenge <challenge-name>
+
+# Helper: View orders
+# kubectl get orders
+# kubectl describe order <order-name>
+
+# Helper: cert-manager logs
+# kubectl logs -n cert-manager deploy/cert-manager -f

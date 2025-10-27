@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  emqx:
+    image: emqx/emqx:latest
+    container_name: emqx
+    environment:
+      - EMQX_NODE_NAME=emqx@emqx
+      - EMQX_CLUSTER__DISCOVERY_STRATEGY=static
+      - EMQX_CLUSTER__STATIC__SEEDS=emqx@emqx
+      # Authentication
+      - EMQX_AUTH__USER__1__USERNAME=admin
+      - EMQX_AUTH__USER__1__PASSWORD=public
+    ports:
+      - "1883:1883"        # MQTT
+      - "8083:8083"        # WebSocket
+      - "8084:8084"        # WebSocket/TLS
+      - "8883:8883"        # MQTT/TLS
+      - "18083:18083"      # Dashboard
+    volumes:
+      - emqx_data:/opt/emqx/data
+      - emqx_log:/opt/emqx/log
+    healthcheck:
+      test: ["CMD", "emqx", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - emqx_net
+
+  # Optional: Prometheus for metrics
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - emqx_net
+
+  # Optional: Grafana for visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - emqx_net
+    depends_on:
+      - prometheus
+
+volumes:
+  emqx_data:
+  emqx_log:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  emqx_net:
+    driver: bridge
