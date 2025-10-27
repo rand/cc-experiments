@@ -20,12 +20,25 @@ This skill auto-activates when you're working with:
 
 ### Quick Reference
 
-The Engineering category contains 4 skills:
+The Engineering category contains 14 skills:
 
-1. **rfc-consensus-building**
-2. **rfc-decision-documentation**
-3. **rfc-structure-format**
-4. **rfc-technical-design**
+**Software Development Practices:**
+1. **code-review** - PR reviews, feedback, automation
+2. **code-quality** - SOLID principles, metrics, code smells
+3. **refactoring-patterns** - Safe refactoring techniques
+4. **test-driven-development** - TDD, red-green-refactor
+5. **domain-driven-design** - DDD patterns, bounded contexts
+6. **functional-programming** - FP principles, immutability
+7. **design-patterns** - GoF patterns, when to use
+8. **technical-debt** - Identifying and managing debt
+9. **pair-programming** - Pairing techniques, mob programming
+10. **continuous-integration** - CI/CD pipelines, deployment
+
+**RFC & Documentation:**
+11. **rfc-consensus-building** - Stakeholder collaboration
+12. **rfc-decision-documentation** - ADRs, decision tracking
+13. **rfc-structure-format** - RFC templates, formatting
+14. **rfc-technical-design** - Architecture proposals
 
 ### Load Full Category Details
 
@@ -46,9 +59,46 @@ This loads the full Engineering category index with:
 Load individual skills as needed:
 
 ```bash
+# Software Development Practices
+cat skills/engineering/code-review.md
+cat skills/engineering/code-quality.md
+cat skills/engineering/refactoring-patterns.md
+cat skills/engineering/test-driven-development.md
+cat skills/engineering/domain-driven-design.md
+cat skills/engineering/functional-programming.md
+cat skills/engineering/design-patterns.md
+cat skills/engineering/technical-debt.md
+cat skills/engineering/pair-programming.md
+cat skills/engineering/continuous-integration.md
+
+# RFC & Documentation
 cat skills/engineering/rfc-consensus-building.md
 cat skills/engineering/rfc-decision-documentation.md
 cat skills/engineering/rfc-structure-format.md
+cat skills/engineering/rfc-technical-design.md
+```
+
+### Common Workflow Combinations
+
+**Code Quality Workflow:**
+```bash
+# Load related skills together
+cat skills/engineering/code-review.md
+cat skills/engineering/code-quality.md
+cat skills/engineering/refactoring-patterns.md
+```
+
+**TDD Workflow:**
+```bash
+cat skills/engineering/test-driven-development.md
+cat skills/engineering/code-quality.md
+cat skills/engineering/continuous-integration.md
+```
+
+**Architecture Design Workflow:**
+```bash
+cat skills/engineering/domain-driven-design.md
+cat skills/engineering/design-patterns.md
 cat skills/engineering/rfc-technical-design.md
 ```
 
