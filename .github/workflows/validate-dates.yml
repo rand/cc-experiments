@@ -47,13 +47,19 @@ jobs:
               "MIGRATION_GUIDE.md", "REFACTORING_SUMMARY.md", "_INDEX.md",
               "README.md", "ENHANCEMENT_PLAN.md", "ENHANCEMENTS_SUMMARY.md",
               "SKILLS_USAGE_GUIDE.md", "CLAUDE.md", "SUMMARY.txt",
-              "CLAUDE_MD_UPDATES.md"  # Supporting documentation
+              "CLAUDE_MD_UPDATES.md", "PLUGIN.md", "MIGRATION.md",
+              "INDEX.md", "PROJECT_STATUS.md", "QUICK_START.md"
           }
 
           # Check skills directory
           for skill_file in Path(".").rglob("*.md"):
               # Skip archived files
               if "_archive" in str(skill_file):
+                  skipped += 1
+                  continue
+
+              # Skip commands directory (slash commands don't need date validation)
+              if "commands" in skill_file.parts:
                   skipped += 1
                   continue
 
