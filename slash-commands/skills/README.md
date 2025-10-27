@@ -1,6 +1,6 @@
 # `/skills` - Claude Code Skills Discovery Command
 
-A slash command for Claude Code that provides context-aware skill discovery and activation, helping you leverage your skills library more effectively.
+A slash command for Claude Code that provides context-aware skill discovery and activation from a library of 292 skills across 31 categories.
 
 ## What It Does
 
@@ -94,10 +94,10 @@ RECOMMENDED FOR THIS PROJECT:
 → react-component-patterns.md - Component design, hooks, performance
 → postgres-query-optimization.md - Debug slow queries, EXPLAIN plans
 
-CATEGORIES (135 total skills):
-Frontend (9) | Database (11) | API (7) | Testing (6) | Containers (5)
-Workflow (6) | iOS (6) | Modal (8) | Networking (5) | TUI (5) | Zig (6)
-[View full catalog: ~/.claude/skills/_INDEX.md]
+CATEGORIES (292 total skills):
+Frontend (8) | Database (8) | API (7) | Testing (6) | Diagrams (8) | ML (30)
+Math (19) | Debugging (14) | Build Systems (8) | Caching (7) | Observability (8)
+[View full catalog: ~/.claude/skills/README.md]
 
 COMMANDS:
 /skills frontend     - View all Frontend skills
@@ -108,49 +108,49 @@ COMMANDS:
 ### Category View (`/skills frontend`)
 
 ```
-━━━ FRONTEND SKILLS (9 skills) ━━━
+FRONTEND SKILLS (8 total)
+Keywords: React, Next.js, UI, components, state management, forms
 
-react-component-patterns.md (~320 lines)
-  → Component design, composition, hooks, performance
-  → Use when: Building React components, optimizing renders
+SKILLS:
+1. react-component-patterns - React patterns, hooks, composition
+2. nextjs-app-router - Next.js App Router, Server Components
+3. react-state-management - Context, Zustand, Redux patterns
+4. react-data-fetching - TanStack Query, SWR, data loading
+5. web-forms - Form validation, accessibility, user experience
+6. web-accessibility - WCAG compliance, ARIA, inclusive design
+7. frontend-performance - Core Web Vitals, optimization
+8. nextjs-seo - SEO best practices, metadata, structured data
 
-nextjs-app-router.md (~340 lines)
-  → Next.js App Router, Server Components, routing
-  → Use when: Building Next.js applications with App Router
-
-elegant-design/SKILL.md (~302 lines)
-  → World-class accessible interfaces, chat/terminal/code UIs
-  → Use when: Building professional, accessible web interfaces
-
-[... more skills ...]
-
-RELATED CATEGORIES:
-Testing (6) | API (7) | Database (11)
-
-[Back to overview: /skills]
+LOAD:
+cat skills/frontend/INDEX.md                  # Full details
+cat skills/discover-frontend/SKILL.md         # Gateway overview
+cat skills/frontend/react-component-patterns.md  # Specific skill
 ```
 
 ### Search Results (`/skills postgres`)
 
 ```
-━━━ SEARCH RESULTS: 'postgres' ━━━
+SEARCH: 'postgres'
 
-EXACT MATCHES:
-→ postgres-query-optimization.md - Database/Performance
+GATEWAY:
+→ discover-database
+  Keywords: PostgreSQL, MongoDB, Redis, query optimization
+  cat skills/discover-database/SKILL.md
+
+SKILLS:
+→ postgres-query-optimization.md
   Debug slow queries, EXPLAIN plans, index design
+  cat skills/database/postgres-query-optimization.md
 
-→ postgres-migrations.md - Database/Schema
+→ postgres-migrations.md
   Schema changes, zero-downtime deployments
+  cat skills/database/postgres-migrations.md
 
-→ postgres-schema-design.md - Database/Design
+→ postgres-schema-design.md
   Designing schemas, relationships, data types
+  cat skills/database/postgres-schema-design.md
 
-RELATED:
-→ database-selection.md - Choosing databases (mentions Postgres)
-→ orm-patterns.md - ORM usage (works with Postgres)
-
-[Refine search: /skills postgres optimization]
-[View category: /skills database]
+RELATED: discover-observability, discover-caching
 ```
 
 ## How It Works
@@ -174,13 +174,14 @@ Based on detected context, it recommends skills that:
 ### Read-Only Operations
 
 The command **only reads** from:
-- `~/.claude/skills/_INDEX.md` (master catalog)
-- `~/.claude/skills/*.md` (skill files)
+- `~/.claude/skills/README.md` (master catalog)
+- `~/.claude/skills/{category}/INDEX.md` (category indexes)
+- `~/.claude/skills/discover-*/SKILL.md` (gateway skills)
 - Current working directory (for project detection)
 
 It **never modifies**:
 - Skill files
-- Index files
+- Index or catalog files
 - Claude Code configuration
 - Your project files
 
@@ -209,7 +210,8 @@ The next time you restart Claude Code, `/skills` will no longer be available.
 
 ### Works With
 
-- ✅ All existing skills (135+ skills)
+- ✅ All existing skills (292 skills across 31 categories)
+- ✅ 28 gateway skills for auto-discovery
 - ✅ Existing skill discovery mechanisms
 - ✅ All project types (Go, Python, Rust, JavaScript, Swift, Zig, etc.)
 - ✅ Empty projects (provides general-purpose recommendations)
@@ -240,16 +242,16 @@ The next time you restart Claude Code, `/skills` will no longer be available.
 
 **Possible causes:**
 - Empty/new project directory → Expected behavior, shows general skills
-- Skills index not found → Check `~/.claude/skills/_INDEX.md` exists
+- Skills catalog not found → Check `~/.claude/skills/README.md` exists
 
-### Skills Index Not Found
+### Skills Catalog Not Found
 
-**Problem:** Error message about missing `_INDEX.md`
+**Problem:** Error message about missing `README.md`
 
 **Solution:**
 1. Verify skills directory: `ls ~/.claude/skills/`
-2. Check index exists: `cat ~/.claude/skills/_INDEX.md`
-3. If missing, restore from your skills repository
+2. Check catalog exists: `cat ~/.claude/skills/README.md`
+3. If missing, restore from your skills repository (cc-polymath)
 
 ## Examples
 
@@ -299,18 +301,20 @@ cd ~/projects/slow-app
 ## Technical Details
 
 - **File:** `~/.claude/commands/skills.md`
-- **Size:** ~6.8 KB (243 lines)
+- **Size:** ~10 KB (325 lines)
 - **Format:** Markdown with YAML frontmatter
 - **Dependencies:** None (uses Claude Code built-in slash command system)
+- **Skills:** 292 skills, 28 gateways, 31 categories
 - **Compatibility:** Claude Code v2.0+
 
 ## Contributing
 
 This slash command is designed to be self-contained and maintenance-free. However, if you find issues or have suggestions:
 
-1. The command reads from `~/.claude/skills/_INDEX.md`
+1. The command reads from `~/.claude/skills/README.md` (master catalog)
 2. Keep that file updated as you add new skills
-3. The command will automatically show new skills
+3. Update individual category `INDEX.md` files as needed
+4. The command will automatically show new skills
 
 ## License
 
@@ -318,9 +322,10 @@ This slash command is provided as-is for use with Claude Code and compatible wit
 
 ## Version
 
-**Version:** 1.0.0
-**Last Updated:** 2025-10-25
+**Version:** 2.0.0
+**Last Updated:** 2025-10-27
 **Compatibility:** Claude Code v2.0+
+**Architecture:** Gateway-based progressive loading
 
 ---
 

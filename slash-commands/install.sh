@@ -35,8 +35,8 @@ fi
 
 # Verify gateway architecture
 GATEWAY_COUNT=$(find "$REPO_ROOT/skills" -name "discover-*" -type d 2>/dev/null | wc -l | tr -d ' ')
-if [ "$GATEWAY_COUNT" -lt 25 ]; then
-    echo "⚠ Warning: Expected ~27 gateway skills, found $GATEWAY_COUNT"
+if [ "$GATEWAY_COUNT" -lt 26 ]; then
+    echo "⚠ Warning: Expected ~28 gateway skills, found $GATEWAY_COUNT"
     echo "  Gateway architecture may not be fully set up"
     echo ""
 fi
@@ -88,14 +88,15 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo "Installation complete!"
 echo ""
 echo "Skills Architecture:"
-echo "  284 skills across 30 categories"
-echo "  27 gateway skills for auto-discovery"
+echo "  292 skills across 31 categories"
+echo "  28 gateway skills for auto-discovery"
 echo "  Progressive loading (60-84% context reduction)"
 echo ""
 echo "Usage:"
-echo "  /skills              # Browse 284 skills, 27 categories"
+echo "  /skills              # Browse all skills and categories"
 echo "  /skills api          # View API skills gateway"
 echo "  /skills frontend     # View frontend skills"
+echo "  /skills diagrams     # View diagram/Mermaid skills"
 echo "  /skills ml           # View ML/AI skills"
 echo "  /skills postgres     # Search for Postgres skills"
 echo "  /skills list         # Show all categories"

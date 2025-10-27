@@ -5,8 +5,8 @@ Get the `/skills` command working in 60 seconds.
 ## Installation
 
 ```bash
-cd /Users/rand/src/cc-slash-skill
-./install.sh
+cd /path/to/cc-polymath
+./slash-commands/install.sh
 ```
 
 ## Usage
@@ -22,19 +22,22 @@ Restart Claude Code, then try:
 ## What You'll See
 
 ```
-━━━ SKILLS DISCOVERY ━━━
-
 RECOMMENDED FOR THIS PROJECT:
-→ [relevant skills for your current directory]
+→ discover-frontend
+  cat skills/discover-frontend/SKILL.md
 
-CATEGORIES (135 total skills):
-Frontend (9) | Database (11) | API (7) | Testing (6) | Containers (5)
-[...]
+→ discover-database
+  cat skills/discover-database/SKILL.md
+
+CATEGORIES (292 skills):
+Frontend (8) | Database (8) | API (7) | Testing (6) | Diagrams (8) | ML (30)
+Math (19) | Debugging (14) | Build Systems (8) | Caching (7) | Observability (8)
 
 COMMANDS:
-/skills frontend     - View all Frontend skills
-/skills postgres     - Search for 'postgres' skills
-/skills list         - Show all categories
+/skills api              - View API skills
+/skills frontend         - View frontend skills
+/skills postgres         - Search for 'postgres'
+/skills list             - Show all categories
 ```
 
 ## Common Commands
@@ -49,7 +52,8 @@ COMMANDS:
 ## Uninstall
 
 ```bash
-./uninstall.sh
+cd /path/to/cc-polymath
+./slash-commands/uninstall.sh
 ```
 
 Clean removal, no traces.
