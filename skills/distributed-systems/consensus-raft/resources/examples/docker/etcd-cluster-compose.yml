@@ -1,0 +1,158 @@
+version: '3.8'
+
+# Production-ready etcd RAFT cluster
+# Usage: docker-compose up -d
+
+services:
+  etcd-node1:
+    image: quay.io/coreos/etcd:v3.5.10
+    container_name: etcd-node1
+    hostname: etcd-node1
+    networks:
+      etcd-cluster:
+        ipv4_address: 172.20.0.11
+    ports:
+      - "2379:2379"   # Client port
+      - "2380:2380"   # Peer port
+    environment:
+      - ETCD_NAME=node1
+      - ETCD_INITIAL_ADVERTISE_PEER_URLS=http://172.20.0.11:2380
+      - ETCD_LISTEN_PEER_URLS=http://0.0.0.0:2380
+      - ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
+      - ETCD_ADVERTISE_CLIENT_URLS=http://172.20.0.11:2379
+      - ETCD_INITIAL_CLUSTER_TOKEN=etcd-cluster-1
+      - ETCD_INITIAL_CLUSTER=node1=http://172.20.0.11:2380,node2=http://172.20.0.12:2380,node3=http://172.20.0.13:2380
+      - ETCD_INITIAL_CLUSTER_STATE=new
+      # Performance tuning
+      - ETCD_HEARTBEAT_INTERVAL=100
+      - ETCD_ELECTION_TIMEOUT=1000
+      - ETCD_SNAPSHOT_COUNT=10000
+      - ETCD_MAX_SNAPSHOTS=5
+      - ETCD_MAX_WALS=5
+      # Quota
+      - ETCD_QUOTA_BACKEND_BYTES=2147483648  # 2GB
+    volumes:
+      - etcd-node1-data:/etcd-data
+    healthcheck:
+      test: ["CMD", "etcdctl", "endpoint", "health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  etcd-node2:
+    image: quay.io/coreos/etcd:v3.5.10
+    container_name: etcd-node2
+    hostname: etcd-node2
+    networks:
+      etcd-cluster:
+        ipv4_address: 172.20.0.12
+    ports:
+      - "2389:2379"   # Client port
+      - "2390:2380"   # Peer port
+    environment:
+      - ETCD_NAME=node2
+      - ETCD_INITIAL_ADVERTISE_PEER_URLS=http://172.20.0.12:2380
+      - ETCD_LISTEN_PEER_URLS=http://0.0.0.0:2380
+      - ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
+      - ETCD_ADVERTISE_CLIENT_URLS=http://172.20.0.12:2379
+      - ETCD_INITIAL_CLUSTER_TOKEN=etcd-cluster-1
+      - ETCD_INITIAL_CLUSTER=node1=http://172.20.0.11:2380,node2=http://172.20.0.12:2380,node3=http://172.20.0.13:2380
+      - ETCD_INITIAL_CLUSTER_STATE=new
+      - ETCD_HEARTBEAT_INTERVAL=100
+      - ETCD_ELECTION_TIMEOUT=1000
+      - ETCD_SNAPSHOT_COUNT=10000
+      - ETCD_MAX_SNAPSHOTS=5
+      - ETCD_MAX_WALS=5
+      - ETCD_QUOTA_BACKEND_BYTES=2147483648
+    volumes:
+      - etcd-node2-data:/etcd-data
+    healthcheck:
+      test: ["CMD", "etcdctl", "endpoint", "health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  etcd-node3:
+    image: quay.io/coreos/etcd:v3.5.10
+    container_name: etcd-node3
+    hostname: etcd-node3
+    networks:
+      etcd-cluster:
+        ipv4_address: 172.20.0.13
+    ports:
+      - "2399:2379"   # Client port
+      - "2400:2380"   # Peer port
+    environment:
+      - ETCD_NAME=node3
+      - ETCD_INITIAL_ADVERTISE_PEER_URLS=http://172.20.0.13:2380
+      - ETCD_LISTEN_PEER_URLS=http://0.0.0.0:2380
+      - ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
+      - ETCD_ADVERTISE_CLIENT_URLS=http://172.20.0.13:2379
+      - ETCD_INITIAL_CLUSTER_TOKEN=etcd-cluster-1
+      - ETCD_INITIAL_CLUSTER=node1=http://172.20.0.11:2380,node2=http://172.20.0.12:2380,node3=http://172.20.0.13:2380
+      - ETCD_INITIAL_CLUSTER_STATE=new
+      - ETCD_HEARTBEAT_INTERVAL=100
+      - ETCD_ELECTION_TIMEOUT=1000
+      - ETCD_SNAPSHOT_COUNT=10000
+      - ETCD_MAX_SNAPSHOTS=5
+      - ETCD_MAX_WALS=5
+      - ETCD_QUOTA_BACKEND_BYTES=2147483648
+    volumes:
+      - etcd-node3-data:/etcd-data
+    healthcheck:
+      test: ["CMD", "etcdctl", "endpoint", "health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+networks:
+  etcd-cluster:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  etcd-node1-data:
+    driver: local
+  etcd-node2-data:
+    driver: local
+  etcd-node3-data:
+    driver: local
+
+# Usage Examples:
+#
+# Start cluster:
+#   docker-compose up -d
+#
+# Check cluster health:
+#   docker exec etcd-node1 etcdctl endpoint health --cluster
+#
+# View cluster members:
+#   docker exec etcd-node1 etcdctl member list
+#
+# Put/Get values:
+#   docker exec etcd-node1 etcdctl put /test/key "value"
+#   docker exec etcd-node1 etcdctl get /test/key
+#
+# Watch for changes:
+#   docker exec etcd-node1 etcdctl watch /test/ --prefix
+#
+# Test fault tolerance (kill node):
+#   docker stop etcd-node2
+#   # Cluster should still be operational (majority = 2/3)
+#
+# Restart node:
+#   docker start etcd-node2
+#
+# View logs:
+#   docker-compose logs -f etcd-node1
+#
+# Stop cluster:
+#   docker-compose down
+#
+# Destroy volumes:
+#   docker-compose down -v

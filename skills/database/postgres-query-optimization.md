@@ -620,6 +620,43 @@ Query Performance Issues:
 
 ---
 
+## Level 3 Resources
+
+This skill includes Level 3 Resources (executable tools, reference materials, examples):
+
+### Reference Materials
+- **[REFERENCE.md](./postgres-query-optimization/resources/REFERENCE.md)** - Deep dive into EXPLAIN output, query planner internals, all index types, and optimization patterns
+
+### Executable Scripts
+Located in `./postgres-query-optimization/resources/scripts/`:
+
+- **analyze_query.py** - Parses EXPLAIN ANALYZE output, detects issues (seq scans, stale statistics, inefficient filters), suggests optimizations
+- **suggest_indexes.py** - Recommends indexes based on query patterns (WHERE, JOIN, ORDER BY), supports covering indexes and workload analysis
+- **benchmark_queries.sh** - Benchmarks query performance with statistical analysis, compares before/after optimization
+
+See [scripts/README.md](./postgres-query-optimization/resources/scripts/README.md) for usage examples.
+
+### Examples
+- **slow-queries/** - Real-world slow query examples with fixes (N+1 problem, missing indexes, non-sargable queries)
+- **docker/** - Pre-configured PostgreSQL test environment with sample data (10K users, 100K orders, 500K events)
+
+**Quick Start**:
+```bash
+# Analyze EXPLAIN output
+python postgres-query-optimization/resources/scripts/analyze_query.py --explain-file explain.txt
+
+# Get index recommendations
+python postgres-query-optimization/resources/scripts/suggest_indexes.py --query "SELECT * FROM orders WHERE user_id = 123"
+
+# Benchmark query
+./postgres-query-optimization/resources/scripts/benchmark_queries.sh --query "SELECT ..." --iterations 20
+
+# Start test environment
+cd postgres-query-optimization/resources/examples/docker && docker-compose up -d
+```
+
+---
+
 ## Related Skills
 
 - `postgres-migrations.md` - Safe schema changes, adding indexes without downtime
@@ -652,5 +689,5 @@ Query Performance Issues:
 
 ---
 
-**Last Updated**: 2025-10-18
+**Last Updated**: 2025-10-27
 **Format Version**: 1.0 (Atomic)
