@@ -1,11 +1,11 @@
 ---
-description: Discover and activate relevant skills with progressive loading (284 skills, 27 gateways)
+description: Discover and activate relevant skills (284 skills, 27 gateways)
 argument-hint: [category|search-term] (optional)
 ---
 
 # Skills Discovery Assistant
 
-You are helping the user discover and activate relevant skills from their skills library using the progressive loading architecture.
+You are helping the user discover and activate relevant skills from their skills library.
 
 ## Your Task
 
@@ -15,15 +15,10 @@ Follow these steps:
 
 ### 1. Read Skills Catalog
 
-First, read the master catalog with gateway architecture:
+Read the master catalog:
 ```bash
 cat skills/README.md
 ```
-
-This catalog includes:
-- **284 total skills** across 30 categories
-- **27 gateway skills** for auto-discovery
-- **Progressive loading** architecture (60-84% context reduction)
 
 ### 2. Detect Project Context
 
@@ -78,34 +73,23 @@ Based on the argument provided:
 
 Display in this format:
 ```
-━━━ SKILLS DISCOVERY ━━━
+RECOMMENDED FOR THIS PROJECT:
+→ discover-[category]
+  cat skills/discover-[category]/SKILL.md
 
-RECOMMENDED GATEWAYS FOR THIS PROJECT:
-→ discover-[category] - [Gateway description]
-  Load: cat skills/discover-[category]/SKILL.md
-  Then: cat skills/[category]/INDEX.md for full details
+→ discover-[category]
+  cat skills/discover-[category]/SKILL.md
 
-→ discover-[category] - [Gateway description]
-  Load: cat skills/discover-[category]/SKILL.md
-
-PROGRESSIVE LOADING ARCHITECTURE:
-Gateway Skills    (~200 lines) → Auto-discovered, lightweight
-Category Indexes  (~300 lines) → Detailed skill listings
-Individual Skills (~400 lines) → Full content
-
-Context Savings: 60-84% reduction vs monolithic index
-
-CATEGORIES (284 total skills across 27 gateways):
+CATEGORIES (284 skills):
 Frontend (8) | Database (8) | API (7) | Testing (6) | ML (30) | Math (19)
 Debugging (14) | Build Systems (8) | Caching (7) | Observability (8)
 Containers (5) | CI/CD (4) | PLT (13) | Formal (10) | Cloud (13)
-[View full catalog: skills/README.md]
 
 COMMANDS:
-/skills api              - View API skills gateway
+/skills api              - View API skills
 /skills frontend         - View frontend skills
-/skills postgres         - Search for 'postgres' skills
-/skills list             - Show all 27 gateway categories
+/skills postgres         - Search for 'postgres'
+/skills list             - Show all categories
 ```
 
 Recommend 2-4 gateway skills that match:
@@ -120,13 +104,11 @@ Recommend 2-4 gateway skills that match:
 RECOMMENDED GATEWAYS:
 → discover-api
   Keywords: REST, GraphQL, authentication, authorization, rate limiting
-  Load: cat skills/discover-api/SKILL.md (~200 lines)
-  Then: cat skills/api/INDEX.md for all 7 API skills
+  cat skills/discover-api/SKILL.md
 
 → discover-database
   Keywords: PostgreSQL, MongoDB, Redis, query optimization
-  Load: cat skills/discover-database/SKILL.md
-  Then: cat skills/database/INDEX.md for all 8 database skills
+  cat skills/discover-database/SKILL.md
 ```
 
 **If ARGUMENT = category name:**
@@ -135,33 +117,16 @@ Two scenarios:
 
 **A) If discover-{category} gateway exists:**
 ```
-━━━ {CATEGORY} SKILLS GATEWAY ━━━
-
-OVERVIEW:
-Gateway: discover-{category}
-Total Skills: [N]
+{CATEGORY} SKILLS
+Total: [N] skills
 Keywords: [comma-separated keywords]
 
-QUICK REFERENCE:
+KEY SKILLS:
 [List 3-5 key skills with one-line descriptions]
 
-LOAD FULL CATEGORY:
-cat skills/{category}/INDEX.md (~300 lines)
-  → Detailed descriptions for all skills
-  → Usage triggers for each skill
-  → Common workflow combinations
-
-LOAD GATEWAY:
-cat skills/discover-{category}/SKILL.md (~200 lines)
-  → Lightweight overview
-  → Auto-discovery triggers
-
-PROGRESSIVE LOADING:
-1. Gateway (you're here)    - ~200 lines
-2. Category INDEX           - ~300 lines
-3. Specific skill           - ~400 lines
-
-[Load full index: cat skills/{category}/INDEX.md]
+LOAD:
+cat skills/{category}/INDEX.md          # All skills in category
+cat skills/discover-{category}/SKILL.md # Gateway overview
 ```
 
 **B) If searching root-level skills:**
@@ -174,14 +139,10 @@ Display similarly but note they're at root level.
 
 **Example for `/skills api`:**
 ```
-━━━ API SKILLS GATEWAY ━━━
-
-OVERVIEW:
-Gateway: discover-api
-Total Skills: 7
+API SKILLS (7 total)
 Keywords: REST, GraphQL, authentication, authorization, rate limiting
 
-SKILLS IN THIS CATEGORY:
+SKILLS:
 1. rest-api-design - RESTful resource modeling, HTTP semantics
 2. graphql-schema-design - GraphQL types, resolvers, N+1 prevention
 3. api-authentication - JWT, OAuth 2.0, API keys, sessions
@@ -190,19 +151,10 @@ SKILLS IN THIS CATEGORY:
 6. api-versioning - API versioning, deprecation, compatibility
 7. api-error-handling - RFC 7807, validation errors
 
-LOAD FULL DETAILS:
-cat skills/api/INDEX.md
-  → Detailed descriptions, use cases, workflows
-
-LOAD GATEWAY:
-cat skills/discover-api/SKILL.md
-  → Lightweight overview, common workflows
-
-LOAD SPECIFIC SKILL:
-cat skills/api/rest-api-design.md
-cat skills/api/api-authentication.md
-
-[Back to overview: /skills]
+LOAD:
+cat skills/api/INDEX.md                  # Full details
+cat skills/discover-api/SKILL.md         # Gateway overview
+cat skills/api/rest-api-design.md        # Specific skill
 ```
 
 **If ARGUMENT = search term:**
@@ -215,55 +167,49 @@ Search across:
 
 Display matching gateway categories FIRST, then specific skills:
 ```
-━━━ SEARCH RESULTS: 'postgres' ━━━
+SEARCH: 'postgres'
 
-GATEWAY MATCH:
+GATEWAY:
 → discover-database
   Keywords: PostgreSQL, MongoDB, Redis, query optimization
-  Contains postgres-specific skills
-  Load: cat skills/discover-database/SKILL.md
+  cat skills/discover-database/SKILL.md
 
-SPECIFIC SKILLS:
-→ postgres-query-optimization.md - skills/database/
+SKILLS:
+→ postgres-query-optimization.md
   Debug slow queries, EXPLAIN plans, index design
-  Load: cat skills/database/postgres-query-optimization.md
+  cat skills/database/postgres-query-optimization.md
 
-→ postgres-migrations.md - skills/database/
+→ postgres-migrations.md
   Schema changes, zero-downtime deployments
-  Load: cat skills/database/postgres-migrations.md
+  cat skills/database/postgres-migrations.md
 
-→ postgres-schema-design.md - skills/database/
+→ postgres-schema-design.md
   Designing schemas, relationships, data types
-  Load: cat skills/database/postgres-schema-design.md
+  cat skills/database/postgres-schema-design.md
 
-RELATED GATEWAYS:
-→ discover-observability (database monitoring)
-→ discover-caching (Redis with Postgres)
-
-[Load category: cat skills/database/INDEX.md]
-[Refine search: /skills postgres optimization]
+RELATED: discover-observability, discover-caching
 ```
 
 **If ARGUMENT = "list":**
 
 Show all 27 gateway categories:
 ```
-━━━ ALL GATEWAY CATEGORIES (284 total skills) ━━━
+ALL CATEGORIES (284 skills)
 
-BACKEND & DATA (40 skills):
+BACKEND & DATA:
   discover-api (7)         - REST, GraphQL, auth, rate limiting
   discover-database (8)    - Postgres, MongoDB, Redis, optimization
   discover-data (5)        - ETL, streaming, batch processing
   discover-caching (7)     - Redis, CDN, HTTP caching, invalidation
 
-FRONTEND & MOBILE (12 skills):
+FRONTEND & MOBILE:
   discover-frontend (8)    - React, Next.js, state management, a11y
   discover-mobile (4)      - iOS, Swift, SwiftUI, concurrency
 
-TESTING & QUALITY (6 skills):
+TESTING:
   discover-testing (6)     - Unit, integration, e2e, TDD, coverage
 
-INFRASTRUCTURE (68 skills):
+INFRASTRUCTURE:
   discover-containers (5)  - Docker, Kubernetes, security
   discover-cicd (4)        - GitHub Actions, pipelines
   discover-cloud (13)      - Modal, AWS, GCP, serverless
@@ -274,7 +220,7 @@ INFRASTRUCTURE (68 skills):
   discover-deployment (6)  - Netlify, Heroku, platforms
   discover-realtime (4)    - WebSockets, SSE, pub/sub
 
-SPECIALIZED DOMAINS (158 skills):
+SPECIALIZED:
   discover-ml (30)         - Training, RAG, embeddings, evaluation
   discover-math (19)       - Linear algebra, topology, category theory
   discover-plt (13)        - Compilers, type systems, verification
@@ -287,44 +233,30 @@ SPECIALIZED DOMAINS (158 skills):
   discover-product (4)     - Product strategy, roadmaps
   discover-collab (5)      - Collaboration, code review, pair programming
 
-AGENT SKILLS (3):
+AGENT SKILLS (Root):
   elegant-design          - UI/UX design, accessibility, design systems
   anti-slop               - Detect/eliminate AI-generated patterns
   typed-holes-refactor    - Systematic TDD-based refactoring
 
-ROOT-LEVEL SKILLS (~7):
-  skill-*.md              - Meta skills for discovery and creation
+META SKILLS (Root):
+  skill-*.md              - Discovery and creation
   beads-*.md              - Workflow and task management
-  [Various tech-specific] - Zig, iOS, TUI, networking skills
-
-[View category: /skills frontend]
-[Search: /skills kubernetes]
-[Full catalog: cat skills/README.md]
 ```
 
 ### 5. Output Requirements
 
 **Format Guidelines:**
-- Use Unicode box drawing (━ ─ │) for section headers
-- Keep output under 30 lines for default view
+- Keep output concise and scannable
 - Use `→` for list items
-- Include actionable next steps with actual commands
-- Show progressive loading path (gateway → index → skill)
-- Emphasize context efficiency (60-84% reduction)
+- Include clear, copy-paste commands
 - Group related items logically
-
-**Progressive Loading Messaging:**
-Always show users the three-tier architecture:
-1. Gateway (~200 lines) - Lightweight overview
-2. Category INDEX (~300 lines) - Detailed listings
-3. Individual skill (~400 lines) - Full content
+- Show only relevant categories/skills for the context
 
 **Tone:**
-- Helpful and direct
+- Direct and helpful
 - Low noise, high signal
-- Focus on relevance to current work
-- Emphasize context efficiency
-- Encourage exploration without overwhelming
+- Focus on what the user needs now
+- Don't explain the system unless asked
 
 **DO NOT:**
 - Modify any skill files
@@ -381,13 +313,10 @@ ROOT-LEVEL SKILLS:
 
 ## Remember
 
-- This is a **discovery tool** using progressive loading
 - Read skills/README.md to get accurate information (NOT _INDEX.md - that's archived)
-- Recommend **gateway skills first**, then specific skills
-- Show the loading path: gateway → index → skill
-- Emphasize **60-84% context savings** vs monolithic approach
+- Recommend gateway skills first, then specific skills
 - Match skills to project context when possible
 - Keep output concise and actionable
 - Never modify the skills library
-- Encourage exploration with clear, copy-paste commands
-- The architecture is: 284 skills, 27 gateways, 30 categories
+- Provide clear, copy-paste commands
+- The catalog has: 284 skills, 27 gateways, 30 categories
