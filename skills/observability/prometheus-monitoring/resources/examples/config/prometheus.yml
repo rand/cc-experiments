@@ -1,0 +1,306 @@
+# Complete Prometheus Configuration
+# Production-ready example with all major features
+
+global:
+  # How frequently to scrape targets
+  scrape_interval: 15s
+
+  # How frequently to evaluate rules
+  evaluation_interval: 15s
+
+  # Timeout for scraping targets
+  scrape_timeout: 10s
+
+  # External labels attached to all time series
+  external_labels:
+    cluster: 'production'
+    environment: 'prod'
+    region: 'us-east-1'
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - 'alertmanager:9093'
+      timeout: 10s
+
+# Load recording and alerting rules
+rule_files:
+  - 'rules/recording-rules.yml'
+  - 'rules/alert-rules.yml'
+  - 'rules/*.yml'
+
+# Remote write configuration (for long-term storage)
+remote_write:
+  - url: 'https://remote-storage.example.com/api/v1/write'
+    basic_auth:
+      username: 'prometheus'
+      password: 'secret'
+    write_relabel_configs:
+      # Only send aggregated metrics (recording rules)
+      - source_labels: [__name__]
+        regex: '.*:.*'  # Match recording rule format
+        action: keep
+    queue_config:
+      capacity: 10000
+      max_shards: 50
+      min_shards: 1
+      max_samples_per_send: 1000
+      batch_send_deadline: 5s
+      min_backoff: 30ms
+      max_backoff: 100ms
+
+# Remote read configuration
+remote_read:
+  - url: 'https://remote-storage.example.com/api/v1/read'
+    basic_auth:
+      username: 'prometheus'
+      password: 'secret'
+    read_recent: true  # Prefer local storage for recent data
+
+# Storage configuration
+storage:
+  tsdb:
+    path: /var/lib/prometheus
+    retention:
+      time: 15d      # Keep 15 days of data
+      size: 50GB     # Or 50GB, whichever comes first
+
+# Scrape configurations
+scrape_configs:
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets:
+          - 'localhost:9090'
+        labels:
+          service: 'prometheus'
+
+  # Node exporter (system metrics)
+  - job_name: 'node'
+    static_configs:
+      - targets:
+          - 'node1:9100'
+          - 'node2:9100'
+          - 'node3:9100'
+        labels:
+          datacenter: 'us-east-1a'
+      - targets:
+          - 'node4:9100'
+          - 'node5:9100'
+        labels:
+          datacenter: 'us-east-1b'
+    # Limit samples to prevent cardinality explosion
+    sample_limit: 10000
+    relabel_configs:
+      # Extract instance name from address
+      - source_labels: [__address__]
+        regex: '([^:]+):\d+'
+        target_label: instance
+        replacement: '${1}'
+
+  # Kubernetes pods (auto-discovery)
+  - job_name: 'kubernetes-pods'
+    kubernetes_sd_configs:
+      - role: pod
+        namespaces:
+          names:
+            - default
+            - production
+    relabel_configs:
+      # Only scrape pods with prometheus.io/scrape annotation
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+        action: keep
+        regex: true
+
+      # Use custom metrics path from annotation
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+        action: replace
+        target_label: __metrics_path__
+        regex: (.+)
+        replacement: ${1}
+
+      # Use custom port from annotation
+      - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+        action: replace
+        regex: ([^:]+)(?::\d+)?;(\d+)
+        replacement: $1:$2
+        target_label: __address__
+
+      # Add namespace label
+      - source_labels: [__meta_kubernetes_namespace]
+        target_label: kubernetes_namespace
+
+      # Add pod name
+      - source_labels: [__meta_kubernetes_pod_name]
+        target_label: kubernetes_pod_name
+
+      # Add app label from pod label
+      - source_labels: [__meta_kubernetes_pod_label_app]
+        target_label: app
+
+  # Kubernetes services
+  - job_name: 'kubernetes-services'
+    kubernetes_sd_configs:
+      - role: service
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
+        action: keep
+        regex: true
+      - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_path]
+        action: replace
+        target_label: __metrics_path__
+        regex: (.+)
+      - source_labels: [__address__, __meta_kubernetes_service_annotation_prometheus_io_port]
+        action: replace
+        regex: ([^:]+)(?::\d+)?;(\d+)
+        replacement: $1:$2
+        target_label: __address__
+      - source_labels: [__meta_kubernetes_namespace]
+        target_label: kubernetes_namespace
+      - source_labels: [__meta_kubernetes_service_name]
+        target_label: kubernetes_service_name
+
+  # Consul service discovery
+  - job_name: 'consul-services'
+    consul_sd_configs:
+      - server: 'consul:8500'
+        datacenter: 'dc1'
+        services: []  # Discover all services
+    relabel_configs:
+      # Use service name as job label
+      - source_labels: [__meta_consul_service]
+        target_label: job
+      # Add datacenter label
+      - source_labels: [__meta_consul_dc]
+        target_label: datacenter
+      # Only scrape services with 'monitoring' tag
+      - source_labels: [__meta_consul_tags]
+        regex: '.*,monitoring,.*'
+        action: keep
+
+  # EC2 service discovery
+  - job_name: 'ec2-nodes'
+    ec2_sd_configs:
+      - region: us-east-1
+        port: 9100
+        filters:
+          - name: tag:Environment
+            values: [production]
+          - name: instance-state-name
+            values: [running]
+    relabel_configs:
+      - source_labels: [__meta_ec2_instance_id]
+        target_label: instance_id
+      - source_labels: [__meta_ec2_availability_zone]
+        target_label: availability_zone
+      - source_labels: [__meta_ec2_instance_type]
+        target_label: instance_type
+      - source_labels: [__meta_ec2_tag_Name]
+        target_label: instance
+
+  # File-based service discovery
+  - job_name: 'file-sd'
+    file_sd_configs:
+      - files:
+          - '/etc/prometheus/targets/*.json'
+          - '/etc/prometheus/targets/*.yml'
+        refresh_interval: 30s
+    relabel_configs:
+      - source_labels: [job]
+        target_label: __tmp_job
+      - source_labels: [__tmp_job]
+        target_label: job
+
+  # Blackbox exporter (probing)
+  - job_name: 'blackbox-http'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+          - https://example.com
+          - https://api.example.com
+          - https://example.com/health
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  # MySQL exporter
+  - job_name: 'mysql'
+    static_configs:
+      - targets:
+          - 'mysql-exporter:9104'
+        labels:
+          database: 'production-db'
+    sample_limit: 5000
+
+  # PostgreSQL exporter
+  - job_name: 'postgres'
+    static_configs:
+      - targets:
+          - 'postgres-exporter:9187'
+        labels:
+          database: 'production-pg'
+    sample_limit: 5000
+
+  # Redis exporter
+  - job_name: 'redis'
+    static_configs:
+      - targets:
+          - 'redis-exporter:9121'
+        labels:
+          cache: 'production-redis'
+
+  # Application metrics (custom exporters)
+  - job_name: 'api-server'
+    static_configs:
+      - targets:
+          - 'api1:8080'
+          - 'api2:8080'
+          - 'api3:8080'
+        labels:
+          service: 'api'
+          version: 'v1.2.3'
+    sample_limit: 15000
+    label_limit: 50
+    label_name_length_limit: 100
+    label_value_length_limit: 200
+    relabel_configs:
+      # Drop high-cardinality labels if present
+      - action: labeldrop
+        regex: 'user_id|trace_id|request_id'
+
+  # Federation from regional Prometheus
+  - job_name: 'federate-us-west'
+    scrape_interval: 30s
+    honor_labels: true
+    metrics_path: '/federate'
+    params:
+      'match[]':
+        - '{job="api-server"}'
+        - '{__name__=~".*:.*"}'  # All recording rules
+    static_configs:
+      - targets:
+          - 'prometheus-us-west:9090'
+        labels:
+          prometheus_instance: 'us-west'
+
+  - job_name: 'federate-eu-west'
+    scrape_interval: 30s
+    honor_labels: true
+    metrics_path: '/federate'
+    params:
+      'match[]':
+        - '{job="api-server"}'
+        - '{__name__=~".*:.*"}'
+    static_configs:
+      - targets:
+          - 'prometheus-eu-west:9090'
+        labels:
+          prometheus_instance: 'eu-west'

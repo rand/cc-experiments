@@ -593,6 +593,126 @@ with tracer.start_as_current_span("wait"):
 
 ---
 
+## Level 3: Resources
+
+**Location**: `skills/observability/distributed-tracing/resources/`
+
+### Comprehensive Reference
+
+**`REFERENCE.md`** (800+ lines): Deep-dive reference covering:
+- Distributed tracing fundamentals (traces, spans, context propagation)
+- OpenTelemetry specification and architecture (API, SDK, Collector, OTLP)
+- Trace context propagation formats (W3C Trace Context, B3, Jaeger, X-Ray)
+- Sampling strategies (head-based, tail-based, adaptive sampling)
+- Tracing backends comparison (Jaeger, Zipkin, Tempo, Honeycomb, Datadog)
+- Instrumentation patterns (auto-instrumentation vs manual spans)
+- Performance overhead analysis and optimization techniques
+- Correlation with logs and metrics (exemplars, unified queries)
+- Production patterns (service mesh integration, multi-tenant tracing, error tracking)
+- Common anti-patterns and troubleshooting guide
+
+### Executable Scripts
+
+**`scripts/analyze_traces.py`**
+- Parse and analyze trace data from JSON files (OTLP, Jaeger, Zipkin formats)
+- Identify slow spans exceeding configurable threshold
+- Detect error spans and analyze failure patterns
+- Calculate critical path and total duration
+- Service breakdown and span statistics
+- Supports filtering by service, trace ID
+- Output as human-readable report or JSON for automation
+
+**`scripts/visualize_trace.py`**
+- Generate HTML Gantt chart visualizations of traces
+- Create SVG flame graphs for performance analysis
+- Interactive visualizations with zoom, pan, and tooltips
+- Show span hierarchy and timing relationships
+- Color-coded by span status (OK, ERROR, UNSET)
+- Support for multiple trace formats
+
+**`scripts/test_propagation.sh`**
+- Test trace context propagation across HTTP services
+- Validate W3C Trace Context, B3, Jaeger, and X-Ray header formats
+- Multi-hop propagation testing (service A → B → C)
+- Verify trace ID preservation across boundaries
+- JSON output for CI/CD integration
+- Configurable propagation format and target URLs
+
+### Working Examples
+
+**`examples/python/otel_fastapi_tracing.py`**
+- Complete FastAPI service with OpenTelemetry instrumentation
+- Auto-instrumentation for HTTP, database, and external calls
+- Manual span creation for business logic
+- Error handling and exception recording
+- Span attributes, events, and status management
+- OTLP exporter configuration
+
+**`examples/python/otel_manual_spans.py`**
+- Comprehensive manual span creation patterns
+- Nested spans and parent-child relationships
+- Different span kinds (CLIENT, SERVER, PRODUCER, CONSUMER, INTERNAL)
+- Async context propagation with asyncio
+- Span links for cross-trace references
+- Batch processing patterns
+- Error handling and retry logic
+
+**`examples/typescript/otel_express_tracing.ts`**
+- Express.js service with OpenTelemetry auto-instrumentation
+- Manual span creation for complex operations
+- Trace context propagation to downstream services
+- Multi-step operations (order fulfillment workflow)
+- Event tracking within spans
+- Error handling middleware with tracing
+
+**`examples/go/otel_http_tracing.go`**
+- Go HTTP server with OpenTelemetry instrumentation
+- otelhttp middleware for automatic span creation
+- Manual span creation for business logic
+- OTLP gRPC exporter configuration
+- Span attributes using semantic conventions
+- Producer spans for message publishing
+
+**`examples/docker/jaeger-compose.yml`**
+- Complete Docker Compose setup for distributed tracing
+- Jaeger all-in-one (collector + query + UI)
+- OpenTelemetry Collector with advanced processing
+- Example microservices with tracing enabled
+- Network configuration for inter-service communication
+
+**`examples/docker/otel-collector-config.yaml`**
+- Production-ready OpenTelemetry Collector configuration
+- OTLP and Jaeger receivers
+- Tail sampling processor for smart sampling
+- Memory limiter and batch processing
+- Resource detection and attribute processing
+- Multiple exporters (Jaeger, OTLP, logging, Prometheus)
+- Health check and diagnostics extensions
+
+### Usage Examples
+
+```bash
+# Analyze traces for slow operations
+./scripts/analyze_traces.py --file traces.json --slow-threshold 500
+
+# Generate interactive trace visualization
+./scripts/visualize_trace.py --file traces.json --interactive --output trace.html
+
+# Test trace propagation
+./scripts/test_propagation.sh --url http://localhost:8000 --format w3c
+
+# Run example services
+python examples/python/otel_fastapi_tracing.py
+ts-node examples/typescript/otel_express_tracing.ts
+go run examples/go/otel_http_tracing.go
+
+# Start tracing infrastructure
+docker-compose -f examples/docker/jaeger-compose.yml up -d
+# Access Jaeger UI: http://localhost:16686
+```
+
+---
+
 ## Related Skills
 
 - **structured-logging.md** - Correlate logs with trace IDs
@@ -602,5 +722,5 @@ with tracer.start_as_current_span("wait"):
 
 ---
 
-**Last Updated**: 2025-10-18
+**Last Updated**: 2025-10-27
 **Format Version**: 1.0 (Atomic)

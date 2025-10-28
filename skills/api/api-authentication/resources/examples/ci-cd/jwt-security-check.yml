@@ -1,0 +1,275 @@
+# GitHub Actions: JWT Security Validation
+#
+# Runs JWT security tests in CI pipeline to catch vulnerabilities early.
+# Place in .github/workflows/jwt-security.yml
+
+name: JWT Security Check
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    # Run weekly security scan
+    - cron: '0 0 * * 0'
+
+jobs:
+  jwt-security-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install pyjwt cryptography requests
+
+      - name: Download JWT test script
+        run: |
+          curl -O https://raw.githubusercontent.com/example/scripts/test_jwt.py
+          chmod +x test_jwt.py
+
+      - name: Run JWT security tests
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          TEST_TOKEN: ${{ secrets.TEST_JWT_TOKEN }}
+        run: |
+          # Run security attack tests
+          python test_jwt.py \
+            --token "$TEST_TOKEN" \
+            --secret "$JWT_SECRET" \
+            --attack-test \
+            --json > jwt_security_report.json
+
+      - name: Check for critical vulnerabilities
+        run: |
+          # Fail build if critical vulnerabilities found
+          if grep -q '"severity": "CRITICAL"' jwt_security_report.json; then
+            echo "❌ CRITICAL vulnerabilities found in JWT implementation"
+            cat jwt_security_report.json
+            exit 1
+          fi
+
+          # Warn on high severity issues
+          if grep -q '"severity": "HIGH"' jwt_security_report.json; then
+            echo "⚠️ HIGH severity issues found in JWT implementation"
+            cat jwt_security_report.json
+          else
+            echo "✅ No critical JWT security issues found"
+          fi
+
+      - name: Upload security report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jwt-security-report
+          path: jwt_security_report.json
+          retention-days: 30
+
+      - name: Comment PR with results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = JSON.parse(fs.readFileSync('jwt_security_report.json', 'utf8'));
+
+            const vulnerabilities = report.tests
+              .flatMap(t => t.result.vulnerabilities_found || []);
+
+            const criticalCount = vulnerabilities.filter(v => v.severity === 'CRITICAL').length;
+            const highCount = vulnerabilities.filter(v => v.severity === 'HIGH').length;
+
+            let comment = '## JWT Security Test Results\n\n';
+
+            if (criticalCount > 0) {
+              comment += `❌ **${criticalCount} CRITICAL** vulnerabilities found\n\n`;
+            }
+            if (highCount > 0) {
+              comment += `⚠️ **${highCount} HIGH** severity issues found\n\n`;
+            }
+            if (criticalCount === 0 && highCount === 0) {
+              comment += '✅ No critical security issues found\n\n';
+            }
+
+            if (vulnerabilities.length > 0) {
+              comment += '### Issues:\n\n';
+              vulnerabilities.forEach(v => {
+                comment += `- **[${v.severity}]** ${v.type}\n`;
+                comment += `  - ${v.description}\n`;
+                comment += `  - Mitigation: ${v.mitigation}\n\n`;
+              });
+            }
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+  secret-strength-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check JWT secret strength
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        run: |
+          # Check secret length (should be 32+ bytes)
+          SECRET_LENGTH=${#JWT_SECRET}
+
+          if [ $SECRET_LENGTH -lt 32 ]; then
+            echo "❌ JWT secret too short: $SECRET_LENGTH bytes (minimum 32 required)"
+            exit 1
+          fi
+
+          echo "✅ JWT secret length adequate: $SECRET_LENGTH bytes"
+
+      - name: Check for common weak secrets
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        run: |
+          # List of common weak secrets
+          WEAK_SECRETS=(
+            "secret"
+            "password"
+            "123456"
+            "your-secret-key"
+            "jwt-secret"
+            "my-secret"
+          )
+
+          for weak in "${WEAK_SECRETS[@]}"; do
+            if [ "$JWT_SECRET" = "$weak" ]; then
+              echo "❌ Using common weak secret: $weak"
+              exit 1
+            fi
+          done
+
+          echo "✅ Not using common weak secrets"
+
+  oauth-security-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install requests
+
+      - name: Download OAuth test script
+        run: |
+          curl -O https://raw.githubusercontent.com/example/scripts/test_oauth_flow.py
+          chmod +x test_oauth_flow.py
+
+      - name: Test OAuth endpoints
+        env:
+          AUTH_URL: ${{ secrets.OAUTH_AUTH_URL }}
+          TOKEN_URL: ${{ secrets.OAUTH_TOKEN_URL }}
+          CLIENT_ID: ${{ secrets.OAUTH_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.OAUTH_CLIENT_SECRET }}
+          REDIRECT_URI: ${{ secrets.OAUTH_REDIRECT_URI }}
+        run: |
+          python test_oauth_flow.py \
+            --auth-url "$AUTH_URL" \
+            --token-url "$TOKEN_URL" \
+            --client-id "$CLIENT_ID" \
+            --client-secret "$CLIENT_SECRET" \
+            --redirect-uri "$REDIRECT_URI" \
+            --full-test \
+            --json > oauth_security_report.json
+
+      - name: Check OAuth security
+        run: |
+          # Check for critical OAuth issues
+          if grep -q '"severity": "CRITICAL"' oauth_security_report.json; then
+            echo "❌ CRITICAL OAuth security issues found"
+            cat oauth_security_report.json
+            exit 1
+          fi
+
+          echo "✅ OAuth security checks passed"
+
+      - name: Upload OAuth report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: oauth-security-report
+          path: oauth_security_report.json
+          retention-days: 30
+
+  password-hashing-benchmark:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install bcrypt argon2-cffi
+
+      - name: Download benchmark script
+        run: |
+          curl -O https://raw.githubusercontent.com/example/scripts/benchmark_hashing.py
+          chmod +x benchmark_hashing.py
+
+      - name: Benchmark password hashing
+        run: |
+          python benchmark_hashing.py \
+            --compare \
+            --iterations 20 \
+            --json > hashing_benchmark.json
+
+      - name: Check hashing performance
+        run: |
+          # Verify hashing time is in acceptable range (250-500ms)
+          python -c "
+          import json
+          import sys
+
+          with open('hashing_benchmark.json') as f:
+              data = json.load(f)
+
+          for result in data['results']:
+              mean_time = result['hash_time_ms']['mean']
+              algo = result['algorithm']
+
+              if mean_time < 100:
+                  print(f'⚠️ {algo}: Too fast ({mean_time:.0f}ms), consider increasing difficulty')
+              elif mean_time > 1000:
+                  print(f'⚠️ {algo}: Too slow ({mean_time:.0f}ms), consider decreasing difficulty')
+              else:
+                  print(f'✅ {algo}: Good performance ({mean_time:.0f}ms)')
+          "
+
+      - name: Upload benchmark report
+        uses: actions/upload-artifact@v4
+        with:
+          name: hashing-benchmark
+          path: hashing_benchmark.json
+          retention-days: 30

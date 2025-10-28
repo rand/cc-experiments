@@ -1,0 +1,38 @@
+// User Service Protocol Buffer Schema - Version 1
+// Initial schema version for evolution demonstration
+
+syntax = "proto3";
+
+package example.user.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/example/protos/user/v1;userv1";
+
+// User represents a user account (v1)
+message User {
+  string id = 1;
+  string email = 2;
+  string name = 3;
+  google.protobuf.Timestamp created_at = 4;
+  UserStatus status = 5;
+}
+
+// UserStatus represents account status
+enum UserStatus {
+  USER_STATUS_UNSPECIFIED = 0;
+  USER_STATUS_ACTIVE = 1;
+  USER_STATUS_SUSPENDED = 2;
+}
+
+// CreateUserRequest creates a new user
+message CreateUserRequest {
+  string email = 1;
+  string name = 2;
+  string password = 3;
+}
+
+// CreateUserResponse returns created user
+message CreateUserResponse {
+  User user = 1;
+}

@@ -1,0 +1,307 @@
+# Flagger Canary Deployment with Istio
+#
+# This example demonstrates progressive canary deployment using Flagger,
+# Istio service mesh, and Prometheus metrics.
+#
+# Prerequisites:
+#   - Istio installed
+#   - Flagger installed
+#   - Prometheus metrics available
+#
+# Usage:
+#   kubectl apply -f flagger-canary.yaml
+#   # Update deployment image to trigger canary
+#   kubectl set image deployment/myapp myapp=myapp:v2.0.0
+
+---
+# Application Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+  namespace: production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+    spec:
+      containers:
+      - name: myapp
+        image: myapp:v1.0.0
+        ports:
+        - name: http
+          containerPort: 8080
+        - name: metrics
+          containerPort: 9090
+
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+
+---
+# Flagger Canary Resource
+apiVersion: flagger.app/v1beta1
+kind: Canary
+metadata:
+  name: myapp
+  namespace: production
+spec:
+  # Deployment reference
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: myapp
+
+  # Service mesh provider (istio, linkerd, appmesh, nginx, etc.)
+  provider: istio
+
+  # Progressive deployment configuration
+  progressDeadlineSeconds: 600  # 10 minutes
+
+  service:
+    port: 80
+    targetPort: 8080
+    # Istio traffic policy
+    trafficPolicy:
+      tls:
+        mode: ISTIO_MUTUAL
+      connectionPool:
+        http:
+          http1MaxPendingRequests: 100
+          maxRequestsPerConnection: 2
+
+  # Canary analysis configuration
+  analysis:
+    # Schedule interval for canary analysis
+    interval: 1m
+
+    # Max number of failed metric checks before rollback
+    threshold: 5
+
+    # Max traffic percentage routed to canary
+    maxWeight: 50
+
+    # Canary increment step (percentage)
+    stepWeight: 10
+
+    # Metrics for canary analysis
+    metrics:
+    # Request success rate
+    - name: request-success-rate
+      # Minimum success rate threshold
+      thresholdRange:
+        min: 99
+      interval: 1m
+
+    # Request duration (latency)
+    - name: request-duration
+      # Maximum acceptable latency (ms)
+      thresholdRange:
+        max: 500
+      interval: 1m
+
+    # Custom Prometheus query
+    - name: error-rate
+      templateRef:
+        name: error-rate
+        namespace: flagger-system
+      thresholdRange:
+        max: 1
+      interval: 1m
+
+    # Webhooks for additional validation
+    webhooks:
+    # Pre-rollout webhook (smoke tests)
+    - name: pre-rollout
+      type: pre-rollout
+      url: http://flagger-loadtester.flagger-system/
+      timeout: 15s
+      metadata:
+        type: bash
+        cmd: "curl -sd 'test' http://myapp-canary/api/test"
+
+    # Load test during canary
+    - name: load-test
+      type: rollout
+      url: http://flagger-loadtester.flagger-system/
+      timeout: 5s
+      metadata:
+        type: cmd
+        cmd: "hey -z 1m -q 10 -c 2 http://myapp-canary/"
+
+    # Post-rollout webhook (cleanup, notifications)
+    - name: post-rollout
+      type: post-rollout
+      url: http://notification-service.default/
+      timeout: 5s
+      metadata:
+        message: "Canary deployment completed"
+
+---
+# MetricTemplate for custom Prometheus queries
+apiVersion: flagger.app/v1beta1
+kind: MetricTemplate
+metadata:
+  name: error-rate
+  namespace: flagger-system
+spec:
+  provider:
+    type: prometheus
+    address: http://prometheus.monitoring:9090
+
+  # Prometheus query template
+  # Variables: {{ target }} - deployment name, {{ interval }} - analysis interval
+  query: |
+    sum(
+      rate(
+        http_requests_total{
+          status=~"5..",
+          deployment="{{ target }}"
+        }[{{ interval }}]
+      )
+    )
+    /
+    sum(
+      rate(
+        http_requests_total{
+          deployment="{{ target }}"
+        }[{{ interval }}]
+      )
+    )
+    * 100
+
+---
+# Additional MetricTemplate for custom business metrics
+apiVersion: flagger.app/v1beta1
+kind: MetricTemplate
+metadata:
+  name: conversion-rate
+  namespace: flagger-system
+spec:
+  provider:
+    type: prometheus
+    address: http://prometheus.monitoring:9090
+
+  query: |
+    sum(
+      rate(
+        checkout_completed_total{
+          deployment="{{ target }}"
+        }[{{ interval }}]
+      )
+    )
+    /
+    sum(
+      rate(
+        checkout_started_total{
+          deployment="{{ target }}"
+        }[{{ interval }}]
+      )
+    )
+    * 100
+
+---
+# Istio VirtualService (managed by Flagger)
+# Flagger will create and manage this automatically
+# Shown here for reference only - DO NOT apply manually
+#
+# apiVersion: networking.istio.io/v1beta1
+# kind: VirtualService
+# metadata:
+#   name: myapp
+#   namespace: production
+# spec:
+#   hosts:
+#   - myapp
+#   http:
+#   - route:
+#     - destination:
+#         host: myapp-primary
+#       weight: 90
+#     - destination:
+#         host: myapp-canary
+#       weight: 10
+
+---
+# Istio DestinationRule (managed by Flagger)
+# Shown here for reference only - DO NOT apply manually
+#
+# apiVersion: networking.istio.io/v1beta1
+# kind: DestinationRule
+# metadata:
+#   name: myapp
+#   namespace: production
+# spec:
+#   host: myapp
+#   trafficPolicy:
+#     connectionPool:
+#       http:
+#         http1MaxPendingRequests: 100
+#   subsets:
+#   - name: primary
+#     labels:
+#       app: myapp
+#   - name: canary
+#     labels:
+#       app: myapp
+
+---
+# AlertManager rules for canary monitoring
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: canary-alerts
+  namespace: monitoring
+data:
+  canary-alerts.yaml: |
+    groups:
+    - name: canary
+      rules:
+      - alert: CanaryDeploymentFailed
+        expr: flagger_canary_status{namespace="production"} == 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Canary deployment failed for {{ $labels.name }}"
+          description: "Canary deployment in namespace {{ $labels.namespace }} has failed"
+
+      - alert: CanaryHighErrorRate
+        expr: |
+          sum(rate(http_requests_total{status=~"5..",deployment=~".*-canary"}[5m]))
+          /
+          sum(rate(http_requests_total{deployment=~".*-canary"}[5m]))
+          * 100 > 1
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High error rate in canary deployment"
+          description: "Canary has {{ $value }}% error rate"

@@ -679,6 +679,214 @@ jobs:
 
 ---
 
-**Last Updated**: 2025-10-18
+## Level 3: Resources
+
+### Overview
+Comprehensive resources for GitHub Actions CI/CD implementation including complete reference documentation, validation and optimization tools, and production-ready workflow examples.
+
+### Resources Structure
+
+#### REFERENCE.md (3,843 lines)
+Complete GitHub Actions reference covering:
+- **Fundamentals**: GitHub Actions architecture, workflow lifecycle, pricing/limits
+- **Workflow Syntax**: Complete YAML syntax, triggers, permissions, concurrency
+- **Triggers and Events**: All event types with examples (push, PR, schedule, workflow_dispatch)
+- **Jobs and Steps**: Configuration, dependencies, conditions, service containers
+- **Runners**: GitHub-hosted and self-hosted runners, environments
+- **Contexts and Expressions**: All context objects, expression syntax, functions
+- **Actions**: Using marketplace actions, creating composite actions
+- **Caching Strategies**: Language-specific caching, Docker layer caching
+- **Artifacts**: Upload/download patterns, release assets
+- **Matrix Builds**: Multi-platform/version testing, exclusions, inclusions
+- **Reusable Workflows**: Creation and usage patterns with inputs/outputs
+- **Security**: OIDC authentication, permissions, secret management, pull_request_target safety
+- **Performance Optimization**: Parallelization, path filters, concurrency control
+- **Monorepo Strategies**: Path-based change detection, selective testing
+- **Common Patterns**: Complete CI/CD pipelines, Docker builds, security scanning
+- **Anti-Patterns**: Security, performance, and workflow anti-patterns with fixes
+- **Debugging**: Enable debug logging, inspect contexts, troubleshoot common issues
+
+Location: `./resources/REFERENCE.md`
+
+#### Scripts
+
+**validate_workflow.py** (576 lines)
+Validates GitHub Actions workflow files for syntax, security, and best practices.
+
+Features:
+- Parse and validate YAML syntax
+- Detect security issues (hardcoded secrets, dangerous pull_request_target usage)
+- Check for outdated action versions
+- Identify caching opportunities
+- Validate permissions configuration
+- Suggest best practices (concurrency control, npm ci vs npm install)
+- JSON and human-readable output
+
+Usage:
+```bash
+# Validate single workflow
+./resources/scripts/validate_workflow.py .github/workflows/ci.yml
+
+# Validate directory with JSON output
+./resources/scripts/validate_workflow.py .github/workflows/ --json
+
+# Recursive validation with fix suggestions
+./resources/scripts/validate_workflow.py . --recursive --fix-suggestions
+```
+
+**optimize_pipeline.py** (669 lines)
+Analyzes workflows and suggests optimizations for performance and cost.
+
+Features:
+- Identify parallelization opportunities
+- Detect duplicate builds and artifact rebuilding
+- Suggest caching improvements
+- Find matrix build opportunities
+- Calculate cost optimization potential
+- Recommend performance enhancements (path filters, shallow checkouts)
+- Estimate time and cost savings
+
+Usage:
+```bash
+# Analyze single workflow
+./resources/scripts/optimize_pipeline.py .github/workflows/ci.yml
+
+# JSON output with implementation details
+./resources/scripts/optimize_pipeline.py workflow.yml --json --suggestions
+```
+
+**test_actions.sh** (416 lines)
+Tests GitHub Actions workflows locally using act (nektos/act).
+
+Features:
+- Run workflows locally with Docker
+- Test different event triggers
+- Measure execution time
+- Validate workflow outputs
+- List available workflows
+- Support for dry-run mode
+- JSON output for CI integration
+
+Usage:
+```bash
+# Test workflow with push event
+./resources/scripts/test_actions.sh --workflow ci.yml --event push
+
+# Test specific job
+./resources/scripts/test_actions.sh --workflow ci.yml --job build
+
+# List all workflows
+./resources/scripts/test_actions.sh --list
+
+# Dry run
+./resources/scripts/test_actions.sh --workflow ci.yml --dry-run
+```
+
+Dependencies:
+- act: `brew install act` or `gh extension install nektos/gh-act`
+- Docker (required by act)
+
+#### Examples
+
+**workflows/python-ci.yml**
+Complete Python CI pipeline with:
+- Lint and format checking (ruff, black, isort, mypy)
+- Multi-version testing (Python 3.10, 3.11, 3.12)
+- Service containers (PostgreSQL, Redis)
+- Security scanning (Safety, Bandit)
+- Build and distribution packaging
+- Documentation build
+- Coverage reporting with Codecov
+- Status check job for branch protection
+
+**workflows/nodejs-ci-cd.yml**
+Full Node.js CI/CD pipeline with:
+- Multi-stage pipeline (install, lint, test, build, docker, e2e)
+- Multi-version testing (Node 18, 20, 22)
+- Docker image build and push to GHCR
+- E2E tests with Playwright
+- Deployment to staging and production environments
+- Artifact management and cleanup
+- GitHub Packages integration
+
+**workflows/monorepo-matrix.yml**
+Monorepo CI with efficient change detection:
+- Path-based change detection using dorny/paths-filter
+- Matrix builds for multiple packages
+- Conditional job execution (only run if package changed)
+- Integration and E2E tests for affected services
+- Parallel deployment of changed services
+- Service containers for integration tests
+
+**workflows/reusable-workflow.yml**
+Reusable deployment workflow demonstrating:
+- Workflow inputs and secrets
+- Environment configuration
+- Health checks and validation
+- Deployment timing and outputs
+- Rollback on failure
+- Slack notifications
+- Smoke tests after deployment
+
+**actions/custom-action/action.yml**
+Composite action for multi-language setup:
+- Support for Node.js, Python, Go, Rust
+- Automatic caching configuration
+- Version detection and validation
+- Custom install commands
+- Timing and performance metrics
+- GitHub step summary output
+
+**workflows/security-scan.yml**
+Security scanning workflow with:
+- CodeQL analysis for multiple languages
+- Dependency vulnerability scanning with Trivy
+- Secrets detection with Gitleaks
+- Docker image scanning
+- SARIF upload to GitHub Security
+- Scheduled weekly scans
+
+**workflows/caching-strategy.yml**
+Advanced caching patterns for:
+- Multi-layer Node.js caching (npm + node_modules + build cache)
+- Docker layer caching with GitHub Actions cache
+- Rust incremental build caching
+- Python pip and venv caching
+- Monorepo selective caching
+
+### Quick Start
+
+1. **Validate existing workflows:**
+```bash
+./resources/scripts/validate_workflow.py .github/workflows/ --recursive
+```
+
+2. **Optimize pipeline:**
+```bash
+./resources/scripts/optimize_pipeline.py .github/workflows/ci.yml
+```
+
+3. **Test locally:**
+```bash
+./resources/scripts/test_actions.sh --workflow ci.yml --event push
+```
+
+4. **Use as template:**
+Copy examples from `./resources/examples/workflows/` to your `.github/workflows/` directory.
+
+5. **Create composite action:**
+Copy and customize `./resources/examples/actions/custom-action/` to `.github/actions/`.
+
+### Reference Links
+
+- Complete documentation: [REFERENCE.md](./resources/REFERENCE.md)
+- Official GitHub Actions docs: https://docs.github.com/en/actions
+- Workflow syntax: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
+- Actions Marketplace: https://github.com/marketplace?type=actions
+- act tool: https://github.com/nektos/act
+
+---
+
+**Last Updated**: 2025-10-27
 
 **Format Version**: 1.0 (Atomic)

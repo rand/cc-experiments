@@ -1,0 +1,391 @@
+---
+# Escalation Policy Examples
+# For use with PagerDuty, Opsgenie, or similar incident management platforms
+
+escalation_policies:
+  # Standard 24/7 Escalation
+  - name: "Platform Team 24/7"
+    description: "Standard escalation for production platform services"
+    num_loops: 2  # Escalate through entire chain twice before stopping
+    teams:
+      - platform
+    escalation_rules:
+      - escalation_delay_minutes: 0
+        targets:
+          - type: schedule
+            name: "Platform Primary Oncall"
+            id: "SCHEDULE_PRIMARY"
+
+      - escalation_delay_minutes: 15
+        targets:
+          - type: schedule
+            name: "Platform Secondary Oncall"
+            id: "SCHEDULE_SECONDARY"
+
+      - escalation_delay_minutes: 15  # Total: 30 min from start
+        targets:
+          - type: user
+            name: "Platform Team Lead"
+            id: "USER_TEAM_LEAD"
+
+      - escalation_delay_minutes: 30  # Total: 60 min from start
+        targets:
+          - type: user
+            name: "Engineering Director"
+            id: "USER_DIRECTOR"
+
+  # Business Hours Only
+  - name: "Database Team Business Hours"
+    description: "Database team escalation during business hours only"
+    num_loops: 1
+    teams:
+      - database
+    escalation_rules:
+      - escalation_delay_minutes: 0
+        targets:
+          - type: schedule
+            name: "Database Oncall"
+            id: "SCHEDULE_DB"
+            time_restriction:
+              type: business_hours
+              hours:
+                weekdays: ["monday", "tuesday", "wednesday", "thursday", "friday"]
+                start_time: "09:00"
+                end_time: "17:00"
+                timezone: "America/New_York"
+
+      - escalation_delay_minutes: 20
+        targets:
+          - type: user
+            name: "Database Team Lead"
+            id: "USER_DB_LEAD"
+
+  # Follow-the-Sun (24/7 across regions)
+  - name: "Global Support Follow-the-Sun"
+    description: "24/7 coverage across APAC, EMEA, and Americas"
+    num_loops: 0  # Infinite loop
+    teams:
+      - global-support
+    escalation_rules:
+      # APAC Hours (00:00-08:00 UTC)
+      - escalation_delay_minutes: 0
+        targets:
+          - type: schedule
+            name: "APAC Support Oncall"
+            id: "SCHEDULE_APAC"
+            time_restriction:
+              type: time_window
+              hours:
+                start_time: "00:00"
+                end_time: "08:00"
+                timezone: "UTC"
+
+      # EMEA Hours (08:00-16:00 UTC)
+      - escalation_delay_minutes: 0
+        targets:
+          - type: schedule
+            name: "EMEA Support Oncall"
+            id: "SCHEDULE_EMEA"
+            time_restriction:
+              type: time_window
+              hours:
+                start_time: "08:00"
+                end_time: "16:00"
+                timezone: "UTC"
+
+      # Americas Hours (16:00-00:00 UTC)
+      - escalation_delay_minutes: 0
+        targets:
+          - type: schedule
+            name: "Americas Support Oncall"
+            id: "SCHEDULE_AMERICAS"
+            time_restriction:
+              type: time_window
+              hours:
+                start_time: "16:00"
+                end_time: "23:59"
+                timezone: "UTC"
+
+      # If no ack after 15 min, escalate to manager
+      - escalation_delay_minutes: 15
+        targets:
+          - type: user
+            name: "Support Manager"
+            id: "USER_SUPPORT_MANAGER"
+
+  # High-Severity (Immediate Multi-Person Page)
+  - name: "Critical Incident Response"
+    description: "Immediate page to multiple engineers for P1 incidents"
+    num_loops: 1
+    teams:
+      - incident-response
+    escalation_rules:
+      # Immediate notification to all IRT members
+      - escalation_delay_minutes: 0
+        targets:
+          - type: user
+            name: "IRT Member 1"
+            id: "USER_IRT_1"
+          - type: user
+            name: "IRT Member 2"
+            id: "USER_IRT_2"
+          - type: user
+            name: "IRT Member 3"
+            id: "USER_IRT_3"
+          - type: schedule
+            name: "Platform Primary Oncall"
+            id: "SCHEDULE_PRIMARY"
+
+      # If no ack in 5 min, page leadership
+      - escalation_delay_minutes: 5
+        targets:
+          - type: user
+            name: "VP Engineering"
+            id: "USER_VP_ENG"
+          - type: user
+            name: "CTO"
+            id: "USER_CTO"
+
+  # Weekend/After-Hours Different Escalation
+  - name: "Platform After-Hours"
+    description: "Faster escalation outside business hours"
+    num_loops: 2
+    teams:
+      - platform
+    escalation_rules:
+      - escalation_delay_minutes: 0
+        targets:
+          - type: schedule
+            name: "Platform Primary Oncall"
+            id: "SCHEDULE_PRIMARY"
+
+      # Faster escalation (10 min vs 15 min during business hours)
+      - escalation_delay_minutes: 10
+        targets:
+          - type: schedule
+            name: "Platform Secondary Oncall"
+            id: "SCHEDULE_SECONDARY"
+
+      - escalation_delay_minutes: 10  # Total: 20 min
+        targets:
+          - type: user
+            name: "Platform Team Lead"
+            id: "USER_TEAM_LEAD"
+
+  # Per-Service Escalation
+  - name: "API Service Escalation"
+    description: "Escalation specific to API service"
+    num_loops: 1
+    teams:
+      - api-team
+    escalation_rules:
+      - escalation_delay_minutes: 0
+        targets:
+          - type: schedule
+            name: "API Team Oncall"
+            id: "SCHEDULE_API"
+
+      - escalation_delay_minutes: 15
+        targets:
+          - type: user
+            name: "API Team Lead"
+            id: "USER_API_LEAD"
+
+      # If still not resolved, escalate to platform
+      - escalation_delay_minutes: 15
+        targets:
+          - type: schedule
+            name: "Platform Primary Oncall"
+            id: "SCHEDULE_PRIMARY"
+
+---
+# Escalation Matrix
+# Who gets paged for what severity and when
+
+escalation_matrix:
+  # Critical/P1 - Immediate page, fast escalation
+  critical:
+    immediate:
+      - Primary Oncall (PagerDuty, SMS, Phone)
+      - Slack #incidents channel
+    after_15min:
+      - Secondary Oncall (PagerDuty)
+    after_30min:
+      - Team Lead (PagerDuty, Phone)
+      - Slack @channel in #incidents
+    after_60min:
+      - Engineering Manager (Phone)
+      - CTO notification
+
+  # Warning/P2 - Page during business hours, ticket after hours
+  warning:
+    business_hours:
+      immediate:
+        - Primary Oncall (PagerDuty)
+        - Slack #monitoring channel
+      after_30min:
+        - Team Lead (Slack)
+    after_hours:
+      immediate:
+        - Ticket created
+        - Slack #monitoring (no @mentions)
+      after_2hours:
+        - Primary Oncall (PagerDuty) if still firing
+
+  # Info/P3 - Ticket only
+  info:
+    immediate:
+      - Ticket created
+      - Slack #monitoring (info level)
+    after_24hours:
+      - Weekly summary to team
+
+---
+# Oncall Schedules
+
+schedules:
+  # Primary Oncall - Weekly Rotation
+  - name: "Platform Primary Oncall"
+    id: "SCHEDULE_PRIMARY"
+    description: "1-week rotations, Monday to Monday"
+    timezone: "America/New_York"
+    rotation:
+      type: weekly
+      handoff_day: monday
+      handoff_time: "09:00"
+      participants:
+        - user_id: "USER_1"
+          weeks_in_rotation: 1
+        - user_id: "USER_2"
+          weeks_in_rotation: 1
+        - user_id: "USER_3"
+          weeks_in_rotation: 1
+        - user_id: "USER_4"
+          weeks_in_rotation: 1
+    overrides_allowed: true
+    coverage: 24x7
+
+  # Secondary Oncall - Weekly Rotation (Offset)
+  - name: "Platform Secondary Oncall"
+    id: "SCHEDULE_SECONDARY"
+    description: "Backup oncall, offset from primary"
+    timezone: "America/New_York"
+    rotation:
+      type: weekly
+      handoff_day: monday
+      handoff_time: "09:00"
+      participants:
+        - user_id: "USER_5"
+        - user_id: "USER_6"
+        - user_id: "USER_7"
+    coverage: 24x7
+
+  # Business Hours Only
+  - name: "Database Oncall"
+    id: "SCHEDULE_DB"
+    description: "Business hours oncall (Mon-Fri 9am-5pm EST)"
+    timezone: "America/New_York"
+    rotation:
+      type: weekly
+      handoff_day: monday
+      handoff_time: "09:00"
+      participants:
+        - user_id: "USER_DB_1"
+        - user_id: "USER_DB_2"
+    restrictions:
+      - type: weekly
+        weekdays: ["monday", "tuesday", "wednesday", "thursday", "friday"]
+        start_time: "09:00"
+        end_time: "17:00"
+
+  # Follow-the-Sun Oncall
+  - name: "Global Support 24x7"
+    id: "SCHEDULE_GLOBAL"
+    description: "24x7 coverage across timezones"
+    timezone: "UTC"
+    layers:
+      # APAC Layer (00:00-08:00 UTC)
+      - name: "APAC Hours"
+        rotation:
+          type: daily
+          handoff_time: "08:00"
+          participants:
+            - user_id: "USER_APAC_1"
+            - user_id: "USER_APAC_2"
+        restrictions:
+          - type: daily
+            start_time: "00:00"
+            end_time: "08:00"
+
+      # EMEA Layer (08:00-16:00 UTC)
+      - name: "EMEA Hours"
+        rotation:
+          type: daily
+          handoff_time: "16:00"
+          participants:
+            - user_id: "USER_EMEA_1"
+            - user_id: "USER_EMEA_2"
+        restrictions:
+          - type: daily
+            start_time: "08:00"
+            end_time: "16:00"
+
+      # Americas Layer (16:00-00:00 UTC)
+      - name: "Americas Hours"
+        rotation:
+          type: daily
+          handoff_time: "00:00"
+          participants:
+            - user_id: "USER_AMER_1"
+            - user_id: "USER_AMER_2"
+        restrictions:
+          - type: daily
+            start_time: "16:00"
+            end_time: "23:59"
+
+---
+# Handoff Process
+
+handoff_template: |
+  # Oncall Handoff - {{ date }}
+
+  **Outgoing Oncall**: {{ outgoing_user }}
+  **Incoming Oncall**: {{ incoming_user }}
+  **Handoff Time**: {{ handoff_time }}
+
+  ## Incidents This Week
+  {{ incidents_summary }}
+
+  ## Ongoing Issues
+  {{ ongoing_issues }}
+
+  ## Upcoming Maintenance
+  {{ scheduled_maintenance }}
+
+  ## Action Items
+  {{ action_items }}
+
+  ## Notes
+  {{ additional_notes }}
+
+  ## Oncall Stats
+  - Total pages: {{ total_pages }}
+  - MTTA: {{ mean_time_to_ack }}
+  - MTTR: {{ mean_time_to_resolve }}
+  - False positives: {{ false_positives }}
+
+handoff_checklist:
+  - name: "Review active incidents"
+    required: true
+  - name: "Discuss ongoing issues"
+    required: true
+  - name: "Review upcoming maintenance windows"
+    required: true
+  - name: "Update runbooks if needed"
+    required: false
+  - name: "Transfer PagerDuty primary"
+    required: true
+  - name: "Update team calendar"
+    required: true
+  - name: "Sync on any escalations"
+    required: true

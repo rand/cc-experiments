@@ -1,0 +1,471 @@
+# Escalation Policy Configuration
+#
+# This file defines escalation policies for different services and severity levels.
+# Used by PagerDuty, incident management tools, and on-call schedules.
+
+version: "1.0"
+last_updated: "2025-10-27"
+
+# Global escalation settings
+global:
+  retry_minutes: 5  # Time between escalation attempts
+  max_alerts_per_person: 3  # Max alerts before moving to next level
+  acknowledgment_timeout: 15  # Minutes before auto-escalate if not acknowledged
+
+# Default escalation policy
+# Used when service-specific policy not defined
+default_policy:
+  name: "Default Engineering Escalation"
+  description: "Standard escalation for all engineering services"
+
+  levels:
+    - level: 1
+      timeout: 5  # minutes
+      targets:
+        - type: schedule
+          id: primary_oncall
+          description: "Primary on-call engineer"
+      notification_methods:
+        - sms
+        - push
+        - phone_call
+
+    - level: 2
+      timeout: 10  # minutes
+      targets:
+        - type: schedule
+          id: secondary_oncall
+          description: "Secondary on-call engineer"
+      notification_methods:
+        - sms
+        - phone_call
+
+    - level: 3
+      timeout: 15  # minutes
+      targets:
+        - type: schedule
+          id: engineering_manager_oncall
+          description: "On-call engineering manager"
+      notification_methods:
+        - phone_call
+
+    - level: 4
+      timeout: never  # Stay at this level
+      targets:
+        - type: schedule
+          id: director_oncall
+          description: "Director of Engineering"
+      notification_methods:
+        - phone_call
+
+# Service-specific escalation policies
+services:
+  # Critical payment processing service
+  - service_id: payment_api
+    service_name: "Payment API"
+    description: "Payment processing and transactions"
+
+    # SEV-1 escalation (critical)
+    sev1_policy:
+      levels:
+        - level: 1
+          timeout: 3  # Faster response for payments
+          targets:
+            - type: schedule
+              id: payment_team_primary
+            - type: user
+              id: payment_lead  # Always page team lead for SEV-1
+          notification_methods:
+            - sms
+            - push
+            - phone_call
+
+        - level: 2
+          timeout: 5
+          targets:
+            - type: schedule
+              id: payment_team_secondary
+            - type: user
+              id: engineering_manager
+          notification_methods:
+            - phone_call
+
+        - level: 3
+          timeout: 10
+          targets:
+            - type: user
+              id: vp_engineering
+            - type: user
+              id: cto
+          notification_methods:
+            - phone_call
+
+    # SEV-2 escalation (high)
+    sev2_policy:
+      levels:
+        - level: 1
+          timeout: 10
+          targets:
+            - type: schedule
+              id: payment_team_primary
+          notification_methods:
+            - sms
+            - push
+
+        - level: 2
+          timeout: 15
+          targets:
+            - type: schedule
+              id: payment_team_secondary
+          notification_methods:
+            - sms
+            - phone_call
+
+    # SEV-3/4 use default policy
+
+  # Database infrastructure
+  - service_id: database_infrastructure
+    service_name: "Database Infrastructure"
+    description: "PostgreSQL, Redis, database clusters"
+
+    sev1_policy:
+      levels:
+        - level: 1
+          timeout: 3
+          targets:
+            - type: schedule
+              id: database_team_primary
+            - type: schedule
+              id: database_team_secondary  # Page both immediately
+          notification_methods:
+            - sms
+            - phone_call
+          notes: "Database issues affect all services - page multiple people immediately"
+
+        - level: 2
+          timeout: 5
+          targets:
+            - type: user
+              id: database_lead
+            - type: user
+              id: infrastructure_manager
+          notification_methods:
+            - phone_call
+
+        - level: 3
+          timeout: 10
+          targets:
+            - type: vendor
+              id: database_vendor_support
+              contact: "+1-555-0123"  # 24/7 support line
+          notes: "Engage vendor support for platform-level issues"
+
+    sev2_policy:
+      levels:
+        - level: 1
+          timeout: 10
+          targets:
+            - type: schedule
+              id: database_team_primary
+          notification_methods:
+            - sms
+            - push
+
+        - level: 2
+          timeout: 15
+          targets:
+            - type: schedule
+              id: database_team_secondary
+          notification_methods:
+            - sms
+
+  # Security incidents
+  - service_id: security_incidents
+    service_name: "Security Incidents"
+    description: "Security breaches, vulnerabilities, data exposure"
+
+    # All security incidents treated as critical
+    sev1_policy:
+      levels:
+        - level: 1
+          timeout: 2  # Immediate response required
+          targets:
+            - type: schedule
+              id: security_team_primary
+            - type: user
+              id: security_lead
+            - type: user
+              id: ciso  # Always page CISO for security
+          notification_methods:
+            - phone_call
+          notes: "Security incidents require immediate C-level notification"
+
+        - level: 2
+          timeout: 5
+          targets:
+            - type: user
+              id: cto
+            - type: user
+              id: legal_counsel
+          notification_methods:
+            - phone_call
+          notes: "Legal must be involved in security incidents"
+
+        - level: 3
+          timeout: 10
+          targets:
+            - type: user
+              id: ceo
+            - type: user
+              id: head_of_pr
+          notification_methods:
+            - phone_call
+          notes: "PR team needed for potential public disclosure"
+
+  # Frontend / User-facing services
+  - service_id: web_frontend
+    service_name: "Web Frontend"
+    description: "Main website, customer-facing UI"
+
+    sev1_policy:
+      levels:
+        - level: 1
+          timeout: 5
+          targets:
+            - type: schedule
+              id: frontend_team_primary
+          notification_methods:
+            - sms
+            - push
+            - phone_call
+
+        - level: 2
+          timeout: 10
+          targets:
+            - type: schedule
+              id: frontend_team_secondary
+            - type: schedule
+              id: platform_team_primary  # May need platform help
+          notification_methods:
+            - phone_call
+
+        - level: 3
+          timeout: 15
+          targets:
+            - type: user
+              id: engineering_manager
+          notification_methods:
+            - phone_call
+
+# Specialist escalation paths
+# When to page specific teams for expertise
+specialists:
+  database:
+    when_to_page:
+      - "Query performance degradation"
+      - "Connection pool exhaustion"
+      - "Replication lag"
+      - "Database failover needed"
+    contact:
+      schedule_id: database_team_primary
+      backup_schedule_id: database_team_secondary
+      slack_channel: "#database-team"
+    response_sla: "15 minutes"
+
+  security:
+    when_to_page:
+      - "Suspected breach"
+      - "Data exposure"
+      - "Authentication bypass"
+      - "DDoS attack"
+      - "Vulnerability exploitation"
+    contact:
+      schedule_id: security_team_primary
+      user_id: security_lead
+      slack_channel: "#security-incidents"
+    response_sla: "Immediate"
+    notes: "ALWAYS page security lead for ANY security incident"
+
+  infrastructure:
+    when_to_page:
+      - "Kubernetes cluster issues"
+      - "Network problems"
+      - "Cloud provider issues"
+      - "Multi-region failures"
+    contact:
+      schedule_id: infrastructure_team_primary
+      slack_channel: "#infrastructure"
+    response_sla: "15 minutes"
+
+  networking:
+    when_to_page:
+      - "CDN issues"
+      - "DNS problems"
+      - "Load balancer failures"
+      - "VPN/connectivity issues"
+    contact:
+      schedule_id: network_team_primary
+      slack_channel: "#networking"
+    response_sla: "20 minutes"
+
+# External vendor escalation
+vendors:
+  aws:
+    support_tier: "Enterprise"
+    phone: "+1-866-XXXXX"
+    web: "https://console.aws.amazon.com/support"
+    response_sla: "15 minutes (critical)"
+    when_to_escalate:
+      - "AWS service degradation/outage"
+      - "Resource limits reached"
+      - "Suspected AWS platform bug"
+    notes: "Open critical ticket via console, then call for immediate attention"
+
+  pagerduty:
+    support_tier: "Premium"
+    email: "support@pagerduty.com"
+    phone: "+1-844-700-XXXX"
+    response_sla: "1 hour"
+    when_to_escalate:
+      - "PagerDuty platform issues"
+      - "Alerts not firing"
+      - "Integration failures"
+
+  datadog:
+    support_tier: "Premium"
+    email: "support@datadoghq.com"
+    phone: "+1-866-329-XXXX"
+    response_sla: "1 hour"
+    when_to_escalate:
+      - "Monitoring gaps"
+      - "Dashboard failures"
+      - "Agent issues"
+
+# Time-based escalation rules
+time_based_rules:
+  business_hours:
+    timezone: "America/Los_Angeles"
+    hours: "09:00-17:00"
+    days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+    adjustments:
+      # During business hours, can escalate to team channels
+      - allow_slack_escalation: true
+      - include_channels: ["#engineering", "#database-team"]
+
+  off_hours:
+    # Nights and weekends
+    adjustments:
+      # Off-hours: only page individuals, no channel spam
+      - allow_slack_escalation: false
+      - faster_escalation: true  # Reduce timeout by 25%
+      - notes: "Be respectful of off-hours - escalate faster to get right person"
+
+  holidays:
+    # Major holidays with reduced staffing
+    dates:
+      - "2025-12-25"  # Christmas
+      - "2025-01-01"  # New Year's Day
+      - "2025-07-04"  # Independence Day
+    adjustments:
+      - escalate_immediately_to_manager: true
+      - reduce_initial_timeout: 3  # minutes instead of 5
+      - notes: "Escalate to management faster on holidays"
+
+# Severity-based routing
+severity_routing:
+  SEV-1:
+    immediate_notification:
+      - engineering_manager_oncall
+      - director_oncall (if duration > 30 min)
+      - vp_engineering (if duration > 1 hour)
+    communication_channels:
+      - "#incidents"
+      - "#leadership"
+      - customer_status_page
+    update_frequency: "Every 30 minutes mandatory"
+
+  SEV-2:
+    immediate_notification:
+      - engineering_manager_oncall (if duration > 30 min)
+    communication_channels:
+      - "#incidents"
+    update_frequency: "Every hour"
+
+  SEV-3:
+    immediate_notification: []  # Standard on-call only
+    communication_channels:
+      - "#incidents"
+    update_frequency: "At start and resolution"
+
+  SEV-4:
+    immediate_notification: []
+    communication_channels: []
+    update_frequency: "Optional"
+
+# Escalation decision matrix
+decision_matrix:
+  escalate_to_manager_when:
+    - "SEV-1 duration > 30 minutes"
+    - "SEV-2 duration > 2 hours"
+    - "Need cross-team coordination"
+    - "Need business decision (e.g., enable maintenance mode)"
+    - "Resource allocation needed (cost approval)"
+
+  escalate_to_specialist_when:
+    - "Primary team unable to diagnose after 15 minutes"
+    - "Issue clearly in specialist domain"
+    - "Need deep expertise"
+
+  escalate_to_vendor_when:
+    - "Suspected platform/service issue"
+    - "After exhausting internal troubleshooting (30 min for SEV-1)"
+    - "Need access to vendor internals/logs"
+
+# Automated escalation triggers
+automated_triggers:
+  - name: "Prolonged Unacknowledged"
+    condition: "Alert unacknowledged for > 15 minutes"
+    action: "Escalate to level 2"
+
+  - name: "Prolonged Unresolved SEV-1"
+    condition: "SEV-1 open for > 1 hour"
+    action: "Notify VP Engineering and Director"
+
+  - name: "Multiple Related Incidents"
+    condition: ">3 incidents in same service within 1 hour"
+    action: "Escalate to engineering manager and create meta-incident"
+
+  - name: "Weekend SEV-1"
+    condition: "SEV-1 on Saturday or Sunday"
+    action: "Page engineering manager immediately (no wait)"
+
+  - name: "Customer Data Exposure"
+    condition: "Incident tagged 'data-exposure' or 'security'"
+    action: "Immediate escalation to CISO and legal"
+
+# Example escalation paths for common scenarios
+example_scenarios:
+  - scenario: "Database connection pool exhausted"
+    initial_page: database_team_primary
+    if_no_response: database_team_secondary (after 10 min)
+    specialist_help: infrastructure_team (if scaling needed)
+    manager_notification: engineering_manager (after 30 min)
+
+  - scenario: "Payment processing failures"
+    initial_page: payment_team_primary
+    immediate_also_page: payment_lead
+    specialist_help: database_team (if DB-related)
+    manager_notification: engineering_manager (immediate for SEV-1)
+    executive_notification: vp_engineering (if duration > 30 min)
+
+  - scenario: "Suspected security breach"
+    initial_page: security_team_primary + security_lead + CISO (all immediate)
+    specialist_help: infrastructure_team, database_team (as needed)
+    executive_notification: CTO, CEO, Legal (immediate)
+    external_contact: legal_counsel, head_of_pr
+
+  - scenario: "AWS region outage"
+    initial_page: infrastructure_team_primary
+    vendor_escalation: AWS Enterprise Support (immediate)
+    manager_notification: engineering_manager (immediate)
+    communication: Post to status page immediately

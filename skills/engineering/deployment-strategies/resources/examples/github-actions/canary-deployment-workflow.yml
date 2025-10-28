@@ -1,0 +1,423 @@
+# GitHub Actions Canary Deployment Workflow
+#
+# This workflow demonstrates automated canary deployment with:
+# - Progressive traffic shifting
+# - Metrics monitoring
+# - Automatic rollback on failure
+# - Slack notifications
+#
+# Usage:
+#   Place in .github/workflows/canary-deploy.yml
+#   Trigger on push to main branch or manual dispatch
+
+name: Canary Deployment
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      canary_percentage:
+        description: 'Initial canary percentage'
+        required: false
+        default: '10'
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - staging
+          - production
+
+env:
+  # Application configuration
+  APP_NAME: myapp
+  DOCKER_REGISTRY: ghcr.io
+  DOCKER_IMAGE: ghcr.io/${{ github.repository_owner }}/myapp
+
+  # Deployment configuration
+  INITIAL_CANARY_WEIGHT: ${{ github.event.inputs.canary_percentage || '10' }}
+  STEP_WEIGHT: 20
+  INTERVAL_SECONDS: 300
+  ERROR_THRESHOLD: 1.0
+  LATENCY_THRESHOLD_MS: 1000
+
+  # Kubernetes configuration
+  KUBE_NAMESPACE: production
+  KUBE_CLUSTER: production-cluster
+
+jobs:
+  # ============================================================================
+  # Build and push Docker image
+  # ============================================================================
+  build:
+    name: Build and Push Image
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.meta.outputs.tags }}
+      image_digest: ${{ steps.build.outputs.digest }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.DOCKER_IMAGE }}
+          tags: |
+            type=sha,prefix={{branch}}-
+            type=ref,event=branch
+            type=semver,pattern={{version}}
+
+      - name: Build and push
+        id: build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            VERSION=${{ github.sha }}
+            BUILD_DATE=${{ github.event.head_commit.timestamp }}
+
+      - name: Sign image
+        run: |
+          # Optional: Sign image with cosign
+          # cosign sign --key cosign.key ${{ steps.meta.outputs.tags }}
+          echo "Image built: ${{ steps.meta.outputs.tags }}"
+
+  # ============================================================================
+  # Run tests on new image
+  # ============================================================================
+  test:
+    name: Test Image
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run security scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ needs.build.outputs.image_tag }}
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload security results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+      - name: Run smoke tests
+        run: |
+          # Start container
+          docker run -d --name test-container \
+            -p 8080:8080 \
+            ${{ needs.build.outputs.image_tag }}
+
+          # Wait for startup
+          sleep 10
+
+          # Run smoke tests
+          curl -f http://localhost:8080/health || exit 1
+          curl -f http://localhost:8080/ready || exit 1
+
+          # Cleanup
+          docker stop test-container
+          docker rm test-container
+
+  # ============================================================================
+  # Deploy canary
+  # ============================================================================
+  deploy-canary:
+    name: Deploy Canary
+    runs-on: ubuntu-latest
+    needs: [build, test]
+    environment:
+      name: ${{ github.event.inputs.environment || 'production' }}
+      url: https://myapp.example.com
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure kubectl
+        uses: azure/k8s-set-context@v3
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+      - name: Deploy canary deployment
+        run: |
+          # Update canary deployment with new image
+          kubectl set image deployment/${{ env.APP_NAME }}-canary \
+            ${{ env.APP_NAME }}=${{ needs.build.outputs.image_tag }} \
+            -n ${{ env.KUBE_NAMESPACE }}
+
+          # Wait for rollout
+          kubectl rollout status deployment/${{ env.APP_NAME }}-canary \
+            -n ${{ env.KUBE_NAMESPACE }} \
+            --timeout=5m
+
+      - name: Verify canary health
+        run: |
+          # Check pod status
+          kubectl get pods -l app=${{ env.APP_NAME }},version=canary \
+            -n ${{ env.KUBE_NAMESPACE }}
+
+          # Check readiness
+          kubectl wait --for=condition=ready pod \
+            -l app=${{ env.APP_NAME }},version=canary \
+            -n ${{ env.KUBE_NAMESPACE }} \
+            --timeout=2m
+
+      - name: Run canary smoke tests
+        run: |
+          # Get canary service endpoint
+          CANARY_URL=$(kubectl get svc ${{ env.APP_NAME }}-canary \
+            -n ${{ env.KUBE_NAMESPACE }} \
+            -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+
+          # Wait for LB
+          sleep 30
+
+          # Smoke tests
+          curl -f http://$CANARY_URL/health || exit 1
+          curl -f http://$CANARY_URL/api/status || exit 1
+
+  # ============================================================================
+  # Progressive traffic shift
+  # ============================================================================
+  progressive-rollout:
+    name: Progressive Rollout
+    runs-on: ubuntu-latest
+    needs: deploy-canary
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure kubectl
+        uses: azure/k8s-set-context@v3
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+      - name: Install monitoring tools
+        run: |
+          # Install Prometheus query tool
+          curl -LO https://github.com/prometheus/prometheus/releases/download/v2.45.0/prometheus-2.45.0.linux-amd64.tar.gz
+          tar xzf prometheus-2.45.0.linux-amd64.tar.gz
+          sudo mv prometheus-2.45.0.linux-amd64/promtool /usr/local/bin/
+
+      - name: Execute canary rollout
+        id: rollout
+        run: |
+          set -e
+
+          WEIGHTS=(10 25 50 75 100)
+          PROMETHEUS_URL="http://prometheus.monitoring.svc.cluster.local:9090"
+
+          for WEIGHT in "${WEIGHTS[@]}"; do
+            echo "========================================"
+            echo "Shifting ${WEIGHT}% traffic to canary"
+            echo "========================================"
+
+            # Update VirtualService weights (Istio)
+            kubectl apply -f - <<EOF
+          apiVersion: networking.istio.io/v1beta1
+          kind: VirtualService
+          metadata:
+            name: ${{ env.APP_NAME }}
+            namespace: ${{ env.KUBE_NAMESPACE }}
+          spec:
+            hosts:
+            - ${{ env.APP_NAME }}
+            http:
+            - route:
+              - destination:
+                  host: ${{ env.APP_NAME }}
+                  subset: stable
+                weight: $((100 - WEIGHT))
+              - destination:
+                  host: ${{ env.APP_NAME }}
+                  subset: canary
+                weight: ${WEIGHT}
+          EOF
+
+            echo "Waiting ${{ env.INTERVAL_SECONDS }}s for metrics..."
+            sleep ${{ env.INTERVAL_SECONDS }}
+
+            # Query Prometheus for metrics
+            ERROR_RATE=$(curl -s "${PROMETHEUS_URL}/api/v1/query" \
+              --data-urlencode "query=sum(rate(http_requests_total{status=~\"5..\",version=\"canary\"}[5m]))/sum(rate(http_requests_total{version=\"canary\"}[5m]))*100" \
+              | jq -r '.data.result[0].value[1] // 0')
+
+            P99_LATENCY=$(curl -s "${PROMETHEUS_URL}/api/v1/query" \
+              --data-urlencode "query=histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket{version=\"canary\"}[5m])) by (le))" \
+              | jq -r '.data.result[0].value[1] // 0')
+
+            echo "Metrics:"
+            echo "  Error rate: ${ERROR_RATE}%"
+            echo "  P99 latency: ${P99_LATENCY}ms"
+
+            # Check thresholds
+            if (( $(echo "$ERROR_RATE > ${{ env.ERROR_THRESHOLD }}" | bc -l) )); then
+              echo "::error::Error rate ${ERROR_RATE}% exceeds threshold ${{ env.ERROR_THRESHOLD }}%"
+              exit 1
+            fi
+
+            if (( $(echo "$P99_LATENCY > ${{ env.LATENCY_THRESHOLD_MS }}" | bc -l) )); then
+              echo "::error::P99 latency ${P99_LATENCY}ms exceeds threshold ${{ env.LATENCY_THRESHOLD_MS }}ms"
+              exit 1
+            fi
+
+            echo "✓ Health check passed at ${WEIGHT}%"
+          done
+
+          echo "rollout_success=true" >> $GITHUB_OUTPUT
+
+      - name: Promote canary to stable
+        if: steps.rollout.outputs.rollout_success == 'true'
+        run: |
+          echo "Promoting canary to stable..."
+
+          # Update stable deployment with canary image
+          CANARY_IMAGE=$(kubectl get deployment ${{ env.APP_NAME }}-canary \
+            -n ${{ env.KUBE_NAMESPACE }} \
+            -o jsonpath='{.spec.template.spec.containers[0].image}')
+
+          kubectl set image deployment/${{ env.APP_NAME }}-stable \
+            ${{ env.APP_NAME }}=${CANARY_IMAGE} \
+            -n ${{ env.KUBE_NAMESPACE }}
+
+          # Wait for stable rollout
+          kubectl rollout status deployment/${{ env.APP_NAME }}-stable \
+            -n ${{ env.KUBE_NAMESPACE }} \
+            --timeout=5m
+
+          # Route all traffic to stable
+          kubectl apply -f - <<EOF
+          apiVersion: networking.istio.io/v1beta1
+          kind: VirtualService
+          metadata:
+            name: ${{ env.APP_NAME }}
+            namespace: ${{ env.KUBE_NAMESPACE }}
+          spec:
+            hosts:
+            - ${{ env.APP_NAME }}
+            http:
+            - route:
+              - destination:
+                  host: ${{ env.APP_NAME }}
+                  subset: stable
+                weight: 100
+          EOF
+
+          echo "✓ Canary promoted to stable"
+
+      - name: Rollback on failure
+        if: failure()
+        run: |
+          echo "::warning::Canary rollout failed. Rolling back..."
+
+          # Route all traffic to stable
+          kubectl apply -f - <<EOF
+          apiVersion: networking.istio.io/v1beta1
+          kind: VirtualService
+          metadata:
+            name: ${{ env.APP_NAME }}
+            namespace: ${{ env.KUBE_NAMESPACE }}
+          spec:
+            hosts:
+            - ${{ env.APP_NAME }}
+            http:
+            - route:
+              - destination:
+                  host: ${{ env.APP_NAME }}
+                  subset: stable
+                weight: 100
+          EOF
+
+          # Scale down canary
+          kubectl scale deployment/${{ env.APP_NAME }}-canary \
+            --replicas=0 \
+            -n ${{ env.KUBE_NAMESPACE }}
+
+          echo "✓ Rollback complete"
+
+  # ============================================================================
+  # Notifications
+  # ============================================================================
+  notify:
+    name: Send Notifications
+    runs-on: ubuntu-latest
+    needs: progressive-rollout
+    if: always()
+
+    steps:
+      - name: Notify Slack on success
+        if: needs.progressive-rollout.result == 'success'
+        uses: slackapi/slack-github-action@v1
+        with:
+          payload: |
+            {
+              "text": "✅ Canary deployment succeeded",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Canary Deployment Successful* :rocket:\n\n*Application:* ${{ env.APP_NAME }}\n*Environment:* ${{ github.event.inputs.environment || 'production' }}\n*Commit:* <${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>\n*Deployed by:* ${{ github.actor }}"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Notify Slack on failure
+        if: needs.progressive-rollout.result == 'failure'
+        uses: slackapi/slack-github-action@v1
+        with:
+          payload: |
+            {
+              "text": "❌ Canary deployment failed",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Canary Deployment Failed* :x:\n\n*Application:* ${{ env.APP_NAME }}\n*Environment:* ${{ github.event.inputs.environment || 'production' }}\n*Commit:* <${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>\n*Deployed by:* ${{ github.actor }}\n\n*Action:* Automatic rollback executed\n*Logs:* <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Create deployment event
+        uses: chrnorm/deployment-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          environment: ${{ github.event.inputs.environment || 'production' }}
+          deployment-status: ${{ needs.progressive-rollout.result }}

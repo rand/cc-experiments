@@ -1,0 +1,261 @@
+{
+  "terms_aggregation": {
+    "comment": "Group by category and count documents",
+    "query": {
+      "size": 0,
+      "aggs": {
+        "categories": {
+          "terms": {
+            "field": "category.keyword",
+            "size": 10,
+            "order": {"_count": "desc"}
+          }
+        }
+      }
+    }
+  },
+  "nested_aggregations": {
+    "comment": "Category breakdown with price statistics",
+    "query": {
+      "size": 0,
+      "aggs": {
+        "categories": {
+          "terms": {
+            "field": "category.keyword",
+            "size": 10
+          },
+          "aggs": {
+            "avg_price": {
+              "avg": {"field": "price"}
+            },
+            "min_price": {
+              "min": {"field": "price"}
+            },
+            "max_price": {
+              "max": {"field": "price"}
+            },
+            "total_revenue": {
+              "sum": {"field": "price"}
+            }
+          }
+        }
+      }
+    }
+  },
+  "range_aggregation": {
+    "comment": "Price range buckets",
+    "query": {
+      "size": 0,
+      "aggs": {
+        "price_ranges": {
+          "range": {
+            "field": "price",
+            "ranges": [
+              {"key": "Budget", "to": 500},
+              {"key": "Mid-range", "from": 500, "to": 1500},
+              {"key": "Premium", "from": 1500, "to": 3000},
+              {"key": "Luxury", "from": 3000}
+            ]
+          },
+          "aggs": {
+            "avg_rating": {
+              "avg": {"field": "rating"}
+            }
+          }
+        }
+      }
+    }
+  },
+  "date_histogram": {
+    "comment": "Sales over time by month",
+    "query": {
+      "size": 0,
+      "aggs": {
+        "sales_over_time": {
+          "date_histogram": {
+            "field": "created_at",
+            "calendar_interval": "month",
+            "format": "yyyy-MM"
+          },
+          "aggs": {
+            "total_sales": {
+              "sum": {"field": "price"}
+            },
+            "product_count": {
+              "value_count": {"field": "id"}
+            }
+          }
+        }
+      }
+    }
+  },
+  "histogram_aggregation": {
+    "comment": "Price distribution in $100 intervals",
+    "query": {
+      "size": 0,
+      "aggs": {
+        "price_distribution": {
+          "histogram": {
+            "field": "price",
+            "interval": 100,
+            "min_doc_count": 1
+          }
+        }
+      }
+    }
+  },
+  "percentiles_aggregation": {
+    "comment": "Price percentiles (distribution)",
+    "query": {
+      "size": 0,
+      "aggs": {
+        "price_percentiles": {
+          "percentiles": {
+            "field": "price",
+            "percents": [25, 50, 75, 95, 99]
+          }
+        }
+      }
+    }
+  },
+  "cardinality_aggregation": {
+    "comment": "Count unique brands (approximate)",
+    "query": {
+      "size": 0,
+      "aggs": {
+        "unique_brands": {
+          "cardinality": {
+            "field": "brand.keyword",
+            "precision_threshold": 100
+          }
+        }
+      }
+    }
+  },
+  "filters_aggregation": {
+    "comment": "Multiple named filter buckets",
+    "query": {
+      "size": 0,
+      "aggs": {
+        "stock_status": {
+          "filters": {
+            "filters": {
+              "in_stock": {"term": {"in_stock": true}},
+              "out_of_stock": {"term": {"in_stock": false}},
+              "low_stock": {"range": {"stock": {"lte": 10, "gt": 0}}}
+            }
+          }
+        }
+      }
+    }
+  },
+  "top_hits_aggregation": {
+    "comment": "Get top 3 products per category",
+    "query": {
+      "size": 0,
+      "aggs": {
+        "categories": {
+          "terms": {
+            "field": "category.keyword",
+            "size": 5
+          },
+          "aggs": {
+            "top_products": {
+              "top_hits": {
+                "size": 3,
+                "sort": [{"rating": "desc"}],
+                "_source": ["name", "price", "rating"]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "bucket_script_aggregation": {
+    "comment": "Calculate average order value from aggregated data",
+    "query": {
+      "size": 0,
+      "aggs": {
+        "sales_by_month": {
+          "date_histogram": {
+            "field": "created_at",
+            "calendar_interval": "month"
+          },
+          "aggs": {
+            "total_revenue": {
+              "sum": {"field": "price"}
+            },
+            "order_count": {
+              "value_count": {"field": "id"}
+            },
+            "avg_order_value": {
+              "bucket_script": {
+                "buckets_path": {
+                  "revenue": "total_revenue",
+                  "orders": "order_count"
+                },
+                "script": "params.revenue / params.orders"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "multi_level_aggregation": {
+    "comment": "Complex multi-level breakdown",
+    "query": {
+      "size": 0,
+      "aggs": {
+        "categories": {
+          "terms": {
+            "field": "category.keyword",
+            "size": 5
+          },
+          "aggs": {
+            "brands": {
+              "terms": {
+                "field": "brand.keyword",
+                "size": 5
+              },
+              "aggs": {
+                "price_ranges": {
+                  "range": {
+                    "field": "price",
+                    "ranges": [
+                      {"to": 500},
+                      {"from": 500, "to": 1500},
+                      {"from": 1500}
+                    ]
+                  },
+                  "aggs": {
+                    "avg_rating": {"avg": {"field": "rating"}},
+                    "total_products": {"value_count": {"field": "id"}}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "significant_terms": {
+    "comment": "Find unusual/significant terms in a subset",
+    "query": {
+      "query": {
+        "term": {"category": "electronics"}
+      },
+      "size": 0,
+      "aggs": {
+        "significant_brands": {
+          "significant_terms": {
+            "field": "brand.keyword",
+            "size": 10
+          }
+        }
+      }
+    }
+  }
+}

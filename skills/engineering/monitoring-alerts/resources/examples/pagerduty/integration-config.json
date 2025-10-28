@@ -1,0 +1,289 @@
+{
+  "comment": "PagerDuty Integration Configuration Examples",
+  "services": [
+    {
+      "name": "Production API",
+      "description": "Critical production API service",
+      "escalation_policy": "Platform Team",
+      "alert_creation": "create_alerts_and_incidents",
+      "integrations": [
+        {
+          "type": "events_api_v2",
+          "name": "Alertmanager Production API",
+          "integration_key": "REPLACE_WITH_ACTUAL_KEY",
+          "integration_email": "api-alerts@example.pagerduty.com"
+        }
+      ],
+      "incident_urgency_rule": {
+        "type": "use_support_hours",
+        "during_support_hours": {
+          "type": "constant",
+          "urgency": "high"
+        },
+        "outside_support_hours": {
+          "type": "constant",
+          "urgency": "high"
+        }
+      }
+    },
+    {
+      "name": "Database Cluster",
+      "description": "PostgreSQL database cluster",
+      "escalation_policy": "Database Team",
+      "integrations": [
+        {
+          "type": "events_api_v2",
+          "name": "Alertmanager Database",
+          "integration_key": "REPLACE_WITH_ACTUAL_KEY"
+        }
+      ]
+    },
+    {
+      "name": "Infrastructure",
+      "description": "Infrastructure and platform services",
+      "escalation_policy": "Platform Team",
+      "integrations": [
+        {
+          "type": "events_api_v2",
+          "name": "Alertmanager Infrastructure",
+          "integration_key": "REPLACE_WITH_ACTUAL_KEY"
+        }
+      ]
+    }
+  ],
+  "escalation_policies": [
+    {
+      "name": "Platform Team",
+      "description": "24/7 escalation for platform services",
+      "num_loops": 0,
+      "escalation_rules": [
+        {
+          "escalation_delay_in_minutes": 0,
+          "targets": [
+            {
+              "type": "schedule_reference",
+              "id": "PRIMARY_ONCALL_SCHEDULE"
+            }
+          ]
+        },
+        {
+          "escalation_delay_in_minutes": 15,
+          "targets": [
+            {
+              "type": "schedule_reference",
+              "id": "SECONDARY_ONCALL_SCHEDULE"
+            }
+          ]
+        },
+        {
+          "escalation_delay_in_minutes": 30,
+          "targets": [
+            {
+              "type": "user_reference",
+              "id": "ONCALL_MANAGER_USER_ID"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Database Team",
+      "description": "Database oncall rotation",
+      "num_loops": 2,
+      "escalation_rules": [
+        {
+          "escalation_delay_in_minutes": 0,
+          "targets": [
+            {
+              "type": "schedule_reference",
+              "id": "DB_ONCALL_SCHEDULE"
+            }
+          ]
+        },
+        {
+          "escalation_delay_in_minutes": 20,
+          "targets": [
+            {
+              "type": "user_reference",
+              "id": "DB_TEAM_LEAD_USER_ID"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schedules": [
+    {
+      "name": "Platform Primary Oncall",
+      "time_zone": "America/New_York",
+      "description": "Weekly rotation for platform team",
+      "schedule_layers": [
+        {
+          "start": "2025-01-01T00:00:00",
+          "rotation_virtual_start": "2025-01-01T00:00:00",
+          "rotation_turn_length_seconds": 604800,
+          "users": [
+            {
+              "user": {
+                "id": "USER_1"
+              }
+            },
+            {
+              "user": {
+                "id": "USER_2"
+              }
+            },
+            {
+              "user": {
+                "id": "USER_3"
+              }
+            },
+            {
+              "user": {
+                "id": "USER_4"
+              }
+            }
+          ],
+          "restriction_type": "weekly_restriction",
+          "restrictions": [
+            {
+              "type": "weekly_restriction",
+              "start_time_of_day": "00:00:00",
+              "start_day_of_week": 1,
+              "duration_seconds": 604800
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Platform Secondary Oncall",
+      "time_zone": "America/New_York",
+      "description": "Secondary/backup rotation",
+      "schedule_layers": [
+        {
+          "start": "2025-01-01T00:00:00",
+          "rotation_virtual_start": "2025-01-01T00:00:00",
+          "rotation_turn_length_seconds": 604800,
+          "users": [
+            {
+              "user": {
+                "id": "USER_5"
+              }
+            },
+            {
+              "user": {
+                "id": "USER_6"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Follow-the-Sun Oncall",
+      "time_zone": "UTC",
+      "description": "24/7 coverage across timezones",
+      "schedule_layers": [
+        {
+          "name": "APAC Hours",
+          "start": "2025-01-01T00:00:00",
+          "rotation_virtual_start": "2025-01-01T00:00:00",
+          "rotation_turn_length_seconds": 604800,
+          "users": [
+            {
+              "user": {
+                "id": "APAC_USER_1"
+              }
+            }
+          ],
+          "restrictions": [
+            {
+              "type": "weekly_restriction",
+              "start_time_of_day": "00:00:00",
+              "duration_seconds": 32400
+            }
+          ]
+        },
+        {
+          "name": "EMEA Hours",
+          "start": "2025-01-01T00:00:00",
+          "rotation_virtual_start": "2025-01-01T00:00:00",
+          "rotation_turn_length_seconds": 604800,
+          "users": [
+            {
+              "user": {
+                "id": "EMEA_USER_1"
+              }
+            }
+          ],
+          "restrictions": [
+            {
+              "type": "weekly_restriction",
+              "start_time_of_day": "09:00:00",
+              "duration_seconds": 28800
+            }
+          ]
+        },
+        {
+          "name": "Americas Hours",
+          "start": "2025-01-01T00:00:00",
+          "rotation_virtual_start": "2025-01-01T00:00:00",
+          "rotation_turn_length_seconds": 604800,
+          "users": [
+            {
+              "user": {
+                "id": "AMERICAS_USER_1"
+              }
+            }
+          ],
+          "restrictions": [
+            {
+              "type": "weekly_restriction",
+              "start_time_of_day": "17:00:00",
+              "duration_seconds": 25200
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "event_rules": [
+    {
+      "condition": {
+        "expression": "event.summary matches part 'test'"
+      },
+      "actions": {
+        "suppress": {
+          "value": true
+        }
+      }
+    },
+    {
+      "condition": {
+        "expression": "event.severity equals 'info'"
+      },
+      "actions": {
+        "severity": {
+          "value": "info"
+        },
+        "suppress": {
+          "value": false,
+          "threshold_value": 10,
+          "threshold_time_amount": 300,
+          "threshold_time_unit": "seconds"
+        }
+      }
+    },
+    {
+      "condition": {
+        "expression": "event.custom_details.environment equals 'production' and event.severity equals 'critical'"
+      },
+      "actions": {
+        "priority": {
+          "value": "P1"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,233 @@
+# Prometheus configuration for Kafka monitoring
+#
+# Usage:
+#   1. Start Kafka with JMX enabled (see docker-compose.yml)
+#   2. Deploy JMX Exporter as sidecar or standalone
+#   3. Configure Prometheus to scrape metrics
+#   4. Visualize in Grafana
+#
+# Deploy:
+#   docker run -d -p 9090:9090 \
+#     -v $(pwd)/prometheus_config.yml:/etc/prometheus/prometheus.yml \
+#     prom/prometheus
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'kafka-cluster'
+    environment: 'production'
+
+# Alertmanager configuration (optional)
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - alertmanager:9093
+
+# Load rules
+rule_files:
+  - "/etc/prometheus/rules/*.yml"
+
+# Scrape configurations
+scrape_configs:
+  # Kafka broker metrics (JMX Exporter)
+  - job_name: 'kafka-broker'
+    static_configs:
+      - targets:
+          - 'kafka:9101'  # JMX port
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(:[0-9]+)?'
+        replacement: '${1}'
+
+  # ZooKeeper metrics
+  - job_name: 'zookeeper'
+    static_configs:
+      - targets:
+          - 'zookeeper:9102'
+
+  # Schema Registry metrics
+  - job_name: 'schema-registry'
+    static_configs:
+      - targets:
+          - 'schema-registry:9103'
+
+  # Kafka Connect metrics
+  - job_name: 'kafka-connect'
+    static_configs:
+      - targets:
+          - 'connect:9104'
+
+  # Consumer lag exporter (Burrow or kafka-lag-exporter)
+  - job_name: 'consumer-lag'
+    static_configs:
+      - targets:
+          - 'kafka-lag-exporter:9105'
+
+  # Application metrics (your producers/consumers)
+  - job_name: 'kafka-applications'
+    static_configs:
+      - targets:
+          - 'producer-app:8080'
+          - 'consumer-app:8080'
+
+# Example alert rules (save as /etc/prometheus/rules/kafka_alerts.yml)
+---
+# kafka_alerts.yml
+
+groups:
+  - name: kafka_broker_alerts
+    interval: 30s
+    rules:
+      # Broker down
+      - alert: KafkaBrokerDown
+        expr: up{job="kafka-broker"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Kafka broker {{ $labels.instance }} is down"
+          description: "Kafka broker has been down for more than 1 minute"
+
+      # Under-replicated partitions
+      - alert: UnderReplicatedPartitions
+        expr: kafka_server_replicamanager_underreplicatedpartitions > 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Under-replicated partitions detected"
+          description: "{{ $value }} partitions are under-replicated"
+
+      # Offline partitions
+      - alert: OfflinePartitions
+        expr: kafka_controller_kafkacontroller_offlinepartitionscount > 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Offline partitions detected"
+          description: "{{ $value }} partitions are offline"
+
+      # Active controller
+      - alert: NoActiveController
+        expr: sum(kafka_controller_kafkacontroller_activecontrollercount) != 1
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "No active Kafka controller"
+          description: "There should be exactly 1 active controller, found {{ $value }}"
+
+      # High CPU usage
+      - alert: HighCPUUsage
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage on {{ $labels.instance }}"
+          description: "CPU usage is {{ $value }}%"
+
+      # High memory usage
+      - alert: HighMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 90
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage on {{ $labels.instance }}"
+          description: "Memory usage is {{ $value }}%"
+
+      # Disk space low
+      - alert: DiskSpaceLow
+        expr: (1 - (node_filesystem_avail_bytes{mountpoint="/var/lib/kafka/data"} / node_filesystem_size_bytes{mountpoint="/var/lib/kafka/data"})) * 100 > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Disk space low on {{ $labels.instance }}"
+          description: "Disk usage is {{ $value }}%"
+
+  - name: consumer_lag_alerts
+    interval: 30s
+    rules:
+      # High consumer lag
+      - alert: HighConsumerLag
+        expr: kafka_consumer_group_lag > 10000
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High consumer lag for group {{ $labels.group }}"
+          description: "Consumer group has lag of {{ $value }} messages"
+
+      # Critical consumer lag
+      - alert: CriticalConsumerLag
+        expr: kafka_consumer_group_lag > 100000
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Critical consumer lag for group {{ $labels.group }}"
+          description: "Consumer group has lag of {{ $value }} messages"
+
+      # Consumer not consuming
+      - alert: ConsumerStalled
+        expr: rate(kafka_consumer_group_lag[5m]) >= 0 and kafka_consumer_group_lag > 1000
+        for: 10m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Consumer group {{ $labels.group }} is stalled"
+          description: "Consumer lag is not decreasing, currently at {{ $value }}"
+
+  - name: kafka_performance_alerts
+    interval: 30s
+    rules:
+      # High request latency
+      - alert: HighRequestLatency
+        expr: kafka_network_requestmetrics_totaltimems{quantile="0.99"} > 1000
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High request latency (p99)"
+          description: "P99 request latency is {{ $value }}ms"
+
+      # Low throughput
+      - alert: LowThroughput
+        expr: rate(kafka_server_brokertopicmetrics_messagesinpersec_count[5m]) < 100
+        for: 10m
+        labels:
+          severity: info
+        annotations:
+          summary: "Low message throughput"
+          description: "Message rate is {{ $value }} msg/sec"
+
+# Key Kafka metrics to monitor:
+#
+# Broker health:
+#   - kafka_server_replicamanager_underreplicatedpartitions
+#   - kafka_controller_kafkacontroller_offlinepartitionscount
+#   - kafka_controller_kafkacontroller_activecontrollercount
+#
+# Performance:
+#   - kafka_server_brokertopicmetrics_messagesinpersec
+#   - kafka_server_brokertopicmetrics_bytesinpersec
+#   - kafka_network_requestmetrics_totaltimems
+#
+# Resource usage:
+#   - kafka_server_kafkaserver_brokerstate
+#   - jvm_memory_bytes_used
+#   - jvm_gc_collection_seconds_sum
+#
+# Consumer lag:
+#   - kafka_consumer_group_lag
+#   - kafka_consumer_group_lag_seconds
+#
+# Producer metrics:
+#   - kafka_producer_record_send_rate
+#   - kafka_producer_record_error_rate

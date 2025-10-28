@@ -16,17 +16,22 @@ This skill auto-activates when you're working with:
 - context strategies
 - dependency management
 - multi-session
+- project synthesis
+- cleanup
+- consolidation
+- roadmap
 
 ## Available Skills
 
 ### Quick Reference
 
-The Workflow category contains 4 skills:
+The Workflow category contains 5 skills:
 
-1. **beads-context-strategies**
-2. **beads-dependency-management**
-3. **beads-multi-session-patterns**
-4. **beads-workflow**
+1. **beads-context-strategies** - Context management across Beads sessions
+2. **beads-dependency-management** - Managing task dependencies in Beads
+3. **beads-multi-session-patterns** - Multi-session work coordination
+4. **beads-workflow** - Core Beads commands and session patterns
+5. **project-synthesis** - Consolidate scattered plans/docs/tests into unified roadmap
 
 ### Load Full Category Details
 
@@ -50,6 +55,8 @@ Load individual skills as needed:
 cat skills/workflow/beads-context-strategies.md
 cat skills/workflow/beads-dependency-management.md
 cat skills/workflow/beads-multi-session-patterns.md
+cat skills/workflow/beads-workflow.md
+cat skills/workflow/project-synthesis.md
 ```
 
 ## Progressive Loading

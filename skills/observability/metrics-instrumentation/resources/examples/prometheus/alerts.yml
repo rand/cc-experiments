@@ -1,0 +1,341 @@
+# Prometheus Alerting Rules
+#
+# Define alert conditions for monitoring and incident response.
+
+groups:
+  # ==========================================================================
+  # Service Availability Alerts
+  # ==========================================================================
+  - name: service_availability
+    interval: 30s
+    rules:
+      - alert: ServiceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+          category: availability
+        annotations:
+          summary: "Service {{ $labels.job }} is down"
+          description: "Instance {{ $labels.instance }} has been down for more than 1 minute."
+          runbook: "https://wiki.example.com/runbooks/service-down"
+
+      - alert: ServiceFlapping
+        expr: changes(up[5m]) > 3
+        for: 5m
+        labels:
+          severity: warning
+          category: availability
+        annotations:
+          summary: "Service {{ $labels.job }} is flapping"
+          description: "Instance {{ $labels.instance }} has restarted {{ $value }} times in the last 5 minutes."
+
+  # ==========================================================================
+  # HTTP Error Rate Alerts
+  # ==========================================================================
+  - name: http_errors
+    interval: 30s
+    rules:
+      - alert: HighErrorRate
+        expr: service:http_errors:rate5m > 5
+        for: 5m
+        labels:
+          severity: warning
+          category: errors
+        annotations:
+          summary: "High error rate on {{ $labels.service }}"
+          description: "Error rate is {{ $value | humanizePercentage }} (threshold: 5%)"
+          query: 'service:http_errors:rate5m{service="{{ $labels.service }}"}'
+
+      - alert: CriticalErrorRate
+        expr: service:http_errors:rate5m > 10
+        for: 2m
+        labels:
+          severity: critical
+          category: errors
+        annotations:
+          summary: "Critical error rate on {{ $labels.service }}"
+          description: "Error rate is {{ $value | humanizePercentage }} (threshold: 10%)"
+          query: 'service:http_errors:rate5m{service="{{ $labels.service }}"}'
+
+      - alert: NoTraffic
+        expr: service:http_requests:rate5m == 0
+        for: 5m
+        labels:
+          severity: warning
+          category: traffic
+        annotations:
+          summary: "No traffic on {{ $labels.service }}"
+          description: "Service has received no requests in the last 5 minutes."
+
+  # ==========================================================================
+  # Latency Alerts
+  # ==========================================================================
+  - name: latency
+    interval: 30s
+    rules:
+      - alert: HighLatency
+        expr: service:http_latency:p95 > 1.0
+        for: 10m
+        labels:
+          severity: warning
+          category: latency
+        annotations:
+          summary: "High latency on {{ $labels.service }}"
+          description: "p95 latency is {{ $value | humanizeDuration }} (threshold: 1s)"
+          dashboard: "https://grafana.example.com/d/service-latency?var-service={{ $labels.service }}"
+
+      - alert: VeryHighLatency
+        expr: service:http_latency:p95 > 5.0
+        for: 5m
+        labels:
+          severity: critical
+          category: latency
+        annotations:
+          summary: "Very high latency on {{ $labels.service }}"
+          description: "p95 latency is {{ $value | humanizeDuration }} (threshold: 5s)"
+
+      - alert: LatencySpike
+        expr: |
+          (
+            service:http_latency:p95
+            /
+            service:http_latency:p95 offset 10m
+          ) > 2
+        for: 5m
+        labels:
+          severity: warning
+          category: latency
+        annotations:
+          summary: "Latency spike on {{ $labels.service }}"
+          description: "Latency has doubled compared to 10 minutes ago."
+
+  # ==========================================================================
+  # Resource Utilization Alerts
+  # ==========================================================================
+  - name: resource_utilization
+    interval: 30s
+    rules:
+      - alert: HighCPU
+        expr: instance:cpu_usage:ratio > 0.8
+        for: 10m
+        labels:
+          severity: warning
+          category: resources
+        annotations:
+          summary: "High CPU usage on {{ $labels.instance }}"
+          description: "CPU usage is {{ $value | humanizePercentage }} (threshold: 80%)"
+
+      - alert: CriticalCPU
+        expr: instance:cpu_usage:ratio > 0.95
+        for: 5m
+        labels:
+          severity: critical
+          category: resources
+        annotations:
+          summary: "Critical CPU usage on {{ $labels.instance }}"
+          description: "CPU usage is {{ $value | humanizePercentage }} (threshold: 95%)"
+
+      - alert: HighMemory
+        expr: instance:memory_usage:ratio > 0.9
+        for: 5m
+        labels:
+          severity: warning
+          category: resources
+        annotations:
+          summary: "High memory usage on {{ $labels.instance }}"
+          description: "Memory usage is {{ $value | humanizePercentage }} (threshold: 90%)"
+
+      - alert: CriticalMemory
+        expr: instance:memory_usage:ratio > 0.95
+        for: 2m
+        labels:
+          severity: critical
+          category: resources
+        annotations:
+          summary: "Critical memory usage on {{ $labels.instance }}"
+          description: "Memory usage is {{ $value | humanizePercentage }} (threshold: 95%)"
+
+      - alert: DiskSpaceLow
+        expr: instance:disk_usage:ratio > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          category: resources
+        annotations:
+          summary: "Low disk space on {{ $labels.instance }}"
+          description: "Disk usage is {{ $value | humanizePercentage }} (threshold: 85%)"
+          action: "Clean up old logs or expand disk"
+
+      - alert: DiskSpaceCritical
+        expr: instance:disk_usage:ratio > 0.95
+        for: 2m
+        labels:
+          severity: critical
+          category: resources
+        annotations:
+          summary: "Critical disk space on {{ $labels.instance }}"
+          description: "Disk usage is {{ $value | humanizePercentage }} (threshold: 95%)"
+          action: "IMMEDIATE ACTION REQUIRED: Disk almost full!"
+
+  # ==========================================================================
+  # Database Alerts
+  # ==========================================================================
+  - name: database
+    interval: 30s
+    rules:
+      - alert: SlowDatabaseQueries
+        expr: service:database_query_duration:avg > 0.5
+        for: 10m
+        labels:
+          severity: warning
+          category: database
+        annotations:
+          summary: "Slow database queries on {{ $labels.service }}"
+          description: "Average query duration is {{ $value | humanizeDuration }} (threshold: 500ms)"
+
+      - alert: HighDatabaseLoad
+        expr: service:database_queries:rate5m > 1000
+        for: 10m
+        labels:
+          severity: warning
+          category: database
+        annotations:
+          summary: "High database load on {{ $labels.service }}"
+          description: "Query rate is {{ $value | humanize }} queries/sec (threshold: 1000)"
+
+  # ==========================================================================
+  # Cache Alerts
+  # ==========================================================================
+  - name: cache
+    interval: 30s
+    rules:
+      - alert: LowCacheHitRate
+        expr: service:cache_hit:ratio < 0.5
+        for: 10m
+        labels:
+          severity: warning
+          category: cache
+        annotations:
+          summary: "Low cache hit rate on {{ $labels.service }}"
+          description: "Cache hit rate is {{ $value | humanizePercentage }} (threshold: 50%)"
+          action: "Check cache configuration and TTL settings"
+
+  # ==========================================================================
+  # SLO Alerts
+  # ==========================================================================
+  - name: slo
+    interval: 1m
+    rules:
+      - alert: SLOViolation
+        expr: service:availability:sli < 0.999
+        for: 5m
+        labels:
+          severity: critical
+          category: slo
+        annotations:
+          summary: "SLO violation on {{ $labels.service }}"
+          description: "Availability is {{ $value | humanizePercentage }} (target: 99.9%)"
+          runbook: "https://wiki.example.com/runbooks/slo-violation"
+
+      - alert: ErrorBudgetExhausted
+        expr: service:error_budget:ratio <= 0
+        for: 15m
+        labels:
+          severity: critical
+          category: slo
+        annotations:
+          summary: "Error budget exhausted for {{ $labels.service }}"
+          description: "Stop all deployments! Error budget ratio: {{ $value }}"
+          action: "STOP DEPLOYMENTS - Focus on stability"
+
+      - alert: ErrorBudgetLow
+        expr: service:error_budget:ratio < 0.2
+        for: 30m
+        labels:
+          severity: warning
+          category: slo
+        annotations:
+          summary: "Error budget running low for {{ $labels.service }}"
+          description: "Only {{ $value | humanizePercentage }} of error budget remaining"
+          action: "Slow down deployments and focus on reliability"
+
+  # ==========================================================================
+  # Prometheus Self-Monitoring
+  # ==========================================================================
+  - name: prometheus_self
+    interval: 30s
+    rules:
+      - alert: PrometheusHighCardinality
+        expr: prometheus_tsdb_head_series > 1000000
+        for: 10m
+        labels:
+          severity: warning
+          category: prometheus
+        annotations:
+          summary: "Prometheus has high cardinality"
+          description: "{{ $value | humanize }} time series (threshold: 1M)"
+          action: "Investigate high-cardinality metrics"
+
+      - alert: PrometheusSlowIngestion
+        expr: rate(prometheus_tsdb_head_samples_appended_total[5m]) < 1000
+        for: 10m
+        labels:
+          severity: warning
+          category: prometheus
+        annotations:
+          summary: "Prometheus slow ingestion"
+          description: "Only {{ $value | humanize }} samples/sec being ingested"
+
+      - alert: PrometheusDiskSpaceLow
+        expr: |
+          (
+            prometheus_tsdb_storage_blocks_bytes
+            /
+            node_filesystem_size_bytes{mountpoint="/prometheus"}
+          ) > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          category: prometheus
+        annotations:
+          summary: "Prometheus disk space low"
+          description: "{{ $value | humanizePercentage }} of disk used"
+          action: "Reduce retention or add storage"
+
+  # ==========================================================================
+  # Business Alerts
+  # ==========================================================================
+  - name: business
+    interval: 1m
+    rules:
+      - alert: OrderRateDrop
+        expr: |
+          (
+            service:orders:rate1m
+            /
+            service:orders:rate1m offset 1h
+          ) < 0.5
+        for: 10m
+        labels:
+          severity: warning
+          category: business
+        annotations:
+          summary: "Order rate dropped significantly"
+          description: "Order rate is {{ $value | humanizePercentage }} of normal (last hour)"
+          action: "Investigate checkout flow and payment processing"
+
+      - alert: RevenueAnomaly
+        expr: |
+          abs(
+            service:revenue:rate1m
+            -
+            avg_over_time(service:revenue:rate1m[1h])
+          ) > (stddev_over_time(service:revenue:rate1m[1h]) * 3)
+        for: 15m
+        labels:
+          severity: warning
+          category: business
+        annotations:
+          summary: "Revenue anomaly detected"
+          description: "Revenue deviates significantly from recent average"

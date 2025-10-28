@@ -1,0 +1,273 @@
+name: Reusable Deploy Workflow
+
+# Reusable workflow for deploying applications
+# Can be called from other workflows with different configurations
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: 'Target environment (staging/production)'
+        required: true
+        type: string
+
+      region:
+        description: 'Cloud provider region'
+        required: false
+        type: string
+        default: 'us-east-1'
+
+      artifact-name:
+        description: 'Name of the build artifact to deploy'
+        required: true
+        type: string
+
+      health-check-url:
+        description: 'URL for health check after deployment'
+        required: false
+        type: string
+
+      dry-run:
+        description: 'Run deployment in dry-run mode'
+        required: false
+        type: boolean
+        default: false
+
+      timeout-minutes:
+        description: 'Deployment timeout in minutes'
+        required: false
+        type: number
+        default: 15
+
+    secrets:
+      deploy-token:
+        description: 'Deployment authentication token'
+        required: true
+
+      api-key:
+        description: 'API key for cloud provider'
+        required: false
+
+      slack-webhook:
+        description: 'Slack webhook for notifications'
+        required: false
+
+    outputs:
+      deployment-id:
+        description: 'Unique deployment identifier'
+        value: ${{ jobs.deploy.outputs.deployment-id }}
+
+      deployment-url:
+        description: 'URL of deployed application'
+        value: ${{ jobs.deploy.outputs.deployment-url }}
+
+      deployment-time:
+        description: 'Deployment duration in seconds'
+        value: ${{ jobs.deploy.outputs.deployment-time }}
+
+jobs:
+  validate:
+    name: Validate Deployment Config
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Validate environment
+        run: |
+          if [[ ! "${{ inputs.environment }}" =~ ^(staging|production)$ ]]; then
+            echo "Error: Invalid environment: ${{ inputs.environment }}"
+            echo "Must be 'staging' or 'production'"
+            exit 1
+          fi
+
+      - name: Validate region
+        run: |
+          VALID_REGIONS="us-east-1 us-west-2 eu-west-1 ap-southeast-1"
+          if [[ ! "$VALID_REGIONS" =~ "${{ inputs.region }}" ]]; then
+            echo "Warning: Uncommon region: ${{ inputs.region }}"
+          fi
+
+      - name: Validate artifact name
+        run: |
+          if [[ -z "${{ inputs.artifact-name }}" ]]; then
+            echo "Error: artifact-name is required"
+            exit 1
+          fi
+
+  deploy:
+    name: Deploy to ${{ inputs.environment }}
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ inputs.timeout-minutes }}
+
+    environment:
+      name: ${{ inputs.environment }}
+      url: ${{ inputs.health-check-url || format('https://{0}.example.com', inputs.environment) }}
+
+    outputs:
+      deployment-id: ${{ steps.deploy.outputs.deployment-id }}
+      deployment-url: ${{ steps.deploy.outputs.deployment-url }}
+      deployment-time: ${{ steps.timing.outputs.duration }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: ./dist
+
+      - name: Start timing
+        id: start
+        run: echo "start_time=$(date +%s)" >> $GITHUB_OUTPUT
+
+      - name: Setup deployment tools
+        run: |
+          echo "Setting up deployment tools..."
+          # Install cloud provider CLI, kubectl, etc.
+
+      - name: Configure credentials
+        run: |
+          echo "Configuring deployment credentials..."
+          # Setup authentication
+        env:
+          DEPLOY_TOKEN: ${{ secrets.deploy-token }}
+          API_KEY: ${{ secrets.api-key }}
+
+      - name: Pre-deployment checks
+        run: |
+          echo "Running pre-deployment checks..."
+          echo "Environment: ${{ inputs.environment }}"
+          echo "Region: ${{ inputs.region }}"
+          echo "Dry run: ${{ inputs.dry-run }}"
+
+          # Check service health before deployment
+          # Verify sufficient resources
+          # Check for pending deployments
+
+      - name: Deploy application
+        id: deploy
+        run: |
+          DEPLOYMENT_ID="deploy-$(date +%s)-${{ github.sha }}"
+          echo "deployment-id=$DEPLOYMENT_ID" >> $GITHUB_OUTPUT
+
+          if [[ "${{ inputs.dry-run }}" == "true" ]]; then
+            echo "DRY RUN MODE - No actual deployment"
+            echo "Would deploy to: ${{ inputs.environment }}"
+            echo "deployment-url=https://${{ inputs.environment }}.example.com" >> $GITHUB_OUTPUT
+          else
+            echo "Deploying to ${{ inputs.environment }}..."
+
+            # Actual deployment commands
+            # ./deploy.sh ${{ inputs.environment }} ${{ inputs.region }}
+
+            DEPLOY_URL="https://${{ inputs.environment }}.example.com"
+            echo "deployment-url=$DEPLOY_URL" >> $GITHUB_OUTPUT
+            echo "Deployed to: $DEPLOY_URL"
+          fi
+        env:
+          ENVIRONMENT: ${{ inputs.environment }}
+          REGION: ${{ inputs.region }}
+
+      - name: Post-deployment verification
+        if: inputs.dry-run == false
+        run: |
+          echo "Verifying deployment..."
+
+          # Wait for service to be ready
+          sleep 10
+
+          # Check service health
+          if [[ -n "${{ inputs.health-check-url }}" ]]; then
+            echo "Checking health endpoint..."
+            for i in {1..10}; do
+              if curl -f -s "${{ inputs.health-check-url }}" > /dev/null; then
+                echo "Health check passed"
+                break
+              fi
+              echo "Attempt $i failed, retrying..."
+              sleep 5
+            done
+          fi
+
+      - name: Calculate deployment time
+        id: timing
+        run: |
+          START=${{ steps.start.outputs.start_time }}
+          END=$(date +%s)
+          DURATION=$((END - START))
+          echo "duration=$DURATION" >> $GITHUB_OUTPUT
+          echo "Deployment took ${DURATION} seconds"
+
+      - name: Rollback on failure
+        if: failure() && inputs.dry-run == false
+        run: |
+          echo "Deployment failed, initiating rollback..."
+          # Rollback logic here
+
+      - name: Notify success
+        if: success() && secrets.slack-webhook != ''
+        run: |
+          curl -X POST "${{ secrets.slack-webhook }}" \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "text": "✅ Deployment to ${{ inputs.environment }} succeeded",
+              "blocks": [{
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Deployment Successful*\n*Environment:* ${{ inputs.environment }}\n*URL:* ${{ steps.deploy.outputs.deployment-url }}\n*Duration:* ${{ steps.timing.outputs.duration }}s"
+                }
+              }]
+            }'
+
+      - name: Notify failure
+        if: failure() && secrets.slack-webhook != ''
+        run: |
+          curl -X POST "${{ secrets.slack-webhook }}" \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "text": "❌ Deployment to ${{ inputs.environment }} failed",
+              "blocks": [{
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Deployment Failed*\n*Environment:* ${{ inputs.environment }}\n*Workflow:* ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                }
+              }]
+            }'
+
+  smoke-tests:
+    name: Run Smoke Tests
+    needs: deploy
+    if: inputs.dry-run == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run smoke tests
+        run: |
+          echo "Running smoke tests against ${{ needs.deploy.outputs.deployment-url }}"
+
+          # Basic connectivity test
+          curl -f "${{ needs.deploy.outputs.deployment-url }}" || exit 1
+
+          # Run critical path tests
+          # npm run test:smoke -- --url "${{ needs.deploy.outputs.deployment-url }}"
+
+      - name: Test critical endpoints
+        run: |
+          BASE_URL="${{ needs.deploy.outputs.deployment-url }}"
+
+          # Test health endpoint
+          curl -f "$BASE_URL/health" || exit 1
+
+          # Test API endpoints
+          curl -f "$BASE_URL/api/status" || exit 1
+
+          echo "All smoke tests passed"

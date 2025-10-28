@@ -1,0 +1,339 @@
+# GitHub Actions CI/CD Workflow for Protocol Buffer Schema Validation
+#
+# This workflow demonstrates production-ready CI/CD for Protocol Buffers:
+# - Linting and validation on every PR
+# - Breaking change detection against main branch
+# - Multi-language code generation and compilation
+# - Schema compatibility checking
+# - Automated documentation generation
+# - Schema registry integration
+
+name: Protocol Buffer Validation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'protos/**/*.proto'
+      - 'buf.yaml'
+      - '.github/workflows/proto-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'protos/**/*.proto'
+
+jobs:
+  # Lint proto files
+  lint:
+    name: Lint Protocol Buffers
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Buf
+        uses: bufbuild/buf-setup-action@v1
+        with:
+          version: '1.28.0'
+
+      - name: Lint proto files
+        run: buf lint
+
+      - name: Custom validation
+        run: |
+          python scripts/validate_proto_schemas.py \
+            --proto-dir protos \
+            --json > validation-results.json
+
+      - name: Upload validation results
+        uses: actions/upload-artifact@v3
+        with:
+          name: validation-results
+          path: validation-results.json
+
+  # Check for breaking changes
+  breaking-changes:
+    name: Check Breaking Changes
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout PR code
+        uses: actions/checkout@v3
+
+      - name: Checkout main branch
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          path: baseline
+
+      - name: Setup Buf
+        uses: bufbuild/buf-setup-action@v1
+
+      - name: Check breaking changes with Buf
+        run: |
+          buf breaking --against baseline
+
+      - name: Custom compatibility analysis
+        run: |
+          python scripts/analyze_schema_compatibility.py \
+            --baseline-dir baseline/protos \
+            --current-dir protos \
+            --mode backward \
+            --json > compatibility-report.json
+
+      - name: Check compatibility results
+        run: |
+          compatible=$(jq -r '.compatible' compatibility-report.json)
+          if [ "$compatible" != "true" ]; then
+            echo "❌ Breaking changes detected!"
+            jq -r '.changes[] | select(.change_type == "breaking")' compatibility-report.json
+            exit 1
+          fi
+          echo "✅ No breaking changes detected"
+
+      - name: Upload compatibility report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: compatibility-report
+          path: compatibility-report.json
+
+  # Generate and validate code for multiple languages
+  generate-code:
+    name: Generate and Validate Code
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        language: [python, go, typescript]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup protoc
+        uses: arduino/setup-protoc@v2
+        with:
+          version: '24.4'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Python setup
+      - name: Setup Python
+        if: matrix.language == 'python'
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Python protobuf tools
+        if: matrix.language == 'python'
+        run: |
+          pip install grpcio-tools mypy-protobuf
+
+      - name: Generate Python code
+        if: matrix.language == 'python'
+        run: |
+          python scripts/generate_proto_code.py \
+            --proto-dir protos \
+            --language python \
+            --plugin grpc \
+            --validate \
+            --output-dir generated/python
+
+      # Go setup
+      - name: Setup Go
+        if: matrix.language == 'go'
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+
+      - name: Install Go protobuf tools
+        if: matrix.language == 'go'
+        run: |
+          go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+          go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+
+      - name: Generate Go code
+        if: matrix.language == 'go'
+        run: |
+          python scripts/generate_proto_code.py \
+            --proto-dir protos \
+            --language go \
+            --go-package github.com/${{ github.repository }}/protos \
+            --plugin grpc \
+            --validate \
+            --output-dir generated/go
+
+      - name: Verify Go code
+        if: matrix.language == 'go'
+        run: |
+          cd generated/go
+          go mod init github.com/${{ github.repository }}/protos
+          go mod tidy
+          go vet ./...
+
+      # TypeScript setup
+      - name: Setup Node.js
+        if: matrix.language == 'typescript'
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install TypeScript protobuf tools
+        if: matrix.language == 'typescript'
+        run: |
+          npm install -g ts-protoc-gen
+          npm install -g protoc-gen-grpc-web
+
+      - name: Generate TypeScript code
+        if: matrix.language == 'typescript'
+        run: |
+          python scripts/generate_proto_code.py \
+            --proto-dir protos \
+            --language typescript \
+            --plugin grpc-web \
+            --validate \
+            --output-dir generated/typescript
+
+      - name: Verify TypeScript code
+        if: matrix.language == 'typescript'
+        run: |
+          cd generated/typescript
+          npm install
+          npx tsc --noEmit
+
+      - name: Upload generated code
+        uses: actions/upload-artifact@v3
+        with:
+          name: generated-${{ matrix.language }}
+          path: generated/${{ matrix.language }}
+
+  # Generate documentation
+  documentation:
+    name: Generate Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Buf
+        uses: bufbuild/buf-setup-action@v1
+
+      - name: Generate docs with Buf
+        run: |
+          buf generate --template buf.gen.yaml
+
+      - name: Upload documentation
+        uses: actions/upload-artifact@v3
+        with:
+          name: documentation
+          path: docs/
+
+      - name: Deploy docs to GitHub Pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+
+  # Register schemas with registry
+  register-schemas:
+    name: Register Schemas
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [lint, breaking-changes, generate-code]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install requests protobuf
+
+      - name: Register schemas
+        env:
+          SCHEMA_REGISTRY_URL: ${{ secrets.SCHEMA_REGISTRY_URL }}
+        run: |
+          python scripts/register_schemas.py \
+            --proto-dir protos \
+            --registry-url $SCHEMA_REGISTRY_URL
+
+  # Summary report
+  summary:
+    name: Validation Summary
+    runs-on: ubuntu-latest
+    needs: [lint, breaking-changes, generate-code]
+    if: always()
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+
+      - name: Generate summary
+        run: |
+          echo "# Protocol Buffer Validation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Lint results
+          if [ -f "validation-results/validation-results.json" ]; then
+            echo "## Validation Results" >> $GITHUB_STEP_SUMMARY
+            jq -r '.summary' validation-results/validation-results.json >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          # Breaking changes
+          if [ -f "compatibility-report/compatibility-report.json" ]; then
+            echo "## Compatibility Check" >> $GITHUB_STEP_SUMMARY
+            jq -r '.compatible' compatibility-report/compatibility-report.json >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          # Code generation
+          echo "## Code Generation" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Python code generated" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Go code generated" >> $GITHUB_STEP_SUMMARY
+          echo "✅ TypeScript code generated" >> $GITHUB_STEP_SUMMARY
+
+# Alternative: GitLab CI configuration
+# Save as .gitlab-ci.yml
+#
+# stages:
+#   - validate
+#   - generate
+#   - deploy
+#
+# lint:
+#   stage: validate
+#   image: bufbuild/buf:latest
+#   script:
+#     - buf lint
+#
+# breaking-changes:
+#   stage: validate
+#   image: bufbuild/buf:latest
+#   script:
+#     - buf breaking --against origin/main
+#   only:
+#     - merge_requests
+#
+# generate-python:
+#   stage: generate
+#   image: python:3.11
+#   script:
+#     - pip install grpcio-tools
+#     - python scripts/generate_proto_code.py --proto-dir protos --language python
+#   artifacts:
+#     paths:
+#       - generated/python
+#
+# generate-go:
+#   stage: generate
+#   image: golang:1.21
+#   script:
+#     - go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+#     - go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+#     - python scripts/generate_proto_code.py --proto-dir protos --language go
+#   artifacts:
+#     paths:
+#       - generated/go

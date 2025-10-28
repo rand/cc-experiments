@@ -1,0 +1,69 @@
+{
+  "dashboard": {
+    "title": "Payment API - SLO Dashboard",
+    "tags": ["slo", "payment-api", "sre"],
+    "refresh": "30s",
+    "time": {"from": "now-30d", "to": "now"},
+    "panels": [
+      {
+        "id": 1,
+        "title": "Availability SLO",
+        "type": "gauge",
+        "targets": [{
+          "expr": "sum(rate(http_requests_total{service=\"payment-api\",status!~\"5..\"}[30d])) / sum(rate(http_requests_total{service=\"payment-api\"}[30d])) * 100"
+        }],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "steps": [
+                {"value": 0, "color": "red"},
+                {"value": 99.9, "color": "yellow"},
+                {"value": 99.95, "color": "green"}
+              ]
+            },
+            "unit": "percent",
+            "min": 99.8,
+            "max": 100
+          }
+        }
+      },
+      {
+        "id": 2,
+        "title": "Error Budget Remaining",
+        "type": "stat",
+        "targets": [{
+          "expr": "(0.0005 - (1 - (sum(rate(http_requests_total{service=\"payment-api\",status!~\"5..\"}[30d])) / sum(rate(http_requests_total{service=\"payment-api\"}[30d]))))) * 43200"
+        }],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "m",
+            "decimals": 1,
+            "thresholds": {
+              "steps": [
+                {"value": 0, "color": "red"},
+                {"value": 5.4, "color": "yellow"},
+                {"value": 10.8, "color": "green"}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 3,
+        "title": "Burn Rate (Multi-Window)",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "(1 - (sum(rate(http_requests_total{service=\"payment-api\",status!~\"5..\"}[1h])) / sum(rate(http_requests_total{service=\"payment-api\"}[1h])))) / 0.0005",
+            "legendFormat": "1h window"
+          },
+          {
+            "expr": "(1 - (sum(rate(http_requests_total{service=\"payment-api\",status!~\"5..\"}[6h])) / sum(rate(http_requests_total{service=\"payment-api\"}[6h])))) / 0.0005",
+            "legendFormat": "6h window"
+          }
+        ],
+        "yaxis": {"label": "Burn Rate Multiplier"}
+      }
+    ]
+  }
+}

@@ -1,0 +1,79 @@
+// User Service Protocol Buffer Schema - Version 2
+// Evolved schema showing backward-compatible changes
+
+syntax = "proto3";
+
+package example.user.v2;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/example/protos/user/v2;userv2";
+
+// User represents a user account (v2)
+// Non-breaking changes from v1:
+// - Added optional fields (display_name, role, email_verified)
+// - Added new enum value (BANNED)
+// - Marked deprecated field
+message User {
+  string id = 1;
+  string email = 2;
+
+  // Deprecated: Use display_name instead
+  string name = 3 [deprecated = true];
+
+  google.protobuf.Timestamp created_at = 4;
+  UserStatus status = 5;
+
+  // NEW in v2: Optional display name
+  string display_name = 6;
+
+  // NEW in v2: User role
+  UserRole role = 7;
+
+  // NEW in v2: Email verification status
+  bool email_verified = 8;
+
+  // NEW in v2: Last update timestamp
+  google.protobuf.Timestamp updated_at = 9;
+
+  // Reserved for future schema evolution
+  reserved 10, 11, 12;
+}
+
+// UserStatus represents account status
+enum UserStatus {
+  USER_STATUS_UNSPECIFIED = 0;
+  USER_STATUS_ACTIVE = 1;
+  USER_STATUS_SUSPENDED = 2;
+
+  // NEW in v2: Banned status
+  USER_STATUS_BANNED = 3;
+}
+
+// NEW in v2: User role enumeration
+enum UserRole {
+  USER_ROLE_UNSPECIFIED = 0;
+  USER_ROLE_USER = 1;
+  USER_ROLE_ADMIN = 2;
+}
+
+// CreateUserRequest creates a new user
+message CreateUserRequest {
+  string email = 1;
+
+  // Deprecated: Use display_name
+  string name = 2 [deprecated = true];
+
+  string password = 3;
+
+  // NEW in v2: Optional display name
+  string display_name = 4;
+
+  // NEW in v2: Optional role (defaults to USER)
+  UserRole role = 5;
+}
+
+// CreateUserResponse returns created user
+message CreateUserResponse {
+  User user = 1;
+}

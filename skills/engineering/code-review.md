@@ -531,6 +531,56 @@ export function UserDashboard() {
 
 ---
 
+## Level 3: Resources
+
+For deep-dive learning and production-ready tools, see the `resources/` directory:
+
+### Reference Materials
+- **REFERENCE.md** (~900 lines): Comprehensive code review guide
+  - Complete review checklist (design, functionality, complexity, tests, naming, comments)
+  - Writing effective review comments (tone, structure, severity levels)
+  - Handling disagreements and conflict resolution
+  - Common code smells and fixes
+  - Review automation (linters, formatters, security scanners for Python, JavaScript, TypeScript, Rust, Go)
+  - GitHub PR workflows and branch protection
+  - Review metrics (turnaround time, review depth, defect escape rate)
+
+### Scripts (`resources/scripts/`)
+- **review_pr.py**: Automated PR review script
+  - Runs linters, checks tests, analyzes diff
+  - Detects common issues (debug statements, secrets, TODOs)
+  - Generates human or JSON reports
+  - CLI: `./review_pr.py --base main --json`
+
+- **analyze_review_metrics.py**: GitHub PR metrics analyzer
+  - Tracks turnaround time, review depth, iteration count
+  - Reviewer leaderboard
+  - PR size distribution
+  - CLI: `./analyze_review_metrics.py --repo owner/repo --days 30 --json`
+
+- **generate_review_checklist.sh**: Custom checklist generator
+  - Creates checklists by PR type (feature, bugfix, security, refactor, docs)
+  - Language-specific checks (Python, JavaScript, TypeScript, Rust, Go)
+  - Markdown or JSON output
+  - CLI: `./generate_review_checklist.sh --type security --lang python --output checklist.md`
+
+### Examples (`resources/examples/`)
+- **github/PULL_REQUEST_TEMPLATE.md**: Production-ready PR template
+- **github/code-review-workflow.yml**: Complete GitHub Actions workflow
+  - Linting, security scanning, test execution
+  - PR size analysis with automated comments
+  - Reviewer assignment based on CODEOWNERS
+- **python/automated_review_checks.py**: Python code reviewer
+  - Checks imports, function length, complexity, documentation, naming, anti-patterns, security
+- **checklists/security-review.md**: Comprehensive security checklist
+  - Authentication, authorization, input validation, data protection, common vulnerabilities
+- **checklists/performance-review.md**: Performance optimization checklist
+  - Database queries, algorithms, memory, network I/O, frontend performance
+
+All scripts are executable, documented, and production-ready.
+
+---
+
 ## Related Skills
 
 - **engineering-code-quality**: SOLID principles, code smells, metrics

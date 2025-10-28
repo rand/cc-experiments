@@ -472,6 +472,72 @@ pushStream.respond({
 
 ---
 
+## Level 3 Resources
+
+This skill includes executable scripts, reference documentation, and configuration examples in the `resources/` directory.
+
+### Scripts (`resources/scripts/`)
+
+**benchmark_http2.py**: Compare HTTP/1.1 and HTTP/2 performance
+```bash
+# Benchmark 50 requests
+python resources/scripts/benchmark_http2.py --url https://example.com --requests 50
+
+# JSON output
+python resources/scripts/benchmark_http2.py --url https://example.com --json results.json
+```
+
+**analyze_hpack.py**: Analyze HPACK header compression efficiency
+```bash
+# Demo with sample requests
+python resources/scripts/analyze_hpack.py --demo
+
+# Analyze custom headers
+python resources/scripts/analyze_hpack.py --requests headers.txt --verbose
+```
+
+**test_server_push.sh**: Test HTTP/2 server push functionality
+```bash
+# Test server push support
+./resources/scripts/test_server_push.sh --url https://example.com
+
+# Detailed analysis with nghttp
+./resources/scripts/test_server_push.sh --url https://example.com --verbose
+```
+
+### Reference Documentation (`resources/REFERENCE.md`)
+
+- RFC 7540: HTTP/2 protocol specification
+- Binary framing layer details
+- HPACK compression algorithm (RFC 7541)
+- Flow control mechanisms
+- Stream prioritization
+- Performance benchmarks
+
+### Configuration Examples (`resources/examples/`)
+
+**Nginx** (`resources/examples/nginx/http2.conf`):
+- Basic HTTP/2 setup
+- Server push configuration
+- Performance tuning
+- Multiple domain coalescing
+
+**Node.js** (`resources/examples/node/http2-server.js`):
+- Server push implementation
+- Stream prioritization
+- Flow control
+- API server example
+
+**Python** (`resources/examples/python/http2_client.py`):
+- HTTP/2 client with httpx
+- Multiplexed concurrent requests
+- Low-level h2 library usage
+- API client with authentication
+
+See `resources/scripts/README.md` for complete documentation.
+
+---
+
 ## Related Skills
 
 - `protocols-http-fundamentals` - HTTP/1.1 basics

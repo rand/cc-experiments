@@ -1,0 +1,22 @@
+{
+  "name": "express-prometheus-metrics",
+  "version": "1.0.0",
+  "description": "Express application with Prometheus metrics",
+  "main": "dist/express_metrics.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node express_metrics.ts",
+    "dev": "ts-node-dev --respawn express_metrics.ts"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "prom-client": "^15.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.20",
+    "@types/node": "^20.9.0",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.2.2"
+  }
+}

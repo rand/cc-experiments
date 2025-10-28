@@ -682,6 +682,138 @@ ws.onmessage = (event) => {
 };
 ```
 
+## Level 3: Resources
+
+### Comprehensive Reference
+
+**Location**: `/Users/rand/src/cc-polymath/skills/realtime/websocket-implementation/resources/REFERENCE.md`
+
+The comprehensive reference (1,900+ lines) covers:
+- WebSocket protocol fundamentals (RFC 6455)
+- Connection lifecycle (handshake, frames, close)
+- Frame structure and opcodes
+- Message types (text, binary, ping/pong, close)
+- Security considerations (origin validation, authentication, TLS)
+- Scaling patterns (sticky sessions, Redis pub/sub, message queues)
+- Reconnection strategies with exponential backoff
+- Server implementations (Node.js ws, Python websockets, Go gorilla)
+- Client implementations (browser, Node.js, Python)
+- Testing strategies (unit, integration, load)
+- Common patterns (chat, real-time dashboards, multiplayer games)
+- Comparison with alternatives (SSE, long polling, HTTP/2)
+- Production best practices (monitoring, logging, resource limits)
+- Troubleshooting guide
+- Performance optimization techniques
+
+### Testing & Analysis Scripts
+
+**Location**: `/Users/rand/src/cc-polymath/skills/realtime/websocket-implementation/resources/scripts/`
+
+**test_websocket.py** - WebSocket testing tool
+- Test connectivity, echo, latency, ping/pong
+- Support for text and binary messages
+- Connection lifecycle testing
+- Large message handling
+- Reconnection testing
+- JSON output for CI/CD integration
+- Usage: `./test_websocket.py wss://api.example.com/ws --latency --count 20 --json`
+
+**benchmark_connections.py** - Connection benchmark tool
+- Test concurrent connections (100s to 1000s)
+- Measure connection establishment time
+- Throughput metrics (messages/sec, bytes/sec)
+- Gradual ramp-up support
+- Duration-based load testing
+- Detailed per-connection statistics
+- Usage: `./benchmark_connections.py ws://localhost:8080 --connections 1000 --duration 60`
+
+**analyze_traffic.sh** - Traffic analysis tool
+- Capture WebSocket traffic with tcpdump
+- Analyze with tshark for detailed inspection
+- WebSocket handshake detection
+- Frame type breakdown (text, binary, ping, pong, close)
+- Payload size statistics
+- Connection duration analysis
+- JSON output for tooling integration
+- Usage: `./analyze_traffic.sh --interface eth0 --port 8080 --duration 60 --analyze`
+
+### Production Examples
+
+**Location**: `/Users/rand/src/cc-polymath/skills/realtime/websocket-implementation/resources/examples/`
+
+**Node.js Server** (`node/websocket-server.js`)
+- Production-ready WebSocket server using 'ws' library
+- Room-based messaging with broadcast support
+- Rate limiting and connection metrics
+- Ping/pong heartbeat with timeout detection
+- Graceful shutdown handling
+- Health check and metrics endpoints
+- Message routing and validation
+
+**Node.js Client** (`node/websocket-client.js`)
+- Robust client with exponential backoff reconnection
+- Message queueing during disconnection
+- Heartbeat detection with automatic reconnect
+- State machine management
+- Event-driven architecture
+- TypeScript-ready implementation
+
+**Python Server** (`python/websocket_server.py`)
+- Async/await server using 'websockets' library
+- Room management and broadcasting
+- Token bucket rate limiting
+- Built-in ping/pong support
+- Metrics reporting
+- Signal handling for graceful shutdown
+
+**Python Client** (`python/websocket_client.py`)
+- Async client with reconnection logic
+- Message queueing and batching
+- Callback-based event handling
+- Heartbeat monitoring
+- Connection state tracking
+
+**React Hook** (`react/useWebSocket.tsx`)
+- Custom hook for React applications
+- Automatic reconnection with state management
+- Message queueing during reconnection
+- TypeScript support
+- Example components (chat room, connection status)
+- Optimized for React 18+ patterns
+
+**Docker Deployment** (`docker/`)
+- Multi-container setup with docker-compose
+- Scalable WebSocket servers with Redis pub/sub
+- Nginx load balancer with sticky sessions
+- Prometheus + Grafana monitoring
+- Health checks and auto-restart
+- Production-ready configuration
+
+### Usage Examples
+
+```bash
+# Test WebSocket server connectivity and latency
+./resources/scripts/test_websocket.py wss://api.example.com/ws --latency --count 10
+
+# Benchmark 1000 concurrent connections
+./resources/scripts/benchmark_connections.py ws://localhost:8080 \
+  --connections 1000 --duration 60 --ramp-up 30
+
+# Analyze WebSocket traffic
+./resources/scripts/analyze_traffic.sh \
+  --interface eth0 --port 8080 --duration 300 --analyze
+
+# Run Node.js server
+cd resources/examples/node && npm install && node websocket-server.js
+
+# Run Python server
+cd resources/examples/python && python websocket_server.py --port 8080
+
+# Deploy with Docker
+cd resources/examples/docker && docker-compose up -d
+docker-compose scale websocket=3  # Scale to 3 instances
+```
+
 ## Related Skills
 
 - **server-sent-events.md**: Alternative for unidirectional server-to-client streaming
@@ -691,5 +823,5 @@ ws.onmessage = (event) => {
 
 ---
 
-**Last Updated**: 2025-10-18
+**Last Updated**: 2025-10-27
 **Format Version**: 1.0 (Atomic)

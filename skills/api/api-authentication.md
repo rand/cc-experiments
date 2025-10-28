@@ -778,6 +778,71 @@ Start: What are you building?
 
 ---
 
+## Level 3 Resources
+
+This skill includes comprehensive reference materials, executable scripts, and implementation examples.
+
+### Reference Materials
+
+**`api-authentication/resources/REFERENCE.md`** (~300 lines):
+- JWT specification (RFC 7519) - Complete technical reference
+- OAuth 2.0 framework (RFC 6749) - Authorization flows and grant types
+- PKCE extension (RFC 7636) - Proof Key for Code Exchange
+- Token storage best practices - Browser, mobile, server-side
+- Security considerations - Algorithm confusion, CSRF, XSS, token replay
+- Attack vectors and mitigations - Comprehensive security guide
+- Password hashing algorithms - Argon2, bcrypt, scrypt comparison
+- Implementation checklist - JWT, OAuth, API key requirements
+
+### Executable Scripts
+
+**`api-authentication/resources/scripts/`**:
+
+1. **test_jwt.py** - JWT security testing and validation
+   - Validate JWT tokens with full security checks
+   - Generate tokens with proper claims
+   - Inspect token structure (header, payload, signature)
+   - Run attack tests (none algorithm, weak secrets, algorithm confusion)
+   - Check expiration, signature, and claim validation
+
+2. **test_oauth_flow.py** - OAuth 2.0 flow validator
+   - Test authorization endpoints (Authorization Code Flow)
+   - Test token endpoints (Client Credentials, Refresh Token)
+   - Validate PKCE implementation
+   - Check state parameter and redirect URI validation
+   - Verify HTTPS enforcement
+
+3. **benchmark_hashing.py** - Password hashing benchmark
+   - Compare bcrypt, Argon2id, and scrypt
+   - Auto-tune Argon2 parameters for target time (250-500ms)
+   - Statistical analysis (mean, median, stdev)
+   - Memory usage comparison
+
+**Usage Examples**:
+```bash
+# JWT validation
+python test_jwt.py --token "eyJhbGc..." --validate --secret "key" --algorithm HS256
+
+# OAuth testing
+python test_oauth_flow.py --auth-url https://auth.example.com/authorize \
+                          --client-id ID --redirect-uri https://app.example.com/callback
+
+# Hashing benchmark
+python benchmark_hashing.py --compare --iterations 50
+```
+
+### Implementation Examples
+
+**`api-authentication/resources/examples/`**:
+
+- **python/jwt_authentication.py** - Complete FastAPI JWT auth with Argon2
+- **typescript/jwt-auth-client.ts** - React/TypeScript auth client with automatic refresh
+- **ci-cd/jwt-security-check.yml** - GitHub Actions security validation
+
+See `api-authentication/resources/scripts/README.md` for detailed documentation.
+
+---
+
 ## Related Skills
 
 - `network-resilience-patterns.md` - Retry logic for auth failures
@@ -787,5 +852,6 @@ Start: What are you building?
 
 ---
 
-**Last Updated**: 2025-10-18
+**Last Updated**: 2025-10-27
 **Format Version**: 1.0 (Atomic)
+**Resources**: Level 3 (Reference, Scripts, Examples)

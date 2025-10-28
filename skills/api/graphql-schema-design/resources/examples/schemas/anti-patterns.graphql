@@ -1,0 +1,303 @@
+# GraphQL Schema - Anti-Patterns Example
+#
+# This schema demonstrates common mistakes and anti-patterns.
+# DO NOT USE THIS AS A REFERENCE - it shows what NOT to do.
+
+# Anti-Pattern 1: Poor naming conventions
+type user {  # Should be PascalCase
+  id: ID!
+  user_name: String!  # Should be camelCase, not snake_case
+  Email: String!  # Should be lowercase start
+}
+
+# Anti-Pattern 2: Missing documentation
+type Post {
+  id: ID!
+  title: String!
+  content: String!
+}
+
+# Anti-Pattern 3: Leaking implementation details
+type Article {
+  id: ID!
+  title: String!
+  created_ts: Int!  # Unix timestamp instead of DateTime
+  author_fk: Int!  # Exposes foreign key
+  is_deleted: Boolean!  # Implementation detail
+}
+
+# Anti-Pattern 4: Non-null list with nullable items
+type Blog {
+  id: ID!
+  posts: [Post]!  # List is non-null but items can be null - confusing
+}
+
+# Anti-Pattern 5: Unbounded lists
+type Query {
+  allUsers: [user!]!  # No pagination - can return millions
+  allPosts: [Post!]!  # No limit
+}
+
+# Anti-Pattern 6: Over-normalization
+type UserProfile {
+  id: ID!
+  bio: String
+}
+
+type UserSettings {
+  id: ID!
+  theme: String
+}
+
+type UserPreferences {
+  id: ID!
+  language: String
+}
+
+type User {
+  id: ID!
+  profile: UserProfile  # Too fragmented
+  settings: UserSettings
+  preferences: UserPreferences
+}
+
+# Anti-Pattern 7: Boolean traps
+type Query {
+  users(active: Boolean): [user!]!  # Unclear: true=active, false=inactive, null=all?
+}
+
+# Anti-Pattern 8: Mutations without input types
+type Mutation {
+  createPost(
+    title: String!
+    content: String!
+    authorId: ID!
+    tags: [String!]
+    isDraft: Boolean
+  ): Post!  # Too many loose arguments
+}
+
+# Anti-Pattern 9: No error handling
+type Mutation {
+  updatePost(id: ID!, title: String): Post  # What if not found? Just null?
+}
+
+# Anti-Pattern 10: Generic names
+type Data {  # Too vague
+  id: ID!
+  value: String
+  type: String
+}
+
+type Query {
+  getData(id: ID!): Data  # What kind of data?
+}
+
+# Anti-Pattern 11: String enums
+type Order {
+  id: ID!
+  status: String!  # Should be enum: "pending", "shipped", etc.
+}
+
+# Anti-Pattern 12: Duplicated types
+type CreatePostResponse {
+  success: Boolean!
+  post: Post
+}
+
+type UpdatePostResponse {
+  success: Boolean!
+  post: Post
+}
+
+type DeletePostResponse {
+  success: Boolean!
+  post: Post
+}
+# Should use interface or generic payload type
+
+# Anti-Pattern 13: Exposing implementation complexity
+type ComplexQuery {
+  # Exposes database join complexity
+  usersWithPostsAndCommentsAndLikesAndFollowers: [user!]!
+}
+
+# Anti-Pattern 14: Non-standard pagination
+type Query {
+  posts(page: Int, perPage: Int): PostPage  # Page-based instead of cursor
+}
+
+type PostPage {
+  data: [Post!]!  # "data" is generic
+  current_page: Int  # snake_case
+  total_pages: Int
+}
+
+# Anti-Pattern 15: Missing interfaces
+type AdminUser {
+  id: ID!
+  username: String!
+  email: String!
+  adminLevel: Int!
+}
+
+type RegularUser {
+  id: ID!
+  username: String!
+  email: String!
+  karma: Int!
+}
+# Should share interface for common fields
+
+# Anti-Pattern 16: Recursive types without limits
+type Comment {
+  id: ID!
+  content: String!
+  replies: [Comment!]!  # Unbounded recursion
+}
+
+# Anti-Pattern 17: Using JSON as escape hatch
+scalar JSON
+
+type FlexibleType {
+  id: ID!
+  metadata: JSON  # Loses type safety
+  config: JSON
+  data: JSON
+}
+
+# Anti-Pattern 18: Single-field wrappers
+type PostWrapper {
+  post: Post  # Unnecessary wrapper
+}
+
+type Query {
+  getPost(id: ID!): PostWrapper  # Just return Post directly
+}
+
+# Anti-Pattern 19: Mutations that don't return affected data
+type Mutation {
+  deleteUser(id: ID!): Boolean!  # Only returns success, no deleted data
+}
+
+# Anti-Pattern 20: Unclear nullability
+type Product {
+  id: ID!
+  name: String  # Is it optional? Or can it be null if loading fails?
+  price: Float  # Same question
+  description: String
+}
+
+# Anti-Pattern 21: Too many root queries
+type Query {
+  user1: user
+  user2: user
+  user3: user
+  user4: user
+  user5: user
+  # ... should be: user(id: ID!): User
+}
+
+# Anti-Pattern 22: Enum values not SCREAMING_SNAKE_CASE
+enum Status {
+  Active
+  Inactive
+  pending
+  Completed
+}
+
+# Anti-Pattern 23: Missing deprecation reasons
+type LegacyType {
+  id: ID!
+  oldField: String @deprecated  # No reason given
+}
+
+# Anti-Pattern 24: Mutations without clear action verbs
+type Mutation {
+  post(title: String!): Post!  # Create? Update? Unclear
+  user(id: ID!): user!  # What action?
+}
+
+# Anti-Pattern 25: Returning arrays instead of connections for relationships
+type Author {
+  id: ID!
+  name: String!
+  books: [Book!]!  # No pagination, can't get page info
+}
+
+# Anti-Pattern 26: Input types matching output types
+input PostInput {
+  id: ID!  # ID in input is usually wrong
+  title: String!
+  content: String!
+  createdAt: DateTime!  # Server should set this
+}
+
+# Anti-Pattern 27: No versioning strategy
+type User {
+  id: ID!
+  name: String!  # If we want to rename to displayName, we're stuck
+}
+
+# Anti-Pattern 28: Inconsistent naming
+type Query {
+  getUser(id: ID!): user  # "get" prefix
+  post(id: ID!): Post  # No "get" prefix
+  fetchArticle(id: ID!): Article  # "fetch" prefix
+}
+
+# Anti-Pattern 29: Deeply nested required types
+type A {
+  b: B!
+}
+
+type B {
+  c: C!
+}
+
+type C {
+  d: D!
+}
+
+type D {
+  value: String!
+}
+# One failure deep in the tree nulls entire query
+
+# Anti-Pattern 30: Missing connection types for many-to-many
+type User {
+  id: ID!
+  followers: [user!]!  # No way to get relationship metadata
+}
+
+# Summary of Anti-Patterns Demonstrated:
+# 1. Poor naming (user, user_name, Email)
+# 2. Missing documentation
+# 3. Leaking implementation (created_ts, author_fk)
+# 4. Non-null lists with nullable items
+# 5. Unbounded lists (allUsers, allPosts)
+# 6. Over-normalization (UserProfile, UserSettings, etc.)
+# 7. Boolean traps (active: Boolean)
+# 8. No input types (loose mutation args)
+# 9. No error handling
+# 10. Generic names (Data, getData)
+# 11. String enums instead of proper enums
+# 12. Duplicated types
+# 13. Exposing complexity
+# 14. Non-standard pagination
+# 15. Missing interfaces
+# 16. Unbounded recursion
+# 17. JSON escape hatches
+# 18. Single-field wrappers
+# 19. Mutations not returning data
+# 20. Unclear nullability
+# 21. Too many root queries
+# 22. Wrong enum casing
+# 23. Missing deprecation reasons
+# 24. Unclear mutation actions
+# 25. Arrays instead of connections
+# 26. IDs in input types
+# 27. No versioning strategy
+# 28. Inconsistent naming
+# 29. Deeply nested required types
+# 30. Missing relationship metadata

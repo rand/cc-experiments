@@ -1,0 +1,110 @@
+# WebSocket Server with Redis Pub/Sub for Horizontal Scaling
+#
+# This Docker Compose setup demonstrates a scalable WebSocket architecture:
+# - Multiple WebSocket server instances
+# - Redis for pub/sub messaging between servers
+# - Nginx load balancer with sticky sessions
+#
+# Usage:
+#   docker-compose up -d
+#   docker-compose scale websocket=3  # Scale to 3 instances
+#   docker-compose logs -f websocket
+#   docker-compose down
+
+version: '3.8'
+
+services:
+  # Redis for pub/sub
+  redis:
+    image: redis:7-alpine
+    container_name: websocket-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    networks:
+      - websocket-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  # WebSocket server (scalable)
+  websocket:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    environment:
+      - PORT=8080
+      - REDIS_URL=redis://redis:6379
+      - NODE_ENV=production
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - websocket-net
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+
+  # Nginx load balancer
+  nginx:
+    image: nginx:alpine
+    container_name: websocket-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - websocket
+    networks:
+      - websocket-net
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  # Prometheus for metrics (optional)
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: websocket-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - websocket-net
+
+  # Grafana for visualization (optional)
+  grafana:
+    image: grafana/grafana:latest
+    container_name: websocket-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - websocket-net
+
+networks:
+  websocket-net:
+    driver: bridge
+
+volumes:
+  redis-data:
+  prometheus-data:
+  grafana-data:

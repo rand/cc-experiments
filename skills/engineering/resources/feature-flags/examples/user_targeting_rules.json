@@ -1,0 +1,347 @@
+{
+  "description": "User Targeting Rules Examples - Production patterns for segmenting users",
+  "rules": [
+    {
+      "name": "Premium Users",
+      "description": "Target users on premium or enterprise plans",
+      "conditions": [
+        {
+          "attribute": "plan",
+          "operator": "in",
+          "values": ["premium", "enterprise"]
+        }
+      ],
+      "variation": "enabled"
+    },
+    {
+      "name": "Beta Users",
+      "description": "Users who opted into beta program",
+      "conditions": [
+        {
+          "attribute": "beta_opted_in",
+          "operator": "equals",
+          "values": [true]
+        },
+        {
+          "attribute": "account_age_days",
+          "operator": "greater_than",
+          "values": [30]
+        }
+      ],
+      "variation": "beta"
+    },
+    {
+      "name": "Geographic Targeting",
+      "description": "Users in specific countries",
+      "conditions": [
+        {
+          "attribute": "country",
+          "operator": "in",
+          "values": ["US", "CA", "GB"]
+        }
+      ],
+      "variation": "enabled"
+    },
+    {
+      "name": "High Value Users",
+      "description": "Users with high lifetime value",
+      "conditions": [
+        {
+          "attribute": "lifetime_value",
+          "operator": "greater_than",
+          "values": [1000]
+        },
+        {
+          "attribute": "churn_risk",
+          "operator": "less_than",
+          "values": [0.3]
+        }
+      ],
+      "variation": "premium_features"
+    },
+    {
+      "name": "Power Users",
+      "description": "Highly engaged users",
+      "conditions": [
+        {
+          "attribute": "sessions_per_month",
+          "operator": "greater_than",
+          "values": [20]
+        },
+        {
+          "attribute": "feature_adoption_rate",
+          "operator": "greater_than",
+          "values": [0.7]
+        }
+      ],
+      "variation": "advanced_features"
+    },
+    {
+      "name": "Mobile Users",
+      "description": "Target mobile device users",
+      "conditions": [
+        {
+          "attribute": "device_type",
+          "operator": "equals",
+          "values": ["mobile"]
+        },
+        {
+          "attribute": "app_version",
+          "operator": "semver_greater",
+          "values": ["2.0.0"]
+        }
+      ],
+      "variation": "mobile_optimized"
+    },
+    {
+      "name": "Corporate Users",
+      "description": "Users from specific email domains",
+      "conditions": [
+        {
+          "attribute": "email",
+          "operator": "ends_with",
+          "values": ["@enterprise.com", "@bigcorp.com"]
+        }
+      ],
+      "variation": "enterprise_features"
+    },
+    {
+      "name": "Early Adopters",
+      "description": "Long-term users who adopt new features quickly",
+      "conditions": [
+        {
+          "attribute": "account_age_days",
+          "operator": "greater_than",
+          "values": [365]
+        },
+        {
+          "attribute": "new_feature_adoption_rate",
+          "operator": "greater_than",
+          "values": [0.8]
+        }
+      ],
+      "variation": "early_access"
+    },
+    {
+      "name": "At-Risk Users",
+      "description": "Users showing signs of churn",
+      "conditions": [
+        {
+          "attribute": "last_active_days",
+          "operator": "greater_than",
+          "values": [14]
+        },
+        {
+          "attribute": "usage_trend",
+          "operator": "equals",
+          "values": ["declining"]
+        }
+      ],
+      "variation": "retention_features"
+    },
+    {
+      "name": "A/B Test Segment",
+      "description": "Consistent bucketing for A/B tests",
+      "conditions": [
+        {
+          "attribute": "user_id_hash",
+          "operator": "modulo",
+          "divisor": 100,
+          "values": [0, 49]
+        }
+      ],
+      "variation": "variant_a"
+    }
+  ],
+  "advanced_patterns": {
+    "time_based_targeting": {
+      "name": "Weekend Users",
+      "description": "Target users during weekends",
+      "conditions": [
+        {
+          "attribute": "day_of_week",
+          "operator": "in",
+          "values": ["saturday", "sunday"]
+        }
+      ],
+      "variation": "weekend_mode"
+    },
+    "behavioral_targeting": {
+      "name": "Feature-Specific Users",
+      "description": "Users who frequently use specific features",
+      "conditions": [
+        {
+          "attribute": "feature_usage.analytics",
+          "operator": "greater_than",
+          "values": [50]
+        },
+        {
+          "attribute": "feature_usage.reports",
+          "operator": "greater_than",
+          "values": [10]
+        }
+      ],
+      "variation": "advanced_analytics"
+    },
+    "contextual_targeting": {
+      "name": "Session-Based",
+      "description": "Target based on current session context",
+      "conditions": [
+        {
+          "attribute": "session.pages_viewed",
+          "operator": "greater_than",
+          "values": [5]
+        },
+        {
+          "attribute": "session.duration_minutes",
+          "operator": "greater_than",
+          "values": [10]
+        }
+      ],
+      "variation": "engaged_session"
+    },
+    "composite_targeting": {
+      "name": "Ideal Customer Profile",
+      "description": "Multiple criteria for ideal customers",
+      "all_of": [
+        {
+          "attribute": "plan",
+          "operator": "equals",
+          "values": ["enterprise"]
+        },
+        {
+          "attribute": "team_size",
+          "operator": "greater_than",
+          "values": [50]
+        }
+      ],
+      "any_of": [
+        {
+          "attribute": "industry",
+          "operator": "in",
+          "values": ["technology", "finance"]
+        },
+        {
+          "attribute": "revenue",
+          "operator": "greater_than",
+          "values": [1000000]
+        }
+      ],
+      "none_of": [
+        {
+          "attribute": "support_tickets",
+          "operator": "greater_than",
+          "values": [10]
+        }
+      ],
+      "variation": "vip_features"
+    },
+    "progressive_targeting": {
+      "name": "Gradual Expansion",
+      "description": "Expand to broader audience over time",
+      "stages": [
+        {
+          "day": 0,
+          "conditions": [
+            {
+              "attribute": "internal_user",
+              "operator": "equals",
+              "values": [true]
+            }
+          ]
+        },
+        {
+          "day": 7,
+          "conditions": [
+            {
+              "attribute": "beta_opted_in",
+              "operator": "equals",
+              "values": [true]
+            }
+          ]
+        },
+        {
+          "day": 14,
+          "conditions": [
+            {
+              "attribute": "plan",
+              "operator": "in",
+              "values": ["premium", "enterprise"]
+            }
+          ]
+        },
+        {
+          "day": 30,
+          "conditions": []
+        }
+      ],
+      "variation": "new_feature"
+    }
+  },
+  "operators_reference": {
+    "string_operators": [
+      "equals",
+      "not_equals",
+      "in",
+      "not_in",
+      "contains",
+      "not_contains",
+      "starts_with",
+      "ends_with",
+      "matches_regex"
+    ],
+    "numeric_operators": [
+      "equals",
+      "not_equals",
+      "greater_than",
+      "less_than",
+      "greater_than_or_equal",
+      "less_than_or_equal",
+      "between"
+    ],
+    "boolean_operators": [
+      "equals",
+      "not_equals"
+    ],
+    "array_operators": [
+      "in",
+      "not_in",
+      "contains",
+      "contains_any",
+      "contains_all"
+    ],
+    "date_operators": [
+      "before",
+      "after",
+      "between",
+      "within_days"
+    ],
+    "version_operators": [
+      "semver_equals",
+      "semver_greater",
+      "semver_less",
+      "semver_greater_or_equal",
+      "semver_less_or_equal"
+    ]
+  },
+  "best_practices": {
+    "targeting_tips": [
+      "Use specific targeting to minimize blast radius",
+      "Start with internal users, then expand gradually",
+      "Combine multiple conditions for precise targeting",
+      "Use consistent bucketing for A/B tests",
+      "Monitor targeting rule performance",
+      "Document targeting rationale",
+      "Test targeting rules before production",
+      "Use blocklists for critical exclusions"
+    ],
+    "performance_tips": [
+      "Minimize number of conditions per rule",
+      "Use indexed attributes when possible",
+      "Cache targeting decisions when appropriate",
+      "Avoid expensive regex operations",
+      "Pre-compute derived attributes",
+      "Use client-side evaluation for latency"
+    ]
+  }
+}

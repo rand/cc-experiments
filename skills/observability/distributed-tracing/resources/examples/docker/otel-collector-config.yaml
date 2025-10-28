@@ -1,0 +1,155 @@
+# OpenTelemetry Collector Configuration
+#
+# This configuration receives traces via OTLP and exports to Jaeger.
+# It includes:
+# - OTLP receivers (gRPC and HTTP)
+# - Batch processor for performance
+# - Tail sampling processor for smart sampling
+# - Jaeger exporter
+
+receivers:
+  # OTLP receiver (gRPC)
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+  # Jaeger receiver (for backward compatibility)
+  jaeger:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:14250
+      thrift_http:
+        endpoint: 0.0.0.0:14268
+
+processors:
+  # Batch processor (improves performance)
+  batch:
+    timeout: 10s
+    send_batch_size: 1024
+
+  # Memory limiter (prevents OOM)
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 512
+    spike_limit_mib: 128
+
+  # Tail sampling (sample based on trace outcome)
+  tail_sampling:
+    decision_wait: 10s
+    num_traces: 100000
+    expected_new_traces_per_sec: 1000
+    policies:
+      # Always sample errors
+      - name: error-policy
+        type: status_code
+        status_code:
+          status_codes:
+            - ERROR
+
+      # Sample slow traces (>1s)
+      - name: latency-policy
+        type: latency
+        latency:
+          threshold_ms: 1000
+
+      # Sample 10% of normal traces
+      - name: probabilistic-policy
+        type: probabilistic
+        probabilistic:
+          sampling_percentage: 10
+
+      # Sample traces from specific services
+      - name: important-service-policy
+        type: string_attribute
+        string_attribute:
+          key: service.name
+          values:
+            - payment-service
+            - auth-service
+          enabled_regex_matching: false
+          invert_match: false
+
+  # Resource detection (add host/cloud metadata)
+  resourcedetection:
+    detectors: [env, system, docker]
+    timeout: 5s
+
+  # Attributes processor (add/modify attributes)
+  attributes:
+    actions:
+      # Add deployment info
+      - key: deployment.environment
+        value: production
+        action: insert
+      # Remove sensitive data
+      - key: http.request.header.authorization
+        action: delete
+
+exporters:
+  # Jaeger exporter
+  jaeger:
+    endpoint: jaeger:14250
+    tls:
+      insecure: true
+
+  # OTLP exporter (for chaining collectors)
+  otlp:
+    endpoint: jaeger:4317
+    tls:
+      insecure: true
+
+  # Logging exporter (for debugging)
+  logging:
+    loglevel: info
+    sampling_initial: 5
+    sampling_thereafter: 200
+
+  # Prometheus metrics exporter
+  prometheus:
+    endpoint: 0.0.0.0:8889
+    namespace: otel_collector
+
+extensions:
+  # Health check
+  health_check:
+    endpoint: 0.0.0.0:13133
+
+  # Performance profiler
+  pprof:
+    endpoint: 0.0.0.0:1777
+
+  # zPages (diagnostics)
+  zpages:
+    endpoint: 0.0.0.0:55679
+
+service:
+  extensions: [health_check, pprof, zpages]
+
+  pipelines:
+    # Traces pipeline
+    traces:
+      receivers: [otlp, jaeger]
+      processors:
+        - memory_limiter
+        - resourcedetection
+        - attributes
+        - tail_sampling
+        - batch
+      exporters: [jaeger, logging]
+
+    # Metrics pipeline (for collector self-monitoring)
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [prometheus, logging]
+
+  # Telemetry for the collector itself
+  telemetry:
+    logs:
+      level: info
+    metrics:
+      level: detailed
+      address: 0.0.0.0:8888

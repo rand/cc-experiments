@@ -1,0 +1,444 @@
+{
+  "dashboard": {
+    "title": "Alert Overview Dashboard",
+    "description": "Monitor alert health, firing alerts, and notification status",
+    "tags": ["alerts", "alertmanager", "monitoring"],
+    "timezone": "browser",
+    "editable": true,
+    "graphTooltip": 1,
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "refresh": "1m",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Active Alerts",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "sum(ALERTS{alertstate=\"firing\"})",
+            "legendFormat": "Firing Alerts"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "green"},
+                {"value": 1, "color": "yellow"},
+                {"value": 5, "color": "red"}
+              ]
+            },
+            "unit": "short",
+            "decimals": 0
+          }
+        },
+        "gridPos": {"h": 4, "w": 6, "x": 0, "y": 0}
+      },
+      {
+        "id": 2,
+        "title": "Critical Alerts",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "sum(ALERTS{alertstate=\"firing\",severity=\"critical\"})",
+            "legendFormat": "Critical"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "green"},
+                {"value": 1, "color": "red"}
+              ]
+            },
+            "unit": "short",
+            "color": {"mode": "thresholds"}
+          }
+        },
+        "gridPos": {"h": 4, "w": 6, "x": 6, "y": 0}
+      },
+      {
+        "id": 3,
+        "title": "Warnings",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "sum(ALERTS{alertstate=\"firing\",severity=\"warning\"})",
+            "legendFormat": "Warnings"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "green"},
+                {"value": 3, "color": "yellow"},
+                {"value": 10, "color": "orange"}
+              ]
+            },
+            "unit": "short"
+          }
+        },
+        "gridPos": {"h": 4, "w": 6, "x": 12, "y": 0}
+      },
+      {
+        "id": 4,
+        "title": "Active Silences",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "sum(alertmanager_silences{state=\"active\"})",
+            "legendFormat": "Silences"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "blue"}
+              ]
+            },
+            "unit": "short"
+          }
+        },
+        "gridPos": {"h": 4, "w": 6, "x": 18, "y": 0}
+      },
+      {
+        "id": 5,
+        "title": "Alerts by Severity",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "sum(ALERTS{alertstate=\"firing\"}) by (severity)",
+            "legendFormat": "{{ severity }}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "lineInterpolation": "linear",
+              "fillOpacity": 10,
+              "stacking": {"mode": "normal"}
+            },
+            "color": {"mode": "palette-classic"}
+          },
+          "overrides": [
+            {
+              "matcher": {"id": "byName", "options": "critical"},
+              "properties": [{"id": "color", "value": {"fixedColor": "red", "mode": "fixed"}}]
+            },
+            {
+              "matcher": {"id": "byName", "options": "warning"},
+              "properties": [{"id": "color", "value": {"fixedColor": "yellow", "mode": "fixed"}}]
+            }
+          ]
+        },
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 4}
+      },
+      {
+        "id": 6,
+        "title": "Alerts by Service",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "sum(ALERTS{alertstate=\"firing\"}) by (service)",
+            "legendFormat": "{{ service }}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "lineInterpolation": "linear",
+              "fillOpacity": 10
+            }
+          }
+        },
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 4}
+      },
+      {
+        "id": 7,
+        "title": "Top Firing Alerts",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "topk(10, sum(ALERTS{alertstate=\"firing\"}) by (alertname, severity, service))",
+            "format": "table",
+            "instant": true
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": [
+            {
+              "matcher": {"id": "byName", "options": "severity"},
+              "properties": [
+                {
+                  "id": "custom.displayMode",
+                  "value": "color-background"
+                },
+                {
+                  "id": "mappings",
+                  "value": [
+                    {"type": "value", "options": {"critical": {"color": "red", "index": 0}}},
+                    {"type": "value", "options": {"warning": {"color": "yellow", "index": 1}}}
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 12}
+      },
+      {
+        "id": 8,
+        "title": "Alert Frequency (24h)",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "topk(10, sum(increase(ALERTS{alertstate=\"firing\"}[24h])) by (alertname))",
+            "format": "table",
+            "instant": true
+          }
+        ],
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "renameByName": {
+                "alertname": "Alert",
+                "Value": "Fires (24h)"
+              }
+            }
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 12}
+      },
+      {
+        "id": 9,
+        "title": "Alert Duration",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "(time() - ALERTS_FOR_STATE) / 3600",
+            "legendFormat": "{{ alertname }} - {{ instance }}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "h",
+            "custom": {
+              "drawStyle": "bars"
+            },
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "green"},
+                {"value": 1, "color": "yellow"},
+                {"value": 24, "color": "red"}
+              ]
+            }
+          }
+        },
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 20}
+      },
+      {
+        "id": 10,
+        "title": "Notification Success Rate",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "sum(rate(alertmanager_notifications_total[5m])) by (integration) / (sum(rate(alertmanager_notifications_total[5m])) by (integration) + sum(rate(alertmanager_notifications_failed_total[5m])) by (integration)) * 100",
+            "legendFormat": "{{ integration }}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "max": 100,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "red"},
+                {"value": 90, "color": "yellow"},
+                {"value": 99, "color": "green"}
+              ]
+            },
+            "custom": {
+              "drawStyle": "line",
+              "fillOpacity": 10
+            }
+          }
+        },
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 28}
+      },
+      {
+        "id": 11,
+        "title": "Notifications Sent",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "sum(rate(alertmanager_notifications_total[5m])) by (integration)",
+            "legendFormat": "{{ integration }}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "ops",
+            "custom": {
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "stacking": {"mode": "normal"}
+            }
+          }
+        },
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 28}
+      },
+      {
+        "id": 12,
+        "title": "Alert Flapping (State Changes)",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "topk(10, sum(changes(ALERTS[1h])) by (alertname) > 5)",
+            "format": "table",
+            "instant": true
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": [
+            {
+              "matcher": {"id": "byName", "options": "Value"},
+              "properties": [
+                {
+                  "id": "custom.displayMode",
+                  "value": "gradient-gauge"
+                },
+                {
+                  "id": "thresholds",
+                  "value": {
+                    "mode": "absolute",
+                    "steps": [
+                      {"value": 0, "color": "green"},
+                      {"value": 5, "color": "yellow"},
+                      {"value": 10, "color": "red"}
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 36}
+      },
+      {
+        "id": 13,
+        "title": "Alertmanager Status",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "up{job=\"alertmanager\"}",
+            "legendFormat": "Alertmanager"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "red"},
+                {"value": 1, "color": "green"}
+              ]
+            },
+            "mappings": [
+              {"type": "value", "options": {"0": {"text": "DOWN", "color": "red"}}},
+              {"type": "value", "options": {"1": {"text": "UP", "color": "green"}}}
+            ]
+          }
+        },
+        "gridPos": {"h": 4, "w": 6, "x": 12, "y": 36}
+      },
+      {
+        "id": 14,
+        "title": "Prometheus Status",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "up{job=\"prometheus\"}",
+            "legendFormat": "Prometheus"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "red"},
+                {"value": 1, "color": "green"}
+              ]
+            },
+            "mappings": [
+              {"type": "value", "options": {"0": {"text": "DOWN", "color": "red"}}},
+              {"type": "value", "options": {"1": {"text": "UP", "color": "green"}}}
+            ]
+          }
+        },
+        "gridPos": {"h": 4, "w": 6, "x": 18, "y": 36}
+      }
+    ],
+    "templating": {
+      "list": [
+        {
+          "name": "datasource",
+          "type": "datasource",
+          "query": "prometheus",
+          "current": {
+            "value": "Prometheus",
+            "text": "Prometheus"
+          }
+        },
+        {
+          "name": "severity",
+          "type": "query",
+          "query": "label_values(ALERTS, severity)",
+          "multi": true,
+          "includeAll": true,
+          "current": {
+            "value": ["$__all"],
+            "text": "All"
+          }
+        },
+        {
+          "name": "service",
+          "type": "query",
+          "query": "label_values(ALERTS, service)",
+          "multi": true,
+          "includeAll": true
+        }
+      ]
+    },
+    "annotations": {
+      "list": [
+        {
+          "name": "Deployments",
+          "datasource": "Prometheus",
+          "expr": "changes(kube_deployment_status_observed_generation[5m]) > 0",
+          "tagKeys": "deployment",
+          "titleFormat": "Deployment",
+          "textFormat": "{{ deployment }}"
+        }
+      ]
+    }
+  }
+}

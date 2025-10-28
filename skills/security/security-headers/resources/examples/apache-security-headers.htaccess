@@ -1,0 +1,142 @@
+# Apache Security Headers Configuration (.htaccess)
+#
+# Place this file in your web root or include directives in your Apache config.
+# Requires mod_headers to be enabled: a2enmod headers
+#
+# Test configuration: apachectl configtest
+# Reload: apachectl graceful
+
+<IfModule mod_headers.c>
+    # Strict-Transport-Security (HSTS)
+    # Forces HTTPS for 1 year including subdomains
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+    # Content-Security-Policy (CSP)
+    # Strict policy - adjust for your application
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
+
+    # X-Frame-Options
+    # Prevents clickjacking
+    Header always set X-Frame-Options "DENY"
+
+    # X-Content-Type-Options
+    # Prevents MIME sniffing
+    Header always set X-Content-Type-Options "nosniff"
+
+    # X-XSS-Protection
+    # Disable (deprecated, use CSP)
+    Header always set X-XSS-Protection "0"
+
+    # Referrer-Policy
+    # Controls referer information
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Permissions-Policy
+    # Restricts browser features
+    Header always set Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+
+    # Optional: Cross-Origin headers for SharedArrayBuffer
+    # Header always set Cross-Origin-Embedder-Policy "require-corp"
+    # Header always set Cross-Origin-Opener-Policy "same-origin"
+    # Header always set Cross-Origin-Resource-Policy "same-origin"
+
+    # Remove server signature
+    Header unset Server
+    Header unset X-Powered-By
+</IfModule>
+
+# Server signature (also set in apache2.conf)
+ServerSignature Off
+
+# Disable directory browsing
+Options -Indexes
+
+# Disable server-side includes and CGI execution
+Options -Includes -ExecCGI
+
+# Follow symbolic links (required for many applications)
+Options +FollowSymLinks
+
+# Protect sensitive files
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+# Protect configuration files
+<FilesMatch "\.(env|json|config|yml|yaml|ini|log)$">
+    Require all denied
+</FilesMatch>
+
+# Set secure cookie attributes (if PHP or similar)
+<IfModule mod_php.c>
+    php_flag session.cookie_httponly on
+    php_flag session.cookie_secure on
+    php_value session.cookie_samesite Strict
+</IfModule>
+
+# MIME types (if not set globally)
+<IfModule mod_mime.c>
+    AddType application/javascript js
+    AddType text/css css
+    AddType image/svg+xml svg
+    AddType application/json json
+</IfModule>
+
+# Compression (performance + security)
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json application/xml
+</IfModule>
+
+# Cache control for static assets
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+
+    # HTML and JSON should not be cached
+    ExpiresByType text/html "access plus 0 seconds"
+    ExpiresByType application/json "access plus 0 seconds"
+</IfModule>
+
+# CSP for different content types
+<If "%{REQUEST_URI} =~ m#^/api/#">
+    # Strict CSP for API endpoints
+    Header always set Content-Security-Policy "default-src 'none'; frame-ancestors 'none'"
+</If>
+
+# CORS (if needed)
+# <IfModule mod_headers.c>
+#     # Allow specific origin
+#     Header always set Access-Control-Allow-Origin "https://trusted.com"
+#     Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+#     Header always set Access-Control-Allow-Headers "Content-Type, Authorization"
+#     Header always set Access-Control-Allow-Credentials "true"
+#     Header always set Access-Control-Max-Age "86400"
+#
+#     # Handle preflight requests
+#     RewriteEngine On
+#     RewriteCond %{REQUEST_METHOD} OPTIONS
+#     RewriteRule ^(.*)$ $1 [R=204,L]
+# </IfModule>
+
+# Redirect HTTP to HTTPS (if not set in VirtualHost)
+# <IfModule mod_rewrite.c>
+#     RewriteEngine On
+#     RewriteCond %{HTTPS} off
+#     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# </IfModule>
+
+# CSP Report-Only mode for testing
+# Header always set Content-Security-Policy-Report-Only "default-src 'self'; report-uri /csp-report"
+
+# Example: Different CSP for admin area
+# <If "%{REQUEST_URI} =~ m#^/admin/#">
+#     Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'nonce-{NONCE}'; style-src 'self' 'nonce-{NONCE}'; frame-ancestors 'none'"
+# </If>

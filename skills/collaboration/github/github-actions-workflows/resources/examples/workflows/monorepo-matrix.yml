@@ -1,0 +1,336 @@
+name: Monorepo CI with Matrix
+
+# Efficient CI for monorepo with path-based change detection
+# and matrix builds for multiple packages
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # Detect which packages have changed
+  detect-changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    outputs:
+      packages: ${{ steps.filter.outputs.changes }}
+      backend: ${{ steps.filter.outputs.backend }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+      api: ${{ steps.filter.outputs.api }}
+      shared: ${{ steps.filter.outputs.shared }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Detect package changes
+        uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            backend:
+              - 'packages/backend/**'
+              - 'packages/shared/**'
+            frontend:
+              - 'packages/frontend/**'
+              - 'packages/shared/**'
+            api:
+              - 'packages/api/**'
+              - 'packages/shared/**'
+            shared:
+              - 'packages/shared/**'
+
+  # Test all affected packages using matrix
+  test:
+    name: Test ${{ matrix.package }}
+    needs: detect-changes
+    if: needs.detect-changes.outputs.packages != '[]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - backend
+          - frontend
+          - api
+          - shared
+
+    # Only run if package has changes
+    steps:
+      - name: Check if package changed
+        id: check
+        run: |
+          if [[ "${{ needs.detect-changes.outputs[matrix.package] }}" == "true" ]]; then
+            echo "run=true" >> $GITHUB_OUTPUT
+          else
+            echo "run=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout code
+        if: steps.check.outputs.run == 'true'
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        if: steps.check.outputs.run == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: packages/${{ matrix.package }}/package-lock.json
+
+      - name: Install dependencies
+        if: steps.check.outputs.run == 'true'
+        working-directory: packages/${{ matrix.package }}
+        run: npm ci
+
+      - name: Run tests
+        if: steps.check.outputs.run == 'true'
+        working-directory: packages/${{ matrix.package }}
+        run: npm test
+
+      - name: Upload coverage
+        if: steps.check.outputs.run == 'true'
+        uses: codecov/codecov-action@v3
+        with:
+          files: packages/${{ matrix.package }}/coverage/lcov.info
+          flags: ${{ matrix.package }}
+
+  # Build all affected packages
+  build:
+    name: Build ${{ matrix.package }}
+    needs: [detect-changes, test]
+    if: needs.detect-changes.outputs.packages != '[]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [backend, frontend, api, shared]
+
+    steps:
+      - name: Check if package changed
+        id: check
+        run: |
+          if [[ "${{ needs.detect-changes.outputs[matrix.package] }}" == "true" ]]; then
+            echo "run=true" >> $GITHUB_OUTPUT
+          else
+            echo "run=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout code
+        if: steps.check.outputs.run == 'true'
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        if: steps.check.outputs.run == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: packages/${{ matrix.package }}/package-lock.json
+
+      - name: Install dependencies
+        if: steps.check.outputs.run == 'true'
+        working-directory: packages/${{ matrix.package }}
+        run: npm ci
+
+      - name: Build package
+        if: steps.check.outputs.run == 'true'
+        working-directory: packages/${{ matrix.package }}
+        run: npm run build
+
+      - name: Upload build artifacts
+        if: steps.check.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.package }}-build-${{ github.sha }}
+          path: packages/${{ matrix.package }}/dist
+          retention-days: 7
+
+  # Integration tests (only if backend or API changed)
+  integration:
+    name: Integration Tests
+    needs: [detect-changes, build]
+    if: |
+      needs.detect-changes.outputs.backend == 'true' ||
+      needs.detect-changes.outputs.api == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Download backend build
+        if: needs.detect-changes.outputs.backend == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: backend-build-${{ github.sha }}
+          path: packages/backend/dist
+
+      - name: Download API build
+        if: needs.detect-changes.outputs.api == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: api-build-${{ github.sha }}
+          path: packages/api/dist
+
+      - name: Run integration tests
+        run: npm run test:integration
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/testdb
+          REDIS_URL: redis://localhost:6379
+
+  # E2E tests (only if frontend changed)
+  e2e:
+    name: E2E Tests
+    needs: [detect-changes, build]
+    if: needs.detect-changes.outputs.frontend == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+      - name: Download frontend build
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-build-${{ github.sha }}
+          path: packages/frontend/dist
+
+      - name: Run E2E tests
+        run: npm run test:e2e
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-results
+          path: packages/frontend/test-results
+          retention-days: 7
+
+  # Deploy affected services
+  deploy:
+    name: Deploy ${{ matrix.service }}
+    needs: [detect-changes, build, integration, e2e]
+    if: |
+      github.ref == 'refs/heads/main' &&
+      github.event_name == 'push' &&
+      always() &&
+      !contains(needs.*.result, 'failure')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [backend, frontend, api]
+
+    environment:
+      name: production-${{ matrix.service }}
+      url: https://${{ matrix.service }}.example.com
+
+    steps:
+      - name: Check if service changed
+        id: check
+        run: |
+          if [[ "${{ needs.detect-changes.outputs[matrix.service] }}" == "true" ]]; then
+            echo "deploy=true" >> $GITHUB_OUTPUT
+          else
+            echo "deploy=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout code
+        if: steps.check.outputs.deploy == 'true'
+        uses: actions/checkout@v4
+
+      - name: Download build
+        if: steps.check.outputs.deploy == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ matrix.service }}-build-${{ github.sha }}
+          path: packages/${{ matrix.service }}/dist
+
+      - name: Deploy ${{ matrix.service }}
+        if: steps.check.outputs.deploy == 'true'
+        run: |
+          echo "Deploying ${{ matrix.service }} to production"
+          # Add deployment logic here
+        env:
+          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+
+      - name: Verify deployment
+        if: steps.check.outputs.deploy == 'true'
+        run: |
+          echo "Verifying ${{ matrix.service }} deployment"
+          # Add health check logic
+
+  # Summary job for status checks
+  ci-complete:
+    name: CI Complete
+    needs: [test, build, integration, e2e]
+    if: always()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check CI status
+        run: |
+          if [[ "${{ contains(needs.*.result, 'failure') }}" == "true" ]]; then
+            echo "CI failed"
+            exit 1
+          fi
+          echo "CI passed"

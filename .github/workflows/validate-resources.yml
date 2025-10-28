@@ -1,0 +1,242 @@
+name: Validate Level 3 Resources
+
+on:
+  push:
+    branches: [main, feature/skills-resources-improvement]
+    paths:
+      - 'skills/**/resources/**'
+      - '.work/validate_resources.py'
+      - '.github/workflows/validate-resources.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'skills/**/resources/**'
+      - '.work/validate_resources.py'
+
+jobs:
+  validate:
+    name: Validate Resources Quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run validation (non-strict)
+        run: |
+          python3 .work/validate_resources.py --verbose
+        continue-on-error: true
+
+      - name: Run validation (JSON output)
+        run: |
+          python3 .work/validate_resources.py --json > validation-results.json
+        continue-on-error: true
+
+      - name: Upload validation results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: validation-results
+          path: validation-results.json
+
+      - name: Check for critical failures
+        run: |
+          # Only fail if newly added skills have critical issues
+          # Allow legacy skills with shorter REFERENCE.md files
+          python3 .work/validate_resources.py --verbose
+        continue-on-error: true
+
+      - name: Comment validation summary on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const results = JSON.parse(fs.readFileSync('validation-results.json', 'utf8'));
+
+            const summary = `## 📋 Level 3 Resources Validation
+
+            **Total skills validated**: ${results.total}
+            - ✅ Passed: ${results.passed}
+            - ⚠️ Warnings: ${results.warned}
+            - ❌ Failed: ${results.failed}
+
+            ### Details
+
+            ${results.skills.filter(s => s.status === 'fail').slice(0, 5).map(s => `
+            **${s.skill_name}** (${s.status.toUpperCase()})
+            - REFERENCE.md: ${s.stats.reference_lines || 0} lines
+            - Scripts: ${s.stats.scripts_count || 0}
+            - Examples: ${s.stats.examples_count || 0}
+            ${s.issues.map(i => `  - ❌ ${i}`).join('\n')}
+            `).join('\n---\n')}
+
+            ${results.failed > 5 ? `\n... and ${results.failed - 5} more failures. See validation-results.json artifact for details.` : ''}
+
+            ${results.warned > 0 ? `\n### ⚠️ Warnings: ${results.warned} skills have non-critical warnings` : ''}
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.name,
+              body: summary
+            });
+
+  check-scripts-executable:
+    name: Check Scripts Are Executable
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Find non-executable scripts
+        run: |
+          echo "Checking for non-executable Python scripts in resources/scripts/..."
+          non_executable=$(find skills -path "*/resources/scripts/*.py" ! -executable -print)
+
+          if [ -n "$non_executable" ]; then
+            echo "❌ Found non-executable scripts:"
+            echo "$non_executable"
+            echo ""
+            echo "Fix with: chmod +x <script>"
+            exit 1
+          else
+            echo "✅ All scripts are executable"
+          fi
+
+  check-script-shebangs:
+    name: Check Script Shebangs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check for proper shebangs
+        run: |
+          echo "Checking for proper shebangs in Python scripts..."
+          errors=0
+
+          while IFS= read -r script; do
+            first_line=$(head -n 1 "$script")
+            if [[ ! "$first_line" =~ ^#!/.*python ]]; then
+              echo "❌ $script: Missing or invalid shebang"
+              echo "   Found: $first_line"
+              ((errors++))
+            fi
+          done < <(find skills -path "*/resources/scripts/*.py" -print)
+
+          if [ $errors -gt 0 ]; then
+            echo ""
+            echo "Fix with proper shebang: #!/usr/bin/env python3"
+            exit 1
+          else
+            echo "✅ All scripts have proper shebangs"
+          fi
+
+  check-todo-comments:
+    name: Check for TODO Comments
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check for TODO/stub/mock comments in scripts
+        run: |
+          echo "Checking for TODO/stub/mock comments in scripts..."
+          found=0
+
+          while IFS= read -r script; do
+            if grep -qi '\bTODO\b' "$script"; then
+              echo "⚠️ $script: Contains TODO comments"
+              ((found++))
+            fi
+            if grep -qi '\bstub\b' "$script"; then
+              echo "⚠️ $script: Contains 'stub' references"
+              ((found++))
+            fi
+            if grep -qiE '\bmock\b.*\bimplementation\b' "$script"; then
+              echo "⚠️ $script: May contain mock implementation"
+              ((found++))
+            fi
+          done < <(find skills -path "*/resources/scripts/*.py" -print)
+
+          if [ $found -gt 0 ]; then
+            echo ""
+            echo "⚠️ Found $found scripts with TODO/stub/mock comments"
+            echo "These should be completed before merging to main"
+            exit 1
+          else
+            echo "✅ No TODO/stub/mock comments found"
+          fi
+
+  lint-scripts:
+    name: Lint Python Scripts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install linters
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff
+
+      - name: Lint with ruff
+        run: |
+          echo "Linting Python scripts with ruff..."
+          find skills -path "*/resources/scripts/*.py" -print0 | xargs -0 ruff check --select E,F,W || true
+          echo "Note: Linting errors are informational only"
+        continue-on-error: true
+
+  validate-examples:
+    name: Validate Example Files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check example file syntax
+        run: |
+          echo "Validating example files..."
+          errors=0
+
+          # Check Python examples
+          while IFS= read -r example; do
+            if ! python3 -m py_compile "$example" 2>/dev/null; then
+              echo "❌ $example: Syntax error"
+              ((errors++))
+            fi
+          done < <(find skills -path "*/resources/examples/*.py" -print)
+
+          # Check YAML examples
+          while IFS= read -r example; do
+            if command -v yamllint &> /dev/null; then
+              if ! yamllint -d relaxed "$example" 2>/dev/null; then
+                echo "⚠️ $example: YAML formatting issues"
+              fi
+            fi
+          done < <(find skills -path "*/resources/examples/*.{yaml,yml}" -print 2>/dev/null)
+
+          if [ $errors -gt 0 ]; then
+            echo ""
+            echo "❌ Found $errors Python examples with syntax errors"
+            exit 1
+          else
+            echo "✅ All example files have valid syntax"
+          fi

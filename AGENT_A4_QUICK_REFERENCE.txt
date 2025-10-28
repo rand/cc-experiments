@@ -1,0 +1,61 @@
+================================================================================
+AGENT A4 QUICK REFERENCE
+Skill: database/postgres-query-optimization
+================================================================================
+
+STATUS: COMPLETE ✓
+
+FILES CREATED: 11 files, 2,926 lines, 90.1 KB
+
+LOCATION:
+/Users/rand/src/cc-polymath/skills/database/postgres-query-optimization/resources/
+
+STRUCTURE:
+├── REFERENCE.md (785 lines) - Comprehensive query optimization reference
+├── scripts/
+│   ├── analyze_query.py (387 lines) ✓ executable, --help, --json
+│   ├── suggest_indexes.py (436 lines) ✓ executable, --help, --json
+│   ├── benchmark_queries.sh (316 lines) ✓ executable, --help, --json
+│   └── README.md (328 lines) - Usage guide
+└── examples/
+    ├── slow-queries/ (3 SQL files: n_plus_one, missing_index, non_sargable)
+    └── docker/ (docker-compose.yml, init.sql, README.md)
+
+QUICK TEST COMMANDS:
+--------------------
+# Test analyze_query.py
+python scripts/analyze_query.py --help
+python scripts/analyze_query.py --explain-file /tmp/test_explain.txt
+
+# Test suggest_indexes.py
+python scripts/suggest_indexes.py --help
+python scripts/suggest_indexes.py --query "SELECT * FROM users WHERE email = 'test@example.com'"
+
+# Test benchmark_queries.sh
+./scripts/benchmark_queries.sh --help
+
+# Start Docker test environment
+cd examples/docker && docker-compose up -d
+
+QUALITY CHECKS PASSED:
+---------------------
+✓ All scripts executable (chmod +x)
+✓ All scripts support --help
+✓ All scripts support --json
+✓ REFERENCE.md comprehensive (785 lines)
+✓ Examples are runnable
+✓ Docker environment configured
+✓ Pattern matches vulnerability-assessment POC
+✓ All testing passed
+
+MAIN SKILL FILE UPDATED:
+------------------------
+File: skills/database/postgres-query-optimization.md
+Section: Lines 623-656 (Level 3: Resources)
+Content: Overview, script descriptions, quick start
+
+READY FOR: Main agent validation and commit
+
+FULL REPORT: /Users/rand/src/cc-polymath/AGENT_A4_REPORT.md
+
+================================================================================

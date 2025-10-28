@@ -1,0 +1,383 @@
+# Kubernetes Rolling Update Configuration
+#
+# This example demonstrates a production-ready rolling update configuration
+# with proper health checks, resource limits, and deployment controls.
+#
+# Usage:
+#   kubectl apply -f kubernetes-rolling-update.yaml
+#   # Update image to trigger rolling update
+#   kubectl set image deployment/myapp myapp=myapp:v2.0.0
+#   # Monitor rollout
+#   kubectl rollout status deployment/myapp
+#   # Rollback if needed
+#   kubectl rollout undo deployment/myapp
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+  namespace: production
+  labels:
+    app: myapp
+    team: backend
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+spec:
+  # Number of desired pods
+  replicas: 10
+
+  # Keep history of last 10 revisions for rollback
+  revisionHistoryLimit: 10
+
+  # Rolling update strategy configuration
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      # Maximum number of pods that can be unavailable during update
+      # Can be absolute number (e.g., 2) or percentage (e.g., "25%")
+      # Setting to 1 ensures high availability
+      maxUnavailable: 1
+
+      # Maximum number of pods that can be created over desired replicas
+      # Allows faster rollout at cost of extra resources
+      maxSurge: 2
+
+  # Timeout for deployment progress
+  # If deployment doesn't progress in this time, it's considered failed
+  progressDeadlineSeconds: 600  # 10 minutes
+
+  selector:
+    matchLabels:
+      app: myapp
+
+  template:
+    metadata:
+      labels:
+        app: myapp
+        version: "v2.0.0"
+      annotations:
+        # Prometheus scraping
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+
+        # Force pod recreation on config change
+        configHash: "{{ .Files.Get config.yaml | sha256sum }}"
+
+    spec:
+      # Graceful shutdown period
+      # Kubernetes sends SIGTERM, waits this long, then sends SIGKILL
+      terminationGracePeriodSeconds: 60
+
+      # Security context for pod
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+
+      # Init containers (run before app containers)
+      initContainers:
+      - name: wait-for-db
+        image: busybox:1.35
+        command:
+        - sh
+        - -c
+        - |
+          until nc -z database 5432; do
+            echo "Waiting for database..."
+            sleep 2
+          done
+          echo "Database is ready"
+
+      containers:
+      - name: myapp
+        image: myapp:v2.0.0
+        imagePullPolicy: Always
+
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+
+        # Resource requests and limits
+        # Requests: guaranteed resources
+        # Limits: maximum allowed
+        resources:
+          requests:
+            cpu: 250m        # 0.25 CPU core
+            memory: 512Mi
+          limits:
+            cpu: 1000m       # 1 CPU core
+            memory: 1Gi
+
+        # Liveness probe - determines if container should be restarted
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+            httpHeaders:
+            - name: X-Probe-Type
+              value: liveness
+          # Wait this long before first probe
+          initialDelaySeconds: 30
+          # Probe every 10 seconds
+          periodSeconds: 10
+          # Timeout for each probe
+          timeoutSeconds: 5
+          # Number of consecutive failures before restarting
+          failureThreshold: 3
+          # Number of consecutive successes to be considered healthy
+          successThreshold: 1
+
+        # Readiness probe - determines if container should receive traffic
+        # CRITICAL for zero-downtime rolling updates
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+            httpHeaders:
+            - name: X-Probe-Type
+              value: readiness
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          # Lower threshold for faster detection
+          failureThreshold: 2
+          successThreshold: 1
+
+        # Startup probe - for slow-starting containers
+        # Protects liveness probe from killing container during startup
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          # Check every 10 seconds
+          periodSeconds: 10
+          # Allow up to 5 minutes for startup (30 * 10s)
+          failureThreshold: 30
+
+        # Environment variables
+        env:
+        - name: APP_VERSION
+          value: "v2.0.0"
+        - name: ENVIRONMENT
+          value: "production"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: database-credentials
+              key: url
+        - name: LOG_LEVEL
+          value: "info"
+        - name: PORT
+          value: "8080"
+
+        # Volume mounts
+        volumeMounts:
+        - name: config
+          mountPath: /etc/config
+          readOnly: true
+        - name: tmp
+          mountPath: /tmp
+
+        # Lifecycle hooks
+        lifecycle:
+          # PreStop hook - called before container is terminated
+          # Allows graceful shutdown
+          preStop:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - |
+                # Sleep to allow time for:
+                # 1. Load balancer to remove pod from rotation
+                # 2. In-flight requests to complete
+                echo "Initiating graceful shutdown..."
+                sleep 15
+
+                # Signal application to stop accepting new requests
+                kill -SIGTERM 1
+
+                # Wait for application to finish processing
+                sleep 10
+
+          # PostStart hook - called after container starts
+          postStart:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - |
+                # Warm up caches, etc.
+                echo "Container started at $(date)" > /tmp/startup-time
+
+        # Security context for container
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+
+      # Volumes
+      volumes:
+      - name: config
+        configMap:
+          name: myapp-config
+      - name: tmp
+        emptyDir: {}
+
+      # Pod affinity - spread pods across nodes
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - myapp
+              topologyKey: kubernetes.io/hostname
+
+      # Tolerations for node taints
+      tolerations:
+      - key: "node-role.kubernetes.io/production"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp
+  namespace: production
+  labels:
+    app: myapp
+spec:
+  type: LoadBalancer
+  selector:
+    app: myapp
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+    protocol: TCP
+
+  # Session affinity
+  # sessionAffinity: ClientIP
+  # sessionAffinityConfig:
+  #   clientIP:
+  #     timeoutSeconds: 10800
+
+---
+# PodDisruptionBudget - ensures minimum availability during voluntary disruptions
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: myapp-pdb
+  namespace: production
+spec:
+  # Keep at least 8 pods running (out of 10)
+  minAvailable: 8
+
+  # Or use percentage
+  # minAvailable: 80%
+
+  # Or specify max unavailable
+  # maxUnavailable: 2
+
+  selector:
+    matchLabels:
+      app: myapp
+
+---
+# HorizontalPodAutoscaler
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: myapp-hpa
+  namespace: production
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: myapp
+
+  minReplicas: 5
+  maxReplicas: 20
+
+  # Scaling behavior
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300  # Wait 5 min before scaling down
+      policies:
+      - type: Percent
+        value: 50  # Scale down max 50% of pods
+        periodSeconds: 60
+      - type: Pods
+        value: 2   # Or max 2 pods
+        periodSeconds: 60
+      selectPolicy: Min  # Use the policy that scales down the least
+
+    scaleUp:
+      stabilizationWindowSeconds: 0  # Scale up immediately
+      policies:
+      - type: Percent
+        value: 100  # Double pods if needed
+        periodSeconds: 30
+      - type: Pods
+        value: 4    # Or add max 4 pods
+        periodSeconds: 30
+      selectPolicy: Max  # Use the policy that scales up the most
+
+  metrics:
+  # CPU utilization
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+
+  # Memory utilization
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+
+  # Custom metric (requests per second)
+  - type: Pods
+    pods:
+      metric:
+        name: http_requests_per_second
+      target:
+        type: AverageValue
+        averageValue: "1000"
+
+---
+# ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myapp-config
+  namespace: production
+data:
+  config.yaml: |
+    server:
+      port: 8080
+      timeout: 30s
+    database:
+      pool_size: 20
+      timeout: 5s
+    cache:
+      ttl: 300

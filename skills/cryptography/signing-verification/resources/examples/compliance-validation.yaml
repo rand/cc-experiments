@@ -1,0 +1,353 @@
+# Signing and Verification Compliance Validation Configuration
+#
+# Defines compliance requirements for signature operations across various standards
+# including FIPS 186-4, Common Criteria EAL4+, eIDAS, and industry best practices.
+#
+# Usage:
+#   - Validate signing keys against compliance requirements
+#   - Audit signature operations for compliance
+#   - Enforce minimum security standards
+#   - Generate compliance reports
+
+---
+compliance_standards:
+  # FIPS 186-4: Digital Signature Standard
+  fips_186_4:
+    name: "FIPS 186-4 Digital Signature Standard"
+    authority: "NIST"
+    url: "https://csrc.nist.gov/publications/detail/fips/186/4/final"
+
+    approved_algorithms:
+      rsa:
+        # RSA with PKCS#1 v1.5 or PSS
+        key_sizes: [2048, 3072, 4096]
+        hash_algorithms: [SHA-256, SHA-384, SHA-512, SHA-512/256]
+        padding:
+          - PKCS1v15  # Legacy, PSS preferred
+          - PSS       # Preferred
+        notes: "RSA-PSS recommended for new applications"
+
+      ecdsa:
+        # ECDSA with approved curves
+        curves:
+          - P-256   # secp256r1
+          - P-384   # secp384r1
+          - P-521   # secp521r1
+        hash_algorithms: [SHA-256, SHA-384, SHA-512]
+        notes: "Curve must match hash size (P-256 with SHA-256, etc.)"
+
+      dsa:
+        # DSA (deprecated, legacy support only)
+        key_sizes: [2048, 3072]
+        hash_algorithms: [SHA-256, SHA-384, SHA-512]
+        status: "deprecated"
+        notes: "Legacy only, use RSA or ECDSA for new applications"
+
+    prohibited:
+      algorithms:
+        - DSA-1024     # Insufficient key length
+        - RSA-1024     # Insufficient key length
+        - ECDSA-P-192  # Curve too small
+      hash_algorithms:
+        - MD5          # Cryptographically broken
+        - SHA-1        # Deprecated, collision attacks
+        - SHA-224      # Insufficient strength
+
+    requirements:
+      - "All signing operations must use approved algorithms"
+      - "Private keys must be protected in FIPS 140-2 Level 2+ module"
+      - "Random number generation must use approved DRBG"
+      - "Key generation must follow FIPS 186-4 procedures"
+
+  # Common Criteria EAL4+
+  common_criteria_eal4_plus:
+    name: "Common Criteria EAL4+"
+    authority: "Common Criteria"
+    url: "https://www.commoncriteriaportal.org/"
+
+    approved_algorithms:
+      rsa:
+        key_sizes: [2048, 3072, 4096]
+        min_key_size: 2048
+        recommended_key_size: 3072
+
+      ecdsa:
+        curves: [P-256, P-384, P-521]
+        min_curve_size: 256
+
+      eddsa:
+        variants: [Ed25519, Ed448]
+        status: "approved"
+
+    requirements:
+      - "HSM must be Common Criteria EAL4+ certified"
+      - "Key generation must occur in certified hardware"
+      - "Private keys must never be exported"
+      - "All operations must be audited"
+      - "Role-based access control required"
+
+  # eIDAS (EU Electronic Identification and Trust Services)
+  eidas:
+    name: "eIDAS Regulation (EU) 910/2014"
+    authority: "European Union"
+    url: "https://eur-lex.europa.eu/eli/reg/2014/910/oj"
+
+    signature_types:
+      simple_electronic_signature:
+        description: "Basic electronic signature"
+        requirements:
+          - "Data in electronic form attached to other electronic data"
+          - "Used by signatory to sign"
+
+      advanced_electronic_signature:
+        description: "Advanced Electronic Signature (AdES)"
+        requirements:
+          - "Uniquely linked to signatory"
+          - "Capable of identifying signatory"
+          - "Created using data under sole control of signatory"
+          - "Linked to signed data (detects tampering)"
+        formats:
+          - "XAdES (XML Advanced Electronic Signatures)"
+          - "PAdES (PDF Advanced Electronic Signatures)"
+          - "CAdES (CMS Advanced Electronic Signatures)"
+          - "JAdES (JSON Advanced Electronic Signatures)"
+
+      qualified_electronic_signature:
+        description: "Qualified Electronic Signature (QES)"
+        requirements:
+          - "All AdES requirements"
+          - "Created by qualified signature creation device (QSCD)"
+          - "Based on qualified certificate"
+          - "Issued by qualified trust service provider"
+        legal_effect: "Equivalent to handwritten signature"
+
+    approved_algorithms:
+      rsa:
+        key_sizes: [2048, 3072, 4096]
+        min_key_size: 2048
+        hash_algorithms: [SHA-256, SHA-384, SHA-512]
+
+      ecdsa:
+        curves: [P-256, P-384, P-521]
+        hash_algorithms: [SHA-256, SHA-384, SHA-512]
+
+    timestamp_requirements:
+      - "Qualified timestamps for long-term validity"
+      - "RFC 3161 compliant timestamp tokens"
+      - "Timestamp authority must be qualified TSP"
+
+  # PCI-DSS (Payment Card Industry)
+  pci_dss:
+    name: "PCI-DSS v4.0"
+    authority: "PCI Security Standards Council"
+    url: "https://www.pcisecuritystandards.org/"
+
+    requirements:
+      encryption:
+        min_rsa_key_size: 2048
+        min_ecc_key_size: 256
+        approved_algorithms: [RSA-2048+, ECDSA-P256+, Ed25519]
+
+      key_management:
+        - "Keys must be stored in HSM or secure key management system"
+        - "Dual control and split knowledge for key generation"
+        - "Key ceremony required for critical keys"
+        - "Annual key rotation required"
+        - "Retired keys must be securely destroyed"
+
+      code_signing:
+        - "All payment application code must be signed"
+        - "Private keys protected in FIPS 140-2 Level 2+ HSM"
+        - "Signature verification before deployment"
+        - "Code signing certificates from trusted CA"
+
+# Compliance Validation Rules
+validation_rules:
+  minimum_rsa_key_size: 2048
+  minimum_ecdsa_key_size: 256
+  minimum_hash_size: 256
+
+  prohibited_algorithms:
+    - MD5
+    - SHA1
+    - RSA-1024
+    - DSA-1024
+
+  required_features:
+    - signature_algorithm_validation
+    - certificate_chain_validation
+    - revocation_checking
+    - timestamp_validation
+
+  key_lifecycle:
+    max_certificate_validity_days: 397  # CA/Browser Forum Baseline Requirements
+    renewal_window_days: 90
+    rotation_frequency_days: 365
+
+# Industry Best Practices
+best_practices:
+  algorithm_selection:
+    recommended_signature_algorithms:
+      - name: "EdDSA Ed25519"
+        use_case: "High-performance, modern applications"
+        key_size: 256
+        signature_size: 512
+        performance: "Excellent (10-100x faster than RSA)"
+
+      - name: "ECDSA P-256"
+        use_case: "General purpose, widely supported"
+        key_size: 256
+        signature_size: 512
+        performance: "Very good"
+
+      - name: "ECDSA P-384"
+        use_case: "High security, Suite B compliant"
+        key_size: 384
+        signature_size: 768
+        performance: "Good"
+
+      - name: "RSA-PSS 3072"
+        use_case: "Legacy compatibility, long-term security"
+        key_size: 3072
+        signature_size: 3072
+        performance: "Moderate"
+
+  key_management:
+    generation:
+      - "Generate keys in HSM when possible"
+      - "Use cryptographically secure random number generator"
+      - "Document key generation ceremony"
+      - "Store offline backup of root keys"
+
+    storage:
+      - "Private keys in FIPS 140-2 Level 2+ HSM"
+      - "Encrypt private keys if stored in software"
+      - "Never transmit private keys in plaintext"
+      - "Implement access controls (least privilege)"
+
+    rotation:
+      - "Rotate signing keys annually"
+      - "Implement graceful key rollover"
+      - "Maintain old keys for verification"
+      - "Document rotation procedures"
+
+  operational_security:
+    - "Log all signing operations"
+    - "Monitor for unauthorized access"
+    - "Implement rate limiting"
+    - "Regular security audits"
+    - "Incident response plan"
+
+  certificate_management:
+    - "Use certificates from trusted CAs"
+    - "Implement certificate pinning"
+    - "Monitor certificate expiration"
+    - "Automated renewal procedures"
+    - "Maintain certificate revocation lists"
+
+# Audit Requirements
+audit_requirements:
+  logging:
+    required_fields:
+      - timestamp
+      - user_identity
+      - operation_type  # sign, verify, key_generation
+      - algorithm
+      - key_identifier
+      - data_hash
+      - result  # success, failure
+      - error_details
+
+    retention_period_days: 2555  # 7 years for compliance
+
+  monitoring:
+    alerts:
+      - weak_algorithm_usage
+      - certificate_expiration_warning
+      - signature_verification_failures
+      - unauthorized_access_attempts
+      - key_rotation_overdue
+
+  reporting:
+    frequency: monthly
+    required_metrics:
+      - total_signatures_created
+      - total_verifications_performed
+      - algorithm_distribution
+      - failure_rate
+      - compliance_violations
+      - certificate_expiration_summary
+
+# Validation Checklist
+validation_checklist:
+  pre_deployment:
+    - name: "Algorithm compliance"
+      check: "All algorithms meet minimum standards"
+      critical: true
+
+    - name: "Key strength"
+      check: "All keys meet minimum size requirements"
+      critical: true
+
+    - name: "Certificate validity"
+      check: "All certificates are valid and not expiring soon"
+      critical: true
+
+    - name: "HSM availability"
+      check: "HSM accessible and operational"
+      critical: true
+
+    - name: "Revocation checking"
+      check: "OCSP/CRL endpoints accessible"
+      critical: false
+
+  operational:
+    - name: "Audit logging"
+      check: "All operations logged"
+      frequency: "continuous"
+
+    - name: "Key rotation"
+      check: "Keys rotated within policy"
+      frequency: "monthly"
+
+    - name: "Certificate monitoring"
+      check: "No certificates expiring within 30 days"
+      frequency: "daily"
+
+    - name: "Compliance report"
+      check: "Monthly compliance report generated"
+      frequency: "monthly"
+
+# References
+references:
+  standards:
+    - name: "FIPS 186-4"
+      url: "https://csrc.nist.gov/publications/detail/fips/186/4/final"
+
+    - name: "Common Criteria"
+      url: "https://www.commoncriteriaportal.org/"
+
+    - name: "eIDAS Regulation"
+      url: "https://eur-lex.europa.eu/eli/reg/2014/910/oj"
+
+    - name: "PCI-DSS"
+      url: "https://www.pcisecuritystandards.org/"
+
+    - name: "NIST SP 800-57"
+      description: "Recommendation for Key Management"
+      url: "https://csrc.nist.gov/publications/detail/sp/800-57-part-1/rev-5/final"
+
+    - name: "NIST SP 800-89"
+      description: "Recommendation for Obtaining Assurances for Digital Signature Applications"
+      url: "https://csrc.nist.gov/publications/detail/sp/800-89/final"
+
+  best_practice_guides:
+    - name: "OWASP Cryptographic Storage Cheat Sheet"
+      url: "https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html"
+
+    - name: "CA/Browser Forum Baseline Requirements"
+      url: "https://cabforum.org/baseline-requirements/"
+
+    - name: "ETSI EN 319 102-1"
+      description: "AdES Digital Signatures"
+      url: "https://www.etsi.org/deliver/etsi_en/319100_319199/31910201/01.01.01_60/en_31910201v010101p.pdf"

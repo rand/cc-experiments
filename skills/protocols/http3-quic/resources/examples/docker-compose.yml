@@ -1,0 +1,142 @@
+# Docker Compose for HTTP/3 Server Setup
+# Demonstrates containerized HTTP/3 deployment
+#
+# Services:
+#   - nginx-quic: nginx with HTTP/3 support
+#   - backend: Simple backend application
+#   - prometheus: Metrics collection
+#   - grafana: Metrics visualization
+#
+# Usage:
+#   docker-compose up -d
+#   curl --http3 https://localhost:8443
+#   docker-compose logs -f nginx-quic
+#   docker-compose down
+
+version: '3.8'
+
+services:
+  # nginx with HTTP/3 support
+  nginx-quic:
+    image: nginx:mainline-alpine
+    container_name: nginx-quic
+    ports:
+      - "8443:443/udp"     # QUIC (HTTP/3)
+      - "8443:443/tcp"     # TLS (HTTP/2 fallback)
+      - "8080:80/tcp"      # HTTP (redirect to HTTPS)
+    volumes:
+      - ./nginx_http3.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+      - ./html:/var/www/html:ro
+    networks:
+      - http3-net
+    depends_on:
+      - backend
+    restart: unless-stopped
+    environment:
+      - TZ=UTC
+    labels:
+      - "com.example.description=nginx with HTTP/3 (QUIC) support"
+
+  # Backend application
+  backend:
+    image: python:3.11-alpine
+    container_name: backend
+    working_dir: /app
+    command: python -m http.server 8080
+    volumes:
+      - ./backend:/app
+    networks:
+      - http3-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Prometheus (metrics)
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    networks:
+      - http3-net
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    restart: unless-stopped
+
+  # Grafana (visualization)
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - http3-net
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+    restart: unless-stopped
+
+networks:
+  http3-net:
+    driver: bridge
+
+volumes:
+  prometheus-data:
+  grafana-data:
+
+# Setup instructions:
+#
+# 1. Generate TLS certificates:
+#    mkdir -p ssl
+#    openssl req -x509 -newkey rsa:4096 -keyout ssl/key.pem -out ssl/cert.pem -days 365 -nodes -subj "/CN=localhost"
+#
+# 2. Create HTML directory:
+#    mkdir -p html
+#    echo "<h1>HTTP/3 Demo</h1>" > html/index.html
+#
+# 3. Create prometheus.yml:
+#    cat > prometheus.yml << 'EOF'
+#    global:
+#      scrape_interval: 15s
+#    scrape_configs:
+#      - job_name: 'nginx'
+#        static_configs:
+#          - targets: ['nginx-quic:9113']
+#    EOF
+#
+# 4. Start services:
+#    docker-compose up -d
+#
+# 5. Test HTTP/3:
+#    curl --http3 https://localhost:8443
+#    curl -I https://localhost:8443 | grep -i alt-svc
+#
+# 6. Access Grafana:
+#    http://localhost:3000 (admin/admin)
+#
+# 7. Access Prometheus:
+#    http://localhost:9090
+#
+# 8. View logs:
+#    docker-compose logs -f nginx-quic
+#
+# 9. Stop services:
+#    docker-compose down
+#
+# Production notes:
+#   - Use valid TLS certificates (Let's Encrypt)
+#   - Configure firewall to allow UDP 8443
+#   - Increase UDP buffer sizes on host
+#   - Monitor with Prometheus + Grafana
+#   - Set up log aggregation (ELK, Loki)
+#   - Configure load balancing for multiple replicas

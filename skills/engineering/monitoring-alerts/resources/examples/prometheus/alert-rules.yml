@@ -1,0 +1,352 @@
+---
+# Production-Ready Prometheus Alert Rules
+# Based on SRE best practices and SLO-based alerting
+
+groups:
+  # SLO-Based Alerts (Error Budget)
+  - name: slo_alerts
+    interval: 30s
+    rules:
+      # Fast error budget burn: 2% in 1 hour (critical)
+      - alert: ErrorBudgetBurnRateFast
+        expr: |
+          (
+            sum(rate(http_requests_total{job="api",status=~"5.."}[1h])) by (service)
+            /
+            sum(rate(http_requests_total{job="api"}[1h])) by (service)
+          ) > 0.0144
+        for: 2m
+        labels:
+          severity: critical
+          team: platform
+          slo: availability
+        annotations:
+          summary: "Fast error budget burn on {{ $labels.service }}"
+          description: |
+            Service {{ $labels.service }} is burning error budget at 14.4x rate.
+            Current error rate: {{ $value | humanizePercentage }}
+            At this rate, monthly error budget will be exhausted in 2 days.
+          impact: "Customer requests are failing at high rate"
+          runbook_url: "https://runbooks.example.com/error-budget-burn"
+          dashboard_url: "https://grafana.example.com/d/slo"
+
+      # Slow error budget burn: 10% in 6 hours (warning)
+      - alert: ErrorBudgetBurnRateSlow
+        expr: |
+          (
+            sum(rate(http_requests_total{job="api",status=~"5.."}[6h])) by (service)
+            /
+            sum(rate(http_requests_total{job="api"}[6h])) by (service)
+          ) > 0.006
+        for: 15m
+        labels:
+          severity: warning
+          team: platform
+          slo: availability
+        annotations:
+          summary: "Slow error budget burn on {{ $labels.service }}"
+          description: "Error budget burning at 6x rate over 6 hours"
+          runbook_url: "https://runbooks.example.com/error-budget-burn"
+
+      # Latency SLO breach
+      - alert: LatencySLOBreach
+        expr: |
+          (
+            sum(rate(http_request_duration_seconds_bucket{le="0.5"}[5m])) by (service)
+            /
+            sum(rate(http_request_duration_seconds_count[5m])) by (service)
+          ) < 0.99
+        for: 10m
+        labels:
+          severity: warning
+          team: platform
+          slo: latency
+        annotations:
+          summary: "Latency SLO breach on {{ $labels.service }}"
+          description: "Only {{ $value | humanizePercentage }} of requests < 500ms (target: 99%)"
+          runbook_url: "https://runbooks.example.com/high-latency"
+
+  # Symptom-Based Alerts (Customer Impact)
+  - name: symptom_alerts
+    interval: 30s
+    rules:
+      # Service completely unavailable
+      - alert: ServiceDown
+        expr: up{job=~"api|web|auth"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          team: platform
+        annotations:
+          summary: "Service {{ $labels.job }} is down"
+          description: "{{ $labels.instance }} has been unreachable for 2+ minutes"
+          impact: "Service is completely unavailable to customers"
+          runbook_url: "https://runbooks.example.com/service-down"
+
+      # Health check failing
+      - alert: HealthCheckFailing
+        expr: probe_success{job="blackbox"} == 0
+        for: 3m
+        labels:
+          severity: critical
+          team: platform
+        annotations:
+          summary: "Health check failing for {{ $labels.instance }}"
+          description: "Endpoint {{ $labels.instance }} failing health checks"
+          impact: "Service may be unavailable or degraded"
+          runbook_url: "https://runbooks.example.com/health-check-failure"
+
+      # High error rate (5xx errors)
+      - alert: HighErrorRate
+        expr: |
+          sum(rate(http_requests_total{status=~"5.."}[5m])) by (service)
+          /
+          sum(rate(http_requests_total[5m])) by (service)
+          > 0.05
+        for: 5m
+        labels:
+          severity: critical
+          team: platform
+        annotations:
+          summary: "High error rate on {{ $labels.service }}"
+          description: "Error rate {{ $value | humanizePercentage }} (threshold: 5%)"
+          impact: "5% of customer requests are failing"
+          runbook_url: "https://runbooks.example.com/high-error-rate"
+
+      # High latency (p95)
+      - alert: HighLatency
+        expr: |
+          histogram_quantile(0.95,
+            sum by (service, le) (
+              rate(http_request_duration_seconds_bucket[5m])
+            )
+          ) > 1.0
+        for: 10m
+        labels:
+          severity: warning
+          team: platform
+        annotations:
+          summary: "High p95 latency on {{ $labels.service }}"
+          description: "p95 latency is {{ $value }}s (threshold: 1s)"
+          impact: "Customer experience degraded"
+          runbook_url: "https://runbooks.example.com/high-latency"
+
+      # Traffic anomaly (unexpected drop)
+      - alert: TrafficDrop
+        expr: |
+          sum(rate(http_requests_total[5m])) by (service)
+          <
+          sum(avg_over_time(rate(http_requests_total[5m])[1h:5m])) by (service) * 0.5
+        for: 10m
+        labels:
+          severity: warning
+          team: platform
+        annotations:
+          summary: "Traffic drop on {{ $labels.service }}"
+          description: "Request rate dropped to 50% of normal"
+          impact: "May indicate service issue or upstream problem"
+          runbook_url: "https://runbooks.example.com/traffic-anomaly"
+
+  # Resource Saturation Alerts
+  - name: resource_alerts
+    interval: 1m
+    rules:
+      # CPU saturation
+      - alert: HighCPUUsage
+        expr: |
+          100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+          > 80
+        for: 15m
+        labels:
+          severity: warning
+          team: platform
+        annotations:
+          summary: "High CPU usage on {{ $labels.instance }}"
+          description: "CPU usage {{ $value | humanize }}% (threshold: 80%)"
+          runbook_url: "https://runbooks.example.com/high-cpu"
+
+      # Memory saturation
+      - alert: HighMemoryUsage
+        expr: |
+          100 * (1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)
+          > 90
+        for: 5m
+        labels:
+          severity: critical
+          team: platform
+        annotations:
+          summary: "High memory usage on {{ $labels.instance }}"
+          description: "Memory usage {{ $value | humanize }}% (threshold: 90%)"
+          impact: "Risk of OOM killer terminating processes"
+          runbook_url: "https://runbooks.example.com/high-memory"
+
+      # Disk space low
+      - alert: DiskSpaceLow
+        expr: |
+          100 - (
+            node_filesystem_avail_bytes{fstype!~"tmpfs|fuse.*"}
+            / node_filesystem_size_bytes * 100
+          ) > 80
+        for: 30m
+        labels:
+          severity: warning
+          team: platform
+        annotations:
+          summary: "Low disk space on {{ $labels.instance }}"
+          description: "Disk {{ $labels.device }} is {{ $value | humanize }}% full"
+          runbook_url: "https://runbooks.example.com/disk-space"
+
+      # Disk space critical
+      - alert: DiskSpaceCritical
+        expr: |
+          100 - (
+            node_filesystem_avail_bytes{fstype!~"tmpfs|fuse.*"}
+            / node_filesystem_size_bytes * 100
+          ) > 95
+        for: 10m
+        labels:
+          severity: critical
+          team: platform
+        annotations:
+          summary: "Critical disk space on {{ $labels.instance }}"
+          description: "Disk {{ $labels.device }} is {{ $value | humanize }}% full"
+          impact: "Service may fail if disk fills completely"
+          runbook_url: "https://runbooks.example.com/disk-space"
+
+      # Load average high
+      - alert: HighLoadAverage
+        expr: |
+          node_load5 / count(node_cpu_seconds_total{mode="idle"}) by (instance)
+          > 2.0
+        for: 15m
+        labels:
+          severity: warning
+          team: platform
+        annotations:
+          summary: "High load average on {{ $labels.instance }}"
+          description: "Load average {{ $value }} (threshold: 2.0)"
+          runbook_url: "https://runbooks.example.com/high-load"
+
+  # Database Alerts
+  - name: database_alerts
+    interval: 1m
+    rules:
+      # Database connection pool exhausted
+      - alert: DatabaseConnectionPoolExhausted
+        expr: |
+          sum(pg_stat_database_numbackends) by (instance)
+          /
+          pg_settings_max_connections
+          > 0.9
+        for: 5m
+        labels:
+          severity: critical
+          team: database
+        annotations:
+          summary: "Database connection pool nearly exhausted"
+          description: "{{ $value | humanizePercentage }} of connections in use"
+          impact: "New connections will be rejected"
+          runbook_url: "https://runbooks.example.com/db-connections"
+
+      # Database replication lag
+      - alert: DatabaseReplicationLag
+        expr: |
+          pg_replication_lag_seconds > 30
+        for: 5m
+        labels:
+          severity: warning
+          team: database
+        annotations:
+          summary: "Database replication lag on {{ $labels.instance }}"
+          description: "Replication lag {{ $value }}s (threshold: 30s)"
+          runbook_url: "https://runbooks.example.com/replication-lag"
+
+      # Database slow queries
+      - alert: DatabaseSlowQueries
+        expr: |
+          rate(pg_stat_database_slow_queries_total[5m]) > 10
+        for: 10m
+        labels:
+          severity: warning
+          team: database
+        annotations:
+          summary: "High rate of slow queries"
+          description: "{{ $value }} slow queries per second"
+          runbook_url: "https://runbooks.example.com/slow-queries"
+
+  # Application-Specific Alerts
+  - name: application_alerts
+    interval: 1m
+    rules:
+      # Queue depth high
+      - alert: QueueDepthHigh
+        expr: |
+          queue_depth{job="worker"} > 1000
+        for: 15m
+        labels:
+          severity: warning
+          team: backend
+        annotations:
+          summary: "Queue {{ $labels.queue }} depth high"
+          description: "Queue depth {{ $value }} (threshold: 1000)"
+          impact: "Processing delays may affect customers"
+          runbook_url: "https://runbooks.example.com/queue-depth"
+
+      # Worker processing rate low
+      - alert: WorkerProcessingRateLow
+        expr: |
+          rate(jobs_processed_total[5m]) < 10
+        for: 10m
+        labels:
+          severity: warning
+          team: backend
+        annotations:
+          summary: "Worker processing rate low"
+          description: "Processing {{ $value }}/s (expected: >10/s)"
+          runbook_url: "https://runbooks.example.com/worker-slow"
+
+      # Cache hit rate low
+      - alert: CacheHitRateLow
+        expr: |
+          sum(rate(cache_hits_total[5m]))
+          /
+          sum(rate(cache_requests_total[5m]))
+          < 0.8
+        for: 15m
+        labels:
+          severity: warning
+          team: platform
+        annotations:
+          summary: "Cache hit rate low"
+          description: "Hit rate {{ $value | humanizePercentage }} (threshold: 80%)"
+          impact: "Increased database load"
+          runbook_url: "https://runbooks.example.com/cache-performance"
+
+  # Certificate Expiration
+  - name: certificate_alerts
+    interval: 6h
+    rules:
+      - alert: CertificateExpiringSoon
+        expr: |
+          (probe_ssl_earliest_cert_expiry - time()) / 86400 < 14
+        for: 1h
+        labels:
+          severity: warning
+          team: platform
+        annotations:
+          summary: "Certificate expiring soon for {{ $labels.instance }}"
+          description: "Certificate expires in {{ $value }} days"
+          runbook_url: "https://runbooks.example.com/certificate-renewal"
+
+      - alert: CertificateExpired
+        expr: |
+          probe_ssl_earliest_cert_expiry - time() < 0
+        for: 5m
+        labels:
+          severity: critical
+          team: platform
+        annotations:
+          summary: "Certificate EXPIRED for {{ $labels.instance }}"
+          description: "Certificate expired {{ $value | humanizeDuration }} ago"
+          impact: "HTTPS connections will fail"
+          runbook_url: "https://runbooks.example.com/certificate-expired"

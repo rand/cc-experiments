@@ -1,0 +1,220 @@
+# Prometheus Recording Rules
+#
+# Pre-compute expensive queries for better performance and alerting.
+# Naming convention: level:metric:operations
+
+groups:
+  # ==========================================================================
+  # HTTP Request Metrics
+  # ==========================================================================
+  - name: http_request_rules
+    interval: 30s
+    rules:
+      # Total request rate by service
+      - record: service:http_requests:rate5m
+        expr: sum by (service) (rate(http_requests_total[5m]))
+
+      # Request rate by endpoint
+      - record: service:http_requests_by_endpoint:rate5m
+        expr: sum by (service, endpoint) (rate(http_requests_total[5m]))
+
+      # Error rate (percentage)
+      - record: service:http_errors:rate5m
+        expr: |
+          sum by (service) (rate(http_requests_total{status=~"5.."}[5m]))
+          /
+          sum by (service) (rate(http_requests_total[5m]))
+          * 100
+
+      # Success rate (SLI)
+      - record: service:http_success:ratio
+        expr: |
+          sum by (service) (rate(http_requests_total{status=~"[23].."}[5m]))
+          /
+          sum by (service) (rate(http_requests_total[5m]))
+
+  # ==========================================================================
+  # Latency Percentiles
+  # ==========================================================================
+  - name: latency_rules
+    interval: 30s
+    rules:
+      # 50th percentile (median)
+      - record: service:http_latency:p50
+        expr: |
+          histogram_quantile(0.5,
+            sum by (service, le) (rate(http_request_duration_seconds_bucket[5m]))
+          )
+
+      # 95th percentile
+      - record: service:http_latency:p95
+        expr: |
+          histogram_quantile(0.95,
+            sum by (service, le) (rate(http_request_duration_seconds_bucket[5m]))
+          )
+
+      # 99th percentile
+      - record: service:http_latency:p99
+        expr: |
+          histogram_quantile(0.99,
+            sum by (service, le) (rate(http_request_duration_seconds_bucket[5m]))
+          )
+
+      # Average latency
+      - record: service:http_latency:avg
+        expr: |
+          sum by (service) (rate(http_request_duration_seconds_sum[5m]))
+          /
+          sum by (service) (rate(http_request_duration_seconds_count[5m]))
+
+  # ==========================================================================
+  # Resource Utilization
+  # ==========================================================================
+  - name: resource_rules
+    interval: 30s
+    rules:
+      # CPU usage by instance
+      - record: instance:cpu_usage:ratio
+        expr: |
+          1 - avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m]))
+
+      # Memory usage percentage
+      - record: instance:memory_usage:ratio
+        expr: |
+          (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes)
+          /
+          node_memory_MemTotal_bytes
+
+      # Disk usage percentage
+      - record: instance:disk_usage:ratio
+        expr: |
+          (node_filesystem_size_bytes{fstype!~"tmpfs|fuse.*"} - node_filesystem_avail_bytes{fstype!~"tmpfs|fuse.*"})
+          /
+          node_filesystem_size_bytes{fstype!~"tmpfs|fuse.*"}
+
+      # Network transmit rate (bytes/sec)
+      - record: instance:network_transmit:rate5m
+        expr: sum by (instance) (rate(node_network_transmit_bytes_total[5m]))
+
+      # Network receive rate (bytes/sec)
+      - record: instance:network_receive:rate5m
+        expr: sum by (instance) (rate(node_network_receive_bytes_total[5m]))
+
+  # ==========================================================================
+  # Database Metrics
+  # ==========================================================================
+  - name: database_rules
+    interval: 30s
+    rules:
+      # Query rate by operation
+      - record: service:database_queries:rate5m
+        expr: sum by (service, operation) (rate(database_queries_total[5m]))
+
+      # Average query duration
+      - record: service:database_query_duration:avg
+        expr: |
+          sum by (service, operation) (rate(database_query_duration_seconds_sum[5m]))
+          /
+          sum by (service, operation) (rate(database_query_duration_seconds_count[5m]))
+
+      # Slow queries (> 100ms)
+      - record: service:database_slow_queries:rate5m
+        expr: |
+          sum by (service) (rate(database_query_duration_seconds_bucket{le="0.1"}[5m]))
+
+  # ==========================================================================
+  # Cache Metrics
+  # ==========================================================================
+  - name: cache_rules
+    interval: 30s
+    rules:
+      # Cache hit rate
+      - record: service:cache_hit:ratio
+        expr: |
+          sum by (service) (rate(cache_operations_total{operation="get",result="hit"}[5m]))
+          /
+          sum by (service) (rate(cache_operations_total{operation="get"}[5m]))
+
+      # Cache operations rate
+      - record: service:cache_operations:rate5m
+        expr: sum by (service, operation) (rate(cache_operations_total[5m]))
+
+  # ==========================================================================
+  # Business Metrics
+  # ==========================================================================
+  - name: business_rules
+    interval: 1m
+    rules:
+      # Orders per minute
+      - record: service:orders:rate1m
+        expr: sum by (service) (rate(orders_total[1m])) * 60
+
+      # Revenue per minute
+      - record: service:revenue:rate1m
+        expr: sum by (service) (rate(revenue_total_dollars[1m])) * 60
+
+      # Average order value
+      - record: service:order_value:avg
+        expr: |
+          sum by (service) (rate(order_value_dollars_sum[5m]))
+          /
+          sum by (service) (rate(order_value_dollars_count[5m]))
+
+  # ==========================================================================
+  # SLI/SLO Metrics
+  # ==========================================================================
+  - name: sli_slo_rules
+    interval: 1m
+    rules:
+      # Availability SLI (uptime)
+      - record: service:availability:sli
+        expr: avg_over_time(up[5m])
+
+      # Latency SLI (95% < 200ms)
+      - record: service:latency:sli
+        expr: |
+          (
+            histogram_quantile(0.95,
+              sum by (service, le) (rate(http_request_duration_seconds_bucket[5m]))
+            ) < 0.2
+          )
+
+      # Error rate SLI (< 1%)
+      - record: service:error_rate:sli
+        expr: |
+          (
+            sum by (service) (rate(http_requests_total{status=~"5.."}[5m]))
+            /
+            sum by (service) (rate(http_requests_total[5m]))
+          ) < 0.01
+
+      # Error budget (30 days, 99.9% target)
+      - record: service:error_budget:ratio
+        expr: |
+          1 - (
+            (1 - 0.999)
+            -
+            (1 - avg_over_time(service:availability:sli[30d]))
+          ) / (1 - 0.999)
+
+  # ==========================================================================
+  # Aggregations
+  # ==========================================================================
+  - name: aggregation_rules
+    interval: 30s
+    rules:
+      # Cluster-wide request rate
+      - record: cluster:http_requests:rate5m
+        expr: sum(service:http_requests:rate5m)
+
+      # Cluster-wide error rate
+      - record: cluster:http_errors:rate5m
+        expr: sum(service:http_errors:rate5m)
+
+      # Average CPU usage across cluster
+      - record: cluster:cpu_usage:avg
+        expr: avg(instance:cpu_usage:ratio)
+
+      # Average memory usage across cluster
+      - record: cluster:memory_usage:avg
+        expr: avg(instance:memory_usage:ratio)

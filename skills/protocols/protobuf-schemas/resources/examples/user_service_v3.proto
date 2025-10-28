@@ -1,0 +1,105 @@
+// User Service Protocol Buffer Schema - Version 3
+// Further evolution showing field removal and breaking changes
+
+syntax = "proto3";
+
+package example.user.v3;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/example/protos/user/v3;userv3";
+
+// User represents a user account (v3)
+// Changes from v2:
+// - Removed deprecated 'name' field (properly reserved)
+// - Added profile nested message
+// - Added metadata map
+// - Split role into more granular permissions
+message User {
+  string id = 1;
+  string email = 2;
+
+  // REMOVED in v3: 'name' field (reserved)
+  reserved 3;
+  reserved "name";
+
+  google.protobuf.Timestamp created_at = 4;
+  UserStatus status = 5;
+  string display_name = 6;
+
+  // CHANGED in v3: Replaced UserRole with permission system
+  repeated Permission permissions = 7;
+
+  bool email_verified = 8;
+  google.protobuf.Timestamp updated_at = 9;
+
+  // NEW in v3: Nested profile message
+  UserProfile profile = 13;
+
+  // NEW in v3: Custom metadata
+  map<string, string> metadata = 14;
+
+  // Reserved for future use
+  reserved 10, 11, 12;
+}
+
+// NEW in v3: User profile information
+message UserProfile {
+  string avatar_url = 1;
+  string bio = 2;
+  string location = 3;
+  string timezone = 4;
+}
+
+// UserStatus represents account status
+enum UserStatus {
+  USER_STATUS_UNSPECIFIED = 0;
+  USER_STATUS_ACTIVE = 1;
+  USER_STATUS_SUSPENDED = 2;
+  USER_STATUS_BANNED = 3;
+
+  // NEW in v3: Deactivated status
+  USER_STATUS_DEACTIVATED = 4;
+}
+
+// NEW in v3: Granular permission system
+enum Permission {
+  PERMISSION_UNSPECIFIED = 0;
+  PERMISSION_READ = 1;
+  PERMISSION_WRITE = 2;
+  PERMISSION_DELETE = 3;
+  PERMISSION_ADMIN = 4;
+}
+
+// CreateUserRequest creates a new user
+message CreateUserRequest {
+  string email = 1;
+
+  // REMOVED in v3: Deprecated 'name' field
+  reserved 2;
+  reserved "name";
+
+  string password = 3;
+  string display_name = 4;
+
+  // CHANGED in v3: Use permissions instead of role
+  repeated Permission permissions = 5;
+
+  // NEW in v3: Optional profile
+  UserProfile profile = 6;
+}
+
+// CreateUserResponse returns created user
+message CreateUserResponse {
+  User user = 1;
+}
+
+// BREAKING CHANGE NOTE:
+// The removal of 'name' field and replacement of 'role' with 'permissions'
+// requires coordinated deployment of clients and servers.
+//
+// Migration path:
+// 1. Deploy v2 (transitional version with both name/display_name)
+// 2. Migrate all data from 'name' to 'display_name'
+// 3. Update all clients to use 'display_name'
+// 4. Deploy v3 (removes 'name')

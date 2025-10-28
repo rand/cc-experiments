@@ -1,0 +1,389 @@
+name: Code Review Automation
+
+# Runs automated checks on pull requests to assist with code review
+# - Linting and formatting
+# - Security scanning
+# - Test execution and coverage
+# - Size and complexity analysis
+# - Comment on PR with results
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+      - develop
+  pull_request_review:
+    types: [submitted]
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+  statuses: write
+
+jobs:
+  # Job 1: Analyze PR size and complexity
+  pr-analysis:
+    name: PR Analysis
+    runs-on: ubuntu-latest
+    outputs:
+      size: ${{ steps.analyze.outputs.size }}
+      files_changed: ${{ steps.analyze.outputs.files_changed }}
+      complexity: ${{ steps.analyze.outputs.complexity }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Analyze PR
+        id: analyze
+        run: |
+          # Get base branch
+          BASE_BRANCH="${{ github.base_ref }}"
+
+          # Count lines changed
+          LINES_CHANGED=$(git diff --shortstat origin/$BASE_BRANCH | awk '{print $4+$6}')
+          FILES_CHANGED=$(git diff --name-only origin/$BASE_BRANCH | wc -l)
+
+          # Determine size category
+          if [ $LINES_CHANGED -lt 50 ]; then
+            SIZE="tiny"
+          elif [ $LINES_CHANGED -lt 200 ]; then
+            SIZE="small"
+          elif [ $LINES_CHANGED -lt 500 ]; then
+            SIZE="medium"
+          elif [ $LINES_CHANGED -lt 1000 ]; then
+            SIZE="large"
+          else
+            SIZE="huge"
+          fi
+
+          echo "size=$SIZE" >> $GITHUB_OUTPUT
+          echo "files_changed=$FILES_CHANGED" >> $GITHUB_OUTPUT
+          echo "lines_changed=$LINES_CHANGED" >> $GITHUB_OUTPUT
+
+          # Add label based on size
+          gh pr edit ${{ github.event.pull_request.number }} --add-label "size/$SIZE"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check PR size
+        if: steps.analyze.outputs.size == 'huge'
+        run: |
+          echo "⚠️ PR is very large (>1000 lines). Consider splitting into smaller PRs."
+          gh pr comment ${{ github.event.pull_request.number }} --body "⚠️ **Large PR Warning**
+
+          This PR changes more than 1000 lines of code, which makes it difficult to review thoroughly.
+
+          Consider:
+          - Breaking it into smaller, focused PRs
+          - Removing any unrelated changes
+          - Separating refactoring from new features
+
+          Smaller PRs are:
+          - Easier to review
+          - Faster to merge
+          - Less likely to have bugs
+          - Easier to revert if needed"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Job 2: Lint and format check
+  lint:
+    name: Lint & Format
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # Detect languages in PR and run appropriate linters
+        include:
+          - language: python
+            linter: ruff
+            formatter: ruff format
+          - language: javascript
+            linter: eslint
+            formatter: prettier
+          - language: typescript
+            linter: eslint
+            formatter: prettier
+          - language: rust
+            linter: clippy
+            formatter: rustfmt
+          - language: go
+            linter: golangci-lint
+            formatter: gofmt
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Python linting
+      - name: Set up Python
+        if: matrix.language == 'python'
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Python linters
+        if: matrix.language == 'python'
+        run: |
+          pip install ruff mypy bandit
+
+      - name: Run Ruff
+        if: matrix.language == 'python'
+        run: |
+          ruff check . --output-format=github
+
+      - name: Run Ruff format check
+        if: matrix.language == 'python'
+        run: |
+          ruff format --check .
+
+      - name: Run mypy
+        if: matrix.language == 'python'
+        continue-on-error: true
+        run: |
+          mypy . --install-types --non-interactive || true
+
+      # JavaScript/TypeScript linting
+      - name: Set up Node
+        if: matrix.language == 'javascript' || matrix.language == 'typescript'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Node dependencies
+        if: matrix.language == 'javascript' || matrix.language == 'typescript'
+        run: npm ci
+
+      - name: Run ESLint
+        if: matrix.language == 'javascript' || matrix.language == 'typescript'
+        run: npx eslint . --ext .js,.jsx,.ts,.tsx
+
+      - name: Check Prettier formatting
+        if: matrix.language == 'javascript' || matrix.language == 'typescript'
+        run: npx prettier --check .
+
+      # Rust linting
+      - name: Set up Rust
+        if: matrix.language == 'rust'
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          components: rustfmt, clippy
+
+      - name: Run Clippy
+        if: matrix.language == 'rust'
+        run: cargo clippy -- -D warnings
+
+      - name: Check rustfmt
+        if: matrix.language == 'rust'
+        run: cargo fmt -- --check
+
+      # Go linting
+      - name: Set up Go
+        if: matrix.language == 'go'
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+
+      - name: Run golangci-lint
+        if: matrix.language == 'go'
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: latest
+
+  # Job 3: Security scanning
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Python security
+      - name: Run Bandit (Python)
+        if: hashFiles('**/*.py') != ''
+        run: |
+          pip install bandit
+          bandit -r . -f json -o bandit-report.json || true
+
+      # JavaScript security
+      - name: Run npm audit
+        if: hashFiles('**/package-lock.json') != ''
+        run: |
+          npm audit --audit-level=moderate
+
+      # Dependency scanning
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+      # Secret scanning
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Job 4: Test execution and coverage
+  test:
+    name: Tests & Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Python tests
+      - name: Set up Python
+        if: hashFiles('**/pytest.ini') != '' || hashFiles('**/pyproject.toml') != ''
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        if: hashFiles('**/pytest.ini') != '' || hashFiles('**/pyproject.toml') != ''
+        run: |
+          pip install -e ".[dev]"
+
+      - name: Run pytest
+        if: hashFiles('**/pytest.ini') != '' || hashFiles('**/pyproject.toml') != ''
+        run: |
+          pytest --cov --cov-report=xml --cov-report=term
+
+      # JavaScript tests
+      - name: Set up Node
+        if: hashFiles('**/jest.config.js') != ''
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Node dependencies
+        if: hashFiles('**/jest.config.js') != ''
+        run: npm ci
+
+      - name: Run Jest
+        if: hashFiles('**/jest.config.js') != ''
+        run: npm test -- --coverage
+
+      # Rust tests
+      - name: Set up Rust
+        if: hashFiles('**/Cargo.toml') != ''
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: Run Cargo tests
+        if: hashFiles('**/Cargo.toml') != ''
+        run: cargo test
+
+      # Go tests
+      - name: Set up Go
+        if: hashFiles('**/go.mod') != ''
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+
+      - name: Run Go tests
+        if: hashFiles('**/go.mod') != ''
+        run: go test -v -race -coverprofile=coverage.out ./...
+
+      # Upload coverage
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage.xml,./coverage.out
+          fail_ci_if_error: false
+
+  # Job 5: Generate review summary comment
+  review-summary:
+    name: Review Summary
+    runs-on: ubuntu-latest
+    needs: [pr-analysis, lint, security, test]
+    if: always()
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Generate summary
+        run: |
+          cat << EOF > summary.md
+          ## Automated Review Summary
+
+          ### PR Information
+          - **Size:** ${{ needs.pr-analysis.outputs.size }}
+          - **Files Changed:** ${{ needs.pr-analysis.outputs.files_changed }}
+          - **Lines Changed:** ${{ needs.pr-analysis.outputs.lines_changed }}
+
+          ### Check Results
+          - **Linting:** ${{ needs.lint.result }}
+          - **Security:** ${{ needs.security.result }}
+          - **Tests:** ${{ needs.test.result }}
+
+          ### Recommendations
+          EOF
+
+          # Add recommendations based on results
+          if [ "${{ needs.lint.result }}" != "success" ]; then
+            echo "- ⚠️ Fix linting issues before merging" >> summary.md
+          fi
+
+          if [ "${{ needs.security.result }}" != "success" ]; then
+            echo "- 🔒 Address security concerns" >> summary.md
+          fi
+
+          if [ "${{ needs.test.result }}" != "success" ]; then
+            echo "- ✅ Ensure all tests pass" >> summary.md
+          fi
+
+          if [ "${{ needs.pr-analysis.outputs.size }}" == "huge" ]; then
+            echo "- 📏 Consider splitting this PR into smaller changes" >> summary.md
+          fi
+
+          cat summary.md
+
+      - name: Comment on PR
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const summary = fs.readFileSync('summary.md', 'utf8');
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: summary
+            });
+
+  # Job 6: Assign reviewers based on changed files
+  assign-reviewers:
+    name: Assign Reviewers
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Assign reviewers based on CODEOWNERS
+        uses: actions/github-script@v6
+        with:
+          script: |
+            // This is a simplified example
+            // In practice, use a proper CODEOWNERS parser
+            const changedFiles = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+
+            // Assign reviewers based on changed files
+            // (Implementation would parse CODEOWNERS and match patterns)

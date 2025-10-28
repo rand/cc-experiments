@@ -1,0 +1,282 @@
+{
+  "dashboard": {
+    "title": "Toil Tracking Dashboard",
+    "description": "Track and visualize toil across engineering teams",
+    "refresh": "1m",
+    "tags": ["sre", "toil", "operations"],
+    "panels": [
+      {
+        "id": 1,
+        "title": "Toil Percentage Over Time",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "(sum(rate(work_hours_total{type=\"toil\"}[7d])) / sum(rate(work_hours_total[7d]))) * 100",
+            "legendFormat": "Toil %",
+            "refId": "A"
+          }
+        ],
+        "yaxis": {
+          "label": "Toil %",
+          "min": 0,
+          "max": 100
+        },
+        "thresholds": [
+          {
+            "value": 50,
+            "color": "red",
+            "label": "SRE Target: < 50%"
+          }
+        ],
+        "gridPos": {
+          "x": 0,
+          "y": 0,
+          "w": 12,
+          "h": 8
+        }
+      },
+      {
+        "id": 2,
+        "title": "Current Toil Status",
+        "type": "singlestat",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "(sum(rate(work_hours_total{type=\"toil\"}[30d])) / sum(rate(work_hours_total[30d]))) * 100",
+            "refId": "A"
+          }
+        ],
+        "valueName": "current",
+        "format": "percent",
+        "thresholds": "25,40,50,65",
+        "colors": ["green", "yellow", "orange", "red"],
+        "colorValue": true,
+        "gridPos": {
+          "x": 12,
+          "y": 0,
+          "w": 6,
+          "h": 4
+        }
+      },
+      {
+        "id": 3,
+        "title": "Total Toil Hours (30d)",
+        "type": "singlestat",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "sum(increase(work_hours_total{type=\"toil\"}[30d]))",
+            "refId": "A"
+          }
+        ],
+        "valueName": "current",
+        "format": "short",
+        "postfix": " hours",
+        "gridPos": {
+          "x": 18,
+          "y": 0,
+          "w": 6,
+          "h": 4
+        }
+      },
+      {
+        "id": 4,
+        "title": "Toil by Category",
+        "type": "piechart",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "sum by (category) (increase(work_hours_total{type=\"toil\"}[30d]))",
+            "legendFormat": "{{category}}",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "x": 0,
+          "y": 8,
+          "w": 12,
+          "h": 8
+        }
+      },
+      {
+        "id": 5,
+        "title": "Top 10 Toil Tasks",
+        "type": "table",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "topk(10, sum by (task) (increase(work_hours_total{type=\"toil\"}[30d])))",
+            "format": "table",
+            "refId": "A"
+          }
+        ],
+        "columns": [
+          {
+            "text": "Task",
+            "value": "task"
+          },
+          {
+            "text": "Hours",
+            "value": "Value"
+          }
+        ],
+        "gridPos": {
+          "x": 12,
+          "y": 8,
+          "w": 12,
+          "h": 8
+        }
+      },
+      {
+        "id": 6,
+        "title": "Toil Trend (Weekly)",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "sum(increase(work_hours_total{type=\"toil\"}[7d]))",
+            "legendFormat": "Toil hours (weekly)",
+            "refId": "A"
+          },
+          {
+            "expr": "sum(increase(work_hours_total{type=\"engineering\"}[7d]))",
+            "legendFormat": "Engineering hours (weekly)",
+            "refId": "B"
+          }
+        ],
+        "yaxis": {
+          "label": "Hours"
+        },
+        "gridPos": {
+          "x": 0,
+          "y": 16,
+          "w": 24,
+          "h": 8
+        }
+      },
+      {
+        "id": 7,
+        "title": "Automation ROI Candidates",
+        "type": "table",
+        "datasource": "PostgreSQL",
+        "targets": [
+          {
+            "rawSql": "SELECT task, occurrences, annual_hours, roi, payback_months, priority FROM automation_candidates ORDER BY roi DESC LIMIT 10",
+            "format": "table",
+            "refId": "A"
+          }
+        ],
+        "columns": [
+          {
+            "text": "Task",
+            "value": "task"
+          },
+          {
+            "text": "Occurrences",
+            "value": "occurrences"
+          },
+          {
+            "text": "Annual Hours",
+            "value": "annual_hours"
+          },
+          {
+            "text": "ROI",
+            "value": "roi"
+          },
+          {
+            "text": "Payback (months)",
+            "value": "payback_months"
+          },
+          {
+            "text": "Priority",
+            "value": "priority"
+          }
+        ],
+        "gridPos": {
+          "x": 0,
+          "y": 24,
+          "w": 24,
+          "h": 8
+        }
+      },
+      {
+        "id": 8,
+        "title": "Toil by Engineer",
+        "type": "bargauge",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "sum by (engineer) (increase(work_hours_total{type=\"toil\"}[30d]))",
+            "legendFormat": "{{engineer}}",
+            "refId": "A"
+          }
+        ],
+        "orientation": "horizontal",
+        "gridPos": {
+          "x": 0,
+          "y": 32,
+          "w": 12,
+          "h": 8
+        }
+      },
+      {
+        "id": 9,
+        "title": "Automation Impact",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "sum(increase(work_hours_total{type=\"toil\",automated=\"true\"}[7d]))",
+            "legendFormat": "Automated toil (eliminated)",
+            "refId": "A"
+          },
+          {
+            "expr": "sum(increase(work_hours_total{type=\"toil\",automated=\"false\"}[7d]))",
+            "legendFormat": "Manual toil (remaining)",
+            "refId": "B"
+          }
+        ],
+        "yaxis": {
+          "label": "Hours saved"
+        },
+        "gridPos": {
+          "x": 12,
+          "y": 32,
+          "w": 12,
+          "h": 8
+        }
+      }
+    ],
+    "annotations": {
+      "list": [
+        {
+          "datasource": "Prometheus",
+          "enable": true,
+          "expr": "ALERTS{alertname=\"HighToilPercentage\"}",
+          "iconColor": "red",
+          "name": "Toil Alerts",
+          "tagKeys": "alertname"
+        }
+      ]
+    },
+    "variables": [
+      {
+        "name": "team",
+        "type": "query",
+        "datasource": "Prometheus",
+        "query": "label_values(work_hours_total, team)",
+        "multi": true,
+        "includeAll": true
+      },
+      {
+        "name": "engineer",
+        "type": "query",
+        "datasource": "Prometheus",
+        "query": "label_values(work_hours_total, engineer)",
+        "multi": true,
+        "includeAll": true
+      }
+    ]
+  }
+}

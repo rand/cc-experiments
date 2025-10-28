@@ -1,0 +1,8 @@
+Month,Requests/sec,CPU Usage %,Memory Usage %,DB Connections,Latency p95 (ms),Headroom %,Action Required
+2025-07,1000,45,50,25,80,55,None
+2025-08,1200,52,55,28,85,48,Monitor
+2025-09,1500,60,62,32,95,40,Plan scaling
+2025-10,1800,68,68,36,100,32,Scale soon
+2025-11,2200,78,75,42,110,22,Scale now
+2025-12,2500,85,80,48,120,15,Critical
+2026-01,3000,95,88,50,150,5,Urgent

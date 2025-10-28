@@ -1,0 +1,347 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Event Sourcing Event Schemas",
+  "description": "JSON Schema definitions for event-sourced system events",
+  "definitions": {
+    "BaseEvent": {
+      "type": "object",
+      "required": [
+        "eventId",
+        "eventType",
+        "aggregateId",
+        "version",
+        "timestamp",
+        "data"
+      ],
+      "properties": {
+        "eventId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique event identifier"
+        },
+        "eventType": {
+          "type": "string",
+          "pattern": "^[A-Z][a-zA-Z]*$",
+          "description": "Event type name in PascalCase, past tense"
+        },
+        "aggregateId": {
+          "type": "string",
+          "description": "ID of the aggregate this event belongs to"
+        },
+        "aggregateType": {
+          "type": "string",
+          "description": "Type of aggregate (User, Order, etc.)"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Version number within aggregate stream"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the event occurred (ISO 8601)"
+        },
+        "data": {
+          "type": "object",
+          "description": "Event payload (domain-specific)"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "causationId": {
+              "type": "string",
+              "description": "ID of command that caused this event"
+            },
+            "correlationId": {
+              "type": "string",
+              "description": "ID for tracing request across services"
+            },
+            "userId": {
+              "type": "string",
+              "description": "ID of user who triggered the event"
+            }
+          },
+          "description": "Event metadata"
+        }
+      }
+    },
+    "AccountOpened": {
+      "allOf": [
+        { "$ref": "#/definitions/BaseEvent" },
+        {
+          "properties": {
+            "eventType": {
+              "const": "AccountOpened"
+            },
+            "aggregateType": {
+              "const": "BankAccount"
+            },
+            "data": {
+              "type": "object",
+              "required": ["accountId", "owner", "initialDeposit", "currency"],
+              "properties": {
+                "accountId": {
+                  "type": "string"
+                },
+                "owner": {
+                  "type": "string"
+                },
+                "initialDeposit": {
+                  "type": "string",
+                  "pattern": "^\\d+\\.\\d{2}$",
+                  "description": "Decimal string with 2 decimal places"
+                },
+                "currency": {
+                  "type": "string",
+                  "enum": ["USD", "EUR", "GBP"],
+                  "description": "Currency code"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "MoneyDeposited": {
+      "allOf": [
+        { "$ref": "#/definitions/BaseEvent" },
+        {
+          "properties": {
+            "eventType": {
+              "const": "MoneyDeposited"
+            },
+            "aggregateType": {
+              "const": "BankAccount"
+            },
+            "data": {
+              "type": "object",
+              "required": ["accountId", "amount", "balanceAfter"],
+              "properties": {
+                "accountId": {
+                  "type": "string"
+                },
+                "amount": {
+                  "type": "string",
+                  "pattern": "^\\d+\\.\\d{2}$"
+                },
+                "balanceAfter": {
+                  "type": "string",
+                  "pattern": "^\\d+\\.\\d{2}$"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "MoneyWithdrawn": {
+      "allOf": [
+        { "$ref": "#/definitions/BaseEvent" },
+        {
+          "properties": {
+            "eventType": {
+              "const": "MoneyWithdrawn"
+            },
+            "aggregateType": {
+              "const": "BankAccount"
+            },
+            "data": {
+              "type": "object",
+              "required": ["accountId", "amount", "balanceAfter"],
+              "properties": {
+                "accountId": {
+                  "type": "string"
+                },
+                "amount": {
+                  "type": "string",
+                  "pattern": "^\\d+\\.\\d{2}$"
+                },
+                "balanceAfter": {
+                  "type": "string",
+                  "pattern": "^\\d+\\.\\d{2}$"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "UserRegistered": {
+      "allOf": [
+        { "$ref": "#/definitions/BaseEvent" },
+        {
+          "properties": {
+            "eventType": {
+              "const": "UserRegistered"
+            },
+            "aggregateType": {
+              "const": "User"
+            },
+            "data": {
+              "type": "object",
+              "required": ["userId", "email"],
+              "properties": {
+                "userId": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string",
+                  "format": "email"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "source": {
+                  "type": "string",
+                  "enum": ["web", "mobile", "api"],
+                  "description": "Registration source"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "OrderCreated": {
+      "allOf": [
+        { "$ref": "#/definitions/BaseEvent" },
+        {
+          "properties": {
+            "eventType": {
+              "const": "OrderCreated"
+            },
+            "aggregateType": {
+              "const": "Order"
+            },
+            "data": {
+              "type": "object",
+              "required": ["orderId", "customerId"],
+              "properties": {
+                "orderId": {
+                  "type": "string"
+                },
+                "customerId": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ItemAdded": {
+      "allOf": [
+        { "$ref": "#/definitions/BaseEvent" },
+        {
+          "properties": {
+            "eventType": {
+              "const": "ItemAdded"
+            },
+            "aggregateType": {
+              "const": "Order"
+            },
+            "data": {
+              "type": "object",
+              "required": ["orderId", "productId", "quantity", "price"],
+              "properties": {
+                "orderId": {
+                  "type": "string"
+                },
+                "productId": {
+                  "type": "string"
+                },
+                "quantity": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "price": {
+                  "type": "number",
+                  "minimum": 0
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "OrderSubmitted": {
+      "allOf": [
+        { "$ref": "#/definitions/BaseEvent" },
+        {
+          "properties": {
+            "eventType": {
+              "const": "OrderSubmitted"
+            },
+            "aggregateType": {
+              "const": "Order"
+            },
+            "data": {
+              "type": "object",
+              "required": ["orderId", "totalAmount", "submittedAt"],
+              "properties": {
+                "orderId": {
+                  "type": "string"
+                },
+                "totalAmount": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "submittedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "examples": [
+    {
+      "eventId": "550e8400-e29b-41d4-a716-446655440000",
+      "eventType": "AccountOpened",
+      "aggregateId": "account-123",
+      "aggregateType": "BankAccount",
+      "version": 1,
+      "timestamp": "2025-10-27T10:30:00Z",
+      "data": {
+        "accountId": "account-123",
+        "owner": "Alice Johnson",
+        "initialDeposit": "1000.00",
+        "currency": "USD"
+      },
+      "metadata": {
+        "userId": "admin-1",
+        "causationId": "command-456",
+        "correlationId": "request-789"
+      }
+    },
+    {
+      "eventId": "660e8400-e29b-41d4-a716-446655440000",
+      "eventType": "MoneyDeposited",
+      "aggregateId": "account-123",
+      "aggregateType": "BankAccount",
+      "version": 2,
+      "timestamp": "2025-10-27T10:31:00Z",
+      "data": {
+        "accountId": "account-123",
+        "amount": "500.00",
+        "balanceAfter": "1500.00",
+        "description": "Salary deposit"
+      },
+      "metadata": {
+        "userId": "admin-1",
+        "causationId": "command-457",
+        "correlationId": "request-790"
+      }
+    }
+  ]
+}

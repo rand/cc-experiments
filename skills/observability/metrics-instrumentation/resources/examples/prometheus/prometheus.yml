@@ -1,0 +1,266 @@
+# Prometheus Configuration Examples
+#
+# Demonstrates various scrape configurations, service discovery,
+# recording rules, and alerting rules for Prometheus.
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'production'
+    region: 'us-east-1'
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - 'alertmanager:9093'
+
+# Load rules
+rule_files:
+  - 'rules/*.yml'
+  - 'alerts/*.yml'
+
+# Scrape configurations
+scrape_configs:
+  # ============================================================================
+  # Prometheus itself
+  # ============================================================================
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          env: 'production'
+
+  # ============================================================================
+  # Application metrics (static targets)
+  # ============================================================================
+  - job_name: 'app'
+    static_configs:
+      - targets:
+          - 'app1:8080'
+          - 'app2:8080'
+          - 'app3:8080'
+        labels:
+          env: 'production'
+          service: 'api'
+
+  # ============================================================================
+  # Node exporters (system metrics)
+  # ============================================================================
+  - job_name: 'node'
+    static_configs:
+      - targets:
+          - 'node1:9100'
+          - 'node2:9100'
+          - 'node3:9100'
+        labels:
+          env: 'production'
+
+  # ============================================================================
+  # File-based service discovery
+  # ============================================================================
+  - job_name: 'file-sd'
+    file_sd_configs:
+      - files:
+          - '/etc/prometheus/targets/*.json'
+          - '/etc/prometheus/targets/*.yml'
+        refresh_interval: 30s
+
+  # ============================================================================
+  # Kubernetes service discovery (pods)
+  # ============================================================================
+  - job_name: 'kubernetes-pods'
+    kubernetes_sd_configs:
+      - role: pod
+        namespaces:
+          names:
+            - default
+            - production
+
+    # Keep only pods with annotation prometheus.io/scrape: "true"
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+        action: keep
+        regex: true
+
+      # Use custom metrics path from annotation
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+        action: replace
+        target_label: __metrics_path__
+        regex: (.+)
+
+      # Use custom port from annotation
+      - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+        action: replace
+        target_label: __address__
+        regex: ([^:]+)(?::\d+)?;(\d+)
+        replacement: $1:$2
+
+      # Add pod metadata as labels
+      - source_labels: [__meta_kubernetes_namespace]
+        target_label: namespace
+
+      - source_labels: [__meta_kubernetes_pod_name]
+        target_label: pod
+
+      - source_labels: [__meta_kubernetes_pod_label_app]
+        target_label: app
+
+      - source_labels: [__meta_kubernetes_pod_label_version]
+        target_label: version
+
+  # ============================================================================
+  # Kubernetes service discovery (services)
+  # ============================================================================
+  - job_name: 'kubernetes-services'
+    kubernetes_sd_configs:
+      - role: service
+
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
+        action: keep
+        regex: true
+
+      - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scheme]
+        action: replace
+        target_label: __scheme__
+        regex: (https?)
+
+      - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_path]
+        action: replace
+        target_label: __metrics_path__
+        regex: (.+)
+
+      - source_labels: [__address__, __meta_kubernetes_service_annotation_prometheus_io_port]
+        action: replace
+        target_label: __address__
+        regex: ([^:]+)(?::\d+)?;(\d+)
+        replacement: $1:$2
+
+  # ============================================================================
+  # Blackbox exporter (HTTP probes)
+  # ============================================================================
+  - job_name: 'blackbox-http'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+
+    static_configs:
+      - targets:
+          - https://example.com
+          - https://api.example.com
+          - https://app.example.com/health
+        labels:
+          env: 'production'
+
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  # ============================================================================
+  # Federation (scrape from other Prometheus servers)
+  # ============================================================================
+  - job_name: 'federate'
+    scrape_interval: 60s
+    honor_labels: true
+    metrics_path: '/federate'
+
+    params:
+      'match[]':
+        - '{job="api"}'
+        - '{job="node"}'
+        - '{__name__=~"job:.*"}'
+
+    static_configs:
+      - targets:
+          - 'prometheus-us-west:9090'
+          - 'prometheus-eu-west:9090'
+
+  # ============================================================================
+  # Custom exporter with relabeling
+  # ============================================================================
+  - job_name: 'custom-exporter'
+    static_configs:
+      - targets: ['exporter:9999']
+
+    # Metric relabeling (applied to scraped metrics)
+    metric_relabel_configs:
+      # Drop metrics we don't need
+      - source_labels: [__name__]
+        regex: 'go_.*|process_.*'
+        action: drop
+
+      # Keep only specific HTTP endpoints
+      - source_labels: [endpoint]
+        regex: '/api/(users|orders|products)'
+        action: keep
+
+      # Rename label
+      - source_labels: [old_label]
+        target_label: new_label
+
+      # Add static label
+      - target_label: cluster
+        replacement: 'production'
+
+  # ============================================================================
+  # PostgreSQL exporter
+  # ============================================================================
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres-exporter:9187']
+        labels:
+          env: 'production'
+          database: 'main'
+
+  # ============================================================================
+  # Redis exporter
+  # ============================================================================
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis-exporter:9121']
+        labels:
+          env: 'production'
+
+# ============================================================================
+# Storage configuration
+# ============================================================================
+storage:
+  tsdb:
+    path: /prometheus/data
+    retention:
+      time: 15d
+      size: 50GB
+
+# ============================================================================
+# Remote write (long-term storage)
+# ============================================================================
+remote_write:
+  - url: https://prometheus-remote-write.example.com/api/v1/write
+    queue_config:
+      capacity: 10000
+      max_shards: 50
+      min_shards: 1
+      max_samples_per_send: 5000
+      batch_send_deadline: 5s
+      min_backoff: 30ms
+      max_backoff: 100ms
+
+    # Only send important metrics
+    write_relabel_configs:
+      - source_labels: [__name__]
+        regex: '(http_requests_total|http_request_duration_seconds.*|orders_total|revenue_total_dollars)'
+        action: keep
+
+# ============================================================================
+# Remote read (query from long-term storage)
+# ============================================================================
+remote_read:
+  - url: https://prometheus-remote-read.example.com/api/v1/read
+    read_recent: true

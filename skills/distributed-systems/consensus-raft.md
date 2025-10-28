@@ -528,6 +528,119 @@ def test_network_partition():
 
 ---
 
+## Level 3 Resources
+
+This skill includes executable scripts, comprehensive references, and examples for hands-on RAFT consensus work.
+
+### Quick Start
+
+```bash
+# Navigate to resources
+cd skills/distributed-systems/consensus-raft/resources/scripts
+
+# Start test cluster (Docker-based)
+./test_etcd_cluster.sh --nodes 3
+
+# Benchmark consensus performance
+./benchmark_consensus.py --operations 5000 --concurrency 50
+
+# Visualize RAFT state machine
+./visualize_raft_state.py --type state-machine --format mermaid
+```
+
+### Resources Structure
+
+```
+consensus-raft/resources/
+├── REFERENCE.md           # RAFT algorithm deep-dive, etcd internals, proofs
+├── scripts/
+│   ├── README.md         # Scripts documentation
+│   ├── test_etcd_cluster.sh      # Docker-based etcd cluster setup
+│   ├── benchmark_consensus.py    # Performance benchmarking
+│   └── visualize_raft_state.py   # State machine visualizations
+└── examples/
+    ├── python/           # Python RAFT client examples
+    └── go/               # Go etcd integration examples
+```
+
+### Available Scripts
+
+#### test_etcd_cluster.sh
+Automated Docker-based etcd RAFT cluster for testing:
+```bash
+# 5-node cluster
+./test_etcd_cluster.sh --nodes 5
+
+# JSON output for CI/CD
+./test_etcd_cluster.sh --nodes 3 --json
+
+# Cleanup
+./test_etcd_cluster.sh --cleanup
+```
+
+#### benchmark_consensus.py
+Measure consensus latency and throughput:
+```bash
+# Basic benchmark
+./benchmark_consensus.py --operations 10000
+
+# High concurrency
+./benchmark_consensus.py --operations 50000 --concurrency 200 --json
+```
+
+**Metrics**: min/max/mean/p95/p99 latency, throughput, success rates
+
+#### visualize_raft_state.py
+Generate RAFT diagrams:
+```bash
+# State machine diagram
+./visualize_raft_state.py --type state-machine --format mermaid
+
+# Log replication sequence
+./visualize_raft_state.py --type log-replication --format ascii
+
+# Live cluster status
+./visualize_raft_state.py --type cluster-status --endpoints localhost:2379
+```
+
+### Reference Material
+
+**REFERENCE.md** includes:
+- RAFT paper key sections and safety proofs
+- Complete state machine specification
+- Leader election algorithm details
+- Log replication implementation
+- etcd architecture and internals
+- RAFT vs Paxos comparison
+- Performance characteristics
+- Common implementation pitfalls
+
+### Example Workflow
+
+```bash
+# 1. Setup cluster
+./test_etcd_cluster.sh --nodes 3
+
+# 2. Run benchmarks
+./benchmark_consensus.py --operations 5000 --json > results.json
+
+# 3. Analyze results
+cat results.json | jq '.results.put.latency.p99_ms'
+
+# 4. Generate diagrams
+./visualize_raft_state.py --type state-machine --output state.mmd
+
+# 5. Test fault tolerance (in separate terminal)
+docker stop etcd-node2  # Observe leader election
+
+# 6. Cleanup
+./test_etcd_cluster.sh --cleanup
+```
+
+**See**: `resources/scripts/README.md` for complete documentation
+
+---
+
 ## Related Skills
 
 - `distributed-systems-consensus-paxos` - Alternative consensus algorithm

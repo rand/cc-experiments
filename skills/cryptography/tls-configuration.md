@@ -572,6 +572,66 @@ TLS 1.3 Support (as of 2025):
 
 ---
 
+---
+
+## Level 3 Resources
+
+This skill includes comprehensive resources for advanced TLS configuration, testing, and validation.
+
+### Structure
+
+```
+resources/
+├── REFERENCE.md              # Detailed TLS specifications, RFCs, cipher suites
+├── scripts/                  # Executable validation and testing scripts
+│   ├── README.md
+│   ├── validate_tls_config.sh    # Validate nginx/apache TLS configs
+│   ├── check_cipher_suites.py    # List and verify cipher suites
+│   └── test_tls_connection.py    # Test TLS connectivity and timing
+└── examples/                 # Real-world configuration examples
+    ├── nginx/
+    │   ├── modern-tls-config.conf
+    │   └── mtls-config.conf
+    └── python/
+        ├── tls_server.py
+        └── tls_client.py
+```
+
+### Quick Start
+
+**Validate TLS configuration**:
+```bash
+cd resources/scripts
+./validate_tls_config.sh --file /etc/nginx/nginx.conf --verbose
+```
+
+**Check cipher suites on remote host**:
+```bash
+python check_cipher_suites.py --host example.com --json
+```
+
+**Test TLS connection with timing**:
+```bash
+python test_tls_connection.py example.com --test-all-versions
+```
+
+**Reference material**:
+```bash
+cat resources/REFERENCE.md  # TLS 1.2 vs 1.3, cipher suites, RFCs, OCSP
+```
+
+### Use Cases
+
+- **Configuration validation**: Validate nginx/apache TLS settings against best practices
+- **Cipher suite analysis**: Identify weak ciphers and security issues
+- **Connection testing**: Test TLS handshake, measure timing, verify certificates
+- **Learning**: Comprehensive reference for TLS protocols and RFCs
+- **CI/CD integration**: JSON output for automated security testing
+
+See `resources/scripts/README.md` for detailed usage examples and CI/CD integration patterns.
+
+---
+
 ## Related Skills
 
 - `cryptography-pki-fundamentals` - Certificate basics

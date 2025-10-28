@@ -1,0 +1,104 @@
+# Docker Compose for gRPC Server + Client
+#
+# Demonstrates production-ready gRPC deployment with:
+# - gRPC server
+# - gRPC client
+# - Service discovery
+# - Health checks
+# - Logging
+#
+# Usage:
+#   docker-compose up
+
+version: '3.8'
+
+services:
+  # gRPC Server
+  grpc-server:
+    image: python:3.11-slim
+    container_name: grpc-server
+    working_dir: /app
+    volumes:
+      - ../python:/app
+      - ../protos:/app/protos
+    command: >
+      bash -c "
+      pip install --quiet grpcio grpcio-tools protobuf &&
+      python -m grpc_tools.protoc \
+        -I./protos \
+        --python_out=. \
+        --grpc_python_out=. \
+        protos/service.proto &&
+      python server.py
+      "
+    ports:
+      - "50051:50051"
+    environment:
+      - LOG_LEVEL=INFO
+      - PORT=50051
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; s=socket.socket(); s.connect(('localhost', 50051)); s.close()"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - grpc-network
+
+  # gRPC Client (for testing)
+  grpc-client:
+    image: python:3.11-slim
+    container_name: grpc-client
+    working_dir: /app
+    volumes:
+      - ../python:/app
+      - ../protos:/app/protos
+    command: >
+      bash -c "
+      pip install --quiet grpcio grpcio-tools protobuf &&
+      python -m grpc_tools.protoc \
+        -I./protos \
+        --python_out=. \
+        --grpc_python_out=. \
+        protos/service.proto &&
+      echo 'Waiting for server...' &&
+      sleep 10 &&
+      python client.py
+      "
+    depends_on:
+      grpc-server:
+        condition: service_healthy
+    environment:
+      - GRPC_SERVER=grpc-server:50051
+    networks:
+      - grpc-network
+
+  # grpcurl (for manual testing)
+  grpcurl:
+    image: fullstorydev/grpcurl:latest
+    container_name: grpcurl
+    volumes:
+      - ../protos:/protos
+    entrypoint: >
+      sh -c "
+      echo 'gRPC server available at grpc-server:50051';
+      echo 'List services:';
+      grpcurl -plaintext -proto /protos/service.proto grpc-server:50051 list;
+      tail -f /dev/null
+      "
+    depends_on:
+      grpc-server:
+        condition: service_healthy
+    networks:
+      - grpc-network
+
+networks:
+  grpc-network:
+    driver: bridge
+
+# Production deployment notes:
+# - Use TLS/SSL for secure communication
+# - Add authentication (JWT, mTLS)
+# - Use service mesh (Istio, Linkerd) for advanced features
+# - Add metrics (Prometheus) and tracing (Jaeger)
+# - Use Kubernetes for orchestration

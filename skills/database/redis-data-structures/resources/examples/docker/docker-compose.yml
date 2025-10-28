@@ -1,0 +1,313 @@
+version: '3.8'
+
+services:
+  # Redis standalone with persistence
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - redis_network
+
+  # Redis with custom configuration
+  redis-configured:
+    image: redis:7-alpine
+    container_name: redis-configured
+    ports:
+      - "6380:6379"
+    environment:
+      - REDIS_PASSWORD=strongpassword
+    command: >
+      redis-server
+      --requirepass strongpassword
+      --maxmemory 256mb
+      --maxmemory-policy allkeys-lru
+      --save 900 1
+      --save 300 10
+      --save 60 10000
+      --appendonly yes
+      --appendfsync everysec
+    volumes:
+      - redis_configured_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "strongpassword", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - redis_network
+
+  # Redis Sentinel for HA (Master)
+  redis-master:
+    image: redis:7-alpine
+    container_name: redis-master
+    ports:
+      - "6381:6379"
+    command: redis-server --protected-mode no
+    volumes:
+      - redis_master_data:/data
+    networks:
+      - redis_network
+
+  # Redis Sentinel for HA (Replica 1)
+  redis-replica-1:
+    image: redis:7-alpine
+    container_name: redis-replica-1
+    ports:
+      - "6382:6379"
+    command: redis-server --replicaof redis-master 6379 --protected-mode no
+    depends_on:
+      - redis-master
+    volumes:
+      - redis_replica1_data:/data
+    networks:
+      - redis_network
+
+  # Redis Sentinel for HA (Replica 2)
+  redis-replica-2:
+    image: redis:7-alpine
+    container_name: redis-replica-2
+    ports:
+      - "6383:6379"
+    command: redis-server --replicaof redis-master 6379 --protected-mode no
+    depends_on:
+      - redis-master
+    volumes:
+      - redis_replica2_data:/data
+    networks:
+      - redis_network
+
+  # Redis Sentinel 1
+  sentinel-1:
+    image: redis:7-alpine
+    container_name: sentinel-1
+    ports:
+      - "26379:26379"
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    volumes:
+      - ./sentinel.conf:/usr/local/etc/redis/sentinel.conf
+    depends_on:
+      - redis-master
+      - redis-replica-1
+      - redis-replica-2
+    networks:
+      - redis_network
+
+  # Redis Sentinel 2
+  sentinel-2:
+    image: redis:7-alpine
+    container_name: sentinel-2
+    ports:
+      - "26380:26379"
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    volumes:
+      - ./sentinel.conf:/usr/local/etc/redis/sentinel.conf
+    depends_on:
+      - redis-master
+      - redis-replica-1
+      - redis-replica-2
+    networks:
+      - redis_network
+
+  # Redis Sentinel 3
+  sentinel-3:
+    image: redis:7-alpine
+    container_name: sentinel-3
+    ports:
+      - "26381:26379"
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    volumes:
+      - ./sentinel.conf:/usr/local/etc/redis/sentinel.conf
+    depends_on:
+      - redis-master
+      - redis-replica-1
+      - redis-replica-2
+    networks:
+      - redis_network
+
+  # Redis Cluster Node 1
+  redis-cluster-1:
+    image: redis:7-alpine
+    container_name: redis-cluster-1
+    ports:
+      - "7000:7000"
+      - "17000:17000"
+    command: >
+      redis-server
+      --port 7000
+      --cluster-enabled yes
+      --cluster-config-file nodes.conf
+      --cluster-node-timeout 5000
+      --appendonly yes
+      --protected-mode no
+    volumes:
+      - redis_cluster1_data:/data
+    networks:
+      - redis_network
+
+  # Redis Cluster Node 2
+  redis-cluster-2:
+    image: redis:7-alpine
+    container_name: redis-cluster-2
+    ports:
+      - "7001:7001"
+      - "17001:17001"
+    command: >
+      redis-server
+      --port 7001
+      --cluster-enabled yes
+      --cluster-config-file nodes.conf
+      --cluster-node-timeout 5000
+      --appendonly yes
+      --protected-mode no
+    volumes:
+      - redis_cluster2_data:/data
+    networks:
+      - redis_network
+
+  # Redis Cluster Node 3
+  redis-cluster-3:
+    image: redis:7-alpine
+    container_name: redis-cluster-3
+    ports:
+      - "7002:7002"
+      - "17002:17002"
+    command: >
+      redis-server
+      --port 7002
+      --cluster-enabled yes
+      --cluster-config-file nodes.conf
+      --cluster-node-timeout 5000
+      --appendonly yes
+      --protected-mode no
+    volumes:
+      - redis_cluster3_data:/data
+    networks:
+      - redis_network
+
+  # Redis Cluster Node 4
+  redis-cluster-4:
+    image: redis:7-alpine
+    container_name: redis-cluster-4
+    ports:
+      - "7003:7003"
+      - "17003:17003"
+    command: >
+      redis-server
+      --port 7003
+      --cluster-enabled yes
+      --cluster-config-file nodes.conf
+      --cluster-node-timeout 5000
+      --appendonly yes
+      --protected-mode no
+    volumes:
+      - redis_cluster4_data:/data
+    networks:
+      - redis_network
+
+  # Redis Cluster Node 5
+  redis-cluster-5:
+    image: redis:7-alpine
+    container_name: redis-cluster-5
+    ports:
+      - "7004:7004"
+      - "17004:17004"
+    command: >
+      redis-server
+      --port 7004
+      --cluster-enabled yes
+      --cluster-config-file nodes.conf
+      --cluster-node-timeout 5000
+      --appendonly yes
+      --protected-mode no
+    volumes:
+      - redis_cluster5_data:/data
+    networks:
+      - redis_network
+
+  # Redis Cluster Node 6
+  redis-cluster-6:
+    image: redis:7-alpine
+    container_name: redis-cluster-6
+    ports:
+      - "7005:7005"
+      - "17005:17005"
+    command: >
+      redis-server
+      --port 7005
+      --cluster-enabled yes
+      --cluster-config-file nodes.conf
+      --cluster-node-timeout 5000
+      --appendonly yes
+      --protected-mode no
+    volumes:
+      - redis_cluster6_data:/data
+    networks:
+      - redis_network
+
+  # Redis Commander (Web UI)
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: redis-commander
+    ports:
+      - "8081:8081"
+    environment:
+      - REDIS_HOSTS=local:redis:6379,configured:redis-configured:6380:0:strongpassword
+    depends_on:
+      - redis
+      - redis-configured
+    networks:
+      - redis_network
+
+  # Redis Insight (Official UI)
+  redis-insight:
+    image: redislabs/redisinsight:latest
+    container_name: redis-insight
+    ports:
+      - "8001:8001"
+    volumes:
+      - redis_insight_data:/db
+    networks:
+      - redis_network
+
+volumes:
+  redis_data:
+    driver: local
+  redis_configured_data:
+    driver: local
+  redis_master_data:
+    driver: local
+  redis_replica1_data:
+    driver: local
+  redis_replica2_data:
+    driver: local
+  redis_cluster1_data:
+    driver: local
+  redis_cluster2_data:
+    driver: local
+  redis_cluster3_data:
+    driver: local
+  redis_cluster4_data:
+    driver: local
+  redis_cluster5_data:
+    driver: local
+  redis_cluster6_data:
+    driver: local
+  redis_insight_data:
+    driver: local
+
+networks:
+  redis_network:
+    driver: bridge

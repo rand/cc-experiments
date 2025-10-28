@@ -1,0 +1,369 @@
+// User Service Protocol Buffer Schema
+// Well-designed production-ready schema demonstrating best practices
+//
+// Best practices demonstrated:
+// - Clear package structure
+// - Efficient field numbering (1-15 for frequent fields)
+// - Proper use of optional/repeated
+// - Well-known types for common data
+// - Reserved fields for evolution
+// - Comprehensive documentation
+// - Enum zero values
+
+syntax = "proto3";
+
+package example.user.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/example/protos/user/v1;userv1";
+option java_package = "com.example.protos.user.v1";
+option java_multiple_files = true;
+
+// User represents a registered user in the system
+message User {
+  // Unique user identifier (UUID format)
+  // Field 1: Most frequently accessed field
+  string id = 1;
+
+  // User's email address (unique, validated)
+  string email = 2;
+
+  // User's display name
+  string display_name = 3;
+
+  // User's full name
+  string full_name = 4;
+
+  // Account creation timestamp
+  google.protobuf.Timestamp created_at = 5;
+
+  // Last update timestamp
+  google.protobuf.Timestamp updated_at = 6;
+
+  // User status
+  UserStatus status = 7;
+
+  // User role/permissions
+  UserRole role = 8;
+
+  // Optional profile information
+  UserProfile profile = 9;
+
+  // User preferences/settings
+  UserSettings settings = 10;
+
+  // Email verification status
+  bool email_verified = 11;
+
+  // Account flags
+  repeated string tags = 12;
+
+  // Custom metadata (key-value pairs)
+  map<string, string> metadata = 13;
+
+  // Reserved for future use
+  reserved 14, 15;
+  reserved "deprecated_field", "old_status";
+}
+
+// UserProfile contains detailed profile information
+message UserProfile {
+  // Profile picture URL
+  string avatar_url = 1;
+
+  // Short biography
+  string bio = 2;
+
+  // User's location
+  string location = 3;
+
+  // User's website
+  string website = 4;
+
+  // User's timezone (IANA format)
+  string timezone = 5;
+
+  // User's preferred language (ISO 639-1)
+  string language = 6;
+
+  // Social media links
+  map<string, string> social_links = 7;
+}
+
+// UserSettings contains user preferences
+message UserSettings {
+  // Email notification preferences
+  NotificationSettings notifications = 1;
+
+  // Privacy settings
+  PrivacySettings privacy = 2;
+
+  // Theme preference
+  Theme theme = 3;
+
+  // Timezone for display (overrides profile timezone)
+  string display_timezone = 4;
+}
+
+// NotificationSettings controls notification preferences
+message NotificationSettings {
+  // Enable email notifications
+  bool email_enabled = 1;
+
+  // Enable push notifications
+  bool push_enabled = 2;
+
+  // Enable SMS notifications
+  bool sms_enabled = 3;
+
+  // Notification frequency
+  NotificationFrequency frequency = 4;
+
+  // Specific notification types to enable
+  repeated NotificationType enabled_types = 5;
+}
+
+// PrivacySettings controls privacy preferences
+message PrivacySettings {
+  // Profile visibility
+  Visibility profile_visibility = 1;
+
+  // Email visibility
+  Visibility email_visibility = 2;
+
+  // Allow search indexing
+  bool searchable = 3;
+
+  // Allow analytics tracking
+  bool analytics_enabled = 4;
+
+  // Blocked user IDs
+  repeated string blocked_users = 5;
+}
+
+// UserStatus represents the current state of a user account
+enum UserStatus {
+  // Default/unknown status (required zero value in proto3)
+  USER_STATUS_UNSPECIFIED = 0;
+
+  // Account is active and in good standing
+  USER_STATUS_ACTIVE = 1;
+
+  // Account is pending email verification
+  USER_STATUS_PENDING = 2;
+
+  // Account is suspended (temporary)
+  USER_STATUS_SUSPENDED = 3;
+
+  // Account is banned (permanent)
+  USER_STATUS_BANNED = 4;
+
+  // Account is deactivated by user
+  USER_STATUS_DEACTIVATED = 5;
+
+  // Account is deleted (soft delete)
+  USER_STATUS_DELETED = 6;
+}
+
+// UserRole defines user permissions level
+enum UserRole {
+  // Default/unknown role
+  USER_ROLE_UNSPECIFIED = 0;
+
+  // Regular user
+  USER_ROLE_USER = 1;
+
+  // Moderator
+  USER_ROLE_MODERATOR = 2;
+
+  // Administrator
+  USER_ROLE_ADMIN = 3;
+
+  // Super administrator
+  USER_ROLE_SUPER_ADMIN = 4;
+}
+
+// Theme preference
+enum Theme {
+  THEME_UNSPECIFIED = 0;
+  THEME_LIGHT = 1;
+  THEME_DARK = 2;
+  THEME_AUTO = 3;  // System preference
+}
+
+// NotificationFrequency controls how often notifications are sent
+enum NotificationFrequency {
+  NOTIFICATION_FREQUENCY_UNSPECIFIED = 0;
+  NOTIFICATION_FREQUENCY_REALTIME = 1;
+  NOTIFICATION_FREQUENCY_HOURLY = 2;
+  NOTIFICATION_FREQUENCY_DAILY = 3;
+  NOTIFICATION_FREQUENCY_WEEKLY = 4;
+}
+
+// NotificationType categorizes different types of notifications
+enum NotificationType {
+  NOTIFICATION_TYPE_UNSPECIFIED = 0;
+  NOTIFICATION_TYPE_SYSTEM = 1;
+  NOTIFICATION_TYPE_MESSAGE = 2;
+  NOTIFICATION_TYPE_MENTION = 3;
+  NOTIFICATION_TYPE_FOLLOW = 4;
+  NOTIFICATION_TYPE_COMMENT = 5;
+}
+
+// Visibility controls who can see information
+enum Visibility {
+  VISIBILITY_UNSPECIFIED = 0;
+  VISIBILITY_PUBLIC = 1;
+  VISIBILITY_FRIENDS = 2;
+  VISIBILITY_PRIVATE = 3;
+}
+
+// CreateUserRequest creates a new user
+message CreateUserRequest {
+  // User email (required, unique)
+  string email = 1;
+
+  // User display name
+  string display_name = 2;
+
+  // User full name
+  string full_name = 3;
+
+  // User password (hashed on server)
+  string password = 4;
+
+  // Initial role (defaults to USER)
+  UserRole role = 5;
+
+  // Optional profile information
+  UserProfile profile = 6;
+
+  // Optional settings
+  UserSettings settings = 7;
+}
+
+// CreateUserResponse returns the created user
+message CreateUserResponse {
+  User user = 1;
+}
+
+// GetUserRequest retrieves a user by ID
+message GetUserRequest {
+  // User ID to retrieve
+  string id = 1;
+}
+
+// GetUserResponse returns the requested user
+message GetUserResponse {
+  User user = 1;
+}
+
+// UpdateUserRequest updates user information
+message UpdateUserRequest {
+  // User ID to update
+  string id = 1;
+
+  // Fields to update (field mask pattern)
+  // Only provided fields will be updated
+  optional string display_name = 2;
+  optional string full_name = 3;
+  optional UserProfile profile = 4;
+  optional UserSettings settings = 5;
+  optional UserStatus status = 6;
+  optional UserRole role = 7;
+}
+
+// UpdateUserResponse returns the updated user
+message UpdateUserResponse {
+  User user = 1;
+}
+
+// DeleteUserRequest deletes a user
+message DeleteUserRequest {
+  // User ID to delete
+  string id = 1;
+
+  // Permanent deletion (default: soft delete)
+  bool permanent = 2;
+}
+
+// ListUsersRequest lists users with pagination and filtering
+message ListUsersRequest {
+  // Page size (default: 50, max: 100)
+  int32 page_size = 1;
+
+  // Page token for pagination
+  string page_token = 2;
+
+  // Filter by status
+  repeated UserStatus status = 3;
+
+  // Filter by role
+  repeated UserRole role = 4;
+
+  // Search query (searches name, email)
+  string query = 5;
+
+  // Sort order
+  SortOrder sort_order = 6;
+
+  // Sort field
+  SortField sort_field = 7;
+}
+
+// ListUsersResponse returns paginated users
+message ListUsersResponse {
+  // Users in this page
+  repeated User users = 1;
+
+  // Token for next page (empty if last page)
+  string next_page_token = 2;
+
+  // Total count (if available)
+  int32 total_count = 3;
+}
+
+// SortOrder defines sort direction
+enum SortOrder {
+  SORT_ORDER_UNSPECIFIED = 0;
+  SORT_ORDER_ASC = 1;
+  SORT_ORDER_DESC = 2;
+}
+
+// SortField defines which field to sort by
+enum SortField {
+  SORT_FIELD_UNSPECIFIED = 0;
+  SORT_FIELD_CREATED_AT = 1;
+  SORT_FIELD_UPDATED_AT = 2;
+  SORT_FIELD_EMAIL = 3;
+  SORT_FIELD_DISPLAY_NAME = 4;
+}
+
+// UserService manages user accounts
+service UserService {
+  // Create a new user
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+
+  // Get user by ID
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+
+  // Update user information
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
+
+  // Delete user
+  rpc DeleteUser(DeleteUserRequest) returns (google.protobuf.Empty);
+
+  // List users with filtering and pagination
+  rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
+
+  // Batch get users (streaming response)
+  rpc BatchGetUsers(BatchGetUsersRequest) returns (stream User);
+}
+
+// BatchGetUsersRequest retrieves multiple users
+message BatchGetUsersRequest {
+  // User IDs to retrieve (max: 100)
+  repeated string ids = 1;
+}

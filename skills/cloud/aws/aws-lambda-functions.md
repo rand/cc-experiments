@@ -643,6 +643,76 @@ def lambda_handler(event, context):
 
 ---
 
+## Level 3: Resources
+
+### Reference Material
+
+**Comprehensive Reference**: `/Users/rand/src/cc-polymath/skills/cloud/aws-lambda-deployment/resources/REFERENCE.md` (~1,800 lines)
+- Lambda fundamentals and execution model
+- All supported runtimes (Python, Node.js, Go, Rust, Java, .NET, custom)
+- Function configuration (memory, timeout, environment variables, layers)
+- IAM roles and permissions (least privilege patterns)
+- Event sources and triggers (API Gateway, S3, DynamoDB, SQS, SNS, EventBridge, Kinesis)
+- VPC configuration (when and why, NAT Gateway, VPC endpoints)
+- Deployment methods (AWS CLI, SAM, Serverless Framework, CDK, Terraform, containers)
+- Monitoring and logging (CloudWatch Logs, X-Ray, Lambda Insights, alarms)
+- Performance optimization (cold start reduction, memory tuning, connection pooling, caching)
+- Error handling (retries, DLQ, destinations, idempotency)
+- Testing strategies (unit, integration, local, load testing)
+- Cost optimization
+- Production best practices (blue/green deployment, versioning, aliases)
+- Advanced patterns (layers, extensions, Step Functions, Lambda@Edge)
+
+### Executable Scripts
+
+**`deploy_lambda.py`** - Deploy Lambda functions with best practices
+- Automatic deployment package creation
+- Layer support
+- VPC configuration
+- Environment variables with KMS encryption
+- Versioning and aliases
+- Monitoring setup (CloudWatch alarms, X-Ray)
+- Blue/green deployments with traffic shifting
+- Example: `./deploy_lambda.py --function-name my-function --source-dir ./src --handler app.handler --runtime python3.12 --role-arn arn:aws:iam::123456789012:role/lambda-role --blue-green --setup-monitoring`
+
+**`analyze_performance.py`** - Analyze Lambda function performance
+- Cold start detection and analysis
+- Duration percentiles
+- Memory utilization analysis
+- Error rate tracking
+- Throttle detection
+- Cost analysis
+- Optimization recommendations
+- Example: `./analyze_performance.py --function-name my-function --hours 24 --detailed`
+
+**`test_function.sh`** - Test Lambda functions comprehensively
+- Synchronous and asynchronous invocation
+- Load testing with configurable concurrency
+- Event file support
+- Response validation
+- Performance timing
+- Example: `./test_function.sh --function-name my-function --event event.json --load-test --concurrency 10 --duration 60`
+
+### Example Implementations
+
+**Python Examples**:
+- `hello_lambda.py` - Basic Lambda function with JSON response
+- `api_lambda.py` - API Gateway integration with routing, validation, error handling
+
+**Node.js Examples**:
+- `dynamodb_trigger.js` - DynamoDB Streams processor with INSERT/MODIFY/REMOVE handling
+
+**Infrastructure as Code**:
+- `sam/template.yaml` - SAM deployment with API Gateway, DynamoDB, SNS, alarms
+- `terraform/lambda.tf` - Terraform deployment with API Gateway v2, DynamoDB, monitoring
+
+**Container Images**:
+- `Dockerfile` - Container Lambda examples for Python, Node.js, Go with multi-stage builds
+
+All resources located in: `/Users/rand/src/cc-polymath/skills/cloud/aws-lambda-deployment/resources/`
+
+---
+
 ## Related Skills
 
 - `aws-api-gateway.md` - Configure API Gateway triggers and Lambda proxy integration
@@ -654,5 +724,5 @@ def lambda_handler(event, context):
 
 ---
 
-**Last Updated**: 2025-10-25
+**Last Updated**: 2025-10-27
 **Format Version**: 1.0 (Atomic)

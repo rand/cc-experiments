@@ -1,0 +1,303 @@
+# SLO Definition Example
+# Production-ready Service Level Objective configuration
+
+metadata:
+  service: payment-api
+  owner: payments-team
+  version: "2.1"
+  last_updated: "2025-10-27"
+  review_frequency: quarterly
+
+# Service Level Objectives
+objectives:
+  - name: API Availability
+    sli:
+      type: availability
+      metric: http_success_rate
+      definition: |
+        sum(rate(http_requests_total{service="payment-api",status!~"5.."}[30d]))
+        /
+        sum(rate(http_requests_total{service="payment-api"}[30d]))
+      exclusions:
+        - "4xx client errors (user error, not service failure)"
+        - "429 rate limiting (intentional throttling)"
+        - "Scheduled maintenance windows"
+    target: 99.95
+    window:
+      type: rolling
+      duration_days: 30
+    rationale: "Critical payment processing requires high availability"
+
+  - name: API Latency (p95)
+    sli:
+      type: latency
+      metric: response_time_p95
+      definition: |
+        histogram_quantile(0.95,
+          rate(http_request_duration_seconds_bucket{service="payment-api"}[30d])
+        )
+      measurement_unit: seconds
+      exclusions:
+        - "Client-side timeouts (> 30s)"
+        - "Intentional delays (rate limiting backoff)"
+    target: 0.3  # 300ms
+    window:
+      type: rolling
+      duration_days: 30
+    rationale: "User experience degrades above 300ms response time"
+
+  - name: API Latency (p99)
+    sli:
+      type: latency
+      metric: response_time_p99
+      definition: |
+        histogram_quantile(0.99,
+          rate(http_request_duration_seconds_bucket{service="payment-api"}[30d])
+        )
+      measurement_unit: seconds
+    target: 1.0  # 1 second
+    window:
+      type: rolling
+      duration_days: 30
+    rationale: "Outlier latency should remain under 1 second"
+
+  - name: Transaction Correctness
+    sli:
+      type: correctness
+      metric: transaction_integrity_rate
+      definition: "successful_settlements / total_transactions"
+      exclusions:
+        - "Declined transactions (intentional)"
+        - "Fraud blocks (security feature)"
+        - "Insufficient funds (user issue)"
+    target: 99.99
+    window:
+      type: rolling
+      duration_days: 30
+    rationale: "Financial accuracy is critical, zero tolerance for data corruption"
+
+# Error Budget Policy
+error_budget:
+  calculation:
+    # For 99.95% availability over 30 days
+    total_minutes: 43200  # 30 days * 24 hours * 60 minutes
+    budget_minutes: 21.6  # 0.05% of total
+    budget_percentage: 0.05
+
+  policy:
+    healthy:
+      threshold: "< 25% consumed"
+      actions:
+        - "Continue normal operations"
+        - "Standard release velocity"
+        - "Experiment with new features"
+      meeting_frequency: "Monthly review"
+      approval_required: false
+
+    concerning:
+      threshold: "25-50% consumed"
+      actions:
+        - "Increase monitoring"
+        - "Risk assessment for changes"
+        - "Defer non-critical features"
+        - "Focus on reliability improvements"
+      meeting_frequency: "Bi-weekly review"
+      approval_required: false
+
+    critical:
+      threshold: "50-75% consumed"
+      actions:
+        - "Feature freeze (non-critical changes)"
+        - "All changes require approval"
+        - "Mandatory postmortems for incidents"
+        - "Daily SLO review meetings"
+      meeting_frequency: "Daily standup"
+      approval_required: true
+      approvers:
+        - "tech-lead"
+        - "engineering-manager"
+
+    exhausted:
+      threshold: "> 75% consumed"
+      actions:
+        - "Complete feature freeze"
+        - "Emergency fixes only"
+        - "Executive escalation"
+        - "Incident response mode"
+      meeting_frequency: "Twice daily"
+      approval_required: true
+      approvers:
+        - "vp-engineering"
+        - "cto"
+      notification:
+        - "engineering-all@company.com"
+        - "executives@company.com"
+
+  consequences:
+    development:
+      healthy: "Normal sprint planning, full velocity"
+      concerning: "Add reliability tasks to backlog"
+      critical: "50% sprint capacity on reliability"
+      exhausted: "100% focus on reliability, zero feature work"
+
+    releases:
+      healthy: "Continuous deployment"
+      concerning: "Staged rollouts with monitoring"
+      critical: "Manual approval, extended canary periods"
+      exhausted: "Emergency fixes only, rigorous testing required"
+
+    on_call:
+      healthy: "Standard rotation"
+      concerning: "Primary + secondary on standby"
+      critical: "Extended on-call, management backup"
+      exhausted: "War room, all hands on deck"
+
+# Measurement and Monitoring
+measurement:
+  data_sources:
+    primary: "Prometheus"
+    backup: "CloudWatch"
+
+  queries:
+    availability: |
+      # HTTP success rate (excluding client errors)
+      sum(rate(http_requests_total{service="payment-api",status!~"5.."}[5m]))
+      /
+      sum(rate(http_requests_total{service="payment-api"}[5m]))
+
+    latency_p95: |
+      histogram_quantile(0.95,
+        rate(http_request_duration_seconds_bucket{service="payment-api"}[5m])
+      )
+
+    latency_p99: |
+      histogram_quantile(0.99,
+        rate(http_request_duration_seconds_bucket{service="payment-api"}[5m])
+      )
+
+    error_budget_consumption: |
+      # Calculate 30-day error budget consumption
+      (
+        1 - (
+          sum(rate(http_requests_total{service="payment-api",status!~"5.."}[30d]))
+          /
+          sum(rate(http_requests_total{service="payment-api"}[30d]))
+        )
+      ) / 0.0005  # Divide by error budget (0.05%)
+
+  dashboards:
+    primary: "https://grafana.company.com/d/payment-api-slo"
+    debug: "https://grafana.company.com/d/payment-api-debug"
+
+  alerting:
+    pagerduty:
+      service: "payment-api"
+      escalation_policy: "payments-team-escalation"
+
+    alert_rules:
+      - name: ErrorBudgetFastBurn
+        severity: critical
+        condition: "burn_rate > 14.4x over 1 hour"
+        action: "Page on-call immediately"
+        runbook: "https://wiki.company.com/runbooks/slo-fast-burn"
+
+      - name: ErrorBudgetMediumBurn
+        severity: warning
+        condition: "burn_rate > 6x over 6 hours"
+        action: "Page on-call"
+        runbook: "https://wiki.company.com/runbooks/slo-medium-burn"
+
+      - name: ErrorBudgetExhausted75
+        severity: warning
+        condition: "> 75% budget consumed"
+        action: "Escalate to management, implement feature freeze"
+        runbook: "https://wiki.company.com/runbooks/error-budget-exhausted"
+
+# Dependencies and SLO Delegation
+dependencies:
+  - service: auth-service
+    slo_delegation:
+      availability: 99.99  # Must be higher than our 99.95%
+      latency_p95: 100ms
+    impact: "Direct impact on payment-api availability"
+    fallback: "Cached authentication tokens (15 min TTL)"
+
+  - service: fraud-detection
+    slo_delegation:
+      availability: 99.95
+      latency_p95: 200ms
+    impact: "Affects transaction processing latency"
+    fallback: "Async processing, accept with risk score"
+
+  - service: database
+    slo_delegation:
+      availability: 99.95
+      latency_p95: 50ms
+    impact: "Critical dependency, no fallback"
+    disaster_recovery: "Multi-AZ with automatic failover"
+
+# SLA Relationship
+sla:
+  external_commitment: 99.9
+  slo_buffer: 0.05  # 99.95% - 99.9% = 0.05%
+  rationale: "SLO buffer allows operational flexibility without SLA breach"
+
+  consequences:
+    breach_99_9:
+      - "10% service credit"
+      - "Customer notification required"
+      - "Executive postmortem"
+
+    breach_99:
+      - "25% service credit"
+      - "Escalation to C-suite"
+      - "Public communication"
+
+# Review and Maintenance
+review_schedule:
+  quarterly_review:
+    participants:
+      - "SRE team"
+      - "Engineering team"
+      - "Product manager"
+      - "Customer success"
+    agenda:
+      - "Review SLO achievement (last quarter)"
+      - "Analyze error budget consumption patterns"
+      - "Assess appropriateness of targets"
+      - "Update targets if needed"
+      - "Review error budget policy effectiveness"
+      - "Identify reliability improvements"
+
+  annual_review:
+    participants:
+      - "Engineering leadership"
+      - "Product leadership"
+      - "Finance (cost implications)"
+    focus:
+      - "Strategic alignment"
+      - "Long-term reliability goals"
+      - "Cost vs reliability trade-offs"
+
+# Change Log
+changelog:
+  - version: "2.1"
+    date: "2025-10-27"
+    changes:
+      - "Added p99 latency SLO"
+      - "Updated error budget policy thresholds"
+      - "Added quarterly review schedule"
+
+  - version: "2.0"
+    date: "2025-08-15"
+    changes:
+      - "Increased availability target from 99.9% to 99.95%"
+      - "Added transaction correctness SLO"
+      - "Implemented multi-window burn rate alerts"
+
+  - version: "1.0"
+    date: "2025-01-10"
+    changes:
+      - "Initial SLO definition"
+      - "Availability and latency SLOs"
+      - "Basic error budget policy"
