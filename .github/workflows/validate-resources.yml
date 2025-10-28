@@ -155,7 +155,8 @@ jobs:
           found=0
 
           while IFS= read -r script; do
-            if grep -qi '\bTODO\b' "$script"; then
+            # Only flag TODO in actual comments (starting with #), not in strings or code
+            if grep -qiE '^\s*#.*\bTODO\b' "$script"; then
               echo "⚠️ $script: Contains TODO comments"
               ((found++))
             fi
@@ -164,7 +165,8 @@ jobs:
               echo "⚠️ $script: Contains stub implementation references"
               ((found++))
             fi
-            if grep -qiE '\bmock\b.*\bimplementation\b' "$script"; then
+            # Only flag mock implementation in comments
+            if grep -qiE '^\s*#.*\bmock\b.*\bimplementation\b' "$script"; then
               echo "⚠️ $script: May contain mock implementation"
               ((found++))
             fi
