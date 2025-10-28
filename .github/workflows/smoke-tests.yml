@@ -67,6 +67,16 @@ jobs:
                   skipped += 1
                   continue
 
+              # Skip .work directory (planning documents)
+              if ".work" in skill_file.parts:
+                  skipped += 1
+                  continue
+
+              # Skip root-level markdown files (planning docs, reports, etc.)
+              if len(skill_file.parts) == 1:
+                  skipped += 1
+                  continue
+
               # Skip commands directory (slash commands don't need skill frontmatter)
               if "commands" in skill_file.parts:
                   skipped += 1
