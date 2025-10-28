@@ -1,0 +1,358 @@
+# A/B Test Configuration Example
+#
+# Production-ready configuration for A/B tests using feature flags
+# Supports multiple variations, targeting, and metrics tracking
+
+experiments:
+  # Example 1: Simple A/B test (2 variations)
+  - key: checkout-button-color
+    name: Checkout Button Color Test
+    description: Test red vs blue checkout button
+    type: experiment
+    enabled: true
+
+    variations:
+      - key: control
+        name: Blue Button (Control)
+        value:
+          color: "#0066cc"
+          text: "Checkout Now"
+        allocation: 50
+
+      - key: treatment
+        name: Red Button (Treatment)
+        value:
+          color: "#cc0000"
+          text: "Checkout Now"
+        allocation: 50
+
+    targeting:
+      # Only users who haven't purchased before
+      rules:
+        - attribute: purchase_count
+          operator: equals
+          values: [0]
+
+      # Exclude internal users
+      exclude:
+        - attribute: email
+          operator: ends_with
+          values: ["@company.com"]
+
+    metrics:
+      primary:
+        - name: conversion_rate
+          type: conversion
+          goal: maximize
+
+      secondary:
+        - name: time_to_purchase
+          type: duration
+          goal: minimize
+
+        - name: cart_abandonment
+          type: rate
+          goal: minimize
+
+    sample_size: 10000
+    confidence_level: 0.95
+    minimum_effect: 0.05  # 5% improvement
+    max_duration_days: 30
+
+  # Example 2: Multi-variate test (3+ variations)
+  - key: pricing-page-layout
+    name: Pricing Page Layout Test
+    description: Test different pricing page layouts
+    type: multivariate
+    enabled: true
+
+    variations:
+      - key: control
+        name: Current Layout
+        value:
+          layout: "vertical"
+          highlight: "middle"
+        allocation: 34
+
+      - key: treatment-a
+        name: Horizontal Layout
+        value:
+          layout: "horizontal"
+          highlight: "left"
+        allocation: 33
+
+      - key: treatment-b
+        name: Grid Layout
+        value:
+          layout: "grid"
+          highlight: "center"
+        allocation: 33
+
+    targeting:
+      rules:
+        - attribute: plan
+          operator: equals
+          values: ["free", "trial"]
+
+    metrics:
+      primary:
+        - name: upgrade_rate
+          type: conversion
+          goal: maximize
+
+      secondary:
+        - name: page_views
+          type: count
+          goal: increase
+
+        - name: time_on_page
+          type: duration
+          goal: increase
+
+    sample_size: 5000
+    confidence_level: 0.95
+    max_duration_days: 21
+
+  # Example 3: Gradual rollout with A/B testing
+  - key: new-search-algorithm
+    name: New Search Algorithm
+    description: Test improved search algorithm
+    type: experiment
+    enabled: true
+
+    variations:
+      - key: control
+        name: Current Algorithm
+        value:
+          algorithm: "v1"
+          boost_recent: false
+        allocation: 80  # Conservative rollout
+
+      - key: treatment
+        name: New Algorithm
+        value:
+          algorithm: "v2"
+          boost_recent: true
+        allocation: 20
+
+    targeting:
+      # Power users only for initial test
+      rules:
+        - attribute: user_tier
+          operator: in
+          values: ["premium", "enterprise"]
+
+        - attribute: search_queries_per_month
+          operator: greater_than
+          values: [10]
+
+    metrics:
+      primary:
+        - name: search_success_rate
+          type: rate
+          goal: maximize
+
+      secondary:
+        - name: avg_results_clicked
+          type: average
+          goal: increase
+
+        - name: search_latency_p95
+          type: percentile
+          goal: minimize
+
+        - name: zero_results_rate
+          type: rate
+          goal: minimize
+
+    sample_size: 2000
+    confidence_level: 0.99  # Higher confidence for critical feature
+    minimum_effect: 0.10  # Need 10% improvement
+    max_duration_days: 14
+
+  # Example 4: Personalization experiment
+  - key: homepage-personalization
+    name: Homepage Personalization
+    description: Test personalized vs generic homepage
+    type: experiment
+    enabled: true
+
+    variations:
+      - key: control
+        name: Generic Homepage
+        value:
+          personalized: false
+          content_source: "trending"
+        allocation: 50
+
+      - key: treatment
+        name: Personalized Homepage
+        value:
+          personalized: true
+          content_source: "recommendations"
+        allocation: 50
+
+    targeting:
+      rules:
+        # Only returning users
+        - attribute: visit_count
+          operator: greater_than
+          values: [3]
+
+        # Logged in users only
+        - attribute: authenticated
+          operator: equals
+          values: [true]
+
+    metrics:
+      primary:
+        - name: engagement_rate
+          type: rate
+          goal: maximize
+
+      secondary:
+        - name: session_duration
+          type: duration
+          goal: increase
+
+        - name: pages_per_session
+          type: average
+          goal: increase
+
+        - name: bounce_rate
+          type: rate
+          goal: minimize
+
+    sample_size: 15000
+    confidence_level: 0.95
+    max_duration_days: 28
+
+  # Example 5: Mobile vs Desktop experiment
+  - key: mobile-onboarding-flow
+    name: Mobile Onboarding Flow
+    description: Test simplified mobile onboarding
+    type: experiment
+    enabled: true
+
+    variations:
+      - key: control
+        name: Standard Flow (5 steps)
+        value:
+          steps: 5
+          skip_allowed: false
+        allocation: 50
+
+      - key: treatment
+        name: Simplified Flow (3 steps)
+        value:
+          steps: 3
+          skip_allowed: true
+        allocation: 50
+
+    targeting:
+      rules:
+        # Mobile users only
+        - attribute: device_type
+          operator: equals
+          values: ["mobile"]
+
+        # New users only
+        - attribute: account_age_days
+          operator: less_than
+          values: [1]
+
+    metrics:
+      primary:
+        - name: onboarding_completion_rate
+          type: rate
+          goal: maximize
+
+      secondary:
+        - name: time_to_complete
+          type: duration
+          goal: minimize
+
+        - name: drop_off_rate
+          type: rate
+          goal: minimize
+
+        - name: feature_adoption_rate
+          type: rate
+          goal: maximize
+
+    sample_size: 5000
+    confidence_level: 0.95
+    max_duration_days: 14
+
+# Global experiment settings
+settings:
+  # Default allocation strategy
+  allocation_strategy: "bucketed_random"
+
+  # Consistent bucketing (same user always gets same variation)
+  consistent_bucketing: true
+
+  # Bucketing salt (change to reshuffle users)
+  bucketing_salt: "2025-experiments-v1"
+
+  # Analytics integration
+  analytics:
+    provider: "segment"
+    track_exposure: true
+    track_metrics: true
+
+  # Experiment lifecycle
+  lifecycle:
+    auto_pause_on_significance: true
+    auto_declare_winner: false
+    require_manual_review: true
+
+  # Safety controls
+  safety:
+    max_concurrent_experiments: 5
+    min_sample_size: 1000
+    max_duration_days: 90
+
+  # Notifications
+  notifications:
+    channels: ["slack", "email"]
+    events:
+      - experiment_started
+      - significance_reached
+      - experiment_completed
+      - anomaly_detected
+
+# Experiment templates
+templates:
+  conversion_test:
+    type: experiment
+    metrics:
+      primary:
+        - name: conversion_rate
+          type: conversion
+          goal: maximize
+    confidence_level: 0.95
+    allocation: [50, 50]
+
+  performance_test:
+    type: experiment
+    metrics:
+      primary:
+        - name: load_time
+          type: duration
+          goal: minimize
+    confidence_level: 0.99
+    minimum_effect: 0.15
+
+  engagement_test:
+    type: experiment
+    metrics:
+      primary:
+        - name: engagement_rate
+          type: rate
+          goal: maximize
+      secondary:
+        - name: session_duration
+          type: duration
+          goal: increase
+    confidence_level: 0.95

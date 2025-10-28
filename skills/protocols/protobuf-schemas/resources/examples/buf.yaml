@@ -1,0 +1,114 @@
+# buf.yaml - Buf configuration for Protocol Buffer management
+#
+# Buf is a modern tool for working with Protocol Buffers that provides:
+# - Linting and best practices enforcement
+# - Breaking change detection
+# - Code generation
+# - Schema registry integration
+#
+# Installation:
+#   brew install bufbuild/buf/buf
+#   # or
+#   go install github.com/bufbuild/buf/cmd/buf@latest
+#
+# Usage:
+#   buf lint                    # Lint proto files
+#   buf breaking --against '.git#branch=main'  # Check breaking changes
+#   buf generate                # Generate code
+#   buf build -o image.bin      # Build image
+#   buf push                    # Push to registry
+
+version: v1
+
+# Build configuration
+build:
+  # Exclude patterns
+  excludes:
+    - vendor
+    - third_party
+    - generated
+
+# Lint configuration
+lint:
+  use:
+    - DEFAULT  # Standard buf linting rules
+
+  # Enable additional rules
+  enum_zero_value_suffix: _UNSPECIFIED
+  rpc_request_response_unique: true
+  rpc_request_standard_name: true
+  rpc_response_standard_name: true
+  package_defined: true
+  package_directory_match: true
+  package_same_directory: true
+
+  # Customize rules
+  ignore:
+    - protos/internal  # Internal protos may not follow all rules
+
+  # Rule configuration
+  enum_zero_value_suffix: _UNSPECIFIED
+  service_suffix: Service
+
+# Breaking change detection
+breaking:
+  use:
+    - FILE  # File-level breaking changes
+    - WIRE_JSON  # Wire and JSON breaking changes
+
+  # Ignore certain paths for breaking changes
+  ignore:
+    - protos/experimental
+
+  # Ignore deprecated files
+  ignore_unstable_packages: true
+
+# Code generation (buf generate)
+# This replaces protoc invocations
+# Run with: buf generate
+plugins:
+  # Python generation
+  - name: python
+    out: generated/python
+    opt:
+      - paths=source_relative
+
+  # Python gRPC generation
+  - name: grpc-python
+    out: generated/python
+    opt:
+      - paths=source_relative
+
+  # Go generation
+  - name: go
+    out: generated/go
+    opt:
+      - paths=source_relative
+      - module=github.com/example/protos
+
+  # Go gRPC generation
+  - name: go-grpc
+    out: generated/go
+    opt:
+      - paths=source_relative
+      - module=github.com/example/protos
+
+  # TypeScript generation
+  - name: ts
+    out: generated/typescript
+    opt:
+      - paths=source_relative
+
+  # Documentation generation
+  - name: doc
+    out: docs
+    opt:
+      - markdown,README.md
+
+# Dependencies (from Buf Schema Registry)
+deps:
+  - buf.build/googleapis/googleapis  # Google well-known types
+  - buf.build/grpc-ecosystem/grpc-gateway  # gRPC gateway
+
+# Module configuration
+name: buf.build/example/user-service

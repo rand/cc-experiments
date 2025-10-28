@@ -1,0 +1,224 @@
+# Docker Registry with Content Trust (Image Signing)
+#
+# Demonstrates setting up a private Docker registry with content trust enabled
+# for secure image signing and verification.
+#
+# Features:
+# - Private Docker registry with TLS
+# - Notary server for signature storage
+# - Content trust enforcement
+# - Automated signing in CI/CD
+#
+# Production Considerations:
+# - Use external storage (S3, GCS) for registry
+# - Implement backup for Notary database
+# - Use HSM for root keys
+# - Enable audit logging
+# - Implement access control
+
+version: '3.8'
+
+services:
+  # Docker Registry
+  registry:
+    image: registry:2
+    container_name: docker-registry
+    ports:
+      - "5000:5000"
+    environment:
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/registry.crt
+      REGISTRY_HTTP_TLS_KEY: /certs/registry.key
+      REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /var/lib/registry
+      # Enable delete for image management
+      REGISTRY_STORAGE_DELETE_ENABLED: "true"
+    volumes:
+      - registry-data:/var/lib/registry
+      - ./certs:/certs:ro
+    networks:
+      - registry-net
+    restart: unless-stopped
+
+  # Notary Server (signature storage)
+  notary-server:
+    image: notary:server-0.7.0
+    container_name: notary-server
+    ports:
+      - "4443:4443"
+    environment:
+      NOTARY_SERVER_DB_URL: mysql://notary@notary-db:3306/notaryserver
+      NOTARY_SERVER_TLS_CERT_FILE: /certs/notary.crt
+      NOTARY_SERVER_TLS_KEY_FILE: /certs/notary.key
+    volumes:
+      - ./notary-config/server-config.json:/etc/notary/server-config.json:ro
+      - ./certs:/certs:ro
+    depends_on:
+      - notary-db
+    networks:
+      - registry-net
+    restart: unless-stopped
+
+  # Notary Signer (signing service)
+  notary-signer:
+    image: notary:signer-0.7.0
+    container_name: notary-signer
+    environment:
+      NOTARY_SIGNER_DB_URL: mysql://notary@notary-db:3306/notarysigner
+      NOTARY_SIGNER_DEFAULT_ALIAS: timestamp
+      NOTARY_SIGNER_TIMESTAMP_1: /certs/timestamp.key
+    volumes:
+      - ./notary-config/signer-config.json:/etc/notary/signer-config.json:ro
+      - ./certs:/certs:ro
+    depends_on:
+      - notary-db
+    networks:
+      - registry-net
+    restart: unless-stopped
+
+  # MySQL database for Notary
+  notary-db:
+    image: mysql:8.0
+    container_name: notary-db
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+      MYSQL_DATABASE: notaryserver
+    volumes:
+      - notary-db-data:/var/lib/mysql
+      - ./notary-config/init-db.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - registry-net
+    restart: unless-stopped
+    command:
+      - --default-authentication-plugin=mysql_native_password
+
+  # Nginx reverse proxy (optional, for production)
+  nginx:
+    image: nginx:alpine
+    container_name: registry-nginx
+    ports:
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs:/etc/nginx/certs:ro
+    depends_on:
+      - registry
+      - notary-server
+    networks:
+      - registry-net
+    restart: unless-stopped
+
+volumes:
+  registry-data:
+    driver: local
+  notary-db-data:
+    driver: local
+
+networks:
+  registry-net:
+    driver: bridge
+
+---
+# Setup Instructions:
+#
+# 1. Generate certificates:
+#    mkdir -p certs notary-config nginx
+#
+#    # Generate CA
+#    openssl genrsa -out certs/ca.key 4096
+#    openssl req -new -x509 -days 3650 -key certs/ca.key -out certs/ca.crt \
+#      -subj "/CN=Registry CA"
+#
+#    # Generate registry certificate
+#    openssl genrsa -out certs/registry.key 4096
+#    openssl req -new -key certs/registry.key -out certs/registry.csr \
+#      -subj "/CN=localhost"
+#    openssl x509 -req -days 365 -in certs/registry.csr -CA certs/ca.crt \
+#      -CAkey certs/ca.key -CAcreateserial -out certs/registry.crt
+#
+#    # Generate notary certificate
+#    openssl genrsa -out certs/notary.key 4096
+#    openssl req -new -key certs/notary.key -out certs/notary.csr \
+#      -subj "/CN=notary-server"
+#    openssl x509 -req -days 365 -in certs/notary.csr -CA certs/ca.crt \
+#      -CAkey certs/ca.key -CAcreateserial -out certs/notary.crt
+#
+#    # Generate timestamp key
+#    openssl genrsa -out certs/timestamp.key 4096
+#
+# 2. Create Notary configuration:
+#    cat > notary-config/server-config.json <<EOF
+#    {
+#      "server": {
+#        "http_addr": ":4443",
+#        "tls_cert_file": "/certs/notary.crt",
+#        "tls_key_file": "/certs/notary.key"
+#      },
+#      "trust_service": {
+#        "type": "remote",
+#        "hostname": "notary-signer:7899",
+#        "tls_ca_file": "/certs/ca.crt",
+#        "key_algorithm": "ecdsa"
+#      },
+#      "storage": {
+#        "backend": "mysql",
+#        "db_url": "mysql://notary@notary-db:3306/notaryserver"
+#      }
+#    }
+#    EOF
+#
+#    cat > notary-config/signer-config.json <<EOF
+#    {
+#      "server": {
+#        "grpc_addr": ":7899",
+#        "tls_cert_file": "/certs/notary.crt",
+#        "tls_key_file": "/certs/notary.key"
+#      },
+#      "storage": {
+#        "backend": "mysql",
+#        "db_url": "mysql://notary@notary-db:3306/notarysigner"
+#      }
+#    }
+#    EOF
+#
+# 3. Create database initialization:
+#    cat > notary-config/init-db.sql <<EOF
+#    CREATE DATABASE IF NOT EXISTS notaryserver;
+#    CREATE DATABASE IF NOT EXISTS notarysigner;
+#    GRANT ALL PRIVILEGES ON notaryserver.* TO 'notary'@'%' IDENTIFIED BY '';
+#    GRANT ALL PRIVILEGES ON notarysigner.* TO 'notary'@'%' IDENTIFIED BY '';
+#    FLUSH PRIVILEGES;
+#    EOF
+#
+# 4. Start services:
+#    docker-compose up -d
+#
+# 5. Configure Docker client:
+#    export DOCKER_CONTENT_TRUST=1
+#    export DOCKER_CONTENT_TRUST_SERVER=https://localhost:4443
+#
+#    # Trust the CA
+#    sudo cp certs/ca.crt /usr/local/share/ca-certificates/registry-ca.crt
+#    sudo update-ca-certificates
+#
+# 6. Push and sign image:
+#    docker tag myapp:latest localhost:5000/myapp:latest
+#    docker push localhost:5000/myapp:latest
+#    # Docker will automatically sign with content trust enabled
+#
+# 7. Verify signature:
+#    docker pull localhost:5000/myapp:latest
+#    # Docker will verify signature before pulling
+#
+# 8. View signatures:
+#    notary -s https://localhost:4443 list localhost:5000/myapp
+#
+# Production Recommendations:
+# - Use external certificate authority (Let's Encrypt, internal CA)
+# - Store registry data in S3/GCS/Azure Blob Storage
+# - Use managed database (RDS, Cloud SQL) for Notary
+# - Implement backup and disaster recovery
+# - Enable audit logging for all operations
+# - Use HSM for root keys (online/offline ceremony)
+# - Implement role-based access control
+# - Set up monitoring and alerting
+# - Use registry mirrors for high availability
+# - Implement image scanning and vulnerability checks

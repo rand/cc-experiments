@@ -1,0 +1,21 @@
+# Prometheus Configuration for RabbitMQ
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  # RabbitMQ nodes
+  - job_name: 'rabbitmq'
+    static_configs:
+      - targets:
+          - 'rabbitmq1:15692'
+          - 'rabbitmq2:15692'
+          - 'rabbitmq3:15692'
+        labels:
+          cluster: 'rabbitmq-cluster'
+
+  # Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']

@@ -1,0 +1,118 @@
+# Prometheus SLI Queries for SLO Monitoring
+
+# === Availability SLI ===
+
+# HTTP Success Rate (30-day rolling window)
+sum(rate(http_requests_total{service="payment-api",status!~"5.."}[30d]))
+/
+sum(rate(http_requests_total{service="payment-api"}[30d]))
+
+# HTTP Success Rate (5-minute window for alerting)
+sum(rate(http_requests_total{service="payment-api",status!~"5.."}[5m]))
+/
+sum(rate(http_requests_total{service="payment-api"}[5m]))
+
+# === Latency SLI ===
+
+# p95 Response Time (30-day rolling)
+histogram_quantile(0.95,
+  rate(http_request_duration_seconds_bucket{service="payment-api"}[30d])
+)
+
+# p95 Response Time (5-minute for alerting)
+histogram_quantile(0.95,
+  rate(http_request_duration_seconds_bucket{service="payment-api"}[5m])
+)
+
+# p99 Response Time
+histogram_quantile(0.99,
+  rate(http_request_duration_seconds_bucket{service="payment-api"}[30d])
+)
+
+# === Error Budget ===
+
+# Error Budget Consumption (percentage)
+(
+  1 - (
+    sum(rate(http_requests_total{service="payment-api",status!~"5.."}[30d]))
+    /
+    sum(rate(http_requests_total{service="payment-api"}[30d]))
+  )
+) / 0.0005 * 100  # 0.0005 = 99.95% error budget
+
+# Error Budget Remaining (minutes)
+(0.0005 - (
+  1 - (
+    sum(rate(http_requests_total{service="payment-api",status!~"5.."}[30d]))
+    /
+    sum(rate(http_requests_total{service="payment-api"}[30d]))
+  )
+)) * 43200  # 30 days in minutes
+
+# === Burn Rate ===
+
+# Fast Burn Rate (1 hour window)
+(
+  1 - (
+    sum(rate(http_requests_total{service="payment-api",status!~"5.."}[1h]))
+    /
+    sum(rate(http_requests_total{service="payment-api"}[1h]))
+  )
+) / 0.0005
+
+# Medium Burn Rate (6 hour window)
+(
+  1 - (
+    sum(rate(http_requests_total{service="payment-api",status!~"5.."}[6h]))
+    /
+    sum(rate(http_requests_total{service="payment-api"}[6h]))
+  )
+) / 0.0005
+
+# Slow Burn Rate (24 hour window)
+(
+  1 - (
+    sum(rate(http_requests_total{service="payment-api",status!~"5.."}[24h]))
+    /
+    sum(rate(http_requests_total{service="payment-api"}[24h]))
+  )
+) / 0.0005
+
+# === Request Metrics ===
+
+# Request Rate (per second)
+sum(rate(http_requests_total{service="payment-api"}[5m]))
+
+# Error Rate (per second)
+sum(rate(http_requests_total{service="payment-api",status=~"5.."}[5m]))
+
+# Error Percentage
+(
+  sum(rate(http_requests_total{service="payment-api",status=~"5.."}[5m]))
+  /
+  sum(rate(http_requests_total{service="payment-api"}[5m]))
+) * 100
+
+# === Resource Metrics ===
+
+# CPU Utilization
+rate(container_cpu_usage_seconds_total{pod=~"payment-api-.*"}[5m]) * 100
+
+# Memory Utilization
+container_memory_working_set_bytes{pod=~"payment-api-.*"}
+/
+container_spec_memory_limit_bytes{pod=~"payment-api-.*"} * 100
+
+# === Database Metrics ===
+
+# Database Connection Pool Utilization
+(
+  pg_stat_database_numbackends{datname="payment"}
+  /
+  pg_settings_max_connections
+) * 100
+
+# Query Duration (p95)
+histogram_quantile(0.95,
+  rate(pg_query_duration_seconds_bucket[5m])
+)
