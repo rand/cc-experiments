@@ -408,6 +408,106 @@ cat skills/caching/cache-invalidation-strategies.md  # Invalidation
 cat skills/caching/cache-performance-monitoring.md   # Monitoring
 ```
 
+## Level 3 Resources: Production-Ready Tools & References
+
+**In Progress**: Building comprehensive Level 3 Resources for high-priority skills.
+
+### What Are Level 3 Resources?
+
+Each skill follows Anthropic's agent skills framework with three progressive levels:
+- **Level 1**: Skill file (300-400 lines) - Core concepts, patterns, quick reference
+- **Level 2**: Category INDEX - Detailed listings and workflows
+- **Level 3**: Resources directory - Production tools, comprehensive references, examples
+
+**Level 3 Resources** transform skills from guides into executable toolkits:
+
+**REFERENCE.md** (1,500-4,000 lines):
+- Comprehensive technical documentation
+- Architecture patterns and best practices
+- Troubleshooting guides and anti-patterns
+- Integration examples and production patterns
+
+**Scripts** (3 per skill, 550-800+ lines each):
+- Production-ready Python tools
+- Executable with `--help` and `--json` support
+- Type hints and comprehensive error handling
+- No TODOs or placeholders - fully implemented
+
+**Examples** (7-10 per skill):
+- Production-ready code across multiple languages/platforms
+- Complete implementations with error handling
+- Docker Compose setups, CI/CD workflows
+- Monitoring and observability configurations
+
+### Progress: Waves 1-10 Complete
+
+**Status**: 48/123 HIGH priority skills have Level 3 Resources (39%)
+
+#### Recent Completion (Waves 9-10)
+
+**Wave 9** (6 skills, +51,979 lines):
+- **Cryptography**: signing-verification, hsm-integration
+- **Protocols**: amqp-rabbitmq, protobuf-schemas
+- **Engineering**: sre-practices, feature-flags
+
+**Wave 10** (2 skills, +14,375 lines):
+- **Cryptography**: secrets-rotation (completes 6/7 in category)
+- **Protocols**: http3-quic
+
+#### Strategic Focus: Zero-Coverage Categories
+
+**Target**: 28 skills across Cryptography, Protocols, Engineering
+**Progress**: 18/28 complete (64%)
+
+**Cryptography**: 6/7 complete (86%)
+- ✅ encryption-at-rest, key-management, certificate-management, hsm-integration, signing-verification, secrets-rotation
+- ⏳ pki-fundamentals (60% complete)
+
+**Protocols**: 6/8 complete (75%)
+- ✅ grpc-implementation, kafka-streams, mqtt-messaging, amqp-rabbitmq, protobuf-schemas, http3-quic
+- ⏳ websocket-protocols (15% complete)
+- ⏳ tcp-optimization
+
+**Engineering**: 6/14 complete (43%)
+- ✅ deployment-strategies, e2e-testing, monitoring-alerts, incident-response, sre-practices, feature-flags
+- ⏳ ci-cd-pipelines (10% complete), capacity-planning (5% complete)
+- ⏳ 6 more skills
+
+### Methodology
+
+**Hybrid Approach**: Combines manual quality control with template-based acceleration
+- 24-35 completed skills serve as templates
+- Pattern consistency enforced via quality gates
+- 40-50% faster than pure manual while maintaining standards
+- 6 parallel agents per wave (optimal throughput)
+
+**Quality Gates** (enforced before commit):
+- REFERENCE.md: 1,500-4,000 lines
+- Scripts: 3 per skill, executable, --help/--json support, type hints
+- Examples: 7-10 per skill, production-ready, no placeholders
+- No TODO/stub/mock comments anywhere
+- CI validation on all PRs
+
+### CI/CD Integration
+
+Automated validation runs on all resource changes:
+- REFERENCE.md line count validation
+- Script executability and shebang checks
+- TODO/stub/mock comment detection
+- Python syntax validation for examples
+- Full validation results in PR comments
+
+See `.github/workflows/validate-resources.yml` for details.
+
+### Future Waves
+
+**Next Sessions** (tracked in `.work/WAVE_10_INCOMPLETE.md`):
+- Complete 4 partial Wave 10 skills (pki-fundamentals, websocket-protocols, ci-cd-pipelines, capacity-planning)
+- 6 additional skills to reach 100% strategic focus coverage
+- Estimated: 30-40 hours across 2-3 sessions
+
+**Long-term**: 75+ additional skills need Level 3 Resources to reach comprehensive coverage
+
 ## Contributing
 
 This is a personal reference repository maintained through practical development experience. Skills are added when new technologies are mastered, updated when better patterns emerge, and refined based on production use.
