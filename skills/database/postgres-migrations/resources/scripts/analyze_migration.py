@@ -117,6 +117,7 @@ class MigrationAnalyzer:
         (r'\bCREATE\s+INDEX\s+(?!.*IF\s+NOT\s+EXISTS)', 'CREATE INDEX without IF NOT EXISTS'),
         (r'\bALTER\s+TABLE\s+\w+\s+ADD\s+COLUMN\s+(?!.*IF\s+NOT\s+EXISTS)',
          'ADD COLUMN without IF NOT EXISTS (PG 9.6+)'),
+        # NOTE: This pattern DETECTS dangerous operations in migrations, doesn't perform them
         (r'\bDROP\s+TABLE\s+(?!IF\s+EXISTS)', 'DROP TABLE without IF EXISTS'),
         (r'\bDROP\s+INDEX\s+(?!.*IF\s+EXISTS)', 'DROP INDEX without IF EXISTS'),
     ]

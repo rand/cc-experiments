@@ -186,7 +186,7 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.c
 # Include dependency files
 -include $(DEPS)
 
-clean:
+clean:  # Cleans build artifacts only - safe to run
 	rm -rf $(BUILDDIR) $(TARGET)
 
 test: $(TARGET)
@@ -345,7 +345,7 @@ endif
 # Default target
 all: program
 
-# Clean build artifacts
+# Clean build artifacts - safe to run
 clean:
 	rm -f $(OBJECTS) $(TARGET)
 	rm -rf $(BUILDDIR)

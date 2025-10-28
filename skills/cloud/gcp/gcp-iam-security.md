@@ -566,8 +566,8 @@ gcloud storage buckets add-iam-policy-binding gs://specific-bucket \
 ### Common Mistakes
 
 ```python
-# ❌ Don't: Hardcode secrets in code
-DATABASE_PASSWORD = "super_secret_password"  # Exposed in source control!
+# ❌ Don't: Hardcode secrets in code (example of what NOT to do)
+DATABASE_PASSWORD = "super_secret_password"  # Exposed in source control! Example only
 
 # ✅ Correct: Load from Secret Manager
 from google.cloud import secretmanager

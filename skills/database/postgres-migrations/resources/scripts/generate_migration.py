@@ -85,6 +85,7 @@ class MigrationGenerator:
 {columns_joined}
 );"""
 
+        # Generated rollback migration - safe because of IF EXISTS guard
         drop_sql = f"DROP TABLE IF EXISTS {table_name};"
 
         return self._create_migration(f"add_{table_name}_table", create_sql, drop_sql)

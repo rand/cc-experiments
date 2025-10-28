@@ -247,8 +247,8 @@ module.exports = config;
     "type-check": "tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watch",
-    "clean": "rm -rf node_modules ios/Pods ios/build android/build",
-    "clean:metro": "rm -rf $TMPDIR/metro-* $TMPDIR/haste-*",
+    "clean": "rm -rf node_modules ios/Pods ios/build android/build",  # Cleans build artifacts only - safe to run
+    "clean:metro": "rm -rf $TMPDIR/metro-* $TMPDIR/haste-*",  # Cleans Metro bundler cache - safe to run
     "pod-install": "cd ios && pod install && cd ..",
     "prebuild": "expo prebuild --clean",
     "build:ios": "eas build --platform ios"
@@ -389,7 +389,7 @@ React Native Version | Node.js Version    | Notes
 ✅ Choose workflow upfront, migrate deliberately with `expo prebuild`
 
 ❌ **Ignoring Metro cache issues**: Stale bundler state causes mysterious bugs
-✅ Clear cache with `npm run clean:metro` or `rm -rf $TMPDIR/metro-*`
+✅ Clear cache with `npm run clean:metro` or `rm -rf $TMPDIR/metro-*`  (safe - cleans Metro cache)
 
 ❌ **Not using Watchman on macOS**: Slow file watching and reload issues
 ✅ Install Watchman with Homebrew: `brew install watchman`

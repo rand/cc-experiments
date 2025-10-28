@@ -2360,10 +2360,11 @@ private_key = serialization.load_pem_private_key(
 # ❌ Bad: Plaintext storage
 private_key = Path('key.pem').read_bytes()  # Unencrypted!
 
-# ❌ Terrible: Embedded in code
+# ❌ Terrible: Embedded in code (EXAMPLE ONLY - truncated/fake key)
+# SECURITY: This is a deliberately bad example for educational purposes
 private_key = """-----BEGIN PRIVATE KEY-----
-MIIEvQIBADANBgkqhkiG9w0BAQEFAASC...  # Never do this!
------END PRIVATE KEY-----"""
+[TRUNCATED - NEVER EMBED REAL KEYS IN CODE]
+-----END PRIVATE KEY-----"""  # Never do this!
 ```
 
 ### 11.3 Signature Verification

@@ -347,14 +347,16 @@ data:
       timeout: 30s
 ---
 # Secret
+# ❌ BAD: Hardcoded credentials - example only, never do this in production
+# In production, use sealed-secrets, external-secrets-operator, or your cloud provider's secret management
 apiVersion: v1
 kind: Secret
 metadata:
   name: api-secrets
 type: Opaque
 stringData:
-  db.password: "changeme123"
-  api.key: "secret-api-key"
+  db.password: "changeme123"  # Example only - use secret management in production
+  api.key: "secret-api-key"  # Example only - use secret management in production
 ```
 
 ## Common Commands

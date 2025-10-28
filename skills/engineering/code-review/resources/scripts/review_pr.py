@@ -285,6 +285,7 @@ class LinterRunner:
         """Run a specific linting tool."""
         command = tool_config["command"]
 
+        # SECURITY: command from config file - use trusted config files only
         try:
             result = subprocess.run(
                 command,

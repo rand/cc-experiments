@@ -1663,6 +1663,7 @@ def migrate_user_preferences():
     # 4. After rollback period, drop old column
 
 # Rollback: truncate new table, rely on old column still being there
+# Example of safe rollback strategy - clearing temp data while preserving original
 def rollback_user_preferences():
     db.execute("TRUNCATE user_preferences")
     # Old column still has data

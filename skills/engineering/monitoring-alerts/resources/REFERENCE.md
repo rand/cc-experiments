@@ -2014,7 +2014,7 @@ receivers:
         from: 'alertmanager@example.com'
         smarthost: 'smtp.example.com:587'
         auth_username: 'alerts'
-        auth_password: '${SMTP_PASSWORD}'
+        auth_password: '${SMTP_PASSWORD}'  # Environment variable - set securely before running
 
   - name: 'slack-dev'
     slack_configs:

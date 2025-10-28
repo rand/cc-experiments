@@ -1894,7 +1894,8 @@ def test_user_search_no_results(test_db):
 
 def test_user_search_special_characters(test_db):
     repo = UserRepository(test_db)
-    users = repo.search("'; DROP TABLE users; --")
+    # Test with SQL injection attack payload to verify protection
+    users = repo.search("'; DROP TABLE users; --")  # Example attack - should be safely handled
     assert users == []  # Should not cause SQL injection
 ```
 

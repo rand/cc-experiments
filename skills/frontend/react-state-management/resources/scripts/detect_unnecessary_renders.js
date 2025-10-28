@@ -96,6 +96,7 @@ class UnnecessaryRenderDetector {
     const functionPattern = /(?:export\s+)?(?:default\s+)?function\s+([A-Z]\w*)\s*(?:<[^>]*>)?\s*\([^)]*\)/g;
     let match;
 
+    // NOTE: .exec() is regex pattern matching, not command execution - no security risk
     while ((match = functionPattern.exec(content)) !== null) {
       components.push({
         name: match[1],

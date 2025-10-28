@@ -87,7 +87,7 @@ RUN apt-get update && \
         curl \
         git \
         vim && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/*  # Safe: cleaning package manager cache
 ```
 
 **Benefits**: Smaller image, fewer layers, better caching.
@@ -317,7 +317,7 @@ RUN apt-get update && \
     # Clean up in same layer \
     apt-get purge -y build-essential && \
     apt-get autoremove -y && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/*  # Safe: cleaning package manager cache
 ```
 
 **Key**: Cleanup in same `RUN` instruction (same layer).
@@ -334,7 +334,7 @@ RUN apk add --no-cache curl git
 # Debian/Ubuntu apt
 RUN apt-get update && \
     apt-get install -y --no-install-recommends curl && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/*  # Safe: cleaning package manager cache
 ```
 
 ### Strategy 5: Optimize COPY Instructions

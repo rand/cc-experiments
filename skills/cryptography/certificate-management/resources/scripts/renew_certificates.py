@@ -326,6 +326,7 @@ class CertificateRenewer:
 
     def _run_hook(self, hook_cmd: str, result: Dict):
         """Run pre/post hook command"""
+        # SECURITY: hook_cmd from config/CLI - administrator controlled, but validate before use
         try:
             proc = subprocess.run(
                 hook_cmd,

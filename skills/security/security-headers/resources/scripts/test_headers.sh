@@ -410,7 +410,7 @@ log_info "Testing ${#URLS[@]} URL(s)"
 
 # Create temp directory for results
 TEMP_DIR=$(mktemp -d)
-trap 'rm -rf "$TEMP_DIR"' EXIT
+trap 'rm -rf "$TEMP_DIR"' EXIT  # Test cleanup - safe in test context
 
 # Test URLs in parallel
 export -f test_url log_info log_success log_error log_warning

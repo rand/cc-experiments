@@ -36,9 +36,9 @@ Secrets are sensitive data that must be protected:
 - Signing keys
 """
 
-# ❌ NEVER DO THIS - Hardcoded secrets
-API_KEY = "sk_live_abc123def456"
-DB_PASSWORD = "MyP@ssw0rd123"
+# ❌ NEVER DO THIS - Hardcoded secrets (example only, never in production)
+API_KEY = "sk_live_abc123def456"  # Example of what NOT to do
+DB_PASSWORD = "MyP@ssw0rd123"  # Example of what NOT to do
 
 # ✅ DO THIS - Environment variables or vault
 import os
@@ -662,9 +662,9 @@ API_KEY = "sk_live_abc123def456"
 # ❌ VULNERABLE - Secrets in comments
 # Production API key: sk_live_abc123def456
 
-# ❌ VULNERABLE - Secrets in error messages
+# ❌ VULNERABLE - Secrets in error messages (example of what NOT to do)
 try:
-    connect(password="secret123")
+    connect(password="secret123")  # Example only - never hardcode passwords
 except Exception as e:
     logger.error(f"Connection failed with password: {password}")
 

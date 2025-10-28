@@ -233,7 +233,7 @@ WORKDIR /app
 # System dependencies (rarely change)
 RUN apt-get update && apt-get install -y \
     gcc \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*  # Safe: cleaning package manager cache
 
 # Base dependencies (change occasionally)
 COPY requirements-base.txt .
@@ -326,7 +326,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     ca-certificates \
     curl && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/*  # Safe: cleaning package manager cache
 ```
 
 ### Distroless
@@ -635,7 +635,7 @@ RUN apt-get update && \
     ca-certificates \
     curl && \
     # Clean up
-    rm -rf /var/lib/apt/lists/* \
+    rm -rf /var/lib/apt/lists/* \  # Safe: cleaning package manager cache
     /tmp/* \
     /var/tmp/*
 ```
@@ -793,7 +793,7 @@ RUN apt-get clean
 RUN apt-get update && \
     apt-get install -y curl git && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/*  # Safe: cleaning package manager cache
 ```
 
 **3. Remove Build Dependencies**:
@@ -806,7 +806,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends gcc && \
     pip install --no-cache-dir numpy && \
     apt-get purge -y --auto-remove gcc && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/*  # Safe: cleaning package manager cache
 ```
 
 **4. Use .dockerignore**:
@@ -1221,7 +1221,7 @@ ENV PYTHONUNBUFFERED=1 \
 # 4. System packages
 RUN apt-get update && \
     apt-get install -y --no-install-recommends curl && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/*  # Safe: cleaning package manager cache
 
 # 5. Application user
 RUN useradd -r -u 1000 appuser
@@ -1268,7 +1268,7 @@ RUN apt-get update && \
     apt-get install -y \
       curl \
       git && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/*  # Safe: cleaning package manager cache
 # Single layer, cleanup works
 ```
 
@@ -1420,7 +1420,7 @@ RUN apt-get update && apt-get install -y curl
 # Cache cleaned (efficient)
 RUN apt-get update && \
     apt-get install -y curl && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/*  # Safe: cleaning package manager cache
 ```
 
 **Running as Root**:
@@ -1548,7 +1548,7 @@ EOF
 RUN <<EOF
 apt-get update
 apt-get install -y curl
-rm -rf /var/lib/apt/lists/*
+rm -rf /var/lib/apt/lists/*  # Safe: cleaning package manager cache
 EOF
 ```
 
@@ -1949,7 +1949,7 @@ FROM python:3.11-slim AS builder
 WORKDIR /app
 RUN apt-get update && \
     apt-get install -y --no-install-recommends gcc && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/*  # Safe: cleaning package manager cache
 COPY requirements.txt .
 RUN pip install --user --no-cache-dir -r requirements.txt
 

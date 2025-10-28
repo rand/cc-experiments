@@ -191,6 +191,19 @@ try {
 
 ```bash
 # Install wasm-pack
+⚠️ **SECURITY**: Piping curl to shell is dangerous. For production:
+```bash
+# Download script first
+curl -O https://rustwasm.github.io/wasm-pack/installer/init.sh
+# Verify checksum
+sha256sum init.sh
+# Review content
+less init.sh
+# Then execute
+bash init.sh
+```
+For development/learning only:
+```bash
 curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
 # Create new project

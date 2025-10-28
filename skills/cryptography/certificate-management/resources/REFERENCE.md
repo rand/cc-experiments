@@ -846,6 +846,20 @@ certbot renew --deploy-hook "systemctl reload nginx && /scripts/notify.sh"
 
 **Installation**:
 ```bash
+⚠️ **SECURITY**: Piping curl to shell is dangerous. For production:
+```bash
+# Download script first
+curl -O https://get.acme.sh
+# Verify checksum
+sha256sum get.acme.sh
+# Review content
+less get.acme.sh
+# Then execute
+bash get.acme.sh
+source ~/.bashrc
+```
+For development/learning only:
+```bash
 curl https://get.acme.sh | sh
 source ~/.bashrc
 ```
@@ -859,7 +873,7 @@ acme.sh --issue --standalone -d example.com -d www.example.com
 acme.sh --issue -d example.com -w /var/www/html
 
 # DNS validation (Cloudflare)
-export CF_Token="your-cloudflare-api-token"
+export CF_Token="your-cloudflare-api-token"  # Placeholder - replace with actual API token from Cloudflare dashboard
 acme.sh --issue --dns dns_cf -d example.com -d '*.example.com'
 
 # DNS validation (AWS Route53)

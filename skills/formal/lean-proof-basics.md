@@ -55,6 +55,19 @@ Fundamental concepts and patterns for writing proofs in Lean 4, covering proposi
 **Required setup:**
 ```bash
 # Install Lean 4 (via elan)
+⚠️ **SECURITY**: Piping curl to shell is dangerous. For production:
+```bash
+# Download script first
+curl -O https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh
+# Verify checksum
+sha256sum elan-init.sh
+# Review content
+less elan-init.sh
+# Then execute
+bash elan-init.sh
+```
+For development/learning only:
+```bash
 curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh
 
 # Create new project

@@ -2579,9 +2579,10 @@ client = OAuth2Client(
 )
 
 # After initial authorization, set tokens
+# Placeholder values - replace with actual tokens from OAuth flow
 client.set_tokens(
-    access_token='initial_access_token',
-    refresh_token='initial_refresh_token',
+    access_token='initial_access_token',  # Placeholder - use actual token from auth response
+    refresh_token='initial_refresh_token',  # Placeholder - use actual token from auth response
     expires_in=3600
 )
 

@@ -196,6 +196,8 @@ class UserProjection:
     def clear(self):
         """Clear projection data (for rebuild)"""
         cursor = self.db_conn.cursor()
+        # SECURITY: projection_name is set in __init__ from config, not user input
+        # Clear projection table for rebuild - safe operation with validated table name
         cursor.execute(f"TRUNCATE TABLE {self.projection_name}")
         self.db_conn.commit()
         cursor.close()

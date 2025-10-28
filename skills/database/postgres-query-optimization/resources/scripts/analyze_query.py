@@ -351,6 +351,8 @@ Examples:
             import psycopg2
             conn = psycopg2.connect(args.connection)
             cur = conn.cursor()
+            # SECURITY: User-provided query is directly embedded in EXPLAIN
+            # Only use with trusted queries from trusted sources
             cur.execute(f"EXPLAIN (ANALYZE, BUFFERS) {args.query}")
             rows = cur.fetchall()
             explain_output = '\n'.join(row[0] for row in rows)

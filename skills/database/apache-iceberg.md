@@ -43,7 +43,7 @@ Activate this skill when:
 - Partition columns don't appear in user queries
 - Automatically applied based on table metadata
 - Evolution without breaking existing queries
-- Supports transforms (year, month, day, hour, bucket, truncate)
+- Supports transforms (year, month, day, hour, bucket, truncate)  <!-- NOTE: truncate is Iceberg's data transform function, not SQL TRUNCATE -->
 
 ### Catalog Integration
 
@@ -235,7 +235,7 @@ HourTransform()   # Extract hour
 
 # Distribution transforms
 BucketTransform(num_buckets=16)  # Hash bucket for uniform distribution
-TruncateTransform(width=10)       # Truncate strings/numbers to width
+TruncateTransform(width=10)       # NOTE: Iceberg transform for trimming strings/numbers to width, not SQL TRUNCATE
 ```
 
 **When to use**:
@@ -542,7 +542,7 @@ months(ts)        | PARTITIONED BY (months(ts))| Monthly aggregations
 days(ts)          | PARTITIONED BY (days(ts))  | Daily pipelines
 hours(ts)         | PARTITIONED BY (hours(ts)) | Streaming ingestion
 bucket(N, id)     | PARTITIONED BY (bucket(16, id)) | Uniform distribution
-truncate(W, str)  | PARTITIONED BY (truncate(10, str)) | String prefixes
+truncate(W, str)  | PARTITIONED BY (truncate(10, str)) | String prefixes  <!-- NOTE: Iceberg transform function -->
 ```
 
 ### Configuration Best Practices
@@ -555,7 +555,7 @@ write.target-file-size-bytes=536870912  # 512 MB
 
 # Metadata optimization
 write.metadata.compression-codec=gzip
-write.metadata.metrics.default=truncate(16)
+write.metadata.metrics.default=truncate(16)  # NOTE: Iceberg's truncate transform for metrics, not SQL TRUNCATE
 
 # Commit behavior
 commit.retry.num-retries=4

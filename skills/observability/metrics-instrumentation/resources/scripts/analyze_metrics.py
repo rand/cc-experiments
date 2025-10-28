@@ -89,6 +89,7 @@ class PrometheusClient:
 
     def get_all_series(self) -> List[str]:
         """Get all time series from Prometheus."""
+        # NOTE: This is a PromQL query, not SQL - no injection risk
         result = self.query('{__name__=~".+"}')
         series = []
 
@@ -103,6 +104,7 @@ class PrometheusClient:
 
     def get_series_count_by_metric(self) -> Dict[str, int]:
         """Get series count for each metric."""
+        # NOTE: This is a PromQL query, not SQL - no injection risk
         result = self.query('count by (__name__) ({__name__=~".+"})')
         counts = {}
 

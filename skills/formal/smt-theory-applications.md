@@ -726,10 +726,11 @@ def check_sql_injection_vulnerability():
 
     s = Solver()
 
+    # Example SQL injection attack payload - for security validation only
     # Attacker goal: inject '; DROP TABLE users; --
     malicious = String("'; DROP TABLE users; --")
 
-    # Check if query can contain DROP TABLE
+    # Check if query can contain DROP TABLE (detecting injection vulnerability)
     s.add(Contains(query, String("DROP TABLE")))
 
     if s.check() == sat:

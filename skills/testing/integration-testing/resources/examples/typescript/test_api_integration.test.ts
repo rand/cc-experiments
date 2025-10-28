@@ -185,12 +185,13 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+  // Clean up test database after all tests complete
   await pool.query('DROP TABLE IF EXISTS users');
   await pool.end();
 });
 
 beforeEach(async () => {
-  // Clean up database before each test
+  // Clean test database before each test - safe cleanup in test environment
   await pool.query('TRUNCATE TABLE users RESTART IDENTITY CASCADE');
 });
 

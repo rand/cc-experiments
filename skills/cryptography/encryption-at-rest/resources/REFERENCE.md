@@ -408,7 +408,7 @@ ph = PasswordHasher(
     salt_len=16,
 )
 
-password = "user-password"
+password = "user-password"  # Example only - in production, get from secure input
 hash_str = ph.hash(password)
 
 # Verify

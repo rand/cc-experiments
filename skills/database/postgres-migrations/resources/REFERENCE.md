@@ -161,6 +161,7 @@ CREATE TABLE users (
 );
 
 -- 001_add_users.down.sql
+-- Example of rollback migration - destructive operation for reverting schema
 DROP TABLE users;
 
 -- 002_add_username.up.sql
@@ -577,6 +578,7 @@ CREATE TABLE users (
 );
 
 -- migrate:down
+-- Example of rollback migration - destructive operation for reverting schema
 DROP TABLE users;
 ```
 
@@ -683,7 +685,7 @@ CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 
 ALTER TABLE users ADD CONSTRAINT IF NOT EXISTS users_email_unique UNIQUE (email);
 
--- ✅ GOOD: Idempotent drop
+-- ✅ GOOD: Idempotent drop (safe cleanup operation)
 DROP TABLE IF EXISTS old_temp_table;
 
 DROP INDEX IF EXISTS idx_old_index;
@@ -1102,7 +1104,7 @@ ALTER TABLE orders VALIDATE CONSTRAINT fk_orders_user_id;
 | Operation | Lock Mode | Blocks Reads? | Blocks Writes? |
 |-----------|-----------|---------------|----------------|
 | CREATE TABLE | AccessExclusiveLock | ✗ (new table) | ✗ (new table) |
-| DROP TABLE | AccessExclusiveLock | ✓ | ✓ |
+| DROP TABLE | AccessExclusiveLock | ✓ | ✓ |  <!-- Example of operation impact -->
 | ALTER TABLE ADD COLUMN | AccessExclusiveLock | ✓ | ✓ |
 | ALTER TABLE ADD COLUMN (with DEFAULT, PG 11+) | AccessExclusiveLock (brief) | ✗ (metadata only) | ✗ (metadata only) |
 | CREATE INDEX | ShareLock | ✗ | ✓ |
@@ -1492,6 +1494,7 @@ jobs:
 CREATE TABLE users (id SERIAL PRIMARY KEY, email VARCHAR(255));
 
 -- 001_add_users.down.sql
+-- Example of dangerous rollback - loses data! Use data preservation strategies instead.
 DROP TABLE users; -- ⚠️  Loses data!
 ```
 
@@ -1549,6 +1552,8 @@ archive_command = 'cp %p /mnt/archive/%f'
 # Stop database
 pg_ctl stop
 
+# ⚠️ WARNING: This permanently deletes all database data
+# Always verify backups before running
 # Restore base backup
 rm -rf $PGDATA/*
 tar -xzf base_backup.tar.gz -C $PGDATA
@@ -1882,7 +1887,7 @@ ALTER TABLE events DETACH PARTITION events_2023_01;
 -- Archive
 \copy events_2023_01 TO '/archive/events_2023_01.csv' CSV
 
--- Drop
+-- Drop partition after archiving (safe cleanup operation)
 DROP TABLE events_2023_01;
 ```
 

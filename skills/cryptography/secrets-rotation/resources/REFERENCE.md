@@ -989,7 +989,7 @@ vault write database/config/postgresql \
   allowed_roles="app-role" \
   connection_url="postgresql://{{username}}:{{password}}@postgres:5432/app?sslmode=require" \
   username="vault_admin" \
-  password="admin_password"
+  password="admin_password"  # Example only - use actual credentials from secure storage
 
 # Create role
 vault write database/roles/app-role \
@@ -1297,7 +1297,7 @@ if __name__ == '__main__':
         host='db.example.com',
         database='app',
         admin_user='postgres',
-        admin_password='admin_password'
+        admin_password='admin_password'  # Example only - use environment variable or secret manager
     )
 
     rotator.rotate_user('app_user', grace_period_hours=24)
@@ -1491,7 +1491,7 @@ connection_pool = psycopg2.pool.SimpleConnectionPool(
     maxconn=20,
     host='db.example.com',
     user='app_user_v1',
-    password='old_password'
+    password='old_password'  # Example only - use environment variable or secret manager
 )
 
 # Rotation
@@ -2307,11 +2307,11 @@ conn = psycopg2.connect(
 
 **Bad**:
 ```python
-# NEVER do this
-API_KEY = "sk_live_a1b2c3d4e5f6g7h8"  # Hardcoded
+# ❌ NEVER do this - example of what NOT to do
+API_KEY = "sk_live_a1b2c3d4e5f6g7h8"  # Hardcoded - example only
 config.yaml:
   database:
-    password: "my_password_123"  # Plaintext in config
+    password: "my_password_123"  # Plaintext in config - example only
 ```
 
 **Good**:

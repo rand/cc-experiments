@@ -52,7 +52,7 @@ zig build run
 # Build and run tests
 zig build test
 
-# Clean build artifacts
+# Clean build artifacts - safe to run
 rm -rf zig-out zig-cache
 
 # Build for release

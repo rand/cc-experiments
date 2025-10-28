@@ -23,6 +23,19 @@ description: Creating secure private networks (mesh VPN)
 brew install tailscale
 
 # Ubuntu/Debian
+⚠️ **SECURITY**: Piping curl to shell is dangerous. For production:
+```bash
+# Download script first
+curl -O https://tailscale.com/install.sh
+# Verify checksum
+sha256sum install.sh
+# Review content
+less install.sh
+# Then execute
+bash install.sh
+```
+For development/learning only:
+```bash
 curl -fsSL https://tailscale.com/install.sh | sh
 
 # Docker
@@ -255,6 +268,16 @@ RUN apt-get update && apt-get install -y \
     iptables \
     iproute2
 
+⚠️ **SECURITY**: Piping curl to shell is dangerous. For production:
+```dockerfile
+# Download script first
+RUN curl -O https://tailscale.com/install.sh && \
+    sha256sum install.sh && \
+    less install.sh && \
+    bash install.sh
+```
+For development/learning only:
+```dockerfile
 RUN curl -fsSL https://tailscale.com/install.sh | sh
 
 # Your app
