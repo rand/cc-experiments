@@ -27,6 +27,9 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Create audits directory
+        run: mkdir -p .claude/audits
+
       - name: Run security audit
         run: |
           python3 tests/security_audit.py \

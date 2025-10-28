@@ -58,7 +58,8 @@ jobs:
               "README.md", "ENHANCEMENT_PLAN.md", "ENHANCEMENTS_SUMMARY.md",
               "SKILLS_USAGE_GUIDE.md", "CLAUDE.md", "SUMMARY.txt",
               "CLAUDE_MD_UPDATES.md", "PLUGIN.md", "MIGRATION.md",
-              "INDEX.md", "PROJECT_STATUS.md", "QUICK_START.md"
+              "INDEX.md", "PROJECT_STATUS.md", "QUICK_START.md",
+              "SECURITY.md"
           }
 
           for skill_file in Path(".").rglob("*.md"):
