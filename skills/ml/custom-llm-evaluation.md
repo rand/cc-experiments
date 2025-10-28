@@ -298,6 +298,7 @@ class BiasAndToxicityEvaluator:
 
         for text in texts:
             # Get toxicity prediction
+            # Limit text to model's max input length (string slicing, not SQL)
             pred = self.toxicity_classifier(text[:512])[0]  # Truncate to model limit
 
             results.append({

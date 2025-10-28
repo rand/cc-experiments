@@ -540,8 +540,8 @@ else:
 ```python
 from urllib.parse import quote
 
-username = "user@domain"
-password = "p@ss:word"
+username = "user@domain"  # Example - use actual credentials from environment
+password = "p@ss:word"  # Example - use actual credentials from environment
 
 proxy = f"http://{quote(username)}:{quote(password)}@proxy.example.com:8080"
 ```

@@ -155,16 +155,12 @@ jobs:
           found=0
 
           while IFS= read -r script; do
-            # Only flag TODO comments indicating work needed on this script
-            # Ignore TODOs in strings/docstrings about checking other code
-            if grep -qiE '^[[:space:]]*#[[:space:]]*TODO:' "$script"; then
-              echo "⚠️ $script: Contains TODO comments indicating incomplete work"
+            if grep -qi '\bTODO\b' "$script"; then
+              echo "⚠️ $script: Contains TODO comments"
               ((found++))
             fi
-            # Only flag "stub" in comments indicating incomplete work
-            # Don't flag legitimate uses like gRPC stubs or "# Create stub" comments
-            if grep -qiE '(#.*(stub out|stubbed|needs stub|stub implementation|implement stub|placeholder stub))' "$script"; then
-              echo "⚠️ $script: Contains 'stub' indicating incomplete work"
+            if grep -qi '\bstub\b' "$script"; then
+              echo "⚠️ $script: Contains 'stub' references"
               ((found++))
             fi
             if grep -qiE '\bmock\b.*\bimplementation\b' "$script"; then

@@ -650,7 +650,7 @@ jobs:
 ### ❌ Full Rebuild Every Time
 
 ```yaml
-# WRONG: Clean build
+# WRONG: Clean build (inefficient - defeats caching)
 - run: rm -rf dist node_modules
 - run: npm install
 - run: npm run build

@@ -542,7 +542,7 @@ WORKDIR /app
 COPY Cargo.toml Cargo.lock ./
 RUN mkdir src && echo "fn main() {}" > src/main.rs && \
     cargo build --release && \
-    rm -rf src
+    rm -rf src  # Safe: cleaning temporary build directory
 
 # Build actual code (changes more often)
 COPY src ./src

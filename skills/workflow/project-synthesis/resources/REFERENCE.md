@@ -189,7 +189,7 @@ Synthesis successful when:
 
 **Solution**:
 ```bash
-# Revert to baseline
+# Revert to baseline - intentional recovery procedure
 git reset --hard $BASELINE_COMMIT
 
 # Review what changed
@@ -304,7 +304,7 @@ python skills/workflow/project-synthesis/resources/scripts/extract_concepts.py
 If synthesis fails catastrophically:
 
 1. **STOP** - Don't make more changes
-2. **REVERT** - `git reset --hard $BASELINE_COMMIT`
+2. **REVERT** - `git reset --hard $BASELINE_COMMIT`  <!-- Intentional recovery step -->
 3. **DIAGNOSE** - Review logs in `$SYNTHESIS_DIR/`
 4. **FIX** - Address root cause
 5. **RESTART** - Begin synthesis again from Phase 1

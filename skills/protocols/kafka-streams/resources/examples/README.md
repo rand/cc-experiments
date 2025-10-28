@@ -394,6 +394,8 @@ docker-compose down
 # Remove volumes (clean slate)
 docker-compose down -v
 
+# ⚠️ WARNING: This permanently deletes all Kafka data
+# Always backup important data before running
 # Remove all Kafka data
 rm -rf /tmp/kafka-logs /tmp/zookeeper
 ```

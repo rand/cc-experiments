@@ -90,6 +90,7 @@ CREATE TABLE users (
 );
 
 -- 000001_initial_schema.down.sql
+-- Example of rollback migration - destructive operation for reverting schema
 DROP TABLE users;
 ```
 
@@ -450,6 +451,7 @@ CREATE INDEX idx_orders_status ON orders(status);
 ### Dropping a Table
 
 ```sql
+-- Example of safe table drop - requires careful coordination with code deployment
 DROP TABLE IF EXISTS old_logs;
 ```
 

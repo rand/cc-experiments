@@ -37,8 +37,8 @@ OUTPUT_FORMAT="text"
 TEMP_DIR=$(mktemp -d)
 RESULTS_FILE="${TEMP_DIR}/results.json"
 
-# Cleanup on exit
-trap 'rm -rf "$TEMP_DIR"' EXIT
+# Cleanup on exit - test cleanup only
+trap 'rm -rf "$TEMP_DIR"' EXIT  # Test cleanup - safe in test context
 
 # Supported algorithms
 SUPPORTED_ALGORITHMS=(

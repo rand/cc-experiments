@@ -273,6 +273,7 @@ class PythonCodeReviewer:
 
     def _check_security_issues(self, content: str, file_path: Path) -> None:
         """Check for potential security issues."""
+        # NOTE: This function DETECTS security issues in code, it doesn't contain them
         lines = content.split('\n')
 
         for i, line in enumerate(lines, 1):

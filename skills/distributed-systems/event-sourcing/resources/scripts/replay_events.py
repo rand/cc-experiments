@@ -327,6 +327,7 @@ class ProjectionRebuilder:
         # Implementation depends on target database
         # Example for PostgreSQL:
         # cursor = self.target_db.cursor()
+        # SECURITY: Validate projection_name is from config, not user input
         # cursor.execute(f"TRUNCATE TABLE {self.projection_name}")
         # self.target_db.commit()
 

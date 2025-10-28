@@ -1645,6 +1645,7 @@ export async function seedDatabase() {
 export async function cleanDatabase() {
   const pool = new Pool({ connectionString: process.env.TEST_DATABASE_URL });
 
+  // Clean test database between test runs
   await pool.query('TRUNCATE users, products, orders CASCADE');
 
   await pool.end();

@@ -186,7 +186,7 @@ docker-compose up flyway
 # Create backup
 docker-compose exec postgres pg_dump -U postgres migration_test > backup.sql
 
-# Test rollback (manual)
+# Test rollback (manual) - destructive operation for testing migration reversibility
 docker-compose exec postgres psql -U postgres -d migration_test -c "
   DROP TABLE IF EXISTS orders CASCADE;
   DROP TABLE IF EXISTS users CASCADE;

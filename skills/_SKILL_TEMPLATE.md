@@ -147,6 +147,33 @@ Command/Pattern    | Use Case           | Example
 
 ---
 
+## Security Considerations
+
+**Review before creating this skill**: Check `.claude/audits/safety-checklist.md`
+
+**Does this skill involve** (check all that apply):
+- [ ] Authentication or authorization
+- [ ] Cryptographic operations
+- [ ] Data deletion or modification
+- [ ] Production deployments
+- [ ] Database migrations
+- [ ] File system operations
+- [ ] Network requests
+- [ ] Executable scripts
+
+**If yes to any above, ensure**:
+- [ ] Sensitive operations have clear ⚠️ warnings
+- [ ] Examples use placeholder credentials (never real)
+- [ ] Destructive operations include rollback procedures
+- [ ] Production examples follow security best practices
+- [ ] Scripts validate all inputs
+- [ ] No hardcoded secrets or API keys
+- [ ] Dangerous commands clearly marked
+
+**Security Review**: Run `python3 tests/security_audit.py --path [this-skill].md`
+
+---
+
 ## Related Skills
 
 - `related-skill-1.md` - [How it relates - e.g., "Use before this skill for setup"]

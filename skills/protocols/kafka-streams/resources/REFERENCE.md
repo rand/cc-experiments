@@ -1942,10 +1942,11 @@ sasl.mechanism.inter.broker.protocol=PLAIN
 sasl.enabled.mechanisms=PLAIN
 
 # kafka_server_jaas.conf
+# Example configuration - use actual credentials from secure storage in production
 KafkaServer {
   org.apache.kafka.common.security.plain.PlainLoginModule required
   username="admin"
-  password="admin-secret"
+  password="admin-secret"  # Example only - use secure credential management
   user_admin="admin-secret"
   user_alice="alice-secret";
 };
@@ -1958,7 +1959,7 @@ producer = KafkaProducer(
     security_protocol='SASL_PLAINTEXT',
     sasl_mechanism='PLAIN',
     sasl_plain_username='alice',
-    sasl_plain_password='alice-secret'
+    sasl_plain_password='alice-secret'  # Example only - use environment variable or secret manager
 )
 ```
 
@@ -1970,7 +1971,7 @@ consumer = KafkaConsumer(
     security_protocol='SASL_PLAINTEXT',
     sasl_mechanism='PLAIN',
     sasl_plain_username='alice',
-    sasl_plain_password='alice-secret'
+    sasl_plain_password='alice-secret'  # Example only - use environment variable or secret manager
 )
 ```
 

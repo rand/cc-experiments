@@ -1936,9 +1936,9 @@ jobs:
     path: dist.tar.gz
     retention-days: 7  # Reduce retention
 
-# Clean up large files
+# Clean up large files to save storage
 - run: |
-    rm -rf node_modules
+    rm -rf node_modules  # Safe: cleaning CI cache
     rm -f *.log
 ```
 

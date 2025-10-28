@@ -137,6 +137,8 @@ class ZeroDowntimeRotator:
 
     def _create_secondary_user(self, primary_user: str, secondary_user: str, password: str):
         """Create secondary user with same permissions as primary."""
+        # SECURITY: Usernames must be from config, not user input
+        # PostgreSQL doesn't allow parameterized identifiers
         with self.admin_connection() as conn:
             cursor = conn.cursor()
 
@@ -157,6 +159,7 @@ class ZeroDowntimeRotator:
             """, (primary_user,))
 
             for schema, table, privilege in cursor.fetchall():
+                # SECURITY: schema/table/privilege from DB query, secondary_user from config
                 cursor.execute(
                     f"GRANT {privilege} ON {schema}.{table} TO {secondary_user}"
                 )
@@ -170,6 +173,7 @@ class ZeroDowntimeRotator:
             """, (primary_user,))
 
             for (role,) in cursor.fetchall():
+                # SECURITY: role from DB query, secondary_user from config
                 cursor.execute(f"GRANT {role} TO {secondary_user}")
 
             print(f"    Secondary user created with matching permissions")
@@ -185,6 +189,7 @@ class ZeroDowntimeRotator:
 
     def _drop_user(self, username: str):
         """Drop user."""
+        # SECURITY: username must be from config, not user input
         with self.admin_connection() as conn:
             cursor = conn.cursor()
             cursor.execute(f"DROP USER IF EXISTS {username}")

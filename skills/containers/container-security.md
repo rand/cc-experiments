@@ -306,7 +306,7 @@ FROM python:3.11-slim-bookworm
 # Update system packages
 RUN apt-get update && \
     apt-get upgrade -y && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/*  # Safe: cleaning package manager cache
 ```
 
 **Step 3: Pin secure versions**:
@@ -316,7 +316,7 @@ RUN apt-get update && \
     apt-get install -y \
         curl=7.88.1-1 \
         openssl=1.1.1w-1 && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/*  # Safe: cleaning package manager cache
 ```
 
 **Step 4: Remove unnecessary packages**:

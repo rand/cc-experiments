@@ -241,7 +241,7 @@ load_test() {
 
     # Create temporary directory for load test
     local tmp_dir=$(mktemp -d)
-    trap "rm -rf $tmp_dir" EXIT
+    trap "rm -rf $tmp_dir" EXIT  # Test cleanup - safe in test context
 
     # Load test loop
     while [[ $(date +%s) -lt $end_time ]]; do

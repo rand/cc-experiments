@@ -50,7 +50,7 @@ def create_rds_instance():
         Engine='postgres',
         EngineVersion='15.4',
         MasterUsername='dbadmin',
-        MasterUserPassword='SecurePassword123!',  # Use Secrets Manager
+        MasterUserPassword='SecurePassword123!',  # Example only - use AWS Secrets Manager in production
         AllocatedStorage=100,  # GB
         StorageType='gp3',  # General purpose SSD
         StorageEncrypted=True,
@@ -298,7 +298,7 @@ def create_aurora_serverless_cluster():
         Engine='aurora-postgresql',
         EngineVersion='15.4',
         MasterUsername='dbadmin',
-        MasterUserPassword='SecurePassword123!',
+        MasterUserPassword='SecurePassword123!',  # Example only - use AWS Secrets Manager in production
         DatabaseName='myapp',
         DBSubnetGroupName='my-db-subnet-group',
         VpcSecurityGroupIds=['sg-0123456789abcdef0'],
@@ -372,7 +372,7 @@ def create_dms_replication():
         Port=5432,
         DatabaseName='myapp',
         Username='migration_user',
-        Password='migration_password'
+        Password='migration_password'  # Example only - use AWS Secrets Manager in production
     )
 
     # Create target endpoint (RDS)
@@ -384,7 +384,7 @@ def create_dms_replication():
         Port=5432,
         DatabaseName='myapp',
         Username='dbadmin',
-        Password='SecurePassword123!'
+        Password='SecurePassword123!'  # Example only - use AWS Secrets Manager in production
     )
 
     # Create migration task
@@ -429,7 +429,7 @@ db_pool = psycopg2.pool.SimpleConnectionPool(
     port=5432,
     database='myapp',
     user='dbadmin',
-    password='SecurePassword123!'
+    password='SecurePassword123!'  # Example only - use AWS Secrets Manager in production
 )
 
 def execute_query(query, params=None):

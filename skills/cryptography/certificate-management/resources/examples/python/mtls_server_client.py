@@ -170,6 +170,7 @@ def generate_test_certificates():
         "rm -f server.csr client.csr ca.srl",
     ]
 
+    # SECURITY: Commands are hardcoded strings (no user input) - safe to use shell=True
     for cmd in commands:
         subprocess.run(cmd, shell=True, check=True)
 

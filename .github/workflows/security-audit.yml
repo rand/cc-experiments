@@ -1,0 +1,147 @@
+name: Security Audit
+
+on:
+  pull_request:
+    paths:
+      - 'skills/**'
+      - 'tests/security_audit.py'
+      - '.github/workflows/security-audit.yml'
+  push:
+    branches:
+      - main
+  schedule:
+    # Run weekly on Mondays at 9am UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+    # Allow manual runs
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run security audit
+        run: |
+          python3 tests/security_audit.py \
+            --output .claude/audits/security-report-ci.json \
+            --fail-on high \
+            --verbose
+        continue-on-error: true
+        id: security_scan
+
+      - name: Upload security report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: security-report
+          path: .claude/audits/security-report-ci.json
+          retention-days: 90
+
+      - name: Comment on PR with findings
+        if: github.event_name == 'pull_request' && steps.security_scan.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = JSON.parse(fs.readFileSync('.claude/audits/security-report-ci.json', 'utf8'));
+
+            const summary = report.summary;
+            const critical = summary.critical || 0;
+            const high = summary.high || 0;
+
+            if (critical > 0 || high > 0) {
+              const body = `## ⚠️ Security Audit Findings
+
+**Summary:**
+- 🔴 CRITICAL: ${critical}
+- 🟠 HIGH: ${high}
+- 🟡 MEDIUM: ${summary.medium || 0}
+
+${critical > 0 ? '### Critical Findings\n' : ''}${
+              (report.findings_by_severity.CRITICAL || []).slice(0, 5).map(f =>
+                `- **${f.file}:${f.line_number}** - ${f.issue}\n  \`${f.evidence}\`\n  → ${f.recommendation}`
+              ).join('\n\n')
+            }
+
+${high > 0 && critical === 0 ? '### High Findings\n' : ''}${
+              critical === 0 ? (report.findings_by_severity.HIGH || []).slice(0, 3).map(f =>
+                `- **${f.file}:${f.line_number}** - ${f.issue}\n  → ${f.recommendation}`
+              ).join('\n\n') : ''
+            }
+
+[View full report in CI artifacts](${context.payload.pull_request.html_url}/checks)`;
+
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: body
+              });
+            }
+
+      - name: Fail if critical or high findings
+        if: steps.security_scan.outcome == 'failure'
+        run: |
+          echo "::error::Security audit found critical or high severity issues"
+          exit 1
+
+  secrets-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for gitleaks
+
+      - name: Run gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+
+  shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: './skills'
+          severity: warning
+        continue-on-error: true
+
+  python-security:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install bandit
+        run: pip install bandit[toml]
+
+      - name: Run bandit on Python scripts
+        run: |
+          find skills -name "*.py" -type f | xargs bandit -r -f json -o bandit-report.json || true
+        continue-on-error: true
+
+      - name: Upload bandit report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bandit-report
+          path: bandit-report.json
+          retention-days: 30

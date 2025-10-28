@@ -602,7 +602,7 @@ ctest --test-dir build -R UtilsTest    # Run matching tests
 
 # Clean
 cmake --build build --target clean     # Clean build artifacts
-rm -rf build                           # Full clean
+rm -rf build                           # Full clean - cleans build artifacts only
 ```
 
 ### CMake Variables Reference

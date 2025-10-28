@@ -119,13 +119,26 @@ sudo certbot renew --dry-run
 **Alternative ACME client**:
 ```bash
 # Install
+⚠️ **SECURITY**: Piping curl to shell is dangerous. For production:
+```bash
+# Download script first
+curl -O https://get.acme.sh
+# Verify checksum
+sha256sum get.acme.sh
+# Review content
+less get.acme.sh
+# Then execute
+bash get.acme.sh
+```
+For development/learning only:
+```bash
 curl https://get.acme.sh | sh
 
 # Issue certificate (HTTP validation)
 acme.sh --issue -d example.com -w /var/www/html
 
 # Issue wildcard (DNS validation with Cloudflare)
-export CF_Token="your-cloudflare-api-token"
+export CF_Token="your-cloudflare-api-token"  # Placeholder - replace with actual API token from Cloudflare dashboard
 acme.sh --issue --dns dns_cf -d example.com -d '*.example.com'
 
 # Install certificate

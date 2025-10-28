@@ -41,7 +41,7 @@ ELT (Extract-Load-Transform)
 Full Load
   → Complete dataset replacement
   → Use when: Small datasets, no history tracking needed
-  → Pattern: TRUNCATE + INSERT or DROP + CREATE
+  → Pattern: TRUNCATE + INSERT or DROP + CREATE  <!-- ETL operations on target tables -->
 
 Incremental Load
   → Only new/changed records
@@ -318,6 +318,7 @@ def upsert_postgres(df: pd.DataFrame, table_name: str, key_columns: list):
 
     with engine.connect() as conn:
         conn.execute(upsert_query)
+        # Clean up temporary staging table after merge
         conn.execute(f"DROP TABLE {temp_table}")
         conn.commit()
 
@@ -352,6 +353,7 @@ def merge_snowflake(df: pd.DataFrame, table_name: str, key_columns: list):
 
     cursor = conn.cursor()
     cursor.execute(merge_query)
+    # Clean up staging table after successful merge
     cursor.execute(f"DROP TABLE {stage_table}")
     conn.commit()
     cursor.close()

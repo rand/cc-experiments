@@ -170,8 +170,8 @@ uv pip install pyjwt cryptography requests bcrypt argon2-cffi
 ```bash
 #!/bin/bash
 
-TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-SECRET="your-secret-key"
+TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."  # Test token for security audit only
+SECRET="your-secret-key"  # Placeholder - use actual secret for validation
 
 # 1. Inspect token structure
 echo "=== Token Inspection ==="
