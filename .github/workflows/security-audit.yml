@@ -60,26 +60,20 @@ jobs:
             const high = summary.high || 0;
 
             if (critical > 0 || high > 0) {
-              const body = `## ⚠️ Security Audit Findings
-
-**Summary:**
-- 🔴 CRITICAL: ${critical}
-- 🟠 HIGH: ${high}
-- 🟡 MEDIUM: ${summary.medium || 0}
-
-${critical > 0 ? '### Critical Findings\n' : ''}${
-              (report.findings_by_severity.CRITICAL || []).slice(0, 5).map(f =>
-                `- **${f.file}:${f.line_number}** - ${f.issue}\n  \`${f.evidence}\`\n  → ${f.recommendation}`
-              ).join('\n\n')
-            }
-
-${high > 0 && critical === 0 ? '### High Findings\n' : ''}${
-              critical === 0 ? (report.findings_by_severity.HIGH || []).slice(0, 3).map(f =>
-                `- **${f.file}:${f.line_number}** - ${f.issue}\n  → ${f.recommendation}`
-              ).join('\n\n') : ''
-            }
-
-[View full report in CI artifacts](${context.payload.pull_request.html_url}/checks)`;
+              const body = '## ⚠️ Security Audit Findings\n\n' +
+                '**Summary:**\n' +
+                '- 🔴 CRITICAL: ' + critical + '\n' +
+                '- 🟠 HIGH: ' + high + '\n' +
+                '- 🟡 MEDIUM: ' + (summary.medium || 0) + '\n\n' +
+                (critical > 0 ? '### Critical Findings\n' +
+                  (report.findings_by_severity.CRITICAL || []).slice(0, 5).map(f =>
+                    '- **' + f.file + ':' + f.line_number + '** - ' + f.issue + '\n  `' + f.evidence + '`\n  → ' + f.recommendation
+                  ).join('\n\n') + '\n\n' : '') +
+                (high > 0 && critical === 0 ? '### High Findings\n' +
+                  (report.findings_by_severity.HIGH || []).slice(0, 3).map(f =>
+                    '- **' + f.file + ':' + f.line_number + '** - ' + f.issue + '\n  → ' + f.recommendation
+                  ).join('\n\n') + '\n\n' : '') +
+                '[View full report in CI artifacts](' + context.payload.pull_request.html_url + '/checks)';
 
               github.rest.issues.createComment({
                 issue_number: context.issue.number,
