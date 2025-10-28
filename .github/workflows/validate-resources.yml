@@ -159,9 +159,9 @@ jobs:
               echo "⚠️ $script: Contains TODO comments"
               ((found++))
             fi
-            # Only flag 'stub' in comments, not legitimate code usage (e.g., gRPC stubs)
-            if grep -qiE '^\s*#.*\bstub\b' "$script"; then
-              echo "⚠️ $script: Contains 'stub' references in comments"
+            # Only flag problematic 'stub' patterns (not legitimate gRPC usage like "Create stub")
+            if grep -qiE '^\s*#.*(stub (implementation|method|function|class|code|placeholder)|placeholder stub|needs?.*stub|stub.*incomplete|stub.*replace)' "$script"; then
+              echo "⚠️ $script: Contains stub implementation references"
               ((found++))
             fi
             if grep -qiE '\bmock\b.*\bimplementation\b' "$script"; then
