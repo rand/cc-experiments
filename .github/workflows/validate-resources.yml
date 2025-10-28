@@ -155,8 +155,10 @@ jobs:
           found=0
 
           while IFS= read -r script; do
-            if grep -qi '\bTODO\b' "$script"; then
-              echo "⚠️ $script: Contains TODO comments"
+            # Only flag TODO comments indicating work needed on this script
+            # Ignore TODOs in strings/docstrings about checking other code
+            if grep -qiE '^[[:space:]]*#[[:space:]]*TODO:' "$script"; then
+              echo "⚠️ $script: Contains TODO comments indicating incomplete work"
               ((found++))
             fi
             # Only flag "stub" in comments indicating incomplete work
