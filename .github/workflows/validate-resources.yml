@@ -159,10 +159,10 @@ jobs:
               echo "⚠️ $script: Contains TODO comments"
               ((found++))
             fi
-            # Only flag "stub" in comments or strings indicating incomplete work
-            # Don't flag legitimate uses like gRPC stubs (e.g., "self.stub = ...")
-            if grep -qiE '(#.*\bstub\b|""".*\bstub\b|stub.*implementation|implement.*stub)' "$script"; then
-              echo "⚠️ $script: Contains 'stub' in comments/strings"
+            # Only flag "stub" in comments indicating incomplete work
+            # Don't flag legitimate uses like gRPC stubs or "# Create stub" comments
+            if grep -qiE '(#.*(stub out|stubbed|needs stub|stub implementation|implement stub|placeholder stub))' "$script"; then
+              echo "⚠️ $script: Contains 'stub' indicating incomplete work"
               ((found++))
             fi
             if grep -qiE '\bmock\b.*\bimplementation\b' "$script"; then
