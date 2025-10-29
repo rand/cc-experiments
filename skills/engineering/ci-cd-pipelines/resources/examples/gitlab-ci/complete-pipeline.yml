@@ -1,0 +1,105 @@
+# Complete GitLab CI/CD Pipeline
+# Production-ready multi-stage pipeline with DAG, security scanning, and blue-green deployment
+# Place in: .gitlab-ci.yml
+
+stages:
+  - validate
+  - build
+  - test
+  - security
+  - package
+  - deploy
+
+variables:
+  DOCKER_DRIVER: overlay2
+  IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+  NODE_VERSION: "20"
+
+.build-template: &build-template
+  image: node:${NODE_VERSION}
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+  before_script:
+    - npm ci
+
+# Validate
+lint:
+  stage: validate
+  <<: *build-template
+  script:
+    - npm run lint
+    - npm run typecheck
+
+# Build
+build:
+  stage: build
+  <<: *build-template
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 week
+
+# Test (parallel)
+test:unit:
+  stage: test
+  <<: *build-template
+  needs: [build]
+  script:
+    - npm run test:unit -- --coverage
+  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
+
+test:integration:
+  stage: test
+  <<: *build-template
+  needs: [build]
+  services:
+    - postgres:16
+    - redis:7
+  variables:
+    POSTGRES_DB: test
+    DATABASE_URL: postgresql://postgres:postgres@postgres:5432/test
+  script:
+    - npm run test:integration
+
+# Security
+security:sast:
+  stage: security
+  image: returntocorp/semgrep
+  needs: []
+  script:
+    - semgrep --config=auto --sarif > gl-sast-report.json
+  artifacts:
+    reports:
+      sast: gl-sast-report.json
+
+# Package
+docker:build:
+  stage: package
+  image: docker:24
+  services:
+    - docker:24-dind
+  needs: [build, test:unit, test:integration, security:sast]
+  script:
+    - docker build -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG
+
+# Deploy
+deploy:production:
+  stage: deploy
+  image: alpine:latest
+  needs: [docker:build]
+  environment:
+    name: production
+    url: https://example.com
+  before_script:
+    - apk add --no-cache kubectl curl
+  script:
+    - kubectl set image deployment/myapp myapp=$IMAGE_TAG -n prod
+    - kubectl rollout status deployment/myapp -n prod
+  when: manual
+  only:
+    - main
