@@ -1,0 +1,376 @@
+# Production-Grade OpenSSL CA Configuration
+#
+# This configuration file provides a complete setup for a Certificate Authority
+# including root CA, intermediate CA, and certificate profiles for various use cases.
+#
+# Usage:
+#   # Initialize CA
+#   mkdir -p ca/{root,intermediate}/{certs,crl,csr,newcerts,private}
+#   touch ca/root/index.txt ca/intermediate/index.txt
+#   echo 1000 > ca/root/serial ca/intermediate/serial
+#   echo 1000 > ca/root/crlnumber ca/intermediate/crlnumber
+#
+#   # Create root CA
+#   openssl req -config ca-config.cnf -section root_ca \
+#     -new -x509 -days 7300 -sha256 -extensions v3_ca \
+#     -keyout ca/root/private/ca.key.pem \
+#     -out ca/root/certs/ca.cert.pem
+#
+#   # Create intermediate CA request
+#   openssl req -config ca-config.cnf -section intermediate_ca \
+#     -new -sha256 \
+#     -keyout ca/intermediate/private/intermediate.key.pem \
+#     -out ca/intermediate/csr/intermediate.csr.pem
+#
+#   # Sign intermediate CA
+#   openssl ca -config ca-config.cnf -section root_ca \
+#     -extensions v3_intermediate_ca \
+#     -days 3650 -notext -md sha256 \
+#     -in ca/intermediate/csr/intermediate.csr.pem \
+#     -out ca/intermediate/certs/intermediate.cert.pem
+
+# Root CA Configuration
+[ root_ca ]
+dir               = ./ca/root
+certs             = $dir/certs
+crl_dir           = $dir/crl
+new_certs_dir     = $dir/newcerts
+database          = $dir/index.txt
+serial            = $dir/serial
+RANDFILE          = $dir/private/.rand
+
+private_key       = $dir/private/ca.key.pem
+certificate       = $dir/certs/ca.cert.pem
+
+crlnumber         = $dir/crlnumber
+crl               = $dir/crl/ca.crl.pem
+crl_extensions    = crl_ext
+default_crl_days  = 30
+
+default_md        = sha256
+name_opt          = ca_default
+cert_opt          = ca_default
+default_days      = 375
+preserve          = no
+policy            = policy_strict
+
+# Intermediate CA Configuration
+[ intermediate_ca ]
+dir               = ./ca/intermediate
+certs             = $dir/certs
+crl_dir           = $dir/crl
+new_certs_dir     = $dir/newcerts
+database          = $dir/index.txt
+serial            = $dir/serial
+RANDFILE          = $dir/private/.rand
+
+private_key       = $dir/private/intermediate.key.pem
+certificate       = $dir/certs/intermediate.cert.pem
+
+crlnumber         = $dir/crlnumber
+crl               = $dir/crl/intermediate.crl.pem
+crl_extensions    = crl_ext
+default_crl_days  = 30
+
+default_md        = sha256
+name_opt          = ca_default
+cert_opt          = ca_default
+default_days      = 375
+preserve          = no
+policy            = policy_loose
+
+# Strict policy for root CA
+[ policy_strict ]
+countryName             = match
+stateOrProvinceName     = match
+organizationName        = match
+organizationalUnitName  = optional
+commonName              = supplied
+emailAddress            = optional
+
+# Loose policy for intermediate CA
+[ policy_loose ]
+countryName             = optional
+stateOrProvinceName     = optional
+localityName            = optional
+organizationName        = optional
+organizationalUnitName  = optional
+commonName              = supplied
+emailAddress            = optional
+
+# Default request options
+[ req ]
+default_bits        = 4096
+distinguished_name  = req_distinguished_name
+string_mask         = utf8only
+default_md          = sha256
+x509_extensions     = v3_ca
+req_extensions      = v3_req
+
+# Distinguished name defaults
+[ req_distinguished_name ]
+countryName                     = Country Name (2 letter code)
+stateOrProvinceName             = State or Province Name
+localityName                    = Locality Name
+0.organizationName              = Organization Name
+organizationalUnitName          = Organizational Unit Name
+commonName                      = Common Name
+emailAddress                    = Email Address
+
+countryName_default             = US
+stateOrProvinceName_default     = California
+localityName_default            = San Francisco
+0.organizationName_default      = Example Organization
+organizationalUnitName_default  = Certificate Authority
+emailAddress_default            = ca@example.com
+
+# Root CA Extensions
+[ v3_ca ]
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer
+basicConstraints = critical, CA:true
+keyUsage = critical, digitalSignature, cRLSign, keyCertSign
+certificatePolicies = @root_ca_policy
+crlDistributionPoints = @root_crl_info
+authorityInfoAccess = @root_ocsp_info
+
+[ root_ca_policy ]
+policyIdentifier = 1.2.3.4.5.1
+CPS.1 = "https://example.com/ca/cps"
+userNotice.1 = @root_notice
+
+[ root_notice ]
+explicitText = "Example Organization Root CA - For authorized use only"
+organization = Example Organization
+noticeNumbers = 1
+
+[ root_crl_info ]
+URI.0 = http://crl.example.com/root-ca.crl
+
+[ root_ocsp_info ]
+OCSP;URI.0 = http://ocsp.example.com
+caIssuers;URI.0 = http://certs.example.com/root-ca.crt
+
+# Intermediate CA Extensions
+[ v3_intermediate_ca ]
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer
+basicConstraints = critical, CA:true, pathlen:0
+keyUsage = critical, digitalSignature, cRLSign, keyCertSign
+certificatePolicies = @intermediate_ca_policy
+crlDistributionPoints = @intermediate_crl_info
+authorityInfoAccess = @intermediate_ocsp_info
+
+[ intermediate_ca_policy ]
+policyIdentifier = 1.2.3.4.5.2
+CPS.1 = "https://example.com/ca/cps"
+userNotice.1 = @intermediate_notice
+
+[ intermediate_notice ]
+explicitText = "Example Organization Intermediate CA"
+organization = Example Organization
+
+[ intermediate_crl_info ]
+URI.0 = http://crl.example.com/intermediate-ca.crl
+
+[ intermediate_ocsp_info ]
+OCSP;URI.0 = http://ocsp.example.com
+caIssuers;URI.0 = http://certs.example.com/intermediate-ca.crt
+
+# Request extensions
+[ v3_req ]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+subjectAltName = @alt_names
+
+[ alt_names ]
+DNS.1 = example.com
+DNS.2 = www.example.com
+
+# Server Certificate Profile
+[ server_cert ]
+basicConstraints = CA:FALSE
+nsCertType = server
+nsComment = "OpenSSL Generated Server Certificate"
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer:always
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+certificatePolicies = @server_cert_policy
+crlDistributionPoints = @server_crl_info
+authorityInfoAccess = @server_ocsp_info
+subjectAltName = @server_alt_names
+
+[ server_cert_policy ]
+policyIdentifier = 2.23.140.1.2.2
+CPS.1 = "https://example.com/ca/cps"
+
+[ server_crl_info ]
+URI.0 = http://crl.example.com/intermediate-ca.crl
+
+[ server_ocsp_info ]
+OCSP;URI.0 = http://ocsp.example.com
+caIssuers;URI.0 = http://certs.example.com/intermediate-ca.crt
+
+[ server_alt_names ]
+DNS.1 = server.example.com
+DNS.2 = www.server.example.com
+IP.1 = 192.168.1.100
+
+# Client Certificate Profile
+[ client_cert ]
+basicConstraints = CA:FALSE
+nsCertType = client, email
+nsComment = "OpenSSL Generated Client Certificate"
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+keyUsage = critical, nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage = clientAuth, emailProtection
+certificatePolicies = @client_cert_policy
+crlDistributionPoints = @server_crl_info
+authorityInfoAccess = @server_ocsp_info
+
+[ client_cert_policy ]
+policyIdentifier = 1.2.3.4.5.3
+CPS.1 = "https://example.com/ca/cps"
+
+# Code Signing Certificate Profile
+[ code_signing_cert ]
+basicConstraints = CA:FALSE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+keyUsage = critical, digitalSignature
+extendedKeyUsage = codeSigning
+certificatePolicies = @code_signing_policy
+crlDistributionPoints = @server_crl_info
+authorityInfoAccess = @server_ocsp_info
+
+[ code_signing_policy ]
+policyIdentifier = 1.2.3.4.5.4
+CPS.1 = "https://example.com/ca/cps"
+
+# Email Certificate Profile
+[ email_cert ]
+basicConstraints = CA:FALSE
+nsCertType = email
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = emailProtection
+certificatePolicies = @email_cert_policy
+crlDistributionPoints = @server_crl_info
+authorityInfoAccess = @server_ocsp_info
+subjectAltName = email:copy
+
+[ email_cert_policy ]
+policyIdentifier = 1.2.3.4.5.5
+CPS.1 = "https://example.com/ca/cps"
+
+# OCSP Signing Certificate Profile
+[ ocsp_cert ]
+basicConstraints = CA:FALSE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+keyUsage = critical, digitalSignature
+extendedKeyUsage = critical, OCSPSigning
+noCheck = ignored
+
+# CRL Extensions
+[ crl_ext ]
+authorityKeyIdentifier=keyid:always
+issuingDistributionPoint = @idp_section
+
+[ idp_section ]
+fullname = URI:http://crl.example.com/intermediate-ca.crl
+onlyuser = FALSE
+onlyCA = FALSE
+onlyAA = FALSE
+
+# OCSP Extensions
+[ ocsp ]
+basicConstraints = CA:FALSE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+keyUsage = critical, digitalSignature
+extendedKeyUsage = critical, OCSPSigning
+
+# Time Stamping Authority Certificate
+[ tsa_cert ]
+basicConstraints = CA:FALSE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+keyUsage = critical, digitalSignature
+extendedKeyUsage = critical, timeStamping
+certificatePolicies = @tsa_policy
+crlDistributionPoints = @server_crl_info
+authorityInfoAccess = @server_ocsp_info
+
+[ tsa_policy ]
+policyIdentifier = 1.2.3.4.5.6
+CPS.1 = "https://example.com/ca/cps"
+
+# Document Signing Certificate
+[ document_signing_cert ]
+basicConstraints = CA:FALSE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+keyUsage = critical, digitalSignature, nonRepudiation
+extendedKeyUsage = critical, 1.3.6.1.4.1.311.10.3.12
+certificatePolicies = @document_signing_policy
+crlDistributionPoints = @server_crl_info
+authorityInfoAccess = @server_ocsp_info
+
+[ document_signing_policy ]
+policyIdentifier = 1.2.3.4.5.7
+CPS.1 = "https://example.com/ca/cps"
+
+# IoT Device Certificate
+[ iot_device_cert ]
+basicConstraints = CA:FALSE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+keyUsage = critical, digitalSignature, keyAgreement
+extendedKeyUsage = clientAuth, serverAuth
+certificatePolicies = @iot_policy
+crlDistributionPoints = @server_crl_info
+authorityInfoAccess = @server_ocsp_info
+
+[ iot_policy ]
+policyIdentifier = 1.2.3.4.5.8
+CPS.1 = "https://example.com/ca/cps"
+
+# VPN Certificate
+[ vpn_cert ]
+basicConstraints = CA:FALSE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+keyUsage = critical, digitalSignature, keyAgreement
+extendedKeyUsage = clientAuth, serverAuth, ipsecIKE
+certificatePolicies = @vpn_policy
+crlDistributionPoints = @server_crl_info
+authorityInfoAccess = @server_ocsp_info
+
+[ vpn_policy ]
+policyIdentifier = 1.2.3.4.5.9
+CPS.1 = "https://example.com/ca/cps"
+
+# User Certificate (Strong Authentication)
+[ user_cert ]
+basicConstraints = CA:FALSE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+keyUsage = critical, digitalSignature, keyEncipherment, keyAgreement
+extendedKeyUsage = clientAuth, emailProtection
+certificatePolicies = @user_cert_policy
+crlDistributionPoints = @server_crl_info
+authorityInfoAccess = @server_ocsp_info
+subjectAltName = email:copy
+
+[ user_cert_policy ]
+policyIdentifier = 1.2.3.4.5.10
+CPS.1 = "https://example.com/ca/cps"
+userNotice.1 = @user_notice
+
+[ user_notice ]
+explicitText = "This certificate is for strong user authentication"
+organization = Example Organization

@@ -1,0 +1,204 @@
+# Comprehensive Kubernetes Horizontal Pod Autoscaler Configuration
+# This example demonstrates production-ready HPA configuration with:
+# - CPU and memory-based scaling
+# - Custom metrics (requests per second)
+# - External metrics (queue depth)
+# - Advanced scaling behavior policies
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: api-hpa
+  namespace: production
+  labels:
+    app: api
+    component: autoscaling
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: api
+
+  # Replica bounds
+  minReplicas: 3    # N+1 for fault tolerance (2 needed + 1 spare)
+  maxReplicas: 50   # Cost control limit
+
+  metrics:
+    # CPU-based scaling (primary metric)
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70  # Target 70% CPU utilization
+
+    # Memory-based scaling (secondary metric)
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80  # Target 80% memory utilization
+
+    # Custom metric: Requests per second per pod
+    - type: Pods
+      pods:
+        metric:
+          name: http_requests_per_second
+        target:
+          type: AverageValue
+          averageValue: "100"  # 100 RPS per pod
+
+    # Custom metric: Response time (P95)
+    - type: Pods
+      pods:
+        metric:
+          name: http_request_duration_p95
+        target:
+          type: AverageValue
+          averageValue: "500"  # P95 < 500ms
+
+    # External metric: SQS queue depth (if using message queues)
+    - type: External
+      external:
+        metric:
+          name: sqs_queue_depth
+          selector:
+            matchLabels:
+              queue: "orders"
+        target:
+          type: AverageValue
+          averageValue: "30"  # 30 messages per pod
+
+  # Scaling behavior policies
+  behavior:
+    # Scale-down behavior (conservative)
+    scaleDown:
+      stabilizationWindowSeconds: 300  # Wait 5 minutes before scaling down
+      policies:
+        # Remove max 50% of pods in one step
+        - type: Percent
+          value: 50
+          periodSeconds: 60
+        # Remove max 2 pods per minute
+        - type: Pods
+          value: 2
+          periodSeconds: 60
+      selectPolicy: Min  # Use the policy that results in fewer pods removed
+
+    # Scale-up behavior (aggressive)
+    scaleUp:
+      stabilizationWindowSeconds: 0  # Scale up immediately (no delay)
+      policies:
+        # Double the number of pods if needed
+        - type: Percent
+          value: 100
+          periodSeconds: 30
+        # Add max 5 pods per 30 seconds
+        - type: Pods
+          value: 5
+          periodSeconds: 30
+      selectPolicy: Max  # Use the policy that adds more pods
+
+---
+# Example: Vertical Pod Autoscaler (complementary to HPA)
+# VPA adjusts CPU/memory requests/limits automatically
+
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: api-vpa
+  namespace: production
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: api
+
+  # Update mode: Auto (recommended), Initial, Recreate, or Off
+  updatePolicy:
+    updateMode: "Auto"
+
+  # Resource policy
+  resourcePolicy:
+    containerPolicies:
+      - containerName: api
+        # Minimum resources
+        minAllowed:
+          cpu: 100m
+          memory: 256Mi
+        # Maximum resources
+        maxAllowed:
+          cpu: 2000m
+          memory: 4Gi
+        # Which resources to control
+        controlledResources: ["cpu", "memory"]
+        # Control mode
+        mode: Auto
+
+---
+# Example: PodDisruptionBudget (ensure availability during scaling)
+
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: api-pdb
+  namespace: production
+spec:
+  minAvailable: 2  # Always keep at least 2 pods running
+  selector:
+    matchLabels:
+      app: api
+
+---
+# Example: ServiceMonitor for custom metrics (Prometheus Operator)
+
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: api-metrics
+  namespace: production
+  labels:
+    app: api
+spec:
+  selector:
+    matchLabels:
+      app: api
+  endpoints:
+    - port: metrics
+      interval: 15s
+      path: /metrics
+
+---
+# Notes and Best Practices:
+#
+# 1. Metric Selection:
+#    - Use CPU for compute-bound workloads
+#    - Use memory for memory-bound workloads
+#    - Use RPS for API services
+#    - Use queue depth for async workers
+#
+# 2. Target Utilization:
+#    - CPU: 60-70% for general workloads
+#    - Memory: 70-80% (allow headroom for GC)
+#    - RPS: Based on load testing results
+#
+# 3. Scaling Behavior:
+#    - Scale up quickly (user impact)
+#    - Scale down slowly (cost optimization)
+#    - Stabilization window prevents flapping
+#
+# 4. Replica Bounds:
+#    - minReplicas: Ensure N+1 redundancy minimum
+#    - maxReplicas: Set based on cost budget and quotas
+#
+# 5. Testing:
+#    - Test HPA with load tests
+#    - Verify metrics are collected correctly
+#    - Monitor scaling events in production
+#
+# 6. Monitoring:
+#    - Track scaling events
+#    - Monitor replica count over time
+#    - Alert on max replicas reached
+#    - Review HPA decisions regularly

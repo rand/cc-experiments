@@ -1,0 +1,52 @@
+# Prometheus configuration for WebSocket monitoring
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'websocket-cluster'
+    environment: 'production'
+
+# Scrape configurations
+scrape_configs:
+  # WebSocket servers
+  - job_name: 'websocket-servers'
+    static_configs:
+      - targets:
+          - 'websocket-1:9090'
+          - 'websocket-2:9090'
+          - 'websocket-3:9090'
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+
+  # Redis exporter
+  - job_name: 'redis'
+    static_configs:
+      - targets:
+          - 'redis-exporter:9121'
+    scrape_interval: 15s
+
+  # nginx exporter
+  - job_name: 'nginx'
+    static_configs:
+      - targets:
+          - 'nginx-exporter:9113'
+    scrape_interval: 15s
+
+  # Node exporter (system metrics)
+  - job_name: 'node'
+    static_configs:
+      - targets:
+          - 'node-exporter:9100'
+    scrape_interval: 30s
+
+# Alerting rules
+rule_files:
+  - '/etc/prometheus/alerts/*.yml'
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - 'alertmanager:9093'

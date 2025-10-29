@@ -6,8 +6,9 @@ description: WebSocket protocol implementation, scaling, and production deployme
 # WebSocket Protocols
 
 **Scope**: WebSocket protocol (RFC 6455), connection management, load balancing, scaling strategies, security
-**Lines**: ~400
-**Last Updated**: 2025-10-27
+**Lines**: ~650 (Main skill) | ~8,000+ (Total with Level 3 resources)
+**Last Updated**: 2025-10-29
+**Level 3 Resources**: Complete ✓ (REFERENCE.md, 3 scripts, 9 examples)
 
 ## When to Use This Skill
 
@@ -582,38 +583,206 @@ class WebSocketServer:
 
 This skill includes comprehensive Level 3 resources for deep WebSocket protocol implementation and production deployment.
 
-**Resources include**:
-- **REFERENCE.md** (3,200+ lines): Complete technical reference covering WebSocket protocol, scaling, security
-- **3 executable scripts**: Config validation, server testing, connection benchmarking
-- **9 production examples**: Complete implementations across languages, frameworks, and deployment scenarios
+**Resources Structure**:
+```
+websocket-protocols/resources/
+├── REFERENCE.md (3,816 lines)       # Complete technical reference
+├── scripts/                          # Production tools
+│   ├── validate_websocket_config.py # Config validator (842 lines)
+│   ├── test_websocket_server.py     # Server tester (949 lines)
+│   └── benchmark_websocket.py       # Benchmark tool (734 lines)
+└── examples/                         # Production examples
+    ├── python/                       # Python WebSocket server
+    ├── nodejs/                       # Node.js WebSocket server
+    ├── react/                        # React WebSocket client hook
+    ├── nginx/                        # nginx configuration
+    ├── haproxy/                      # HAProxy configuration
+    ├── redis-scaling/                # Redis pub/sub scaling
+    ├── docker/                       # Docker Compose cluster
+    ├── monitoring/                   # Prometheus monitoring
+    └── README.md                     # Examples documentation
+```
+
+**Total Lines**: 8,000+ lines of production-ready code, configurations, and documentation
 
 ### Quick Start
 
-**1. Validate WebSocket server config**:
+**1. Validate WebSocket configuration**:
 ```bash
 cd skills/protocols/websocket-protocols/resources/scripts
-./validate_websocket_config.py --config /etc/nginx/nginx.conf --check-websocket
+
+# Validate nginx config
+./validate_websocket_config.py --config /etc/nginx/nginx.conf --type nginx
+
+# Validate HAProxy config
+./validate_websocket_config.py --config /etc/haproxy/haproxy.cfg --type haproxy --json
 ```
 
 **2. Test WebSocket server**:
 ```bash
-./test_websocket_server.py --url ws://localhost:8080 --test-all --json
+# Run all tests
+./test_websocket_server.py --url ws://localhost:8080 --test-all
+
+# Test specific functionality
+./test_websocket_server.py --url ws://localhost:8080 --test latency --duration 60
+
+# Test with JSON output
+./test_websocket_server.py --url wss://example.com/ws --test-all --json
 ```
 
-**3. Benchmark connections**:
+**3. Benchmark performance**:
 ```bash
-./benchmark_websocket.py --url ws://localhost:8080 --connections 1000 --duration 60
+# Run all benchmarks
+./benchmark_websocket.py --url ws://localhost:8080 --benchmark all --connections 1000
+
+# Benchmark throughput
+./benchmark_websocket.py --url ws://localhost:8080 --benchmark throughput --duration 60
+
+# Benchmark latency distribution
+./benchmark_websocket.py --url ws://localhost:8080 --benchmark latency --connections 50
 ```
 
-**4. Deploy examples**:
+**4. Deploy production cluster**:
 ```bash
 cd ../examples/docker
 docker-compose up -d
+
+# Access services
+# - WebSocket: ws://localhost/ws
+# - Prometheus: http://localhost:9090
+# - Grafana: http://localhost:3000 (admin/admin)
 ```
 
-**See REFERENCE.md for complete documentation.**
+**5. Use production examples**:
+```bash
+cd ../examples/
+
+# Python server with authentication
+cd python && python websocket_server.py --host 0.0.0.0 --port 8765
+
+# Node.js server
+cd nodejs && npm install ws && node server.js
+
+# Redis-scaled server
+cd redis-scaling && python redis_pubsub_server.py --port 8765
+```
+
+### REFERENCE.md Contents
+
+The comprehensive reference (3,816 lines) covers:
+
+1. **WebSocket Protocol Fundamentals** - RFC 6455, architecture, when to use
+2. **Protocol Handshake** - Upgrade process, headers, subprotocols
+3. **Frame Structure** - Binary format, masking, fragmentation
+4. **Message Types and Opcodes** - Text, binary, control frames
+5. **Connection Lifecycle** - State machine, establishment, shutdown
+6. **Python Implementation** - Complete server/client with examples
+7. **Node.js Implementation** - Production server patterns
+8. **Go Implementation** - Concurrent server architecture
+9. **Java Implementation** - Spring WebSocket integration
+10. **Client Implementation** - Browser, React hooks, reconnection
+11. **Load Balancing** - nginx, HAProxy, AWS ALB configurations
+12. **Horizontal Scaling** - Redis pub/sub, message queues
+13. **Authentication** - JWT, OAuth, session-based patterns
+14. **Security Best Practices** - TLS, origin validation, rate limiting
+15. **Heartbeat Monitoring** - Ping/pong, health checks
+16. **Error Handling** - Connection errors, retry logic, circuit breakers
+17. **Performance Optimization** - Connection pooling, compression, batching
+18. **Testing and Debugging** - Tools, unit tests, load testing
+19. **Production Deployment** - Docker, Kubernetes, systemd
+20. **Monitoring and Observability** - Prometheus metrics, logging
+21. **Anti-Patterns** - Common mistakes and solutions
+22. **References** - Specifications, libraries, tools
+
+### Scripts Features
+
+**validate_websocket_config.py** (842 lines):
+- Validates nginx and HAProxy configurations
+- Checks WebSocket upgrade headers
+- Verifies sticky session configuration
+- Validates TLS/SSL settings
+- Checks timeouts and buffering
+- Reports security issues
+- JSON and text output formats
+
+**test_websocket_server.py** (949 lines):
+- Connection establishment testing
+- Echo and message handling tests
+- JSON and binary message support
+- Protocol-level ping/pong testing
+- Close handshake verification
+- Large message handling
+- Rapid message testing
+- Latency measurement over time
+- Reconnection testing
+- Concurrent connection testing
+- TLS connection verification
+- Comprehensive reporting (JSON/text)
+
+**benchmark_websocket.py** (734 lines):
+- Connection scaling benchmarks
+- Throughput measurement
+- Latency distribution analysis
+- Memory usage profiling
+- Burst message handling
+- Multiple concurrent clients
+- Detailed statistics (mean, median, percentiles)
+- Resource monitoring
+- JSON and text output
+
+### Production Examples
+
+**Python Server** - Complete server with authentication, rate limiting, broadcasting
+**Node.js Server** - Production server with heartbeat and error handling
+**React Client** - Hook with auto-reconnection, message queue, state management
+**nginx Config** - Complete proxy config with TLS, sticky sessions, limits
+**HAProxy Config** - Load balancer with WebSocket ACLs, health checks
+**Redis Scaling** - Multi-instance server with pub/sub broadcasting
+**Docker Cluster** - 3 servers + Redis + nginx + monitoring stack
+**Prometheus Monitoring** - Complete metrics collection and visualization
+
+See `examples/README.md` for detailed usage instructions for all examples.
+
+### Use Cases
+
+**Development**:
+- Validate configs before deployment
+- Test server functionality comprehensively
+- Benchmark performance under load
+- Learn from production examples
+
+**Operations**:
+- Validate production configurations
+- Monitor live server health
+- Benchmark capacity planning
+- Deploy proven architectures
+
+**Troubleshooting**:
+- Test connection issues
+- Measure latency problems
+- Validate configuration changes
+- Identify bottlenecks
+
+### Requirements
+
+**Python scripts**:
+```bash
+pip install websockets aiohttp pyyaml psutil pyjwt redis
+```
+
+**Node.js examples**:
+```bash
+npm install ws
+```
+
+**Docker examples**:
+```bash
+docker-compose version 1.29+
+```
+
+**For complete documentation, see REFERENCE.md**
 
 ---
 
-**Last Updated**: 2025-10-27
+**Last Updated**: 2025-10-29
 **Format Version**: 1.0 (Atomic)

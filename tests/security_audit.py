@@ -6,9 +6,25 @@ Scans all skills, scripts, and examples for security vulnerabilities and
 safety issues. Produces a comprehensive report with findings categorized
 by severity.
 
+Detection Categories:
+    - Dangerous Commands: rm -rf, DROP TABLE, destructive operations
+    - Command Injection: eval(), shell=True, os.system()
+    - Hardcoded Secrets: API keys, passwords, tokens, private keys
+    - Cloud Credentials: AWS keys, GitHub tokens, OAuth tokens, JWT
+    - Network Security: Insecure HTTP, pipe to shell
+    - SQL Injection: String formatting in queries
+    - Path Traversal: Directory traversal patterns
+    - Unsafe File Operations: chmod 777, unsafe ownership changes
+    - Rate Limiting / DoS: Infinite loops, unbounded operations, missing timeouts
+    - Input Validation: Unvalidated user input, request parameters
+    - Insecure Defaults: Disabled HTTPS verification, weak crypto, debug mode
+    - Unsafe Deserialization: pickle, unsafe YAML load
+    - Timing Attacks: Non-constant-time secret comparison
+
 Usage:
     python tests/security_audit.py [--output report.json] [--verbose]
     python tests/security_audit.py --path skills/specific/skill.md
+    python tests/security_audit.py --fail-on high
 """
 
 import argparse
@@ -95,6 +111,23 @@ class SecurityAuditor:
                 ('CRITICAL', 'Private key in file', 'Never commit private keys'),
         }
 
+        # Cloud credentials patterns
+        # Note: These patterns exclude common example/test values
+        self.cloud_credentials_patterns = {
+            r'(?<![A-Za-z0-9])AKIA(?!IOSFODNN7EXAMPLE)[0-9A-Z]{16}(?![A-Za-z0-9])':
+                ('CRITICAL', 'AWS Access Key ID detected', 'Remove immediately and rotate credentials'),
+            r'(?<![A-Za-z0-9])ASIA(?!IOSFODNN7EXAMPLE)[0-9A-Z]{16}(?![A-Za-z0-9])':
+                ('CRITICAL', 'AWS Session Token detected', 'Remove immediately and rotate credentials'),
+            r'ghp_(?!1234567890123456789012345678901234)[A-Za-z0-9]{36}':
+                ('CRITICAL', 'GitHub Personal Access Token detected', 'Remove immediately and rotate token'),
+            r'gho_[A-Za-z0-9]{36}':
+                ('CRITICAL', 'GitHub OAuth Token detected', 'Remove immediately and rotate token'),
+            r'ghs_[A-Za-z0-9]{36}':
+                ('CRITICAL', 'GitHub App Token detected', 'Remove immediately and rotate token'),
+            r'ghr_[A-Za-z0-9]{36}':
+                ('CRITICAL', 'GitHub Refresh Token detected', 'Remove immediately and rotate token'),
+        }
+
         # Insecure network patterns
         self.network_patterns = {
             r'curl\s+[^|]*\|\s*(?:bash|sh)': ('CRITICAL', 'Pipe curl to shell',
@@ -132,6 +165,74 @@ class SecurityAuditor:
                            'Use minimum required permissions'),
             r'chown\s+.*:.*\s+/': ('MEDIUM', 'Ownership change on root paths',
                                   'Ensure path is specific and validated'),
+        }
+
+        # Rate limiting and DoS prevention patterns
+        self.rate_limiting_patterns = {
+            r'while\s+True\s*:(?!\s*\n.*(?:sleep|time\.sleep|await\s+asyncio\.sleep|break))':
+                ('HIGH', 'Infinite loop without sleep/break', 'Add rate limiting or sleep to prevent CPU exhaustion'),
+            r'for\s+.*\s+in\s+range\s*\(\s*(?:9999999|999999999|[0-9]{8,})\s*\)':
+                ('MEDIUM', 'Unbounded loop with large range', 'Consider adding limits or pagination'),
+            r'requests\.\w+\s*\([^)]*(?!timeout)':
+                ('MEDIUM', 'HTTP request without timeout', 'Add timeout parameter to prevent hanging'),
+            r'urllib\.request\.urlopen\s*\([^)]*(?!timeout)':
+                ('MEDIUM', 'URL request without timeout', 'Add timeout parameter to prevent hanging'),
+            r'(?:aiohttp|httpx)\.\w+\s*\([^)]*(?!timeout)':
+                ('MEDIUM', 'Async HTTP request without timeout', 'Add timeout parameter'),
+        }
+
+        # Input validation patterns
+        self.input_validation_patterns = {
+            r'input\s*\([^)]*\)(?!\s*\n.*(?:validate|sanitize|strip|clean|int\(|float\())':
+                ('MEDIUM', 'Unvalidated user input', 'Validate and sanitize all user inputs'),
+            r'request\.args\.get\s*\([^)]*\)(?!\s*\n.*(?:validate|sanitize|int\(|float\())':
+                ('MEDIUM', 'Unvalidated Flask request parameter', 'Validate request parameters'),
+            r'request\.form\.get\s*\([^)]*\)(?!\s*\n.*(?:validate|sanitize))':
+                ('MEDIUM', 'Unvalidated Flask form data', 'Validate form inputs'),
+            r'req\.query\.\w+(?!\s*\n.*(?:validate|sanitize|parseInt))':
+                ('MEDIUM', 'Unvalidated query parameter', 'Validate query parameters'),
+        }
+
+        # Secure defaults patterns
+        self.secure_defaults_patterns = {
+            r'(?:requests\.(?:get|post|put|delete|patch))\s*\([^)]*verify\s*=\s*False':
+                ('CRITICAL', 'HTTPS verification disabled', 'Never disable SSL verification in production'),
+            r'ssl\._create_unverified_context':
+                ('CRITICAL', 'SSL verification bypassed', 'Use verified SSL contexts'),
+            r'(?i)(?:md5|sha1)\s*\(.*(?:password|secret|token|key)':
+                ('HIGH', 'Weak cryptographic algorithm for security', 'Use SHA-256 or better for security purposes'),
+            r'hashlib\.(?:md5|sha1)\s*\(':
+                ('MEDIUM', 'Weak hash algorithm', 'Consider SHA-256 or SHA-3 for security purposes'),
+            r'(?i)(?:password|passwd|pwd)\s*[:=]\s*["\'](?:admin|password|pass|123456|default)':
+                ('CRITICAL', 'Default/weak password', 'Never use default or weak passwords'),
+            r'(?i)debug\s*[:=]\s*True(?!.*test)':
+                ('HIGH', 'Debug mode enabled', 'Disable debug mode in production'),
+            r'app\.run\s*\([^)]*debug\s*=\s*True':
+                ('HIGH', 'Flask debug mode in code', 'Use environment variables for debug flag'),
+            r'DEBUG\s*=\s*True':
+                ('MEDIUM', 'Debug flag set to True', 'Ensure debug is disabled in production'),
+        }
+
+        # Unsafe deserialization patterns
+        self.unsafe_deserialization_patterns = {
+            r'pickle\.loads?\s*\(':
+                ('HIGH', 'Unsafe pickle deserialization', 'Use JSON or validate pickle data source'),
+            r'yaml\.load\s*\((?![^)]*Loader\s*=\s*yaml\.SafeLoader)':
+                ('HIGH', 'Unsafe YAML deserialization', 'Use yaml.safe_load() instead'),
+            r'yaml\.unsafe_load\s*\(':
+                ('CRITICAL', 'Explicitly unsafe YAML load', 'Use yaml.safe_load() instead'),
+            r'json\.loads?\s*\([^)]*\)(?!\s*\n.*(?:validate|schema|isinstance))':
+                ('LOW', 'JSON deserialization without validation', 'Validate JSON structure and types'),
+            r'marshal\.loads?\s*\(':
+                ('HIGH', 'Unsafe marshal deserialization', 'Use JSON or validate data source'),
+        }
+
+        # Timing attack patterns
+        self.timing_attack_patterns = {
+            r'(?:password|secret|token|key|hash)\s*==\s*(?:password|secret|token|key|hash)':
+                ('MEDIUM', 'String comparison for secrets', 'Use hmac.compare_digest() for constant-time comparison'),
+            r'if\s+[^=]*(?:password|secret|token|key)\s*==\s*["\']':
+                ('MEDIUM', 'Direct string comparison of secret', 'Use constant-time comparison function'),
         }
 
     def scan_file(self, file_path: Path) -> None:
@@ -187,6 +288,12 @@ class SecurityAuditor:
                     self._add_finding(severity, 'Hardcoded Secret', file_path,
                                     line_num, issue, line.strip(), recommendation)
 
+        # Cloud credentials (scan all files, including comments)
+        for pattern, (severity, issue, recommendation) in self.cloud_credentials_patterns.items():
+            if re.search(pattern, line):
+                self._add_finding(severity, 'Cloud Credentials', file_path,
+                                line_num, issue, line.strip(), recommendation)
+
         # Network security
         if not is_comment:
             for pattern, (severity, issue, recommendation) in self.network_patterns.items():
@@ -212,6 +319,41 @@ class SecurityAuditor:
             for pattern, (severity, issue, recommendation) in self.unsafe_file_ops.items():
                 if re.search(pattern, line):
                     self._add_finding(severity, 'Unsafe File Operation', file_path,
+                                    line_num, issue, line.strip(), recommendation)
+
+        # Rate limiting and DoS prevention (scripts only)
+        if is_script and not is_comment:
+            for pattern, (severity, issue, recommendation) in self.rate_limiting_patterns.items():
+                if re.search(pattern, line):
+                    self._add_finding(severity, 'Rate Limiting / DoS', file_path,
+                                    line_num, issue, line.strip(), recommendation)
+
+        # Input validation (scripts only)
+        if is_script and not is_comment:
+            for pattern, (severity, issue, recommendation) in self.input_validation_patterns.items():
+                if re.search(pattern, line):
+                    self._add_finding(severity, 'Input Validation', file_path,
+                                    line_num, issue, line.strip(), recommendation)
+
+        # Secure defaults (scripts only)
+        if is_script:
+            for pattern, (severity, issue, recommendation) in self.secure_defaults_patterns.items():
+                if re.search(pattern, line):
+                    self._add_finding(severity, 'Insecure Defaults', file_path,
+                                    line_num, issue, line.strip(), recommendation)
+
+        # Unsafe deserialization (scripts only)
+        if is_script and not is_comment:
+            for pattern, (severity, issue, recommendation) in self.unsafe_deserialization_patterns.items():
+                if re.search(pattern, line):
+                    self._add_finding(severity, 'Unsafe Deserialization', file_path,
+                                    line_num, issue, line.strip(), recommendation)
+
+        # Timing attacks (scripts only)
+        if is_script and not is_comment:
+            for pattern, (severity, issue, recommendation) in self.timing_attack_patterns.items():
+                if re.search(pattern, line):
+                    self._add_finding(severity, 'Timing Attack Risk', file_path,
                                     line_num, issue, line.strip(), recommendation)
 
     def _is_test_credential(self, value: str, file_path: Path) -> bool:

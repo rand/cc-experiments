@@ -1,0 +1,426 @@
+# Kubernetes cert-manager with Custom CA Integration
+#
+# This configuration deploys cert-manager with a custom CA for internal certificate management.
+# Provides automated certificate issuance, renewal, and rotation using your own PKI.
+#
+# Prerequisites:
+#   kubectl create namespace cert-manager
+#   kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.0/cert-manager.yaml
+#
+# Usage:
+#   # Create CA secret
+#   kubectl create secret tls ca-key-pair \
+#     --cert=ca.crt \
+#     --key=ca.key \
+#     --namespace=cert-manager
+#
+#   # Apply this configuration
+#   kubectl apply -f cert-manager-ca.yaml
+#
+#   # Request a certificate
+#   kubectl apply -f - <<EOF
+#   apiVersion: cert-manager.io/v1
+#   kind: Certificate
+#   metadata:
+#     name: example-cert
+#     namespace: default
+#   spec:
+#     secretName: example-tls
+#     issuerRef:
+#       name: internal-ca-issuer
+#       kind: ClusterIssuer
+#     dnsNames:
+#     - example.internal
+#     - www.example.internal
+#   EOF
+
+---
+# ClusterIssuer using custom CA
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: internal-ca-issuer
+spec:
+  ca:
+    secretName: ca-key-pair
+
+---
+# Namespace-scoped Issuer for specific namespace
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: internal-ca-issuer
+  namespace: default
+spec:
+  ca:
+    secretName: ca-key-pair
+
+---
+# Example Certificate with comprehensive configuration
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: example-service-cert
+  namespace: default
+spec:
+  # Secret where certificate will be stored
+  secretName: example-service-tls
+
+  # Certificate duration and renewal
+  duration: 8760h  # 1 year
+  renewBefore: 720h  # 30 days before expiry
+
+  # Reference to issuer
+  issuerRef:
+    name: internal-ca-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+
+  # Subject configuration
+  subject:
+    organizations:
+      - "Example Organization"
+    organizationalUnits:
+      - "Engineering"
+    countries:
+      - "US"
+    provinces:
+      - "California"
+    localities:
+      - "San Francisco"
+
+  # Common Name
+  commonName: example-service.internal
+
+  # Subject Alternative Names
+  dnsNames:
+    - example-service.internal
+    - example-service.default.svc.cluster.local
+    - "*.example-service.internal"
+  ipAddresses:
+    - "10.0.0.1"
+  uris:
+    - "https://example-service.internal"
+
+  # Private key configuration
+  privateKey:
+    algorithm: RSA
+    size: 4096
+    rotationPolicy: Always
+
+  # Key usages
+  usages:
+    - digital signature
+    - key encipherment
+    - server auth
+    - client auth
+
+  # Email addresses for certificate
+  emailAddresses:
+    - admin@example.com
+
+---
+# Certificate for mTLS client authentication
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: client-cert
+  namespace: default
+spec:
+  secretName: client-tls
+  duration: 2160h  # 90 days
+  renewBefore: 360h  # 15 days
+
+  issuerRef:
+    name: internal-ca-issuer
+    kind: ClusterIssuer
+
+  commonName: client.example.internal
+
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+
+  usages:
+    - digital signature
+    - key encipherment
+    - client auth
+
+---
+# Certificate for code signing
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: codesign-cert
+  namespace: default
+spec:
+  secretName: codesign-tls
+  duration: 8760h  # 1 year
+  renewBefore: 720h
+
+  issuerRef:
+    name: internal-ca-issuer
+    kind: ClusterIssuer
+
+  commonName: codesign.example.com
+
+  privateKey:
+    algorithm: RSA
+    size: 4096
+
+  usages:
+    - digital signature
+    - code signing
+
+---
+# CertificateRequest for manual certificate issuance
+apiVersion: cert-manager.io/v1
+kind: CertificateRequest
+metadata:
+  name: manual-cert-request
+  namespace: default
+spec:
+  issuerRef:
+    name: internal-ca-issuer
+    kind: ClusterIssuer
+
+  # Base64 encoded CSR
+  request: |
+    LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0K...
+
+  duration: 2160h
+  usages:
+    - digital signature
+    - key encipherment
+    - server auth
+
+---
+# Deployment using cert-manager issued certificate
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-service
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: example-service
+  template:
+    metadata:
+      labels:
+        app: example-service
+    spec:
+      containers:
+      - name: service
+        image: nginx:alpine
+        ports:
+        - containerPort: 443
+          name: https
+        volumeMounts:
+        - name: tls-certs
+          mountPath: /etc/tls
+          readOnly: true
+        env:
+        - name: TLS_CERT_FILE
+          value: /etc/tls/tls.crt
+        - name: TLS_KEY_FILE
+          value: /etc/tls/tls.key
+        - name: CA_CERT_FILE
+          value: /etc/tls/ca.crt
+      volumes:
+      - name: tls-certs
+        secret:
+          secretName: example-service-tls
+          items:
+          - key: tls.crt
+            path: tls.crt
+          - key: tls.key
+            path: tls.key
+          - key: ca.crt
+            path: ca.crt
+
+---
+# Service exposing HTTPS
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-service
+  namespace: default
+spec:
+  selector:
+    app: example-service
+  ports:
+  - name: https
+    port: 443
+    targetPort: 443
+  type: ClusterIP
+
+---
+# Ingress with TLS
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-ingress
+  namespace: default
+  annotations:
+    cert-manager.io/cluster-issuer: internal-ca-issuer
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - example-service.internal
+    secretName: example-service-tls
+  rules:
+  - host: example-service.internal
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: example-service
+            port:
+              number: 443
+
+---
+# ConfigMap for CA bundle distribution
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ca-bundle
+  namespace: default
+data:
+  ca-bundle.crt: |
+    -----BEGIN CERTIFICATE-----
+    # Add your CA certificate chain here
+    -----END CERTIFICATE-----
+
+---
+# ServiceAccount with certificate access
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cert-user
+  namespace: default
+
+---
+# Role for certificate management
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: cert-manager
+  namespace: default
+rules:
+- apiGroups: ["cert-manager.io"]
+  resources: ["certificates", "certificaterequests"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get", "list", "watch"]
+
+---
+# RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cert-manager-binding
+  namespace: default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: cert-manager
+subjects:
+- kind: ServiceAccount
+  name: cert-user
+  namespace: default
+
+---
+# CronJob for certificate monitoring
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cert-monitor
+  namespace: default
+spec:
+  schedule: "0 */6 * * *"  # Every 6 hours
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: cert-user
+          containers:
+          - name: monitor
+            image: bitnami/kubectl:latest
+            command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Certificate Status Report"
+              echo "=========================="
+              kubectl get certificates -A -o custom-columns=\
+              NAMESPACE:.metadata.namespace,\
+              NAME:.metadata.name,\
+              READY:.status.conditions[0].status,\
+              SECRET:.spec.secretName,\
+              ISSUER:.spec.issuerRef.name,\
+              EXPIRES:.status.notAfter
+
+              echo ""
+              echo "Certificates expiring in 30 days:"
+              kubectl get certificates -A -o json | \
+              jq -r '.items[] | select(.status.notAfter) |
+                select(((.status.notAfter | fromdateiso8601) - now) < 2592000) |
+                "\(.metadata.namespace)/\(.metadata.name) expires \(.status.notAfter)"'
+          restartPolicy: OnFailure
+
+---
+# NetworkPolicy for cert-manager
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: cert-manager-policy
+  namespace: cert-manager
+spec:
+  podSelector:
+    matchLabels:
+      app: cert-manager
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector: {}
+    ports:
+    - protocol: TCP
+      port: 9402  # Metrics port
+  egress:
+  - to:
+    - namespaceSelector: {}
+    ports:
+    - protocol: TCP
+      port: 6443  # Kubernetes API
+  - to:
+    - namespaceSelector: {}
+    ports:
+    - protocol: TCP
+      port: 443  # HTTPS for ACME, OCSP
+    - protocol: TCP
+      port: 80   # HTTP for ACME challenges
+
+---
+# PodMonitor for Prometheus metrics
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: cert-manager
+  namespace: cert-manager
+spec:
+  selector:
+    matchLabels:
+      app: cert-manager
+  podMetricsEndpoints:
+  - port: metrics
+    path: /metrics
+    interval: 30s

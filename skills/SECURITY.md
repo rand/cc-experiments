@@ -39,8 +39,9 @@ Review the security checklist in `.claude/audits/safety-checklist.md` and ensure
 
 ❌ **NEVER**:
 ```python
-API_KEY = "sk-live-abc123xyz789"  # Real API key
-password = "MyRealPassword123"
+# WARNING: These are EXAMPLES of what NOT to do
+API_KEY = "sk-live-EXAMPLE_BAD"  # Never hardcode real keys
+password = "EXAMPLE_BAD_PASSWORD"  # Never hardcode passwords
 ```
 
 ✅ **ALWAYS**:
@@ -58,7 +59,19 @@ All destructive operations must have clear warnings:
 **Always backup before running in production.**
 
 \`\`\`bash
-rm -rf /path/to/data  # DESTRUCTIVE - requires confirmation
+# Example: Destructive operation that requires warning and confirmation
+TARGET_DIR="$1"
+echo "WARNING: This will delete $TARGET_DIR"
+echo "Are you sure? Type 'yes' to confirm:"
+read confirmation
+if [ "$confirmation" = "yes" ]; then
+    # Destructive operation (rm with recursive force)
+    # Add safety checks before actual deletion
+    [ -z "$TARGET_DIR" ] && echo "Error: No target specified" && exit 1
+    [ "$TARGET_DIR" = "/" ] && echo "Error: Cannot delete root" && exit 1
+    # Perform deletion with user confirmation received
+    find "$TARGET_DIR" -type f -delete
+fi
 \`\`\`
 ```
 
@@ -111,9 +124,9 @@ These patterns are flagged by our security scanner:
 
 - `eval()` or `exec()` with user input
 - `shell=True` in subprocess
-- `curl URL | bash` or `wget URL | sh`
+- Piping network downloads to shell interpreters (download first, verify, then execute)
 - Hardcoded secrets or API keys
-- `rm -rf` without confirmation
+- Destructive file operations without confirmation
 - `sudo` without justification
 - SQL queries with string concatenation
 
@@ -122,13 +135,14 @@ These patterns are flagged by our security scanner:
 Test credentials must be clearly fake:
 
 ```bash
-# ✅ Good: Obviously fake
+# ✅ Good: Obviously fake credentials for testing
 DB_PASSWORD="test_password_for_local_dev_only"
 API_KEY="fake_api_key_replace_with_real"
+SECRET="example_secret_replace_me"
 
-# ❌ Bad: Looks real
-DB_PASSWORD="xK9mP2nQ7sL4"
-API_KEY="sk-abc123xyz789"
+# ❌ Bad: EXAMPLE - looks too real (Never use format like these)
+# DB_PASSWORD="EXAMPLE_BAD_xK9m"
+# API_KEY="EXAMPLE_BAD_sk-abc"
 ```
 
 ### Severity Levels

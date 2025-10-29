@@ -27,14 +27,24 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Run validation (non-strict)
+      - name: Run basic validation
         run: |
           python3 .work/validate_resources.py --verbose
         continue-on-error: true
 
+      - name: Run validation with security checks
+        run: |
+          python3 .work/validate_resources.py --check-security --verbose
+        continue-on-error: true
+
+      - name: Run validation with production checks
+        run: |
+          python3 .work/validate_resources.py --check-production-ready --verbose
+        continue-on-error: true
+
       - name: Run validation (JSON output)
         run: |
-          python3 .work/validate_resources.py --json > validation-results.json
+          python3 .work/validate_resources.py --strict-mode --json > validation-results.json
         continue-on-error: true
 
       - name: Upload validation results
@@ -205,6 +215,56 @@ jobs:
           find skills -path "*/resources/scripts/*.py" -print0 | xargs -0 ruff check --select E,F,W || true
           echo "Note: Linting errors are informational only"
         continue-on-error: true
+
+  security-audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run security audit
+        run: |
+          python3 tests/security_audit.py --path skills --output security-report.json --verbose --fail-on high
+        continue-on-error: true
+
+      - name: Upload security report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: security-audit-report
+          path: security-report.json
+
+  safety-validation:
+    name: Operational Safety Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run safety validation
+        run: |
+          python3 tests/safety_validator.py --path skills --output safety-report.json --verbose --fail-on high
+        continue-on-error: true
+
+      - name: Upload safety report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: safety-validation-report
+          path: safety-report.json
 
   validate-examples:
     name: Validate Example Files

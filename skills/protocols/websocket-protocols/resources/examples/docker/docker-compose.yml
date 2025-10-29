@@ -1,0 +1,161 @@
+# Production WebSocket Cluster with Docker Compose
+#
+# Architecture:
+# - 3x WebSocket backend servers
+# - 1x Redis (for pub/sub scaling)
+# - 1x nginx (load balancer)
+# - 1x Prometheus (monitoring)
+# - 1x Grafana (visualization)
+
+version: '3.8'
+
+services:
+  # Redis for pub/sub
+  redis:
+    image: redis:7-alpine
+    container_name: websocket-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - websocket_network
+
+  # WebSocket backend servers
+  websocket-1:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: websocket-server-1
+    environment:
+      - SERVER_PORT=8765
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SERVER_ID=ws-1
+    depends_on:
+      - redis
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8080/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - websocket_network
+
+  websocket-2:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: websocket-server-2
+    environment:
+      - SERVER_PORT=8765
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SERVER_ID=ws-2
+    depends_on:
+      - redis
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8080/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - websocket_network
+
+  websocket-3:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: websocket-server-3
+    environment:
+      - SERVER_PORT=8765
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SERVER_ID=ws-3
+    depends_on:
+      - redis
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8080/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - websocket_network
+
+  # nginx load balancer
+  nginx:
+    image: nginx:alpine
+    container_name: websocket-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/ssl:ro
+    depends_on:
+      - websocket-1
+      - websocket-2
+      - websocket-3
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - websocket_network
+
+  # Prometheus monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: websocket-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+    restart: unless-stopped
+    networks:
+      - websocket_network
+
+  # Grafana visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: websocket-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+    networks:
+      - websocket_network
+
+volumes:
+  redis_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  websocket_network:
+    driver: bridge
