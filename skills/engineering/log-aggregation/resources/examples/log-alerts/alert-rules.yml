@@ -1,0 +1,429 @@
+# Log-Based Alerting Rules
+# For use with Elasticsearch Watcher or Loki Ruler
+#
+# Alerts on:
+#   - High error rates
+#   - Specific error patterns
+#   - Missing expected logs
+#   - Slow operations
+#   - Security events
+
+# ============================================================================
+# Elasticsearch Watcher Alerts
+# ============================================================================
+
+# High Error Rate Alert
+PUT _watcher/watch/high-error-rate
+{
+  "trigger": {
+    "schedule": {
+      "interval": "5m"
+    }
+  },
+  "input": {
+    "search": {
+      "request": {
+        "indices": ["logs-*"],
+        "body": {
+          "query": {
+            "bool": {
+              "must": [
+                {
+                  "range": {
+                    "@timestamp": {
+                      "gte": "now-5m"
+                    }
+                  }
+                },
+                {
+                  "terms": {
+                    "level": ["ERROR", "FATAL"]
+                  }
+                }
+              ]
+            }
+          },
+          "size": 0,
+          "aggs": {
+            "errors_by_service": {
+              "terms": {
+                "field": "service.keyword",
+                "size": 10
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "condition": {
+    "compare": {
+      "ctx.payload.hits.total.value": {
+        "gte": 10
+      }
+    }
+  },
+  "actions": {
+    "send_slack": {
+      "webhook": {
+        "scheme": "https",
+        "host": "hooks.slack.com",
+        "port": 443,
+        "method": "post",
+        "path": "/services/YOUR/SLACK/WEBHOOK",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"text\": \"High error rate detected: {{ctx.payload.hits.total.value}} errors in last 5 minutes\\n\\nTop services:\\n{{#ctx.payload.aggregations.errors_by_service.buckets}}\\n- {{key}}: {{doc_count}} errors\\n{{/ctx.payload.aggregations.errors_by_service.buckets}}\"}"
+      }
+    },
+    "send_email": {
+      "email": {
+        "to": "oncall@example.com",
+        "subject": "Alert: High Error Rate",
+        "body": {
+          "text": "High error rate detected: {{ctx.payload.hits.total.value}} errors in last 5 minutes"
+        }
+      }
+    }
+  }
+}
+
+# Database Connection Error Alert
+PUT _watcher/watch/database-connection-error
+{
+  "trigger": {
+    "schedule": {
+      "interval": "1m"
+    }
+  },
+  "input": {
+    "search": {
+      "request": {
+        "indices": ["logs-*"],
+        "body": {
+          "query": {
+            "bool": {
+              "must": [
+                {
+                  "range": {
+                    "@timestamp": {
+                      "gte": "now-1m"
+                    }
+                  }
+                },
+                {
+                  "match": {
+                    "error.type": "DatabaseConnectionError"
+                  }
+                }
+              ]
+            }
+          },
+          "size": 10
+        }
+      }
+    }
+  },
+  "condition": {
+    "compare": {
+      "ctx.payload.hits.total.value": {
+        "gte": 1
+      }
+    }
+  },
+  "actions": {
+    "page_oncall": {
+      "pagerduty": {
+        "account": "your-pagerduty-account",
+        "description": "Database connection errors detected",
+        "event_type": "trigger",
+        "incident_key": "database-connection-error",
+        "client": "Elasticsearch Watcher"
+      }
+    }
+  }
+}
+
+# Slow Query Alert
+PUT _watcher/watch/slow-queries
+{
+  "trigger": {
+    "schedule": {
+      "interval": "10m"
+    }
+  },
+  "input": {
+    "search": {
+      "request": {
+        "indices": ["logs-*"],
+        "body": {
+          "query": {
+            "bool": {
+              "must": [
+                {
+                  "range": {
+                    "@timestamp": {
+                      "gte": "now-10m"
+                    }
+                  }
+                },
+                {
+                  "range": {
+                    "duration_ms": {
+                      "gte": 5000
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "size": 5,
+          "sort": [
+            {
+              "duration_ms": {
+                "order": "desc"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "condition": {
+    "compare": {
+      "ctx.payload.hits.total.value": {
+        "gte": 10
+      }
+    }
+  },
+  "actions": {
+    "send_slack": {
+      "webhook": {
+        "scheme": "https",
+        "host": "hooks.slack.com",
+        "port": 443,
+        "method": "post",
+        "path": "/services/YOUR/SLACK/WEBHOOK",
+        "body": "{\"text\": \"⚠️ Slow queries detected: {{ctx.payload.hits.total.value}} queries over 5 seconds\\n\\nSlowest queries:\\n{{#ctx.payload.hits.hits}}\\n- {{_source.service}}: {{_source.endpoint}} = {{_source.duration_ms}}ms\\n{{/ctx.payload.hits.hits}}\"}"
+      }
+    }
+  }
+}
+
+# Missing Health Check Alert
+PUT _watcher/watch/missing-healthcheck
+{
+  "trigger": {
+    "schedule": {
+      "interval": "5m"
+    }
+  },
+  "input": {
+    "search": {
+      "request": {
+        "indices": ["logs-*"],
+        "body": {
+          "query": {
+            "bool": {
+              "must": [
+                {
+                  "range": {
+                    "@timestamp": {
+                      "gte": "now-5m"
+                    }
+                  }
+                },
+                {
+                  "term": {
+                    "service.keyword": "api-gateway"
+                  }
+                },
+                {
+                  "term": {
+                    "path.keyword": "/health"
+                  }
+                }
+              ]
+            }
+          },
+          "size": 0
+        }
+      }
+    }
+  },
+  "condition": {
+    "compare": {
+      "ctx.payload.hits.total.value": {
+        "lt": 1
+      }
+    }
+  },
+  "actions": {
+    "page_oncall": {
+      "pagerduty": {
+        "account": "your-pagerduty-account",
+        "description": "api-gateway health check missing for 5 minutes",
+        "event_type": "trigger",
+        "incident_key": "missing-healthcheck-api-gateway"
+      }
+    }
+  }
+}
+
+# Security: Failed Login Attempts Alert
+PUT _watcher/watch/failed-logins
+{
+  "trigger": {
+    "schedule": {
+      "interval": "1m"
+    }
+  },
+  "input": {
+    "search": {
+      "request": {
+        "indices": ["logs-*"],
+        "body": {
+          "query": {
+            "bool": {
+              "must": [
+                {
+                  "range": {
+                    "@timestamp": {
+                      "gte": "now-1m"
+                    }
+                  }
+                },
+                {
+                  "term": {
+                    "action.keyword": "login"
+                  }
+                },
+                {
+                  "term": {
+                    "success": false
+                  }
+                }
+              ]
+            }
+          },
+          "size": 0,
+          "aggs": {
+            "failed_by_ip": {
+              "terms": {
+                "field": "ip.keyword",
+                "size": 10
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "condition": {
+    "script": {
+      "source": "return ctx.payload.aggregations.failed_by_ip.buckets.stream().anyMatch(b -> b.doc_count >= 5)"
+    }
+  },
+  "actions": {
+    "send_slack": {
+      "webhook": {
+        "scheme": "https",
+        "host": "hooks.slack.com",
+        "port": 443,
+        "method": "post",
+        "path": "/services/YOUR/SLACK/WEBHOOK",
+        "body": "{\"text\": \"🚨 Security Alert: Multiple failed login attempts detected\\n\\nTop IPs:\\n{{#ctx.payload.aggregations.failed_by_ip.buckets}}\\n- {{key}}: {{doc_count}} failed attempts\\n{{/ctx.payload.aggregations.failed_by_ip.buckets}}\"}"
+      }
+    }
+  }
+}
+
+# ============================================================================
+# Loki Ruler Alerts
+# ============================================================================
+
+# loki-alerts.yml
+---
+groups:
+  - name: log_alerts
+    interval: 1m
+    rules:
+      # High error rate
+      - alert: HighErrorRate
+        expr: |
+          sum(rate({service="api-gateway"} |= "ERROR" [5m])) > 1
+        for: 5m
+        labels:
+          severity: critical
+          service: api-gateway
+        annotations:
+          summary: "High error rate on API gateway"
+          description: "API gateway error rate is {{ $value }} errors/second (threshold: 1)"
+          runbook_url: "https://runbooks.example.com/high-error-rate"
+
+      # Database connection errors
+      - alert: DatabaseConnectionErrors
+        expr: |
+          count_over_time({service="api-gateway"} |= "DatabaseConnectionError" [5m]) > 0
+        labels:
+          severity: critical
+          service: api-gateway
+        annotations:
+          summary: "Database connection errors detected"
+          description: "{{ $value }} database connection errors in last 5 minutes"
+
+      # Slow operations
+      - alert: SlowOperations
+        expr: |
+          quantile_over_time(0.95, {service="api-gateway"} | json | unwrap duration_ms [10m]) > 5000
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Slow operations detected"
+          description: "P95 latency is {{ $value }}ms (threshold: 5000ms)"
+
+      # Missing health checks
+      - alert: MissingHealthChecks
+        expr: |
+          sum(count_over_time({service="api-gateway", path="/health"} [5m])) == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Health checks missing"
+          description: "No health checks received from api-gateway in 5 minutes"
+
+      # Traffic drop
+      - alert: TrafficDrop
+        expr: |
+          sum(rate({service="api-gateway"}[5m]))
+          <
+          sum(avg_over_time(rate({service="api-gateway"}[5m])[1h:5m])) * 0.3
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Traffic drop detected"
+          description: "Traffic dropped to {{ $value }} (expected > 30% of hourly average)"
+
+      # Security: Failed logins
+      - alert: FailedLoginAttempts
+        expr: |
+          sum by (ip) (count_over_time({service="auth"} | json | action="login" | success="false" [1m])) >= 5
+        labels:
+          severity: warning
+        annotations:
+          summary: "Multiple failed login attempts"
+          description: "{{ $labels.ip }} has {{ $value }} failed login attempts in last minute"
+
+      # New error type
+      - alert: NewErrorType
+        expr: |
+          count(count_over_time({service="api-gateway"} | json | level="ERROR" [1h]) unless count_over_time({service="api-gateway"} | json | level="ERROR" [24h] offset 24h)) > 0
+        labels:
+          severity: warning
+        annotations:
+          summary: "New error type detected"
+          description: "New error type appeared that wasn't seen in last 24 hours"

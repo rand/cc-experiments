@@ -1,0 +1,234 @@
+# EFK Stack - Fluentd DaemonSet for Kubernetes
+# Collects logs from all pods and sends to Elasticsearch
+#
+# Apply:
+#   kubectl apply -f fluentd-daemonset.yaml
+#
+# Verify:
+#   kubectl get daemonset -n logging
+#   kubectl logs -n logging -l app=fluentd
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: logging
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: fluentd
+  namespace: logging
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: fluentd
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - namespaces
+  verbs:
+  - get
+  - list
+  - watch
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: fluentd
+roleRef:
+  kind: ClusterRole
+  name: fluentd
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: ServiceAccount
+  name: fluentd
+  namespace: logging
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-config
+  namespace: logging
+data:
+  fluent.conf: |
+    # Input: Kubernetes container logs
+    <source>
+      @type tail
+      @id in_tail_container_logs
+      path /var/log/containers/*.log
+      pos_file /var/log/fluentd-containers.log.pos
+      tag kubernetes.*
+      read_from_head true
+      <parse>
+        @type json
+        time_format %Y-%m-%dT%H:%M:%S.%NZ
+      </parse>
+    </source>
+
+    # Filter: Add Kubernetes metadata
+    <filter kubernetes.**>
+      @type kubernetes_metadata
+      @id filter_kube_metadata
+      kubernetes_url "#{ENV['FLUENT_FILTER_KUBERNETES_URL'] || 'https://' + ENV.fetch('KUBERNETES_SERVICE_HOST') + ':' + ENV.fetch('KUBERNETES_SERVICE_PORT') + '/api'}"
+      verify_ssl true
+      ca_file /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    </filter>
+
+    # Filter: Parse JSON logs
+    <filter kubernetes.var.log.containers.**>
+      @type parser
+      key_name log
+      reserve_data true
+      remove_key_name_field true
+      <parse>
+        @type json
+      </parse>
+    </filter>
+
+    # Filter: Add cluster info
+    <filter kubernetes.**>
+      @type record_transformer
+      <record>
+        cluster_name "#{ENV['CLUSTER_NAME'] || 'default'}"
+        cluster_region "#{ENV['CLUSTER_REGION'] || 'unknown'}"
+      </record>
+    </filter>
+
+    # Filter: Drop debug logs from production
+    <filter kubernetes.**>
+      @type grep
+      <exclude>
+        key $.level
+        pattern /^DEBUG$/
+      </exclude>
+      <exclude>
+        key $.kubernetes.namespace_name
+        pattern /^kube-system$/
+      </exclude>
+    </filter>
+
+    # Output: Elasticsearch
+    <match kubernetes.**>
+      @type elasticsearch
+      @id out_es
+      @log_level info
+      include_tag_key true
+      host "#{ENV['FLUENT_ELASTICSEARCH_HOST']}"
+      port "#{ENV['FLUENT_ELASTICSEARCH_PORT']}"
+      scheme "#{ENV['FLUENT_ELASTICSEARCH_SCHEME'] || 'http'}"
+      ssl_verify "#{ENV['FLUENT_ELASTICSEARCH_SSL_VERIFY'] || 'false'}"
+      ssl_version TLSv1_2
+      logstash_format true
+      logstash_prefix "#{ENV['FLUENT_ELASTICSEARCH_LOGSTASH_PREFIX'] || 'k8s'}"
+      logstash_dateformat %Y.%m.%d
+      include_timestamp true
+      reconnect_on_error true
+      reload_on_failure true
+      reload_connections false
+      request_timeout 15s
+      <buffer>
+        @type file
+        path /var/log/fluentd-buffers/kubernetes.system.buffer
+        flush_mode interval
+        retry_type exponential_backoff
+        flush_thread_count 2
+        flush_interval 5s
+        retry_forever false
+        retry_max_interval 30
+        retry_timeout 1h
+        chunk_limit_size 2M
+        total_limit_size 512M
+        overflow_action block
+      </buffer>
+    </match>
+
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd
+  namespace: logging
+  labels:
+    app: fluentd
+spec:
+  selector:
+    matchLabels:
+      app: fluentd
+  template:
+    metadata:
+      labels:
+        app: fluentd
+    spec:
+      serviceAccountName: fluentd
+      tolerations:
+      # Allow scheduling on master nodes
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
+
+      containers:
+      - name: fluentd
+        image: fluent/fluentd-kubernetes-daemonset:v1.16-debian-elasticsearch8-1
+        env:
+        # Elasticsearch settings
+        - name: FLUENT_ELASTICSEARCH_HOST
+          value: "elasticsearch.logging.svc.cluster.local"
+        - name: FLUENT_ELASTICSEARCH_PORT
+          value: "9200"
+        - name: FLUENT_ELASTICSEARCH_SCHEME
+          value: "http"
+        - name: FLUENT_ELASTICSEARCH_SSL_VERIFY
+          value: "false"
+        - name: FLUENT_ELASTICSEARCH_LOGSTASH_PREFIX
+          value: "k8s"
+
+        # Cluster info
+        - name: CLUSTER_NAME
+          value: "production"
+        - name: CLUSTER_REGION
+          value: "us-east-1"
+
+        # Fluentd settings
+        - name: FLUENT_UID
+          value: "0"
+        - name: FLUENTD_SYSTEMD_CONF
+          value: "disable"
+
+        resources:
+          limits:
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 256Mi
+
+        volumeMounts:
+        - name: varlog
+          mountPath: /var/log
+        - name: varlibdockercontainers
+          mountPath: /var/lib/docker/containers
+          readOnly: true
+        - name: config
+          mountPath: /fluentd/etc/fluent.conf
+          subPath: fluent.conf
+
+      terminationGracePeriodSeconds: 30
+
+      volumes:
+      - name: varlog
+        hostPath:
+          path: /var/log
+      - name: varlibdockercontainers
+        hostPath:
+          path: /var/lib/docker/containers
+      - name: config
+        configMap:
+          name: fluentd-config

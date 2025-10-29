@@ -619,7 +619,7 @@ npm dedupe
 ### Broken Symlinks
 
 ```bash
-# Recreate symlinks
+# Recreate symlinks (⚠️ WARNING: Deletes all node_modules)
 rm -rf node_modules
 pnpm install
 

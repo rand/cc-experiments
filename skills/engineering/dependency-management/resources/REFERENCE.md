@@ -2685,7 +2685,8 @@ import _ from 'lodash';
 # Check if installed
 npm ls package-name
 
-# Reinstall
+# Reinstall (⚠️ WARNING: Deletes all installed dependencies)
+# Consider backing up node_modules if you have local patches
 rm -rf node_modules package-lock.json
 npm install
 
@@ -2766,7 +2767,11 @@ echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.profile
 source ~/.profile
 
 # Or use nvm (recommended)
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+# Safer: Download, inspect, then execute
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh -o nvm-install.sh
+# Inspect the script before running
+less nvm-install.sh
+bash nvm-install.sh
 nvm install node
 ```
 

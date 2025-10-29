@@ -1,0 +1,258 @@
+# CI/CD Release Tracking Automation for Sentry
+#
+# This workflow automatically creates Sentry releases, associates commits,
+# uploads source maps, and notifies deployments.
+#
+# Supports: GitHub Actions, GitLab CI, CircleCI
+
+# ============================================================================
+# GitHub Actions
+# ============================================================================
+name: Deploy with Sentry Release Tracking
+
+on:
+  push:
+    branches: [main, production]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Full git history for commits
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        env:
+          RELEASE_VERSION: ${{ github.sha }}
+        run: npm run build
+
+      - name: Create Sentry release
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: my-org
+          SENTRY_PROJECT: my-project
+        run: |
+          # Install sentry-cli
+          curl -sL https://sentry.io/get-cli/ | bash
+
+          # Generate version
+          VERSION=$(git describe --tags --always)
+          echo "Release version: $VERSION"
+
+          # Create release
+          sentry-cli releases new "$VERSION"
+
+          # Associate commits (enables regression detection)
+          sentry-cli releases set-commits "$VERSION" --auto
+
+          # Upload source maps
+          sentry-cli releases files "$VERSION" upload-sourcemaps ./dist \
+            --url-prefix '~/static/js' \
+            --validate \
+            --strip-prefix dist/
+
+          # Finalize release
+          sentry-cli releases finalize "$VERSION"
+
+      - name: Deploy application
+        run: |
+          # Your deployment commands here
+          echo "Deploying to production..."
+
+      - name: Notify Sentry of deployment
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        run: |
+          VERSION=$(git describe --tags --always)
+
+          sentry-cli releases deploys "$VERSION" new \
+            --env production \
+            --name "Production Deploy" \
+            --url "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+      - name: Set commit status
+        if: always()
+        run: |
+          if [ ${{ job.status }} == 'success' ]; then
+            echo "Deployment successful"
+          else
+            # Notify Sentry of deployment failure
+            VERSION=$(git describe --tags --always)
+            sentry-cli send-event -m "Deployment failed for $VERSION" -l error
+          fi
+
+# ============================================================================
+# GitLab CI
+# ============================================================================
+# .gitlab-ci.yml
+
+variables:
+  SENTRY_ORG: my-org
+  SENTRY_PROJECT: my-project
+
+stages:
+  - build
+  - release
+  - deploy
+
+build:
+  stage: build
+  script:
+    - npm ci
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+
+sentry_release:
+  stage: release
+  dependencies:
+    - build
+  script:
+    - curl -sL https://sentry.io/get-cli/ | bash
+    - VERSION=$(git describe --tags --always)
+    - sentry-cli releases new "$VERSION"
+    - sentry-cli releases set-commits "$VERSION" --auto
+    - |
+      sentry-cli releases files "$VERSION" upload-sourcemaps ./dist \
+        --url-prefix '~/static/js'
+    - sentry-cli releases finalize "$VERSION"
+
+deploy:
+  stage: deploy
+  dependencies:
+    - build
+  script:
+    - echo "Deploying to production..."
+    # Deployment commands
+    - curl -sL https://sentry.io/get-cli/ | bash
+    - VERSION=$(git describe --tags --always)
+    - sentry-cli releases deploys "$VERSION" new --env production
+
+# ============================================================================
+# CircleCI
+# ============================================================================
+# .circleci/config.yml
+
+version: 2.1
+
+orbs:
+  sentry: sentry/sentry@1.0.0
+
+jobs:
+  build_and_deploy:
+    docker:
+      - image: cimg/node:18.0
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "package-lock.json" }}
+
+      - run:
+          name: Install dependencies
+          command: npm ci
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: dependencies-{{ checksum "package-lock.json" }}
+
+      - run:
+          name: Build
+          command: npm run build
+
+      - run:
+          name: Create Sentry release
+          command: |
+            curl -sL https://sentry.io/get-cli/ | bash
+            VERSION=$(git describe --tags --always)
+            sentry-cli releases new "$VERSION" \
+              --org "$SENTRY_ORG" \
+              --project "$SENTRY_PROJECT"
+            sentry-cli releases set-commits "$VERSION" --auto
+            sentry-cli releases files "$VERSION" upload-sourcemaps ./dist
+            sentry-cli releases finalize "$VERSION"
+
+      - run:
+          name: Deploy
+          command: |
+            echo "Deploying to production..."
+            # Deployment commands
+
+      - run:
+          name: Notify Sentry deployment
+          command: |
+            VERSION=$(git describe --tags --always)
+            sentry-cli releases deploys "$VERSION" new --env production
+
+workflows:
+  build_and_deploy:
+    jobs:
+      - build_and_deploy:
+          filters:
+            branches:
+              only: main
+
+# ============================================================================
+# Manual Release Creation Script
+# ============================================================================
+# create-sentry-release.sh
+
+#!/bin/bash
+set -e
+
+# Configuration
+SENTRY_ORG=${SENTRY_ORG:-"my-org"}
+SENTRY_PROJECT=${SENTRY_PROJECT:-"my-project"}
+SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
+
+if [ -z "$SENTRY_AUTH_TOKEN" ]; then
+    echo "Error: SENTRY_AUTH_TOKEN not set"
+    exit 1
+fi
+
+# Generate version
+VERSION=$(git describe --tags --always)
+echo "Creating Sentry release: $VERSION"
+
+# Create release
+sentry-cli releases new "$VERSION" \
+    --org "$SENTRY_ORG" \
+    --project "$SENTRY_PROJECT"
+
+# Associate commits
+echo "Associating commits..."
+sentry-cli releases set-commits "$VERSION" --auto
+
+# Upload source maps (if applicable)
+if [ -d "dist" ]; then
+    echo "Uploading source maps..."
+    sentry-cli releases files "$VERSION" upload-sourcemaps ./dist \
+        --url-prefix '~/static/js' \
+        --validate \
+        --strip-prefix dist/
+fi
+
+# Finalize release
+echo "Finalizing release..."
+sentry-cli releases finalize "$VERSION"
+
+# Notify deployment
+echo "Notifying deployment..."
+sentry-cli releases deploys "$VERSION" new \
+    --env "${DEPLOY_ENV:-production}" \
+    --name "Deployment to ${DEPLOY_ENV:-production}"
+
+echo "✓ Sentry release created successfully: $VERSION"

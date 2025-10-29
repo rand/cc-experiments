@@ -1,0 +1,250 @@
+# Kubernetes TCP Optimization Configuration
+# DaemonSet to apply TCP tuning on all worker nodes
+#
+# This DaemonSet runs a privileged init container on each node to apply
+# TCP optimizations via sysctl. The configuration persists across pod
+# restarts but is re-applied on node reboot.
+#
+# Usage:
+#   kubectl apply -f 03-kubernetes-tcp-optimization.yaml
+#
+# Verification:
+#   kubectl logs -n kube-system -l app=tcp-optimizer
+#   kubectl exec -n kube-system <pod-name> -- sysctl net.ipv4.tcp_congestion_control
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tcp-optimization
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tcp-optimization-config
+  namespace: tcp-optimization
+data:
+  optimize-tcp.sh: |
+    #!/bin/bash
+    set -euo pipefail
+
+    echo "Applying TCP optimizations..."
+
+    # BBR congestion control
+    modprobe tcp_bbr || echo "BBR module not available"
+    sysctl -w net.ipv4.tcp_congestion_control=bbr
+    sysctl -w net.core.default_qdisc=fq
+
+    # Large buffers for container networking
+    sysctl -w net.ipv4.tcp_rmem="4096 131072 67108864"
+    sysctl -w net.ipv4.tcp_wmem="4096 131072 67108864"
+    sysctl -w net.core.rmem_max=67108864
+    sysctl -w net.core.wmem_max=67108864
+
+    # Essential TCP features
+    sysctl -w net.ipv4.tcp_window_scaling=1
+    sysctl -w net.ipv4.tcp_timestamps=1
+    sysctl -w net.ipv4.tcp_sack=1
+    sysctl -w net.ipv4.tcp_dsack=1
+
+    # Performance tuning
+    sysctl -w net.ipv4.tcp_slow_start_after_idle=0
+    sysctl -w net.ipv4.tcp_tw_reuse=1
+    sysctl -w net.ipv4.tcp_fin_timeout=15
+    sysctl -w net.ipv4.tcp_fastopen=3
+
+    # Connection handling (many pods)
+    sysctl -w net.ipv4.ip_local_port_range="10000 65535"
+    sysctl -w net.ipv4.tcp_max_tw_buckets=2000000
+    sysctl -w net.core.somaxconn=8192
+    sysctl -w net.ipv4.tcp_max_syn_backlog=8192
+
+    # Conntrack table (for kube-proxy iptables mode)
+    sysctl -w net.netfilter.nf_conntrack_max=1000000 || true
+    sysctl -w net.netfilter.nf_conntrack_buckets=250000 || true
+
+    # IP forwarding (required for pod networking)
+    sysctl -w net.ipv4.ip_forward=1
+
+    echo "TCP optimizations applied successfully"
+
+    # Display current configuration
+    echo ""
+    echo "Current Configuration:"
+    echo "  Congestion Control: $(sysctl -n net.ipv4.tcp_congestion_control)"
+    echo "  Default Qdisc: $(sysctl -n net.core.default_qdisc)"
+    echo "  Window Scaling: $(sysctl -n net.ipv4.tcp_window_scaling)"
+    echo "  SACK: $(sysctl -n net.ipv4.tcp_sack)"
+    echo "  Receive Buffer Max: $(sysctl -n net.core.rmem_max) bytes"
+    echo "  Send Buffer Max: $(sysctl -n net.core.wmem_max) bytes"
+
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: tcp-optimizer
+  namespace: tcp-optimization
+  labels:
+    app: tcp-optimizer
+spec:
+  selector:
+    matchLabels:
+      app: tcp-optimizer
+  template:
+    metadata:
+      labels:
+        app: tcp-optimizer
+    spec:
+      hostNetwork: true
+      hostPID: true
+      initContainers:
+      - name: tcp-optimizer
+        image: busybox:latest
+        command: ["/bin/sh"]
+        args: ["/scripts/optimize-tcp.sh"]
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: config
+          mountPath: /scripts
+      containers:
+      - name: sleep
+        image: busybox:latest
+        command: ["/bin/sh"]
+        args: ["-c", "while true; do sleep 3600; done"]
+        resources:
+          limits:
+            cpu: 100m
+            memory: 50Mi
+          requests:
+            cpu: 10m
+            memory: 10Mi
+      volumes:
+      - name: config
+        configMap:
+          name: tcp-optimization-config
+          defaultMode: 0755
+      tolerations:
+      - effect: NoSchedule
+        operator: Exists
+      - effect: NoExecute
+        operator: Exists
+
+---
+# ServiceAccount for monitoring (optional)
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: tcp-optimizer
+  namespace: tcp-optimization
+
+---
+# ClusterRole for monitoring (optional)
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: tcp-optimizer
+rules:
+- apiGroups: [""]
+  resources: ["nodes"]
+  verbs: ["get", "list"]
+
+---
+# ClusterRoleBinding (optional)
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: tcp-optimizer
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: tcp-optimizer
+subjects:
+- kind: ServiceAccount
+  name: tcp-optimizer
+  namespace: tcp-optimization
+
+---
+# Job to verify TCP optimization on all nodes
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: tcp-optimization-verify
+  namespace: tcp-optimization
+spec:
+  template:
+    spec:
+      hostNetwork: true
+      containers:
+      - name: verify
+        image: busybox:latest
+        command: ["/bin/sh"]
+        args:
+        - -c
+        - |
+          echo "Verifying TCP Configuration..."
+          echo ""
+          echo "Node: $(hostname)"
+          echo "Congestion Control: $(sysctl -n net.ipv4.tcp_congestion_control)"
+          echo "Default Qdisc: $(sysctl -n net.core.default_qdisc)"
+          echo "Window Scaling: $(sysctl -n net.ipv4.tcp_window_scaling)"
+          echo "SACK: $(sysctl -n net.ipv4.tcp_sack)"
+          echo "Receive Buffer Max: $(sysctl -n net.core.rmem_max)"
+          echo "Send Buffer Max: $(sysctl -n net.core.wmem_max)"
+      restartPolicy: Never
+  backoffLimit: 3
+
+---
+# Notes and Usage Instructions
+#
+# 1. Deploy the DaemonSet:
+#    kubectl apply -f 03-kubernetes-tcp-optimization.yaml
+#
+# 2. Verify deployment:
+#    kubectl get daemonset -n tcp-optimization
+#    kubectl get pods -n tcp-optimization -o wide
+#
+# 3. Check logs:
+#    kubectl logs -n tcp-optimization -l app=tcp-optimizer --tail=50
+#
+# 4. Verify configuration on a specific node:
+#    kubectl exec -n tcp-optimization <pod-name> -- sysctl net.ipv4.tcp_congestion_control
+#
+# 5. Run verification job:
+#    kubectl create job --from=cronjob/tcp-optimization-verify verify-$(date +%s) -n tcp-optimization
+#
+# 6. Test from a pod:
+#    kubectl run -it --rm test --image=nicolaka/netshoot --restart=Never -- bash
+#    # Inside pod:
+#    ss -tin | head -20
+#    nstat -az | grep Tcp
+#
+# Important Notes:
+#
+# - This configuration requires privileged containers
+# - Settings are applied at the node level (affects all pods)
+# - Settings do not persist across node reboots (DaemonSet re-applies)
+# - For persistent configuration, use node startup scripts
+# - Test thoroughly in non-production before deploying
+#
+# CNI Compatibility:
+#
+# - Calico: Fully compatible
+# - Cilium: Fully compatible (works well with eBPF dataplane)
+# - Flannel: Compatible (may see less benefit with VXLAN overhead)
+# - Weave: Compatible
+#
+# Performance Improvements:
+#
+# - 2-10x throughput improvement for high BDP traffic
+# - Lower latency for pod-to-pod communication
+# - Better performance for external traffic
+# - Improved behavior under load
+#
+# Monitoring:
+#
+# Use Prometheus to track TCP metrics:
+#   node_netstat_Tcp_RetransSegs
+#   node_netstat_Tcp_InSegs
+#   node_netstat_Tcp_OutSegs

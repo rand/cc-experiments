@@ -501,10 +501,11 @@ docker logs verdaccio -f
 ### Clear Cache
 
 ```bash
-# Remove all cached packages
+# Remove all cached packages (⚠️ WARNING: Deletes all Verdaccio cache)
+# Only run this if you're experiencing cache corruption issues
 rm -rf /verdaccio/storage/.cache
 
-# Or via npm
+# Safer: Use npm cache clean (recommended)
 npm cache clean --force
 ```
 

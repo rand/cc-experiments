@@ -1,0 +1,160 @@
+# ELK Stack - Complete Docker Compose Setup
+# Production-ready configuration with Elasticsearch, Logstash, Kibana, and Filebeat
+#
+# Usage:
+#   docker-compose up -d
+#   docker-compose logs -f
+#   docker-compose down -v
+#
+# Access:
+#   Elasticsearch: http://localhost:9200
+#   Kibana: http://localhost:5601
+#   Logstash: 5044 (Beats), 9600 (API)
+
+version: '3.8'
+
+services:
+  # Elasticsearch - Search and analytics engine
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: elasticsearch
+    hostname: elasticsearch
+    environment:
+      # Node settings
+      - node.name=es01
+      - cluster.name=logs-cluster
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+
+      # Memory settings
+      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+
+      # Security settings (disabled for development)
+      - xpack.security.enabled=false
+      - xpack.monitoring.collection.enabled=true
+
+      # Index settings
+      - indices.query.bool.max_clause_count=4096
+
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+      - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+
+    ports:
+      - "9200:9200"  # REST API
+      - "9300:9300"  # Transport
+
+    networks:
+      - elk
+
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # Logstash - Data processing pipeline
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.11.0
+    container_name: logstash
+    hostname: logstash
+    environment:
+      - "LS_JAVA_OPTS=-Xms1g -Xmx1g"
+      - ELASTICSEARCH_HOST=elasticsearch
+      - ELASTICSEARCH_PORT=9200
+
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - logstash_data:/usr/share/logstash/data
+
+    ports:
+      - "5044:5044"  # Beats input
+      - "9600:9600"  # Monitoring API
+
+    networks:
+      - elk
+
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9600 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # Kibana - Visualization and exploration UI
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.0
+    container_name: kibana
+    hostname: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - SERVER_NAME=kibana
+      - SERVER_HOST=0.0.0.0
+      - ELASTICSEARCH_USERNAME=elastic
+      - ELASTICSEARCH_PASSWORD=changeme
+
+      # UI settings
+      - KIBANA_DEFAULTAPPID=discover
+      - TELEMETRY_ENABLED=false
+
+    ports:
+      - "5601:5601"
+
+    networks:
+      - elk
+
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:5601/api/status || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # Filebeat - Lightweight log shipper
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.11.0
+    container_name: filebeat
+    hostname: filebeat
+    user: root
+
+    volumes:
+      - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - filebeat_data:/usr/share/filebeat/data
+
+    command: filebeat -e -strict.perms=false
+
+    networks:
+      - elk
+
+    depends_on:
+      logstash:
+        condition: service_healthy
+
+volumes:
+  es_data:
+    driver: local
+  logstash_data:
+    driver: local
+  filebeat_data:
+    driver: local
+
+networks:
+  elk:
+    driver: bridge

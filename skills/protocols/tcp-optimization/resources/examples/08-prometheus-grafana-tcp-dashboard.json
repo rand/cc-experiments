@@ -1,0 +1,71 @@
+{
+  "dashboard": {
+    "title": "TCP Performance Monitoring",
+    "tags": ["tcp", "networking", "performance"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "title": "TCP Retransmission Rate",
+        "targets": [
+          {
+            "expr": "rate(node_netstat_Tcp_RetransSegs[5m]) / rate(node_netstat_Tcp_OutSegs[5m]) * 100",
+            "legendFormat": "{{instance}}"
+          }
+        ],
+        "yaxes": [
+          {
+            "label": "Retransmit Rate (%)",
+            "format": "percent"
+          }
+        ],
+        "thresholds": [
+          {"value": 1, "color": "orange"},
+          {"value": 5, "color": "red"}
+        ]
+      },
+      {
+        "title": "TCP Throughput",
+        "targets": [
+          {
+            "expr": "rate(node_network_transmit_bytes_total{device='eth0'}[5m])",
+            "legendFormat": "TX {{instance}}"
+          },
+          {
+            "expr": "rate(node_network_receive_bytes_total{device='eth0'}[5m])",
+            "legendFormat": "RX {{instance}}"
+          }
+        ],
+        "yaxes": [
+          {
+            "label": "Bytes/sec",
+            "format": "Bps"
+          }
+        ]
+      },
+      {
+        "title": "TCP Connections",
+        "targets": [
+          {
+            "expr": "node_netstat_Tcp_CurrEstab",
+            "legendFormat": "Established {{instance}}"
+          }
+        ]
+      },
+      {
+        "title": "TCP Connection Rate",
+        "targets": [
+          {
+            "expr": "rate(node_netstat_Tcp_ActiveOpens[5m]) + rate(node_netstat_Tcp_PassiveOpens[5m])",
+            "legendFormat": "{{instance}}"
+          }
+        ]
+      }
+    ]
+  },
+  "notes": [
+    "Requires node_exporter with default collectors enabled",
+    "Import into Grafana via UI or API",
+    "Adjust device name (eth0) to match your network interface",
+    "Set alerts on retransmission rate > 1%"
+  ]
+}

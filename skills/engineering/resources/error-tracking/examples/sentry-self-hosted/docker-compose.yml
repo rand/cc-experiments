@@ -1,0 +1,254 @@
+# Self-Hosted Sentry with Docker Compose
+# Based on official Sentry self-hosted repository
+#
+# Usage:
+#   1. Clone: git clone https://github.com/getsentry/self-hosted.git
+#   2. Run install script: ./install.sh
+#   3. Start services: docker-compose up -d
+#   4. Create superuser: docker-compose run --rm web createuser
+#
+# Requirements:
+#   - Docker 20.10+
+#   - Docker Compose 2.0+
+#   - 4GB RAM minimum (8GB recommended)
+#   - 20GB disk space
+
+version: '3.8'
+
+x-defaults: &defaults
+  restart: unless-stopped
+  build:
+    context: ./sentry
+    args:
+      - SENTRY_IMAGE
+  image: sentry-self-hosted-local
+  depends_on:
+    - redis
+    - postgres
+    - memcached
+    - smtp
+    - snuba-api
+    - snuba-consumer
+    - snuba-outcomes-consumer
+    - snuba-sessions-consumer
+    - snuba-transactions-consumer
+    - snuba-replacer
+    - symbolicator
+    - kafka
+  env_file: .env
+  environment:
+    SNUBA: 'http://snuba-api:1218'
+
+services:
+  # Core services
+  postgres:
+    image: postgres:14-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: sentry
+      POSTGRES_PASSWORD: sentry
+      POSTGRES_DB: sentry
+    volumes:
+      - sentry-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sentry"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - sentry-redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  memcached:
+    image: memcached:1.6-alpine
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "nc", "-z", "127.0.0.1", "11211"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # Message broker
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.2.0
+    restart: unless-stopped
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - sentry-zookeeper:/var/lib/zookeeper/data
+      - sentry-zookeeper-log:/var/lib/zookeeper/log
+
+  kafka:
+    image: confluentinc/cp-kafka:7.2.0
+    restart: unless-stopped
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_JMX_PORT: 9101
+      KAFKA_JMX_HOSTNAME: kafka
+    volumes:
+      - sentry-kafka:/var/lib/kafka/data
+
+  # ClickHouse for event storage
+  clickhouse:
+    image: clickhouse/clickhouse-server:22.8-alpine
+    restart: unless-stopped
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    volumes:
+      - sentry-clickhouse:/var/lib/clickhouse
+      - ./clickhouse/config.xml:/etc/clickhouse-server/config.d/sentry.xml
+    environment:
+      CLICKHOUSE_DB: default
+
+  # Snuba (event query service)
+  snuba-api:
+    <<: *defaults
+    image: getsentry/snuba:latest
+    command: api
+    depends_on:
+      - clickhouse
+      - kafka
+      - redis
+    ports:
+      - '1218:1218'
+
+  snuba-consumer:
+    <<: *defaults
+    image: getsentry/snuba:latest
+    command: consumer --storage events --auto-offset-reset=latest --max-batch-time-ms 750
+    depends_on:
+      - clickhouse
+      - kafka
+      - redis
+
+  snuba-outcomes-consumer:
+    <<: *defaults
+    image: getsentry/snuba:latest
+    command: consumer --storage outcomes_raw --auto-offset-reset=latest --max-batch-time-ms 750
+    depends_on:
+      - clickhouse
+      - kafka
+
+  snuba-sessions-consumer:
+    <<: *defaults
+    image: getsentry/snuba:latest
+    command: consumer --storage sessions_raw --auto-offset-reset=latest --max-batch-time-ms 750
+    depends_on:
+      - clickhouse
+      - kafka
+
+  snuba-transactions-consumer:
+    <<: *defaults
+    image: getsentry/snuba:latest
+    command: consumer --storage transactions --consumer-group transactions_group --auto-offset-reset=latest --max-batch-time-ms 750
+    depends_on:
+      - clickhouse
+      - kafka
+
+  snuba-replacer:
+    <<: *defaults
+    image: getsentry/snuba:latest
+    command: replacer --storage events --auto-offset-reset=latest --max-batch-size 3
+    depends_on:
+      - clickhouse
+      - kafka
+
+  # Symbolicator (symbol processing)
+  symbolicator:
+    image: getsentry/symbolicator:latest
+    restart: unless-stopped
+    volumes:
+      - sentry-symbolicator:/data
+    command: run -c /etc/symbolicator/config.yml
+
+  # Sentry services
+  web:
+    <<: *defaults
+    command: run web
+    ports:
+      - '9000:9000'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/_health/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  cron:
+    <<: *defaults
+    command: run cron
+
+  worker:
+    <<: *defaults
+    command: run worker
+
+  ingest-consumer:
+    <<: *defaults
+    command: run ingest-consumer --all-consumer-types
+
+  post-process-forwarder:
+    <<: *defaults
+    command: run post-process-forwarder --commit-batch-size 1
+
+  # Optional: Relay (for data ingestion)
+  relay:
+    image: getsentry/relay:latest
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./relay:/work/.relay
+    environment:
+      RELAY_MODE: managed
+      RELAY_UPSTREAM: http://web:9000
+
+  # Optional: SMTP server for email
+  smtp:
+    image: tianon/exim4
+    restart: unless-stopped
+    hostname: smtp
+
+  # Optional: Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - web
+
+volumes:
+  sentry-postgres:
+  sentry-redis:
+  sentry-zookeeper:
+  sentry-zookeeper-log:
+  sentry-kafka:
+  sentry-clickhouse:
+  sentry-symbolicator:
+
+networks:
+  default:
+    name: sentry

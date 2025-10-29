@@ -1,0 +1,254 @@
+{
+  "comment": "Sentry Alert Rules Configuration",
+  "description": "Production-ready alert rules for error tracking",
+  "rules": [
+    {
+      "name": "New Error in Production",
+      "description": "Alert when a new error appears in production",
+      "conditions": [
+        {
+          "id": "sentry.rules.conditions.first_seen_event.FirstSeenEventCondition",
+          "name": "A new issue is created"
+        }
+      ],
+      "filters": [
+        {
+          "id": "sentry.rules.filters.tagged_event.TaggedEventFilter",
+          "key": "environment",
+          "match": "eq",
+          "value": "production"
+        },
+        {
+          "id": "sentry.rules.filters.level.LevelFilter",
+          "match": "gte",
+          "level": "40",
+          "comment": "40 = error, 50 = fatal"
+        }
+      ],
+      "actions": [
+        {
+          "id": "sentry.integrations.slack.notify_action.SlackNotifyServiceAction",
+          "workspace": "YOUR_SLACK_WORKSPACE_ID",
+          "channel": "#alerts",
+          "tags": ""
+        }
+      ],
+      "actionMatch": "all",
+      "frequency": 30,
+      "environment": "production"
+    },
+    {
+      "name": "High Error Frequency",
+      "description": "Alert when error occurs more than 100 times in 1 hour",
+      "conditions": [
+        {
+          "id": "sentry.rules.conditions.event_frequency.EventFrequencyCondition",
+          "value": 100,
+          "interval": "1h",
+          "comparisonType": "count"
+        }
+      ],
+      "filters": [
+        {
+          "id": "sentry.rules.filters.tagged_event.TaggedEventFilter",
+          "key": "environment",
+          "match": "eq",
+          "value": "production"
+        }
+      ],
+      "actions": [
+        {
+          "id": "sentry.integrations.pagerduty.notify_action.PagerDutyNotifyServiceAction",
+          "service": "YOUR_PAGERDUTY_SERVICE_KEY",
+          "account": "YOUR_PAGERDUTY_ACCOUNT"
+        },
+        {
+          "id": "sentry.integrations.slack.notify_action.SlackNotifyServiceAction",
+          "workspace": "YOUR_SLACK_WORKSPACE_ID",
+          "channel": "#incidents"
+        }
+      ],
+      "actionMatch": "all",
+      "frequency": 30,
+      "environment": "production"
+    },
+    {
+      "name": "High User Impact",
+      "description": "Alert when error affects more than 50 unique users in 1 hour",
+      "conditions": [
+        {
+          "id": "sentry.rules.conditions.event_frequency.EventUniqueUserFrequencyCondition",
+          "value": 50,
+          "interval": "1h",
+          "comparisonType": "count"
+        }
+      ],
+      "filters": [
+        {
+          "id": "sentry.rules.filters.tagged_event.TaggedEventFilter",
+          "key": "environment",
+          "match": "eq",
+          "value": "production"
+        }
+      ],
+      "actions": [
+        {
+          "id": "sentry.mail.actions.NotifyEmailAction",
+          "targetType": "Team",
+          "targetIdentifier": "engineering"
+        }
+      ],
+      "actionMatch": "all",
+      "frequency": 60,
+      "environment": "production"
+    },
+    {
+      "name": "Regression Detected",
+      "description": "Alert when a previously resolved error reappears",
+      "conditions": [
+        {
+          "id": "sentry.rules.conditions.regression_event.RegressionEventCondition",
+          "name": "The issue changes state from resolved to unresolved"
+        }
+      ],
+      "filters": [
+        {
+          "id": "sentry.rules.filters.tagged_event.TaggedEventFilter",
+          "key": "environment",
+          "match": "eq",
+          "value": "production"
+        }
+      ],
+      "actions": [
+        {
+          "id": "sentry.integrations.slack.notify_action.SlackNotifyServiceAction",
+          "workspace": "YOUR_SLACK_WORKSPACE_ID",
+          "channel": "#incidents",
+          "tags": "regression"
+        },
+        {
+          "id": "sentry.mail.actions.NotifyEmailAction",
+          "targetType": "User",
+          "targetIdentifier": "commit_author",
+          "comment": "Notify the developer who made the change"
+        }
+      ],
+      "actionMatch": "all",
+      "frequency": 5,
+      "environment": "production"
+    },
+    {
+      "name": "Critical Error Rate Spike",
+      "description": "Alert when error rate increases by 200% compared to previous hour",
+      "conditions": [
+        {
+          "id": "sentry.rules.conditions.event_frequency.EventFrequencyPercentCondition",
+          "value": 200,
+          "interval": "1h",
+          "comparisonInterval": "1h",
+          "comparisonType": "percent"
+        }
+      ],
+      "filters": [
+        {
+          "id": "sentry.rules.filters.level.LevelFilter",
+          "match": "gte",
+          "level": "40"
+        }
+      ],
+      "actions": [
+        {
+          "id": "sentry.integrations.pagerduty.notify_action.PagerDutyNotifyServiceAction",
+          "service": "YOUR_PAGERDUTY_SERVICE_KEY"
+        }
+      ],
+      "actionMatch": "all",
+      "frequency": 30
+    },
+    {
+      "name": "Payment Errors",
+      "description": "Immediately alert on any payment-related errors",
+      "conditions": [
+        {
+          "id": "sentry.rules.conditions.every_event.EveryEventCondition"
+        }
+      ],
+      "filters": [
+        {
+          "id": "sentry.rules.filters.tagged_event.TaggedEventFilter",
+          "key": "transaction",
+          "match": "co",
+          "value": "payment"
+        },
+        {
+          "id": "sentry.rules.filters.tagged_event.TaggedEventFilter",
+          "key": "environment",
+          "match": "eq",
+          "value": "production"
+        }
+      ],
+      "actions": [
+        {
+          "id": "sentry.integrations.pagerduty.notify_action.PagerDutyNotifyServiceAction",
+          "service": "YOUR_PAGERDUTY_PAYMENT_SERVICE_KEY"
+        },
+        {
+          "id": "sentry.integrations.slack.notify_action.SlackNotifyServiceAction",
+          "workspace": "YOUR_SLACK_WORKSPACE_ID",
+          "channel": "#payment-team"
+        }
+      ],
+      "actionMatch": "all",
+      "frequency": 5,
+      "environment": "production"
+    },
+    {
+      "name": "Staging Environment Errors",
+      "description": "Low-priority notification for staging errors",
+      "conditions": [
+        {
+          "id": "sentry.rules.conditions.first_seen_event.FirstSeenEventCondition"
+        }
+      ],
+      "filters": [
+        {
+          "id": "sentry.rules.filters.tagged_event.TaggedEventFilter",
+          "key": "environment",
+          "match": "eq",
+          "value": "staging"
+        }
+      ],
+      "actions": [
+        {
+          "id": "sentry.integrations.slack.notify_action.SlackNotifyServiceAction",
+          "workspace": "YOUR_SLACK_WORKSPACE_ID",
+          "channel": "#staging-alerts"
+        }
+      ],
+      "actionMatch": "all",
+      "frequency": 1440,
+      "comment": "1440 minutes = once per day",
+      "environment": "staging"
+    }
+  ],
+  "best_practices": {
+    "severity_levels": {
+      "critical": "Page immediately (PagerDuty)",
+      "high": "Notify team in Slack immediately",
+      "medium": "Create ticket, notify in daily digest",
+      "low": "Log only, review in weekly triage"
+    },
+    "frequency_tuning": {
+      "low_traffic": "10-50 errors/hour",
+      "medium_traffic": "50-100 errors/hour",
+      "high_traffic": "100-500 errors/hour"
+    },
+    "alert_fatigue_prevention": [
+      "Group similar alerts (use actionMatch: all)",
+      "Set appropriate frequency limits",
+      "Use different channels for different severities",
+      "Ignore expected/non-actionable errors",
+      "Regularly review and adjust thresholds"
+    ]
+  }
+}

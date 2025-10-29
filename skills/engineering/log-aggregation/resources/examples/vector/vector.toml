@@ -1,0 +1,273 @@
+# Vector - High-Performance Log Pipeline Configuration
+# Processes logs from Docker and Kubernetes, transforms them, and sends to multiple destinations
+#
+# Usage:
+#   vector --config vector.toml
+#
+# Features:
+#   - JSON parsing and enrichment
+#   - PII redaction
+#   - Sampling for cost reduction
+#   - Multiple outputs (Elasticsearch, Loki, S3)
+
+# Data directory for buffers
+data_dir = "/var/lib/vector"
+
+# ============================================================================
+# SOURCES: Where data comes from
+# ============================================================================
+
+# Docker container logs
+[sources.docker_logs]
+type = "docker_logs"
+
+# Kubernetes pod logs
+[sources.kubernetes_logs]
+type = "kubernetes_logs"
+
+# Syslog input
+[sources.syslog]
+type = "syslog"
+address = "0.0.0.0:514"
+mode = "tcp"
+
+# HTTP input for applications
+[sources.http_input]
+type = "http"
+address = "0.0.0.0:8080"
+encoding = "json"
+
+# ============================================================================
+# TRANSFORMS: Process and enrich data
+# ============================================================================
+
+# Parse JSON logs
+[transforms.parse_json]
+type = "remap"
+inputs = ["docker_logs", "kubernetes_logs", "http_input"]
+source = '''
+  # Try to parse as JSON
+  parsed, err = parse_json(.message)
+  if err == null {
+    . = merge(., parsed)
+  }
+
+  # Ensure timestamp is parsed
+  if exists(.timestamp) {
+    .timestamp = to_timestamp!(.timestamp)
+  } else {
+    .timestamp = now()
+  }
+
+  # Normalize log level
+  if exists(.level) {
+    .level = upcase!(.level)
+  }
+'''
+
+# Add host and environment metadata
+[transforms.add_metadata]
+type = "remap"
+inputs = ["parse_json"]
+source = '''
+  .host = get_hostname!()
+  .environment = get_env_var!("ENVIRONMENT") ?? "unknown"
+  .region = get_env_var!("AWS_REGION") ?? "unknown"
+  .pipeline_version = "1.0"
+'''
+
+# Filter debug logs in production
+[transforms.filter_debug]
+type = "filter"
+inputs = ["add_metadata"]
+condition = '''
+  .level != "DEBUG" || .environment != "production"
+'''
+
+# Sample INFO logs (keep 10%, preserve all errors/warnings)
+[transforms.sample_info]
+type = "sample"
+inputs = ["filter_debug"]
+rate = 10
+key_field = "level"
+exclude = ["ERROR", "WARN", "FATAL"]
+
+# Redact PII (email, credit cards, SSN)
+[transforms.redact_pii]
+type = "remap"
+inputs = ["sample_info"]
+source = '''
+  # Redact email addresses
+  .message = replace(.message, r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', "[EMAIL]") ?? .message
+
+  # Redact credit card numbers
+  .message = replace(.message, r'\b\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}\b', "[CC]") ?? .message
+
+  # Redact SSN
+  .message = replace(.message, r'\b\d{3}-\d{2}-\d{4}\b', "[SSN]") ?? .message
+
+  # Redact phone numbers
+  .message = replace(.message, r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b', "[PHONE]") ?? .message
+
+  # Remove sensitive fields
+  del(.password)
+  del(.api_key)
+  del(.secret)
+'''
+
+# Enrich with GeoIP (if IP field exists)
+[transforms.geoip]
+type = "remap"
+inputs = ["redact_pii"]
+source = '''
+  if exists(.client_ip) {
+    .geoip = get_enrichment_table_record!("geoip", {
+      "ip": .client_ip
+    })
+  }
+'''
+
+# Calculate metrics from logs
+[transforms.log_to_metrics]
+type = "log_to_metric"
+inputs = ["redact_pii"]
+
+[[transforms.log_to_metrics.metrics]]
+type = "counter"
+field = "level"
+name = "log_lines_total"
+namespace = "app"
+tags.level = "{{level}}"
+tags.service = "{{service}}"
+tags.environment = "{{environment}}"
+
+[[transforms.log_to_metrics.metrics]]
+type = "histogram"
+field = "duration_ms"
+name = "request_duration_seconds"
+namespace = "app"
+tags.service = "{{service}}"
+tags.endpoint = "{{endpoint}}"
+
+# Route logs by severity
+[transforms.route_by_severity]
+type = "route"
+inputs = ["redact_pii"]
+
+route.errors = '.level == "ERROR" || .level == "FATAL"'
+route.warnings = '.level == "WARN"'
+route.info = 'true'  # Catch-all
+
+# ============================================================================
+# SINKS: Where data goes
+# ============================================================================
+
+# Primary: Elasticsearch (hot storage, 7 days)
+[sinks.elasticsearch]
+type = "elasticsearch"
+inputs = ["route_by_severity.info", "route_by_severity.warnings", "route_by_severity.errors"]
+endpoint = "http://elasticsearch:9200"
+mode = "bulk"
+index = "logs-%Y.%m.%d"
+compression = "gzip"
+
+[sinks.elasticsearch.buffer]
+type = "disk"
+max_size = 268435488  # 256 MB
+when_full = "block"
+
+[sinks.elasticsearch.encoding]
+codec = "json"
+
+[sinks.elasticsearch.request]
+timeout_secs = 60
+retry_attempts = 5
+
+# Loki (alternative/additional destination)
+[sinks.loki]
+type = "loki"
+inputs = ["route_by_severity.info", "route_by_severity.warnings"]
+endpoint = "http://loki:3100"
+compression = "gzip"
+
+[sinks.loki.encoding]
+codec = "json"
+
+[sinks.loki.labels]
+service = "{{ service }}"
+environment = "{{ environment }}"
+level = "{{ level }}"
+host = "{{ host }}"
+
+# S3 archive (cold storage, all logs)
+[sinks.s3_archive]
+type = "aws_s3"
+inputs = ["route_by_severity.*"]
+bucket = "log-archive"
+region = "us-east-1"
+compression = "gzip"
+key_prefix = "logs/year=%Y/month=%m/day=%d/hour=%H/"
+filename_time_format = "%s"
+
+[sinks.s3_archive.encoding]
+codec = "json"
+
+[sinks.s3_archive.buffer]
+type = "disk"
+max_size = 1073741824  # 1 GB
+when_full = "block"
+
+# Critical errors to PagerDuty
+[sinks.pagerduty_errors]
+type = "http"
+inputs = ["route_by_severity.errors"]
+uri = "https://events.pagerduty.com/v2/enqueue"
+method = "post"
+
+[sinks.pagerduty_errors.encoding]
+codec = "json"
+
+[sinks.pagerduty_errors.request]
+headers.Content-Type = "application/json"
+headers.Authorization = "Token token=${PAGERDUTY_TOKEN}"
+
+# Prometheus metrics exporter
+[sinks.prometheus_metrics]
+type = "prometheus_exporter"
+inputs = ["log_to_metrics"]
+address = "0.0.0.0:9090"
+default_namespace = "vector"
+
+# Console output for debugging
+[sinks.console_debug]
+type = "console"
+inputs = ["route_by_severity.errors"]
+target = "stderr"
+
+[sinks.console_debug.encoding]
+codec = "json"
+
+# ============================================================================
+# API: Monitoring and health checks
+# ============================================================================
+
+[api]
+enabled = true
+address = "0.0.0.0:8686"
+playground = true
+
+# ============================================================================
+# CONFIGURATION VALIDATION
+# ============================================================================
+
+# Healthcheck
+[sources.internal_metrics]
+type = "internal_metrics"
+
+[sinks.internal_metrics_console]
+type = "console"
+inputs = ["internal_metrics"]
+target = "stdout"
+
+[sinks.internal_metrics_console.encoding]
+codec = "json"
