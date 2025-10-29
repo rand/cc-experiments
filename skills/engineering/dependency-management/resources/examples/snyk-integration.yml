@@ -1,0 +1,228 @@
+# GitHub Actions workflow for Snyk security scanning
+# Place in: .github/workflows/snyk-security.yml
+
+name: Snyk Security Scan
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Run weekly on Monday at 8 AM UTC
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  snyk-test:
+    name: Snyk Test
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Snyk test
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high --fail-on=upgradable
+
+      - name: Run Snyk test with JSON output
+        run: |
+          npx snyk test --json > snyk-results.json || true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Parse Snyk results
+        id: parse-snyk
+        run: |
+          # Check if results file exists and is valid JSON
+          if [ -f snyk-results.json ]; then
+            CRITICAL=$(cat snyk-results.json | jq '[.vulnerabilities[] | select(.severity == "critical")] | length')
+            HIGH=$(cat snyk-results.json | jq '[.vulnerabilities[] | select(.severity == "high")] | length')
+            MEDIUM=$(cat snyk-results.json | jq '[.vulnerabilities[] | select(.severity == "medium")] | length')
+            LOW=$(cat snyk-results.json | jq '[.vulnerabilities[] | select(.severity == "low")] | length')
+
+            echo "critical=$CRITICAL" >> $GITHUB_OUTPUT
+            echo "high=$HIGH" >> $GITHUB_OUTPUT
+            echo "medium=$MEDIUM" >> $GITHUB_OUTPUT
+            echo "low=$LOW" >> $GITHUB_OUTPUT
+
+            TOTAL=$((CRITICAL + HIGH + MEDIUM + LOW))
+            echo "total=$TOTAL" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Upload Snyk results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: snyk.sarif
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: snyk-results
+          path: |
+            snyk-results.json
+            snyk.sarif
+          retention-days: 90
+
+  snyk-monitor:
+    name: Snyk Monitor
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Monitor with Snyk
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: monitor
+          args: --project-name=${{ github.repository }}
+
+  snyk-license-check:
+    name: Snyk License Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check licenses
+        run: |
+          npx snyk test --severity-threshold=medium --json > license-results.json || true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Generate license report
+        run: |
+          cat << EOF > license-report.md
+          # License Compliance Report
+
+          **Generated**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+
+          ## License Summary
+
+          \`\`\`
+          $(npx license-checker --summary)
+          \`\`\`
+
+          ## Detailed License Information
+
+          \`\`\`json
+          $(npx license-checker --json)
+          \`\`\`
+          EOF
+
+      - name: Upload license report
+        uses: actions/upload-artifact@v4
+        with:
+          name: license-report
+          path: license-report.md
+          retention-days: 30
+
+  snyk-pr-check:
+    name: Snyk PR Check
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Snyk on PR
+        run: |
+          npx snyk test --severity-threshold=medium || EXIT_CODE=$?
+
+          if [ "$EXIT_CODE" != "0" ]; then
+            echo "Vulnerabilities found. Creating PR comment..."
+            npx snyk test --severity-threshold=medium --json > pr-results.json
+          fi
+
+          exit ${EXIT_CODE:-0}
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        continue-on-error: true
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request' && failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            let comment = '## 🔒 Snyk Security Scan\n\n';
+
+            if (fs.existsSync('pr-results.json')) {
+              const results = JSON.parse(fs.readFileSync('pr-results.json', 'utf8'));
+              const vulns = results.vulnerabilities || [];
+
+              const critical = vulns.filter(v => v.severity === 'critical').length;
+              const high = vulns.filter(v => v.severity === 'high').length;
+              const medium = vulns.filter(v => v.severity === 'medium').length;
+
+              comment += `**Vulnerabilities Found**: ${vulns.length}\n\n`;
+              comment += `| Severity | Count |\n`;
+              comment += `|----------|-------|\n`;
+              comment += `| Critical | ${critical} |\n`;
+              comment += `| High     | ${high} |\n`;
+              comment += `| Medium   | ${medium} |\n\n`;
+              comment += `Run \`snyk test\` locally for detailed information.\n`;
+            } else {
+              comment += '⚠️ Security vulnerabilities detected. Please review the workflow logs.\n';
+            }
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });

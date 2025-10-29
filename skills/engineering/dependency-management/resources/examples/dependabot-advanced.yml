@@ -1,0 +1,235 @@
+# Advanced Dependabot configuration for GitHub
+# Place in: .github/dependabot.yml
+
+version: 2
+updates:
+  # JavaScript/Node.js dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
+
+    # Limit number of open PRs
+    open-pull-requests-limit: 10
+
+    # Reviewers and assignees
+    reviewers:
+      - "platform-team"
+      - "security-team"
+    assignees:
+      - "tech-lead"
+
+    # Labels for categorization
+    labels:
+      - "dependencies"
+      - "npm"
+      - "automated"
+
+    # Commit message preferences
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+
+    # Version update strategy
+    versioning-strategy: auto
+
+    # Group updates together
+    groups:
+      # Group all development dependencies
+      development-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+
+      # Group React ecosystem updates
+      react-ecosystem:
+        patterns:
+          - "react*"
+          - "@types/react*"
+        update-types:
+          - "minor"
+          - "patch"
+
+      # Group testing libraries
+      testing-libraries:
+        patterns:
+          - "jest*"
+          - "@testing-library/*"
+          - "vitest*"
+        update-types:
+          - "minor"
+          - "patch"
+
+    # Ignore specific dependencies
+    ignore:
+      # Ignore major version updates for stable packages
+      - dependency-name: "webpack"
+        update-types: ["version-update:semver-major"]
+
+      # Ignore specific versions with known issues
+      - dependency-name: "axios"
+        versions: ["1.3.0", "1.3.1"]
+
+      # Ignore deprecated packages we're planning to migrate
+      - dependency-name: "request"
+
+    # Allow specific update types
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "production"
+
+    # Rebase strategy
+    rebase-strategy: "auto"
+
+    # Pull request branch name prefix
+    pull-request-branch-name:
+      separator: "/"
+
+  # Python dependencies
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "backend-team"
+    labels:
+      - "dependencies"
+      - "python"
+    groups:
+      python-dev-tools:
+        patterns:
+          - "pytest*"
+          - "black"
+          - "mypy"
+          - "ruff"
+    ignore:
+      - dependency-name: "django"
+        update-types: ["version-update:semver-major"]
+
+  # Docker base images
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "infrastructure-team"
+    labels:
+      - "dependencies"
+      - "docker"
+      - "security"
+    # Only update to stable tags
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "devops-team"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "ci-cd"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  # Terraform modules
+  - package-ecosystem: "terraform"
+    directory: "/terraform"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "infrastructure-team"
+    labels:
+      - "dependencies"
+      - "terraform"
+
+  # Frontend application (separate package.json)
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "daily"  # More frequent for active development
+    open-pull-requests-limit: 15
+    reviewers:
+      - "frontend-team"
+    labels:
+      - "dependencies"
+      - "frontend"
+    groups:
+      ui-libraries:
+        patterns:
+          - "@mui/*"
+          - "tailwindcss"
+          - "postcss*"
+      state-management:
+        patterns:
+          - "redux*"
+          - "@reduxjs/*"
+          - "zustand"
+
+  # Backend API (separate package.json)
+  - package-ecosystem: "npm"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "backend-team"
+    labels:
+      - "dependencies"
+      - "backend"
+    groups:
+      express-ecosystem:
+        patterns:
+          - "express*"
+          - "@types/express*"
+      database-clients:
+        patterns:
+          - "pg"
+          - "mongodb"
+          - "redis"
+          - "prisma"
+
+  # Rust dependencies
+  - package-ecosystem: "cargo"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "rust-team"
+    labels:
+      - "dependencies"
+      - "rust"
+    groups:
+      tokio-ecosystem:
+        patterns:
+          - "tokio*"
+      serde-ecosystem:
+        patterns:
+          - "serde*"
+
+# Notes:
+# - Security updates are always created regardless of schedule
+# - Dependabot respects semantic versioning
+# - Pull requests are automatically rebased when needed
+# - Consider setting up auto-merge for low-risk updates

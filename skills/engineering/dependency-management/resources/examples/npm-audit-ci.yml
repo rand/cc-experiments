@@ -1,0 +1,188 @@
+# GitHub Actions workflow for npm audit
+# Place in: .github/workflows/npm-audit.yml
+
+name: Security Audit
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    # Run daily at 9 AM UTC
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  audit:
+    name: npm audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run npm audit
+        id: npm-audit
+        run: |
+          # Run audit and save results
+          npm audit --audit-level=moderate --json > audit-results.json || true
+
+          # Check for critical/high vulnerabilities
+          npm audit --audit-level=high
+        continue-on-error: true
+
+      - name: Parse audit results
+        id: parse-audit
+        run: |
+          # Extract vulnerability counts
+          CRITICAL=$(cat audit-results.json | jq '.metadata.vulnerabilities.critical // 0')
+          HIGH=$(cat audit-results.json | jq '.metadata.vulnerabilities.high // 0')
+          MODERATE=$(cat audit-results.json | jq '.metadata.vulnerabilities.moderate // 0')
+          LOW=$(cat audit-results.json | jq '.metadata.vulnerabilities.low // 0')
+
+          echo "critical=$CRITICAL" >> $GITHUB_OUTPUT
+          echo "high=$HIGH" >> $GITHUB_OUTPUT
+          echo "moderate=$MODERATE" >> $GITHUB_OUTPUT
+          echo "low=$LOW" >> $GITHUB_OUTPUT
+
+          TOTAL=$((CRITICAL + HIGH + MODERATE + LOW))
+          echo "total=$TOTAL" >> $GITHUB_OUTPUT
+
+      - name: Create audit report
+        run: |
+          cat << EOF > audit-report.md
+          # Security Audit Report
+
+          **Generated**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          **Branch**: ${{ github.ref_name }}
+          **Commit**: ${{ github.sha }}
+
+          ## Vulnerability Summary
+
+          | Severity | Count |
+          |----------|-------|
+          | Critical | ${{ steps.parse-audit.outputs.critical }} |
+          | High     | ${{ steps.parse-audit.outputs.high }} |
+          | Moderate | ${{ steps.parse-audit.outputs.moderate }} |
+          | Low      | ${{ steps.parse-audit.outputs.low }} |
+          | **Total** | **${{ steps.parse-audit.outputs.total }}** |
+
+          ## Recommendations
+
+          - Review each vulnerability for exploitability in your context
+          - Run \`npm audit fix\` to automatically fix compatible updates
+          - Run \`npm audit fix --force\` for potentially breaking updates
+          - Check for manual patches or workarounds
+
+          ## Detailed Results
+
+          \`\`\`
+          $(npm audit --audit-level=moderate)
+          \`\`\`
+          EOF
+
+      - name: Upload audit results
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-results
+          path: |
+            audit-results.json
+            audit-report.md
+          retention-days: 30
+
+      - name: Comment PR with audit results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('audit-report.md', 'utf8');
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: report
+            });
+
+      - name: Fail on critical/high vulnerabilities
+        if: steps.parse-audit.outputs.critical > 0 || steps.parse-audit.outputs.high > 0
+        run: |
+          echo "❌ Found ${{ steps.parse-audit.outputs.critical }} critical and ${{ steps.parse-audit.outputs.high }} high severity vulnerabilities"
+          exit 1
+
+      - name: Notify on Slack (optional)
+        if: failure() && github.event_name == 'schedule'
+        uses: slackapi/slack-github-action@v1
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          payload: |
+            {
+              "text": "Security vulnerabilities found in ${{ github.repository }}",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "⚠️ *Security Audit Failed*\n\nCritical: ${{ steps.parse-audit.outputs.critical }}\nHigh: ${{ steps.parse-audit.outputs.high }}\n\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Details>"
+                  }
+                }
+              ]
+            }
+
+  # Auto-fix vulnerabilities
+  auto-fix:
+    name: Auto-fix vulnerabilities
+    runs-on: ubuntu-latest
+    needs: audit
+    if: github.event_name == 'schedule' && needs.audit.result == 'failure'
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run npm audit fix
+        run: npm audit fix
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: fix security vulnerabilities"
+          branch: automated/security-fixes
+          title: "🔒 Security: Auto-fix vulnerabilities"
+          body: |
+            This PR was automatically generated to fix security vulnerabilities.
+
+            Changes made by running `npm audit fix`.
+
+            Please review the changes carefully before merging.
+          labels: |
+            security
+            dependencies
+            automated

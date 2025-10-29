@@ -1,0 +1,216 @@
+# GitHub Actions workflow for license compliance checking
+# Place in: .github/workflows/license-compliance.yml
+
+name: License Compliance
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Run monthly on the 1st at 9 AM UTC
+    - cron: '0 9 1 * *'
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  check-licenses:
+    name: Check License Compliance
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install license checker
+        run: npm install -g license-checker
+
+      - name: Generate license summary
+        run: |
+          license-checker --summary > license-summary.txt
+          cat license-summary.txt
+
+      - name: Generate detailed license report
+        run: |
+          license-checker --json > licenses.json
+          license-checker --csv > licenses.csv
+          license-checker --markdown > licenses.md
+
+      - name: Check for forbidden licenses
+        id: check-forbidden
+        run: |
+          # Define forbidden licenses
+          FORBIDDEN_LICENSES="GPL-2.0 GPL-3.0 AGPL-3.0"
+
+          # Check for forbidden licenses
+          VIOLATIONS=""
+          for LICENSE in $FORBIDDEN_LICENSES; do
+            if license-checker --onlyAllow "$LICENSE" 2>&1 | grep -q "found"; then
+              VIOLATIONS="$VIOLATIONS\n- $LICENSE"
+            fi
+          done
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "has_violations=true" >> $GITHUB_OUTPUT
+            echo "violations<<EOF" >> $GITHUB_OUTPUT
+            echo -e "$VIOLATIONS" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "has_violations=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check for licenses requiring review
+        id: check-review
+        run: |
+          # Licenses that require legal review
+          REVIEW_LICENSES="LGPL-2.1 LGPL-3.0 MPL-2.0 EPL-1.0"
+
+          NEEDS_REVIEW=""
+          for LICENSE in $REVIEW_LICENSES; do
+            COUNT=$(license-checker --json | jq "[.[] | select(.licenses | contains(\"$LICENSE\"))] | length")
+            if [ "$COUNT" -gt 0 ]; then
+              NEEDS_REVIEW="$NEEDS_REVIEW\n- $LICENSE: $COUNT packages"
+            fi
+          done
+
+          if [ -n "$NEEDS_REVIEW" ]; then
+            echo "needs_review=true" >> $GITHUB_OUTPUT
+            echo "review_list<<EOF" >> $GITHUB_OUTPUT
+            echo -e "$NEEDS_REVIEW" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "needs_review=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check for unknown licenses
+        id: check-unknown
+        run: |
+          UNKNOWN_COUNT=$(license-checker --json | jq '[.[] | select(.licenses == "UNKNOWN")] | length')
+
+          echo "unknown_count=$UNKNOWN_COUNT" >> $GITHUB_OUTPUT
+
+          if [ "$UNKNOWN_COUNT" -gt 0 ]; then
+            echo "has_unknown=true" >> $GITHUB_OUTPUT
+
+            # List packages with unknown licenses
+            UNKNOWN_PACKAGES=$(license-checker --json | jq -r '[.[] | select(.licenses == "UNKNOWN")] | .[].name')
+            echo "unknown_packages<<EOF" >> $GITHUB_OUTPUT
+            echo "$UNKNOWN_PACKAGES" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "has_unknown=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Generate license compliance report
+        run: |
+          cat << EOF > compliance-report.md
+          # License Compliance Report
+
+          **Generated**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          **Repository**: ${{ github.repository }}
+          **Branch**: ${{ github.ref_name }}
+
+          ## Summary
+
+          $(cat license-summary.txt)
+
+          ## Compliance Status
+
+          ### ✅ Allowed Licenses
+          - MIT
+          - Apache-2.0
+          - BSD-2-Clause
+          - BSD-3-Clause
+          - ISC
+
+          ### ⚠️ Licenses Requiring Review
+          $(if [ "${{ steps.check-review.outputs.needs_review }}" == "true" ]; then
+            echo "${{ steps.check-review.outputs.review_list }}"
+          else
+            echo "None found"
+          fi)
+
+          ### ❌ Forbidden Licenses
+          $(if [ "${{ steps.check-forbidden.outputs.has_violations }}" == "true" ]; then
+            echo "${{ steps.check-forbidden.outputs.violations }}"
+          else
+            echo "None found ✅"
+          fi)
+
+          ### 🔍 Unknown Licenses
+          $(if [ "${{ steps.check-unknown.outputs.has_unknown }}" == "true" ]; then
+            echo "Found ${{ steps.check-unknown.outputs.unknown_count }} packages with unknown licenses:"
+            echo "\`\`\`"
+            echo "${{ steps.check-unknown.outputs.unknown_packages }}"
+            echo "\`\`\`"
+          else
+            echo "None found ✅"
+          fi)
+
+          ## Detailed Report
+
+          See attached files:
+          - \`licenses.json\`: Full license data in JSON format
+          - \`licenses.csv\`: License data in CSV format
+          - \`licenses.md\`: License data in Markdown format
+
+          ## Next Steps
+
+          1. Review packages requiring legal approval
+          2. Replace or remove forbidden licenses
+          3. Investigate packages with unknown licenses
+          4. Update license documentation
+
+          EOF
+
+      - name: Upload license reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: license-reports
+          path: |
+            licenses.json
+            licenses.csv
+            licenses.md
+            compliance-report.md
+            license-summary.txt
+          retention-days: 90
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('compliance-report.md', 'utf8');
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: report
+            });
+
+      - name: Fail on violations
+        if: steps.check-forbidden.outputs.has_violations == 'true'
+        run: |
+          echo "❌ License compliance violations found!"
+          echo "${{ steps.check-forbidden.outputs.violations }}"
+          exit 1
+
+      - name: Warn on unknown licenses
+        if: steps.check-unknown.outputs.has_unknown == 'true'
+        run: |
+          echo "⚠️ Found ${{ steps.check-unknown.outputs.unknown_count }} packages with unknown licenses"
+          echo "${{ steps.check-unknown.outputs.unknown_packages }}"

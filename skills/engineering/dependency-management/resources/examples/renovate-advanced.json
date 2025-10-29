@@ -1,0 +1,232 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Advanced Renovate configuration for dependency management",
+
+  "extends": [
+    "config:base",
+    ":disableRateLimiting",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":separateMajorReleases"
+  ],
+
+  "timezone": "America/New_York",
+  "schedule": ["before 9am on Monday"],
+
+  "labels": ["dependencies", "automated"],
+  "assignees": ["@tech-lead"],
+  "reviewers": ["@platform-team"],
+
+  "prConcurrentLimit": 15,
+  "prCreation": "not-pending",
+  "prHourlyLimit": 5,
+
+  "commitMessagePrefix": "chore:",
+  "commitMessageAction": "update",
+  "commitMessageTopic": "{{depName}}",
+  "commitMessageExtra": "to {{newVersion}}",
+
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": ["security", "urgent"],
+    "assignees": ["@security-team"],
+    "schedule": ["at any time"],
+    "prPriority": 10
+  },
+
+  "packageRules": [
+    {
+      "description": "Auto-merge non-major updates for development dependencies",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash",
+      "platformAutomerge": true
+    },
+
+    {
+      "description": "Auto-merge patch updates for production dependencies",
+      "matchDepTypes": ["dependencies"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash"
+    },
+
+    {
+      "description": "Auto-merge type definition updates",
+      "matchPackagePatterns": ["^@types/"],
+      "automerge": true,
+      "automergeType": "pr"
+    },
+
+    {
+      "description": "Group React ecosystem updates",
+      "groupName": "React ecosystem",
+      "matchPackagePatterns": ["^react", "^@types/react"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "schedule": ["before 9am on Monday"]
+    },
+
+    {
+      "description": "Group Next.js ecosystem",
+      "groupName": "Next.js ecosystem",
+      "matchPackagePatterns": ["^next", "^@next/", "^@types/next"],
+      "matchUpdateTypes": ["minor", "patch"]
+    },
+
+    {
+      "description": "Group testing libraries",
+      "groupName": "Testing libraries",
+      "matchPackagePatterns": [
+        "^jest",
+        "^@testing-library/",
+        "^vitest",
+        "^@vitest/"
+      ]
+    },
+
+    {
+      "description": "Group linting tools",
+      "groupName": "Linting tools",
+      "matchPackagePatterns": [
+        "^eslint",
+        "^@typescript-eslint/",
+        "^prettier"
+      ]
+    },
+
+    {
+      "description": "Pin Docker digests",
+      "matchDatasources": ["docker"],
+      "pinDigests": true
+    },
+
+    {
+      "description": "Separate major updates for critical packages",
+      "matchPackageNames": [
+        "react",
+        "next",
+        "express",
+        "typescript"
+      ],
+      "matchUpdateTypes": ["major"],
+      "labels": ["major-update", "needs-review"],
+      "automerge": false
+    },
+
+    {
+      "description": "Disable updates for deprecated packages",
+      "matchPackageNames": ["request", "tslint"],
+      "enabled": false
+    },
+
+    {
+      "description": "Use specific schedule for database clients",
+      "matchPackagePatterns": ["^pg$", "^mongodb$", "^mysql2$"],
+      "schedule": ["before 9am on Tuesday"],
+      "automerge": false,
+      "labels": ["database", "needs-testing"]
+    },
+
+    {
+      "description": "Aggressive updates for build tools in development",
+      "matchPackagePatterns": ["^webpack", "^vite", "^rollup", "^esbuild"],
+      "matchBranches": ["develop", "staging"],
+      "schedule": ["at any time"],
+      "automerge": true
+    },
+
+    {
+      "description": "Pin exact versions for production",
+      "matchBranches": ["main", "production"],
+      "rangeStrategy": "pin"
+    }
+  ],
+
+  "regexManagers": [
+    {
+      "description": "Update Node.js version in Dockerfile",
+      "fileMatch": ["^Dockerfile$"],
+      "matchStrings": [
+        "FROM node:(?<currentValue>.*?)\\n"
+      ],
+      "depNameTemplate": "node",
+      "datasourceTemplate": "docker"
+    },
+    {
+      "description": "Update tool versions in scripts",
+      "fileMatch": ["\\.sh$"],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\n.*?_VERSION=\"(?<currentValue>.*?)\""
+      ]
+    }
+  ],
+
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update versions in custom files",
+      "fileMatch": ["^.tool-versions$"],
+      "matchStrings": [
+        "(?<depName>.*?) (?<currentValue>.*?)\\n"
+      ],
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
+    }
+  ],
+
+  "hostRules": [
+    {
+      "description": "Private npm registry authentication",
+      "matchHost": "npm.example.com",
+      "hostType": "npm",
+      "encrypted": {
+        "token": "encrypted-token-here"
+      }
+    },
+    {
+      "description": "GitHub personal access token",
+      "matchHost": "github.com",
+      "token": "{{ secrets.RENOVATE_TOKEN }}"
+    }
+  ],
+
+  "ignoreDeps": [
+    "aws-sdk"
+  ],
+
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    "**/vendor/**",
+    "**/examples/**",
+    "**/__tests__/__fixtures__/**"
+  ],
+
+  "enabledManagers": [
+    "npm",
+    "pip",
+    "cargo",
+    "dockerfile",
+    "docker-compose",
+    "github-actions",
+    "terraform"
+  ],
+
+  "docker": {
+    "major": {
+      "enabled": false
+    }
+  },
+
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 9am on the first day of the month"]
+  },
+
+  "prBodyTemplate": "{{{header}}}{{{table}}}{{{warnings}}}{{{notes}}}{{{changelogs}}}{{{configDescription}}}{{{footer}}}",
+
+  "prFooter": "This PR was generated by Renovate. Please review carefully before merging."
+}
