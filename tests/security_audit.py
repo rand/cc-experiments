@@ -85,7 +85,12 @@ class SecurityAuditor:
         self.injection_patterns = {
             r'\beval\s*\(': ('CRITICAL', 'eval() usage',
                           'Never use eval() with user input'),
-            r'\bexec\s*\(': ('HIGH', 'exec() usage',
+            # exec() in Python or require('child_process').exec() in JS/TS
+            # BUT NOT regex.exec() in JavaScript
+            r'(?:child_process|subprocess)\.exec\s*\(': ('HIGH', 'process exec() usage',
+                           'Avoid shell execution or strictly validate input'),
+            # Python's exec() builtin (not in comments or strings)
+            r'^\s*exec\s*\(': ('HIGH', 'Python exec() usage',
                            'Avoid exec() or strictly validate input'),
             r'shell\s*=\s*True': ('HIGH', 'shell=True in subprocess',
                                  'Use shell=False and pass command as list'),
