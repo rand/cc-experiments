@@ -204,6 +204,7 @@ def main():
         f for f in skill_files
         if f.name not in excluded
         and "_archive" not in str(f)
+        and ".work" not in str(f)
         and f.is_file()
     ]
 
