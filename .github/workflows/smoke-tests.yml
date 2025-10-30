@@ -62,7 +62,8 @@ jobs:
               "SECURITY.md", "README_SAFETY_VALIDATOR.md",
               "SAFETY_VALIDATOR_SUMMARY.md", "DSPY_INTEGRATION_STATUS.md",
               "DSPY_INTEGRATION_SUMMARY.md", "DSPY_INTEGRATION_COMPLETION.md",
-              "WAVE12_PHASE2_FINAL_STATUS.md", "STATUS.md"
+              "WAVE12_PHASE2_FINAL_STATUS.md", "STATUS.md",
+              "safety-checklist.md", "security-fixes-summary.md"
           }
 
           for skill_file in Path(".").rglob("*.md"):
