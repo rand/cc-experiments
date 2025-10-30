@@ -84,7 +84,8 @@ class SecurityAuditor:
 
         # Command injection patterns
         self.injection_patterns = {
-            r'\beval\s*\(': ('CRITICAL', 'eval() usage',
+            # eval() usage - but NOT redis_client.eval() or redisClient.eval() or redis.eval()
+            r'(?<!redis_client\.)\b(?<!redisClient\.)\b(?<!redis\.)\beval\s*\(': ('CRITICAL', 'eval() usage',
                           'Never use eval() with user input'),
             # exec() in Python or require('child_process').exec() in JS/TS
             # BUT NOT regex.exec() in JavaScript
