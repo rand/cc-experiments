@@ -1,0 +1,23 @@
+[package]
+name = "multi-step-reasoning"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["auto-initialize"] }
+anyhow = "1.0"
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+thiserror = "1.0"
+colored = "2.1"
+
+[[bin]]
+name = "multi-step-reasoning"
+path = "src/main.rs"
+
+[lib]
+name = "multi_step_reasoning"
+path = "src/lib.rs"
