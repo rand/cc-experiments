@@ -1,0 +1,59 @@
+[package]
+name = "complete-production-service"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Python interop
+pyo3 = { version = "0.22", features = ["auto-initialize"] }
+
+# Async runtime
+tokio = { version = "1.35", features = ["full"] }
+
+# HTTP server
+axum = "0.7"
+tower = "0.4"
+tower-http = { version = "0.5", features = ["trace", "cors", "compression", "timeout"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# Observability
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+prometheus = { version = "0.13", features = ["process"] }
+lazy_static = "1.4"
+
+# Caching
+redis = { version = "0.24", features = ["tokio-comp", "connection-manager"] }
+moka = { version = "0.12", features = ["future"] }
+
+# Circuit breaker
+failsafe = "1.2"
+
+# Configuration
+config = "0.14"
+envy = "0.4"
+
+# Statistics
+statrs = "0.17"
+
+# Time
+chrono = { version = "0.4", features = ["serde"] }
+
+# Utilities
+uuid = { version = "1.6", features = ["v4", "serde"] }
+parking_lot = "0.12"
+
+[lib]
+name = "complete_production_service"
+path = "src/lib.rs"
+
+[[bin]]
+name = "complete-production-service"
+path = "src/main.rs"

@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dspy-config
+  namespace: default
+  labels:
+    app: dspy-production-service
+data:
+  # Service configuration
+  service_name: "complete-production-service"
+  service_version: "0.1.0"
+
+  # Logging
+  log_level: "info"
+  log_format: "json"
+
+  # Redis
+  redis_url: "redis://redis:6379"
+
+  # Caching
+  memory_cache_size: "10000"
+  memory_cache_ttl_secs: "300"
+  redis_cache_ttl_secs: "3600"
+
+  # Circuit breaker
+  circuit_breaker_failure_threshold: "5"
+  circuit_breaker_success_threshold: "2"
+  circuit_breaker_timeout_secs: "60"
+
+  # A/B testing
+  ab_testing_enabled: "false"
+  default_variant: "baseline"
+
+  # Model configurations (JSON format)
+  models: |
+    {
+      "gpt-3.5-turbo": {
+        "name": "gpt-3.5-turbo",
+        "cost_per_1k_input_tokens": 0.0015,
+        "cost_per_1k_output_tokens": 0.002,
+        "max_retries": 3,
+        "request_timeout_secs": 30
+      },
+      "gpt-4": {
+        "name": "gpt-4",
+        "cost_per_1k_input_tokens": 0.03,
+        "cost_per_1k_output_tokens": 0.06,
+        "max_retries": 3,
+        "request_timeout_secs": 60
+      }
+    }

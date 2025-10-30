@@ -1,0 +1,21 @@
+{
+  "name": "production-model-comparison",
+  "variants": [
+    {
+      "name": "control",
+      "model_path": "models/production/v1.0.0",
+      "weight": 0.5
+    },
+    {
+      "name": "treatment",
+      "model_path": "models/production/v2.0.0-candidate",
+      "weight": 0.5
+    }
+  ],
+  "traffic_strategy": {
+    "type": "WeightedRandom"
+  },
+  "min_sample_size": 1000,
+  "confidence_level": 0.95,
+  "duration_hours": 24
+}

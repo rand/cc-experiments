@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dspy-production-service
+  namespace: default
+  labels:
+    app: dspy-production-service
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+    protocol: TCP
+  selector:
+    app: dspy-production-service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dspy-production-service-metrics
+  namespace: default
+  labels:
+    app: dspy-production-service
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8080"
+    prometheus.io/path: "/metrics"
+spec:
+  type: ClusterIP
+  ports:
+  - name: metrics
+    port: 8080
+    targetPort: http
+    protocol: TCP
+  selector:
+    app: dspy-production-service

@@ -1,0 +1,38 @@
+# Build artifacts
+target/
+*.log
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment
+.env
+.env.local
+
+# Documentation
+README.md
+docs/
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+
+# Kubernetes
+k8s/
+
+# Docker
+docker-compose.yml
+Dockerfile
+.dockerignore
+
+# Test artifacts
+*.test
+coverage/

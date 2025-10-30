@@ -1,0 +1,24 @@
+# Rust
+/target/
+Cargo.lock
+*.rs.bk
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+/logs/
+
+# Grafana
+grafana/data/
+
+# Prometheus
+prometheus/data/

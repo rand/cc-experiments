@@ -1,0 +1,126 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dspy-production-service
+  namespace: default
+  labels:
+    app: dspy-production-service
+    version: v1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dspy-production-service
+  template:
+    metadata:
+      labels:
+        app: dspy-production-service
+        version: v1
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+    spec:
+      containers:
+      - name: dspy-service
+        image: dspy-production-service:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        env:
+        - name: HOST
+          value: "0.0.0.0"
+        - name: PORT
+          value: "8080"
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: dspy-config
+              key: log_level
+        - name: LOG_FORMAT
+          value: "json"
+        - name: REDIS_URL
+          valueFrom:
+            configMapKeyRef:
+              name: dspy-config
+              key: redis_url
+        - name: SERVICE_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: dspy-config
+              key: service_name
+        - name: SERVICE_VERSION
+          valueFrom:
+            configMapKeyRef:
+              name: dspy-config
+              key: service_version
+        - name: MEMORY_CACHE_SIZE
+          valueFrom:
+            configMapKeyRef:
+              name: dspy-config
+              key: memory_cache_size
+        - name: MEMORY_CACHE_TTL_SECS
+          valueFrom:
+            configMapKeyRef:
+              name: dspy-config
+              key: memory_cache_ttl_secs
+        - name: REDIS_CACHE_TTL_SECS
+          valueFrom:
+            configMapKeyRef:
+              name: dspy-config
+              key: redis_cache_ttl_secs
+        - name: CIRCUIT_BREAKER_FAILURE_THRESHOLD
+          valueFrom:
+            configMapKeyRef:
+              name: dspy-config
+              key: circuit_breaker_failure_threshold
+        - name: CIRCUIT_BREAKER_SUCCESS_THRESHOLD
+          valueFrom:
+            configMapKeyRef:
+              name: dspy-config
+              key: circuit_breaker_success_threshold
+        - name: CIRCUIT_BREAKER_TIMEOUT_SECS
+          valueFrom:
+            configMapKeyRef:
+              name: dspy-config
+              key: circuit_breaker_timeout_secs
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: dspy-secrets
+              key: openai_api_key
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dspy-secrets
+  namespace: default
+type: Opaque
+stringData:
+  openai_api_key: "your-openai-api-key-here"

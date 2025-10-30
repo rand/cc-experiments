@@ -1,0 +1,71 @@
+# Prometheus configuration for DSPy metrics demo
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'dspy-demo'
+    environment: 'development'
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          # - alertmanager:9093
+
+# Load rules once and periodically evaluate them
+rule_files:
+  # - "alerts.yml"
+
+# Scrape configurations
+scrape_configs:
+  # Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # DSPy demo service
+  - job_name: 'dspy-demo'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['host.docker.internal:3000']
+        labels:
+          service: 'dspy-demo'
+          env: 'development'
+
+  # Alternative configuration for multiple services
+  # - job_name: 'dspy-services'
+  #   scrape_interval: 10s
+  #   static_configs:
+  #     - targets:
+  #       - 'dspy-qa:3000'
+  #       - 'dspy-summarization:3000'
+  #       - 'dspy-classification:3000'
+  #       labels:
+  #         cluster: 'production'
+
+  # Service discovery using file_sd
+  # - job_name: 'dspy-dynamic'
+  #   file_sd_configs:
+  #     - files:
+  #       - 'targets.json'
+  #       refresh_interval: 30s
+
+  # Kubernetes service discovery
+  # - job_name: 'kubernetes-pods'
+  #   kubernetes_sd_configs:
+  #     - role: pod
+  #   relabel_configs:
+  #     - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+  #       action: keep
+  #       regex: true
+  #     - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+  #       action: replace
+  #       target_label: __metrics_path__
+  #       regex: (.+)
+  #     - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+  #       action: replace
+  #       regex: ([^:]+)(?::\d+)?;(\d+)
+  #       replacement: $1:$2
+  #       target_label: __address__

@@ -1,0 +1,132 @@
+groups:
+  - name: dspy_alerts
+    interval: 30s
+    rules:
+      # High error rate alert
+      - alert: DSpyHighErrorRate
+        expr: |
+          rate(dspy_errors_total[5m]) / rate(dspy_predictions_total[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          component: dspy
+        annotations:
+          summary: "High error rate detected in DSPy service"
+          description: "Error rate is {{ $value | humanizePercentage }} (threshold: 5%)"
+          dashboard: "http://localhost:3001/d/dspy-overview"
+
+      # Critical error rate alert
+      - alert: DSpyCriticalErrorRate
+        expr: |
+          rate(dspy_errors_total[5m]) / rate(dspy_predictions_total[5m]) > 0.20
+        for: 2m
+        labels:
+          severity: critical
+          component: dspy
+        annotations:
+          summary: "Critical error rate in DSPy service"
+          description: "Error rate is {{ $value | humanizePercentage }} (threshold: 20%)"
+          dashboard: "http://localhost:3001/d/dspy-overview"
+
+      # High latency alert
+      - alert: DSpyHighLatency
+        expr: |
+          histogram_quantile(0.95, rate(dspy_prediction_duration_seconds_bucket[5m])) > 1.0
+        for: 5m
+        labels:
+          severity: warning
+          component: dspy
+        annotations:
+          summary: "High prediction latency detected"
+          description: "P95 latency is {{ $value }}s (threshold: 1.0s)"
+          dashboard: "http://localhost:3001/d/dspy-overview"
+
+      # Very high latency alert
+      - alert: DSpyVeryHighLatency
+        expr: |
+          histogram_quantile(0.95, rate(dspy_prediction_duration_seconds_bucket[5m])) > 5.0
+        for: 2m
+        labels:
+          severity: critical
+          component: dspy
+        annotations:
+          summary: "Very high prediction latency"
+          description: "P95 latency is {{ $value }}s (threshold: 5.0s)"
+          dashboard: "http://localhost:3001/d/dspy-overview"
+
+      # Low cache hit rate
+      - alert: DSpyLowCacheHitRate
+        expr: |
+          rate(dspy_cache_hits_total[5m]) /
+          (rate(dspy_cache_hits_total[5m]) + rate(dspy_cache_misses_total[5m])) < 0.5
+        for: 10m
+        labels:
+          severity: info
+          component: dspy
+        annotations:
+          summary: "Low cache hit rate"
+          description: "Cache hit rate is {{ $value | humanizePercentage }} (threshold: 50%)"
+          dashboard: "http://localhost:3001/d/dspy-overview"
+
+      # High active predictions (potential overload)
+      - alert: DSpyHighActivePredictions
+        expr: dspy_active_predictions > 100
+        for: 5m
+        labels:
+          severity: warning
+          component: dspy
+        annotations:
+          summary: "High number of active predictions"
+          description: "{{ $value }} active predictions (threshold: 100)"
+          dashboard: "http://localhost:3001/d/dspy-overview"
+
+      # Service down
+      - alert: DSpyServiceDown
+        expr: up{job="dspy-demo"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: dspy
+        annotations:
+          summary: "DSPy service is down"
+          description: "Service {{ $labels.instance }} is not responding"
+          dashboard: "http://localhost:3001/d/dspy-overview"
+
+      # High API latency
+      - alert: DSpyHighApiLatency
+        expr: |
+          histogram_quantile(0.95, rate(dspy_api_latency_seconds_bucket[5m])) > 0.5
+        for: 5m
+        labels:
+          severity: warning
+          component: dspy
+        annotations:
+          summary: "High API latency"
+          description: "P95 API latency is {{ $value }}s for {{ $labels.endpoint }}"
+          dashboard: "http://localhost:3001/d/dspy-overview"
+
+      # Spike in errors
+      - alert: DSpyErrorSpike
+        expr: |
+          rate(dspy_errors_total[1m]) > 10
+        for: 2m
+        labels:
+          severity: warning
+          component: dspy
+        annotations:
+          summary: "Spike in error rate"
+          description: "Error rate is {{ $value }}/sec for {{ $labels.error_type }}"
+          dashboard: "http://localhost:3001/d/dspy-overview"
+
+      # Cache size growing rapidly
+      - alert: DSpyCacheSizeGrowing
+        expr: |
+          deriv(dspy_cache_size_bytes[5m]) > 10485760
+        for: 10m
+        labels:
+          severity: info
+          component: dspy
+        annotations:
+          summary: "Cache size growing rapidly"
+          description: "Cache {{ $labels.cache_type }} growing at {{ $value | humanize }}B/sec"
+          dashboard: "http://localhost:3001/d/dspy-overview"

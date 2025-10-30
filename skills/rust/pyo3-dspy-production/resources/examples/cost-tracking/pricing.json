@@ -1,0 +1,60 @@
+{
+  "models": {
+    "gpt-4-turbo": {
+      "input_cost_per_1k": 0.01,
+      "output_cost_per_1k": 0.03,
+      "context_window": 128000
+    },
+    "gpt-4": {
+      "input_cost_per_1k": 0.03,
+      "output_cost_per_1k": 0.06,
+      "context_window": 8192
+    },
+    "gpt-3.5-turbo": {
+      "input_cost_per_1k": 0.0005,
+      "output_cost_per_1k": 0.0015,
+      "context_window": 16385
+    },
+    "claude-3-opus": {
+      "input_cost_per_1k": 0.015,
+      "output_cost_per_1k": 0.075,
+      "context_window": 200000
+    },
+    "claude-3-sonnet": {
+      "input_cost_per_1k": 0.003,
+      "output_cost_per_1k": 0.015,
+      "context_window": 200000
+    },
+    "claude-3-haiku": {
+      "input_cost_per_1k": 0.00025,
+      "output_cost_per_1k": 0.00125,
+      "context_window": 200000
+    },
+    "gemini-1.5-pro": {
+      "input_cost_per_1k": 0.0035,
+      "output_cost_per_1k": 0.0105,
+      "context_window": 1000000
+    },
+    "gemini-1.5-flash": {
+      "input_cost_per_1k": 0.00035,
+      "output_cost_per_1k": 0.00105,
+      "context_window": 1000000
+    },
+    "llama-3-70b": {
+      "input_cost_per_1k": 0.0009,
+      "output_cost_per_1k": 0.0009,
+      "context_window": 8192
+    },
+    "llama-3-8b": {
+      "input_cost_per_1k": 0.0002,
+      "output_cost_per_1k": 0.0002,
+      "context_window": 8192
+    }
+  },
+  "default_budget": {
+    "daily_limit_usd": 100.0,
+    "monthly_limit_usd": 2000.0,
+    "per_user_daily_limit_usd": 10.0,
+    "alert_threshold_percent": 80.0
+  }
+}
