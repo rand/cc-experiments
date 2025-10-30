@@ -1,0 +1,19 @@
+[package]
+name = "concurrent-batch"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["auto-initialize"] }
+tokio = { version = "1.42", features = ["full", "time"] }
+anyhow = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+dashmap = "6.1"
+
+[lib]
+name = "concurrent_batch"
+path = "src/lib.rs"
+
+[[bin]]
+name = "concurrent-batch"
+path = "src/main.rs"
