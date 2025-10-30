@@ -1,4 +1,6 @@
 ---
+name: pyo3-dspy-agents
+description: Building ReAct agents with DSPy from Rust - tool use, memory management, state persistence, error recovery
 skill_id: rust-pyo3-dspy-agents
 title: PyO3 DSPy ReAct Agents
 category: rust

@@ -1,4 +1,6 @@
 ---
+name: pyo3-dspy-type-system
+description: Type-safe DSPy from Rust - signature type mapping, field extraction/validation, Pydantic integration with serde
 skill_id: rust-pyo3-dspy-type-system
 title: PyO3 DSPy Type-Safe Signatures
 category: rust

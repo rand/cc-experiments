@@ -59,7 +59,10 @@ jobs:
               "SKILLS_USAGE_GUIDE.md", "CLAUDE.md", "SUMMARY.txt",
               "CLAUDE_MD_UPDATES.md", "PLUGIN.md", "MIGRATION.md",
               "INDEX.md", "PROJECT_STATUS.md", "QUICK_START.md",
-              "SECURITY.md"
+              "SECURITY.md", "README_SAFETY_VALIDATOR.md",
+              "SAFETY_VALIDATOR_SUMMARY.md", "DSPY_INTEGRATION_STATUS.md",
+              "DSPY_INTEGRATION_SUMMARY.md", "DSPY_INTEGRATION_COMPLETION.md",
+              "WAVE12_PHASE2_FINAL_STATUS.md", "STATUS.md"
           }
 
           for skill_file in Path(".").rglob("*.md"):

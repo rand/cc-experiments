@@ -1,4 +1,6 @@
 ---
+name: pyo3-dspy-fundamentals
+description: DSPy fundamentals from Rust - environment setup, LM configuration, calling DSPy modules, prediction handling
 skill_id: rust-pyo3-dspy-fundamentals
 title: PyO3 DSPy Fundamentals
 category: rust

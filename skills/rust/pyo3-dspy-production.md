@@ -1,4 +1,6 @@
 ---
+name: pyo3-dspy-production
+description: Production DSPy deployment from Rust - multi-level caching, circuit breakers, Prometheus metrics, structured logging
 skill_id: rust-pyo3-dspy-production
 title: PyO3 DSPy Production Deployment
 category: rust

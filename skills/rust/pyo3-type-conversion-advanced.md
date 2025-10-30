@@ -1,5 +1,5 @@
 ---
-skill: pyo3-type-conversion-advanced
+name: pyo3-type-conversion-advanced
 description: Advanced PyO3 type conversion including zero-copy, numpy, and custom protocols
 category: rust
 tags: [pyo3, rust, python, numpy, arrow, zero-copy, performance]

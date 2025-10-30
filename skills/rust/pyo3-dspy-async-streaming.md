@@ -1,4 +1,6 @@
 ---
+name: pyo3-dspy-async-streaming
+description: Async LM calls and streaming with DSPy from Rust - Tokio/asyncio integration, streaming predictions, concurrent LM calls
 skill_id: rust-pyo3-dspy-async-streaming
 title: PyO3 DSPy Async and Streaming
 category: rust

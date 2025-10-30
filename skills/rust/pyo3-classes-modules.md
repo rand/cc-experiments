@@ -1,5 +1,5 @@
 ---
-skill: pyo3-classes-modules
+name: pyo3-classes-modules
 description: PyO3 classes, methods, and module organization for Python extensions
 category: rust
 tags: [pyo3, rust, python, classes, modules, plugins, oop]

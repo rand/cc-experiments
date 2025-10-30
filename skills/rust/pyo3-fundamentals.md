@@ -1,5 +1,5 @@
 ---
-skill: pyo3-fundamentals
+name: pyo3-fundamentals
 description: PyO3 fundamentals for building Python extensions in Rust
 category: rust
 tags: [pyo3, rust, python, ffi, performance, extensions]
