@@ -1,0 +1,20 @@
+[package]
+name = "metadata_config"
+version = "0.1.0"
+edition = "2021"
+authors = ["Your Name <your.email@example.com>"]
+description = "Example PyO3 package demonstrating complete metadata configuration"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/yourusername/metadata_config"
+homepage = "https://github.com/yourusername/metadata_config"
+documentation = "https://docs.rs/metadata_config"
+readme = "README.md"
+keywords = ["python", "pyo3", "example", "packaging"]
+categories = ["api-bindings", "development-tools"]
+
+[lib]
+name = "metadata_config"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.20", features = ["extension-module"] }

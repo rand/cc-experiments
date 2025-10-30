@@ -1,0 +1,12 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "memory_testing"
+version = "0.1.0"
+description = "Example 06: Memory leak detection"
+requires-python = ">=3.8"
+
+[tool.maturin]
+module-name = "memory_testing"

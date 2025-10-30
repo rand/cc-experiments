@@ -1,0 +1,13 @@
+[package]
+name = "event_loop"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "event_loop"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.20", features = ["extension-module"] }
+pyo3-asyncio = { version = "0.20", features = ["tokio-runtime"] }
+tokio = { version = "1", features = ["full"] }

@@ -1,0 +1,12 @@
+[package]
+name = "click_commands"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "click_commands"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.20", features = ["extension-module"] }
+walkdir = "2.4"

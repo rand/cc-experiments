@@ -1,0 +1,12 @@
+[package]
+name = "versioning_example"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.70"
+
+[lib]
+name = "versioning_example"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.20", features = ["extension-module"] }

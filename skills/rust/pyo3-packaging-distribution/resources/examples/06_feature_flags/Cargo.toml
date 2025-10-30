@@ -1,0 +1,33 @@
+[package]
+name = "feature_flags"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "feature_flags"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.20", features = ["extension-module"] }
+
+# Optional dependencies - only included when features are enabled
+serde = { version = "1.0", features = ["derive"], optional = true }
+serde_json = { version = "1.0", optional = true }
+statrs = { version = "0.16", optional = true }
+rayon = { version = "1.8", optional = true }
+
+[features]
+# Default features - included in standard builds
+default = []
+
+# JSON serialization support
+json = ["dep:serde", "dep:serde_json"]
+
+# Advanced mathematical functions
+advanced_math = ["dep:statrs"]
+
+# Parallel processing
+parallel = ["dep:rayon"]
+
+# All features enabled
+full = ["json", "advanced_math", "parallel"]

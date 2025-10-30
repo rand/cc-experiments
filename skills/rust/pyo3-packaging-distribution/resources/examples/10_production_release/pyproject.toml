@@ -1,0 +1,47 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "production_release"
+version = "1.0.0"
+description = "Production-ready PyO3 package with complete release workflow"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT OR Apache-2.0" }
+authors = [
+    { name = "Your Name", email = "your.email@example.com" }
+]
+maintainers = [
+    { name = "Your Name", email = "your.email@example.com" }
+]
+keywords = ["python", "rust", "pyo3", "math", "production"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Mathematics",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/production_release"
+Repository = "https://github.com/yourusername/production_release"
+Documentation = "https://production-release.readthedocs.io/"
+"Bug Tracker" = "https://github.com/yourusername/production_release/issues"
+Changelog = "https://github.com/yourusername/production_release/blob/main/CHANGELOG.md"
+
+[tool.maturin]
+module-name = "production_release"

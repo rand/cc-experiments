@@ -1,0 +1,13 @@
+[package]
+name = "fastapi_async"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "fastapi_async"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["extension-module"] }
+pyo3-asyncio = { version = "0.22", features = ["tokio-runtime"] }
+tokio = { version = "1", features = ["full"] }

@@ -1,0 +1,11 @@
+[package]
+name = "atomic_operations"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "atomic_operations"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.20", features = ["extension-module"] }

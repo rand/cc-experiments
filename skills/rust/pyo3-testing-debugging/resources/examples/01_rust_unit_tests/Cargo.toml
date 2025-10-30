@@ -1,0 +1,20 @@
+[package]
+name = "rust_unit_tests"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "rust_unit_tests"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["extension-module"] }
+
+[profile.dev]
+opt-level = 0
+debug = true
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1

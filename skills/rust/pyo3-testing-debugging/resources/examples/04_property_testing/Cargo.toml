@@ -1,0 +1,14 @@
+[package]
+name = "property_testing"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "property_testing"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["extension-module"] }
+
+[dev-dependencies]
+proptest = "1.4"

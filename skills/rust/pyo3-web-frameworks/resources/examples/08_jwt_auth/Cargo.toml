@@ -1,0 +1,16 @@
+[package]
+name = "jwt_auth"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "jwt_auth"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["extension-module"] }
+hmac = "0.12"
+sha2 = "0.10"
+base64 = "0.22"
+argon2 = "0.5"
+rand = "0.8"

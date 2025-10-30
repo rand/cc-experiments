@@ -1,0 +1,11 @@
+[package]
+name = "gil_testing"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "gil_testing"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["extension-module"] }

@@ -1,0 +1,15 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "benchmarking"
+version = "0.1.0"
+description = "Example 05: Performance benchmarking"
+requires-python = ">=3.8"
+
+[project.optional-dependencies]
+test = ["pytest>=7.0", "pytest-benchmark>=4.0"]
+
+[tool.maturin]
+module-name = "benchmarking"

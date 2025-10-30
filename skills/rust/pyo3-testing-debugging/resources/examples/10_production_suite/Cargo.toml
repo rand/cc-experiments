@@ -1,0 +1,31 @@
+[package]
+name = "production_suite"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "production_suite"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["extension-module"] }
+
+[dev-dependencies]
+proptest = "1.4"
+criterion = "0.5"
+
+[profile.dev]
+opt-level = 0
+debug = true
+
+[profile.test]
+opt-level = 1
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+
+[[bench]]
+name = "production_benchmarks"
+harness = false

@@ -1,0 +1,16 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "production_api"
+version = "0.1.0"
+description = "Complete production REST API with CRUD, auth, validation, and caching"
+requires-python = ">=3.8"
+dependencies = [
+    "fastapi>=0.104.0",
+    "uvicorn>=0.24.0",
+]
+
+[tool.maturin]
+features = ["pyo3/extension-module"]

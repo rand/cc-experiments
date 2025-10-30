@@ -1,0 +1,12 @@
+[package]
+name = "08-zero-copy"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "08_zero_copy"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.20", features = ["extension-module"] }
+rayon = "1.8"

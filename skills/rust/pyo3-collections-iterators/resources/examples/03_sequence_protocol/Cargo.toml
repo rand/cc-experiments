@@ -1,0 +1,11 @@
+[package]
+name = "sequence_protocol"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "sequence_protocol"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.20", features = ["extension-module"] }

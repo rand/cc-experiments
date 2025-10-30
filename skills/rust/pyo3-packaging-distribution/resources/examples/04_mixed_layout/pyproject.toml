@@ -1,0 +1,19 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "mixed_layout"
+version = "0.1.0"
+requires-python = ">=3.8"
+description = "Example demonstrating mixed Rust/Python project layout"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+]
+
+[tool.maturin]
+# Location of Python source files
+python-source = "python"
+# Name of the extension module (Rust compiled code)
+module-name = "mixed_layout._core"

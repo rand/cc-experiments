@@ -1,0 +1,11 @@
+[package]
+name = "plugin_system"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "plugin_system"
+path = "src/main.rs"
+
+[dependencies]
+pyo3 = { version = "0.20", features = ["auto-initialize"] }

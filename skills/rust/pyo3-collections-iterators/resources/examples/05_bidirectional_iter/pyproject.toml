@@ -1,0 +1,12 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "bidirectional-iter"
+version = "0.1.0"
+description = "Bidirectional iteration with PyO3"
+requires-python = ">=3.8"
+
+[tool.maturin]
+module-name = "bidirectional_iter"

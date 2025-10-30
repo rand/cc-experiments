@@ -1,0 +1,43 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "dependencies_example"
+version = "0.1.0"
+requires-python = ">=3.8"
+description = "Example demonstrating Rust and Python dependency management"
+readme = "README.md"
+
+# Python runtime dependencies
+dependencies = [
+    "numpy>=1.20.0",
+    "typing-extensions>=4.0.0; python_version<'3.10'",
+]
+
+# Optional Python dependencies
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "mypy>=1.0.0",
+]
+docs = [
+    "sphinx>=5.0.0",
+    "sphinx-rtd-theme>=1.0.0",
+]
+viz = [
+    "matplotlib>=3.5.0",
+]
+# Meta group that includes all optional dependencies
+all = [
+    "dependencies_example[dev,docs,viz]",
+]
+
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+]
+
+[tool.maturin]
+module-name = "dependencies_example"

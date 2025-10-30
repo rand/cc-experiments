@@ -1,0 +1,20 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "feature_flags"
+version = "0.1.0"
+requires-python = ">=3.8"
+description = "Example demonstrating Cargo feature flags and conditional compilation"
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+]
+
+[tool.maturin]
+module-name = "feature_flags"
+# Build with specific features
+# Uncomment to build with features by default:
+# features = ["json", "advanced_math"]

@@ -1,0 +1,21 @@
+[package]
+name = "debugging_setup"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "debugging_setup"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["extension-module"] }
+
+[profile.dev]
+opt-level = 0
+debug = true
+split-debuginfo = "unpacked"
+
+[profile.release-with-debug]
+inherits = "release"
+debug = true
+strip = false

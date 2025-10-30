@@ -1,0 +1,25 @@
+[package]
+name = "production_release"
+version = "1.0.0"
+edition = "2021"
+authors = ["Your Name <your.email@example.com>"]
+description = "Production-ready PyO3 package with complete release workflow"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/yourusername/production_release"
+homepage = "https://github.com/yourusername/production_release"
+documentation = "https://production-release.readthedocs.io/"
+readme = "README.md"
+keywords = ["python", "pyo3", "math", "production"]
+categories = ["api-bindings", "mathematics"]
+
+[lib]
+name = "production_release"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.20", features = ["extension-module"] }
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true

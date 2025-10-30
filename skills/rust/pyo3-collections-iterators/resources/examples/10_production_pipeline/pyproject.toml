@@ -1,0 +1,12 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "production-pipeline"
+version = "0.1.0"
+description = "Production data pipeline with PyO3"
+requires-python = ">=3.8"
+
+[tool.maturin]
+module-name = "production_pipeline"

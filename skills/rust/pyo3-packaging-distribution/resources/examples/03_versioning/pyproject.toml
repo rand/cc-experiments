@@ -1,0 +1,22 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "versioning_example"
+# Note: maturin can read version from Cargo.toml automatically
+# Uncomment below to override:
+# version = "0.1.0"
+dynamic = ["version"]
+requires-python = ">=3.8"
+description = "Example demonstrating version management in PyO3 packages"
+readme = "README.md"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+]
+
+[tool.maturin]
+# Maturin will read version from Cargo.toml
+module-name = "versioning_example"

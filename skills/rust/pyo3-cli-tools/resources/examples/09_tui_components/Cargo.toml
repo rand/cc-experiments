@@ -1,0 +1,12 @@
+[package]
+name = "tui_components"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "tui_components"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.20", features = ["extension-module"] }
+term_size = "0.3"

@@ -1,0 +1,12 @@
+[package]
+name = "07-polars-lazy"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "07_polars_lazy"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.20", features = ["extension-module"] }
+numpy = "0.20"

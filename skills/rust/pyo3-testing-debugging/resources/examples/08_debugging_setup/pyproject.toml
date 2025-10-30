@@ -1,0 +1,12 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "debugging_setup"
+version = "0.1.0"
+description = "Example 08: Debug configuration and GDB/LLDB setup"
+requires-python = ">=3.8"
+
+[tool.maturin]
+module-name = "debugging_setup"

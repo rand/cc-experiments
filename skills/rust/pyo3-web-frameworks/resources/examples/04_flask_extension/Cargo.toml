@@ -1,0 +1,14 @@
+[package]
+name = "flask_extension"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "flask_extension"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["extension-module"] }
+flate2 = "1.0"
+urlencoding = "2.1"
+sha2 = "0.10"

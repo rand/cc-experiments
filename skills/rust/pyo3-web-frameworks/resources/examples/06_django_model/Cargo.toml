@@ -1,0 +1,12 @@
+[package]
+name = "django_model"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "django_model"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["extension-module"] }
+serde_json = "1.0"
