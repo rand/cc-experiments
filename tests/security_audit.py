@@ -71,7 +71,8 @@ class SecurityAuditor:
                                          'Warn about data loss and require confirmation'),
             r'\bDROP\s+TABLE\b': ('HIGH', 'Destructive database operation',
                                  'Require backup and confirmation before execution'),
-            r'\bTRUNCATE\b': ('HIGH', 'Destructive database operation',
+            # SQL TRUNCATE statement (not truncate() function)
+            r'\bTRUNCATE\s+(?:TABLE\s+)?\w+\s*;': ('HIGH', 'SQL TRUNCATE statement',
                              'Require backup and confirmation'),
             r'\bDELETE\s+FROM\b.*without\s+WHERE': ('HIGH', 'Unqualified DELETE',
                                                     'Add WHERE clause or require confirmation'),
@@ -240,6 +241,136 @@ class SecurityAuditor:
                 ('MEDIUM', 'Direct string comparison of secret', 'Use constant-time comparison function'),
         }
 
+        # Trusted vendor domains for installation scripts
+        self.trusted_install_domains = {
+            'sh.rustup.rs',           # Rust official installer
+            'tailscale.com',          # Tailscale VPN
+            'get.acme.sh',            # ACME.sh certificate tool
+            'install.python-poetry.org',  # Poetry
+            'raw.githubusercontent.com/leanprover/elan',  # Lean Elan
+            'deno.land/install.sh',   # Deno
+            'sh.flyctl',              # Fly.io
+            'get.docker.com',         # Docker
+        }
+
+        # Safety marker patterns (inline comments indicating example/dangerous code)
+        self.inline_safety_markers = [
+            r'#\s*(?:WARNING|DANGEROUS|CAUTION|Don\'t|Bad:|Unsafe:)',
+            r'#\s*(?:Example only|For demonstration|Test only|NOT FOR PRODUCTION)',
+            r'#\s*(?:Demo|Sample|Placeholder|TODO|FIXME)',
+            r'#\s*(?:Test cleanup|Safe in test context|For testing|Test purposes)',
+            r'#\s*(?:safe|ok|okay)(?:\s+[-:]|\s+in\s+)',  # "# safe in test context", "# ok for demo"
+            r'--\s*❌\s*(?:BAD|DANGEROUS|WRONG)',
+            r'//\s*(?:WARNING|DANGER|CAUTION|Don\'t|Test|Safe)',
+            r'/\*\s*(?:WARNING|DANGER)',
+        ]
+
+        # Section-level anti-pattern markers
+        self.anti_pattern_sections = [
+            r'##\s*Anti-patterns?',
+            r'##\s*Common\s+Mistakes?',
+            r'##\s*What\s+Not\s+To\s+Do',
+            r'##\s*❌\s*(?:Bad|Incorrect|Wrong)',
+            r'###\s*❌\s*(?:Bad|Incorrect|Wrong)',
+            r'##\s*(?:Un)?safe\s+Patterns?',
+            r'##\s*Security\s+Anti-patterns?',
+            r'##\s*Examples?\s+of\s+Bad\s+Code',
+            r'##\s*Incorrect\s+(?:Usage|Implementation)',
+        ]
+
+        # Contrasting example markers
+        self.contrast_markers = [
+            r'#\s*Before\s*\((?:bad|incorrect|wrong)\)',
+            r'#\s*After\s*\((?:good|correct|right)\)',
+            r'❌\s*Don\'t\s+do\s+this',
+            r'✅\s*Do\s+this\s+instead',
+            r'#\s*Bad\s+example',
+            r'#\s*Good\s+example',
+        ]
+
+    def _get_file_context(self, file_path: Path) -> str:
+        """Determine file context for severity adjustment."""
+        if file_path.suffix == '.md':
+            return 'documentation'
+        elif file_path.suffix in {'.py', '.sh', '.js', '.ts', '.bash', '.zsh'}:
+            if 'example' in str(file_path).lower() or 'demo' in str(file_path).lower():
+                return 'example_script'
+            return 'executable_script'
+        return 'other'
+
+    def _has_safety_marker(self, line: str) -> bool:
+        """Check if line contains inline safety marker."""
+        for pattern in self.inline_safety_markers:
+            if re.search(pattern, line, re.IGNORECASE):
+                return True
+        for pattern in self.contrast_markers:
+            if re.search(pattern, line, re.IGNORECASE):
+                return True
+        return False
+
+    def _is_anti_pattern_section(self, line: str) -> bool:
+        """Check if line is an anti-pattern section header."""
+        for pattern in self.anti_pattern_sections:
+            if re.search(pattern, line, re.IGNORECASE):
+                return True
+        return False
+
+    def _check_safety_context(self, line_num: int, lines: list[str]) -> bool:
+        """Check if dangerous pattern has safety context (markers nearby)."""
+        # Check inline (current line, ±2 lines)
+        for offset in [-2, -1, 0, 1, 2]:
+            idx = line_num + offset - 1
+            if 0 <= idx < len(lines):
+                if self._has_safety_marker(lines[idx]):
+                    return True
+
+        # Check section headers (previous 20 lines for anti-pattern sections)
+        for offset in range(1, 21):
+            idx = line_num - offset - 1
+            if idx < 0:
+                break
+            if self._is_anti_pattern_section(lines[idx]):
+                return True
+
+        return False
+
+    def _is_trusted_install(self, line: str) -> bool:
+        """Check if curl|sh is from trusted vendor."""
+        if ('curl' in line or 'wget' in line) and ('| sh' in line or '| bash' in line):
+            return any(domain in line for domain in self.trusted_install_domains)
+        return False
+
+    def _adjust_severity(self, severity: str, file_context: str, has_safety_marker: bool, is_trusted: bool = False) -> str:
+        """Adjust severity based on context."""
+        # Trusted vendor installations are not flagged
+        if is_trusted:
+            return None  # Signal to skip this finding
+
+        # Documentation files: reduce by 1 level
+        if file_context == 'documentation':
+            if severity == 'CRITICAL':
+                severity = 'HIGH'
+            elif severity == 'HIGH':
+                severity = 'MEDIUM'
+
+        # Example/demo scripts: reduce by 1 level (agents less likely to copy test code)
+        if file_context == 'example_script':
+            if severity == 'CRITICAL':
+                severity = 'HIGH'
+            elif severity == 'HIGH':
+                severity = 'MEDIUM'
+
+        # Marked as example/dangerous: reduce by 1 level
+        if has_safety_marker:
+            if severity == 'CRITICAL':
+                severity = 'HIGH'
+            elif severity == 'HIGH':
+                severity = 'MEDIUM'
+            elif severity == 'MEDIUM':
+                severity = 'LOW'
+
+        return severity
+
     def scan_file(self, file_path: Path) -> None:
         """Scan a single file for security issues."""
         try:
@@ -254,27 +385,39 @@ class SecurityAuditor:
             if is_script:
                 self.stats['scripts_scanned'] += 1
 
+            # Get file context for severity adjustment
+            file_context = self._get_file_context(file_path)
+
             # Scan each line
             for line_num, line in enumerate(lines, 1):
-                self._scan_line(file_path, line_num, line, is_script, content)
+                self._scan_line(file_path, line_num, line, is_script, lines, file_context)
 
         except Exception as e:
             if self.verbose:
                 print(f"Warning: Could not scan {file_path}: {e}", file=sys.stderr)
 
     def _scan_line(self, file_path: Path, line_num: int, line: str,
-                   is_script: bool, full_content: str) -> None:
-        """Scan a single line for security issues."""
+                   is_script: bool, lines: list[str], file_context: str) -> None:
+        """Scan a single line for security issues with context awareness."""
 
         # Skip comments in most cases (but not for secrets)
         is_comment = line.strip().startswith('#') or line.strip().startswith('//')
+
+        # Check if this line has safety context
+        has_safety_context = self._check_safety_context(line_num, lines)
+
+        # Check if this is a trusted installation command
+        is_trusted = self._is_trusted_install(line)
 
         # Dangerous commands
         if not is_comment:
             for pattern, (severity, issue, recommendation) in self.dangerous_commands.items():
                 if re.search(pattern, line, re.IGNORECASE):
-                    self._add_finding(severity, 'Dangerous Command', file_path,
-                                    line_num, issue, line.strip(), recommendation)
+                    # Adjust severity based on context
+                    adjusted_severity = self._adjust_severity(severity, file_context, has_safety_context, is_trusted)
+                    if adjusted_severity:  # None means skip
+                        self._add_finding(adjusted_severity, 'Dangerous Command', file_path,
+                                        line_num, issue, line.strip(), recommendation)
 
         # Command injection (scripts only)
         if is_script:
@@ -303,8 +446,11 @@ class SecurityAuditor:
         if not is_comment:
             for pattern, (severity, issue, recommendation) in self.network_patterns.items():
                 if re.search(pattern, line):
-                    self._add_finding(severity, 'Network Security', file_path,
-                                    line_num, issue, line.strip(), recommendation)
+                    # Apply context-aware severity adjustment
+                    adjusted_severity = self._adjust_severity(severity, file_context, has_safety_context, is_trusted)
+                    if adjusted_severity:  # None means skip
+                        self._add_finding(adjusted_severity, 'Network Security', file_path,
+                                        line_num, issue, line.strip(), recommendation)
 
         # SQL injection (scripts only)
         if is_script:
