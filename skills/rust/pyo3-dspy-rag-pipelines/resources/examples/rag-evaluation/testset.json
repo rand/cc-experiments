@@ -1,0 +1,39 @@
+{
+  "queries": [
+    {
+      "id": "q1",
+      "query": "What is machine learning?",
+      "relevant_docs": ["doc1", "doc3", "doc7"],
+      "ground_truth_answer": "Machine learning is a subset of artificial intelligence that enables systems to learn from data and improve their performance without being explicitly programmed. It uses algorithms to identify patterns in data.",
+      "keywords": ["machine learning", "artificial intelligence", "AI", "algorithms", "data", "patterns"]
+    },
+    {
+      "id": "q2",
+      "query": "How do neural networks work?",
+      "relevant_docs": ["doc2", "doc4", "doc9", "doc12"],
+      "ground_truth_answer": "Neural networks are computational models inspired by biological neural networks. They consist of interconnected nodes (neurons) organized in layers that process information through weighted connections. Training adjusts these weights to learn patterns.",
+      "keywords": ["neural networks", "neurons", "layers", "weights", "training", "biological"]
+    },
+    {
+      "id": "q3",
+      "query": "Explain gradient descent optimization",
+      "relevant_docs": ["doc5", "doc8", "doc11"],
+      "ground_truth_answer": "Gradient descent is an optimization algorithm that iteratively adjusts parameters to minimize a loss function. It calculates the gradient (slope) of the loss function and moves in the opposite direction to find the minimum.",
+      "keywords": ["gradient descent", "optimization", "loss function", "parameters", "minimize", "algorithm"]
+    },
+    {
+      "id": "q4",
+      "query": "What are convolutional neural networks?",
+      "relevant_docs": ["doc6", "doc10", "doc13", "doc15"],
+      "ground_truth_answer": "Convolutional neural networks (CNNs) are specialized neural networks designed for processing grid-like data such as images. They use convolutional layers that apply filters to detect features like edges, textures, and patterns.",
+      "keywords": ["convolutional", "CNN", "images", "filters", "features", "computer vision"]
+    },
+    {
+      "id": "q5",
+      "query": "How does backpropagation work?",
+      "relevant_docs": ["doc7", "doc9", "doc14"],
+      "ground_truth_answer": "Backpropagation is an algorithm for training neural networks by calculating gradients of the loss function with respect to network weights. It works backward through the network using the chain rule to efficiently compute gradients.",
+      "keywords": ["backpropagation", "gradients", "chain rule", "training", "neural networks", "weights"]
+    }
+  ]
+}

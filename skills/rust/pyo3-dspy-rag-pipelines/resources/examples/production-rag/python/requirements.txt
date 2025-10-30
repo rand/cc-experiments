@@ -1,0 +1,23 @@
+# Production RAG Python Dependencies
+
+# Core ML libraries
+torch>=2.0.0
+sentence-transformers>=2.2.0
+transformers>=4.30.0
+
+# OpenAI for LLM generation
+openai>=1.0.0
+
+# Utilities
+numpy>=1.24.0
+scikit-learn>=1.3.0
+
+# Optional: Accelerated inference
+# optimum>=1.12.0
+# onnxruntime>=1.15.0
+
+# Development tools
+pytest>=7.4.0
+black>=23.0.0
+mypy>=1.4.0
+ruff>=0.0.280

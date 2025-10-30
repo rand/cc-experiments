@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant
+    ports:
+      - "6333:6333"  # HTTP API
+      - "6334:6334"  # gRPC API
+    volumes:
+      - qdrant_storage:/qdrant/storage
+    environment:
+      # Performance settings
+      - QDRANT__SERVICE__MAX_REQUEST_SIZE_MB=32
+      - QDRANT__SERVICE__MAX_WORKERS=8
+
+      # Storage settings
+      - QDRANT__STORAGE__STORAGE_PATH=/qdrant/storage
+      - QDRANT__STORAGE__SNAPSHOTS_PATH=/qdrant/snapshots
+      - QDRANT__STORAGE__ON_DISK_PAYLOAD=true
+
+      # Optimization settings
+      - QDRANT__STORAGE__OPTIMIZERS__DELETED_THRESHOLD=0.2
+      - QDRANT__STORAGE__OPTIMIZERS__VACUUM_MIN_VECTOR_NUMBER=1000
+      - QDRANT__STORAGE__OPTIMIZERS__DEFAULT_SEGMENT_NUMBER=0
+      - QDRANT__STORAGE__OPTIMIZERS__MAX_SEGMENT_SIZE=200000
+      - QDRANT__STORAGE__OPTIMIZERS__MEMMAP_THRESHOLD=50000
+      - QDRANT__STORAGE__OPTIMIZERS__INDEXING_THRESHOLD=20000
+      - QDRANT__STORAGE__OPTIMIZERS__FLUSH_INTERVAL_SEC=5
+
+      # HNSW index settings
+      - QDRANT__STORAGE__HNSW_INDEX__M=16
+      - QDRANT__STORAGE__HNSW_INDEX__EF_CONSTRUCT=100
+      - QDRANT__STORAGE__HNSW_INDEX__FULL_SCAN_THRESHOLD=10000
+
+      # WAL settings
+      - QDRANT__STORAGE__WAL__WAL_CAPACITY_MB=32
+      - QDRANT__STORAGE__WAL__WAL_SEGMENTS_AHEAD=0
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:6333/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+        reservations:
+          memory: 2G
+
+volumes:
+  qdrant_storage:
+    driver: local
+
+networks:
+  default:
+    name: qdrant-network

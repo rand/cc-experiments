@@ -1,0 +1,14 @@
+# Qdrant client
+qdrant-client>=1.7.0
+
+# DSPy framework
+dspy-ai>=2.4.0
+
+# Embeddings
+sentence-transformers>=2.2.0
+
+# LLM providers (optional, for RAG examples)
+openai>=1.0.0
+
+# Utilities
+python-dotenv>=1.0.0

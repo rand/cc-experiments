@@ -1,0 +1,68 @@
+[package]
+name = "production-rag"
+version = "0.1.0"
+edition = "2021"
+authors = ["Production RAG Team"]
+description = "Production-ready RAG system with Rust and Python"
+license = "MIT"
+
+[dependencies]
+# Async runtime
+tokio = { version = "1.35", features = ["full"] }
+
+# Web framework
+axum = { version = "0.7", features = ["macros"] }
+tower = "0.4"
+tower-http = { version = "0.5", features = ["trace", "cors", "timeout"] }
+
+# Python integration
+pyo3 = { version = "0.20", features = ["auto-initialize"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# HTTP client
+reqwest = { version = "0.11", features = ["json"] }
+
+# Redis
+redis = { version = "0.24", features = ["tokio-comp", "connection-manager"] }
+
+# Caching
+moka = { version = "0.12", features = ["future"] }
+
+# Hashing
+sha2 = "0.10"
+
+# Logging and tracing
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+
+# Configuration
+config = "0.14"
+dotenvy = "0.15"
+
+# Time
+chrono = "0.4"
+
+# Metrics
+prometheus = "0.13"
+lazy_static = "1.4"
+
+# Utilities
+bytes = "1.5"
+futures = "0.3"
+
+[dev-dependencies]
+tempfile = "3.8"
+mockito = "1.2"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
