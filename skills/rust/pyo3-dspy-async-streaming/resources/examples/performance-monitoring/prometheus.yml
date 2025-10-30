@@ -1,0 +1,58 @@
+# Prometheus Configuration for Performance Monitoring Demo
+
+global:
+  scrape_interval: 5s        # Scrape metrics every 5 seconds
+  evaluation_interval: 5s    # Evaluate rules every 5 seconds
+  scrape_timeout: 4s         # Timeout after 4 seconds
+
+  # External labels to add to metrics
+  external_labels:
+    monitor: 'performance-demo'
+    environment: 'development'
+
+# Alertmanager configuration (optional)
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []
+          # - alertmanager:9093
+
+# Load rules once and periodically evaluate them
+rule_files:
+  # - "alerts.yml"
+
+# Scrape configurations
+scrape_configs:
+  # Performance monitoring demo application
+  - job_name: 'performance_demo'
+    static_configs:
+      - targets: ['host.docker.internal:3000']
+        labels:
+          service: 'performance-monitoring'
+          component: 'demo-app'
+
+    # Scrape parameters
+    scrape_interval: 5s
+    scrape_timeout: 4s
+
+    # Metric relabeling
+    metric_relabel_configs:
+      # Drop high-cardinality metrics if needed
+      - source_labels: [__name__]
+        regex: 'go_.*'
+        action: drop
+
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          service: 'prometheus'
+          component: 'monitoring'
+
+# Storage configuration
+storage:
+  tsdb:
+    retention:
+      time: 15d      # Keep data for 15 days
+      size: 1GB      # Maximum storage size

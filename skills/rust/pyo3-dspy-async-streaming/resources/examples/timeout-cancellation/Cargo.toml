@@ -1,0 +1,29 @@
+[package]
+name = "timeout-cancellation"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Python integration
+pyo3 = { version = "0.22", features = ["auto-initialize"] }
+
+# Async runtime
+tokio = { version = "1.42", features = ["full"] }
+tokio-util = "0.7"
+
+# Utilities
+anyhow = "1.0"
+futures = "0.3"
+thiserror = "1.0"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+[lib]
+name = "timeout_cancellation"
+path = "src/lib.rs"
+
+[[bin]]
+name = "timeout-cancellation"
+path = "src/main.rs"

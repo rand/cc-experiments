@@ -1,0 +1,55 @@
+[package]
+name = "performance-monitoring"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "performance-monitoring"
+path = "src/main.rs"
+
+[lib]
+name = "performance_monitoring"
+path = "src/lib.rs"
+
+[dependencies]
+# PyO3 for Python interop
+pyo3 = { version = "0.22", features = ["extension-module", "abi3-py38"] }
+
+# Async runtime
+tokio = { version = "1.40", features = ["full", "tracing"] }
+
+# Metrics and monitoring
+prometheus = "0.13"
+hdrhistogram = "7.5"
+
+# Web server for metrics endpoint
+axum = "0.7"
+tower = "0.4"
+tower-http = { version = "0.5", features = ["trace"] }
+
+# Tracing and logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# Time utilities
+chrono = { version = "0.4", features = ["serde"] }
+
+# Statistics
+statistical = "1.0"
+
+# Async utilities
+futures = "0.3"
+
+# Random number generation
+rand = "0.8"
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["async_tokio"] }
