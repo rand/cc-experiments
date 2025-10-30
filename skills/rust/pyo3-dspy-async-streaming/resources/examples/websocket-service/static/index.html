@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket AI Service - Demo Client</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ef4444;
+            animation: pulse 2s infinite;
+        }
+
+        .status-indicator.connected {
+            background: #10b981;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .main {
+            padding: 30px;
+        }
+
+        .info-panel {
+            background: #f3f4f6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .info-panel h3 {
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .info-label {
+            color: #6b7280;
+        }
+
+        .info-value {
+            font-weight: 600;
+        }
+
+        .query-section {
+            margin-bottom: 30px;
+        }
+
+        .query-section h2 {
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #4b5563;
+        }
+
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .input-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #4b5563;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #d1d5db;
+        }
+
+        .response-section {
+            margin-top: 30px;
+        }
+
+        .response-section h2 {
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .response-box {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .response-box.streaming {
+            border-color: #667eea;
+            background: #eef2ff;
+        }
+
+        .response-box:empty::before {
+            content: 'Responses will appear here...';
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        .metrics {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .metric {
+            flex: 1;
+            background: #f3f4f6;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: #6b7280;
+            text-transform: uppercase;
+        }
+
+        .log-section {
+            margin-top: 30px;
+        }
+
+        .log-section h3 {
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+
+        .log-box {
+            background: #1f2937;
+            color: #e5e7eb;
+            border-radius: 8px;
+            padding: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .log-entry {
+            margin-bottom: 5px;
+        }
+
+        .log-timestamp {
+            color: #9ca3af;
+        }
+
+        .log-type {
+            font-weight: 600;
+        }
+
+        .log-type.info {
+            color: #60a5fa;
+        }
+
+        .log-type.success {
+            color: #34d399;
+        }
+
+        .log-type.error {
+            color: #f87171;
+        }
+
+        .log-type.warning {
+            color: #fbbf24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>WebSocket AI Service</h1>
+            <div class="status">
+                <span class="status-indicator" id="statusIndicator"></span>
+                <span id="statusText">Disconnected</span>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="info-panel" id="infoPanel">
+                <h3>Connection Info</h3>
+                <div class="info-row">
+                    <span class="info-label">Connection ID:</span>
+                    <span class="info-value" id="connectionId">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Session ID:</span>
+                    <span class="info-value" id="sessionId">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Active Sessions:</span>
+                    <span class="info-value" id="activeSessions">-</span>
+                </div>
+            </div>
+
+            <div class="query-section">
+                <h2>Send Query</h2>
+                <div class="input-group">
+                    <label for="queryInput">Query:</label>
+                    <textarea id="queryInput" placeholder="Enter your question or prompt...">What is the capital of France?</textarea>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="streamCheckbox" checked>
+                    <label for="streamCheckbox">Stream response (real-time tokens)</label>
+                </div>
+                <div class="button-group">
+                    <button class="btn-primary" id="sendBtn" onclick="sendQuery()">Send Query</button>
+                    <button class="btn-secondary" id="clearBtn" onclick="clearResponse()">Clear</button>
+                </div>
+            </div>
+
+            <div class="response-section">
+                <h2>Response</h2>
+                <div class="response-box" id="responseBox"></div>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-value" id="tokenCount">0</div>
+                        <div class="metric-label">Tokens</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="duration">0ms</div>
+                        <div class="metric-label">Duration</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="log-section">
+                <h3>Event Log</h3>
+                <div class="log-box" id="logBox"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let ws = null;
+        let currentSessionId = null;
+        let tokenCount = 0;
+        let startTime = null;
+
+        function generateSessionId() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0;
+                const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        function updateStatus(connected) {
+            const indicator = document.getElementById('statusIndicator');
+            const text = document.getElementById('statusText');
+
+            if (connected) {
+                indicator.classList.add('connected');
+                text.textContent = 'Connected';
+            } else {
+                indicator.classList.remove('connected');
+                text.textContent = 'Disconnected';
+            }
+        }
+
+        function log(type, message) {
+            const logBox = document.getElementById('logBox');
+            const timestamp = new Date().toLocaleTimeString();
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `<span class="log-timestamp">[${timestamp}]</span> <span class="log-type ${type}">${type.toUpperCase()}</span>: ${message}`;
+            logBox.appendChild(entry);
+            logBox.scrollTop = logBox.scrollHeight;
+        }
+
+        function connect() {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsUrl = `${protocol}//${window.location.host}/ws`;
+
+            log('info', `Connecting to ${wsUrl}...`);
+
+            ws = new WebSocket(wsUrl);
+
+            ws.onopen = () => {
+                updateStatus(true);
+                log('success', 'WebSocket connected');
+                document.getElementById('sendBtn').disabled = false;
+            };
+
+            ws.onmessage = (event) => {
+                const message = JSON.parse(event.data);
+                handleMessage(message);
+            };
+
+            ws.onerror = (error) => {
+                log('error', `WebSocket error: ${error.message || 'Unknown error'}`);
+            };
+
+            ws.onclose = () => {
+                updateStatus(false);
+                log('warning', 'WebSocket disconnected');
+                document.getElementById('sendBtn').disabled = true;
+
+                // Reconnect after 3 seconds
+                setTimeout(connect, 3000);
+            };
+        }
+
+        function handleMessage(message) {
+            const responseBox = document.getElementById('responseBox');
+
+            switch (message.type) {
+                case 'info':
+                    document.getElementById('connectionId').textContent = message.connection_id;
+                    document.getElementById('activeSessions').textContent = message.active_sessions;
+                    log('info', `Connection info received: ${message.connection_id}`);
+                    break;
+
+                case 'token':
+                    if (message.session_id === currentSessionId) {
+                        responseBox.classList.add('streaming');
+                        responseBox.textContent += message.token;
+                        tokenCount = message.index + 1;
+                        document.getElementById('tokenCount').textContent = tokenCount;
+
+                        // Update duration
+                        if (startTime) {
+                            const elapsed = Date.now() - startTime;
+                            document.getElementById('duration').textContent = `${elapsed}ms`;
+                        }
+                    }
+                    break;
+
+                case 'end':
+                    if (message.session_id === currentSessionId) {
+                        responseBox.classList.remove('streaming');
+                        document.getElementById('tokenCount').textContent = message.total_tokens;
+                        document.getElementById('duration').textContent = `${message.duration_ms}ms`;
+                        log('success', `Query completed: ${message.total_tokens} tokens in ${message.duration_ms}ms`);
+                        currentSessionId = null;
+                        startTime = null;
+                    }
+                    break;
+
+                case 'error':
+                    responseBox.classList.remove('streaming');
+                    responseBox.textContent = `Error: ${message.error}`;
+                    log('error', `Error: ${message.error} (${message.code})`);
+                    currentSessionId = null;
+                    startTime = null;
+                    break;
+
+                case 'pong':
+                    log('info', `Pong received at ${message.timestamp}`);
+                    break;
+            }
+        }
+
+        function sendQuery() {
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                log('error', 'WebSocket not connected');
+                return;
+            }
+
+            const query = document.getElementById('queryInput').value.trim();
+            if (!query) {
+                log('error', 'Query cannot be empty');
+                return;
+            }
+
+            currentSessionId = generateSessionId();
+            document.getElementById('sessionId').textContent = currentSessionId;
+
+            const stream = document.getElementById('streamCheckbox').checked;
+
+            const message = {
+                type: 'query',
+                session_id: currentSessionId,
+                query: query,
+                stream: stream
+            };
+
+            // Clear previous response
+            const responseBox = document.getElementById('responseBox');
+            responseBox.textContent = '';
+            responseBox.classList.add('streaming');
+            tokenCount = 0;
+            startTime = Date.now();
+            document.getElementById('tokenCount').textContent = '0';
+            document.getElementById('duration').textContent = '0ms';
+
+            ws.send(JSON.stringify(message));
+            log('info', `Query sent (stream: ${stream}): ${query.substring(0, 50)}...`);
+        }
+
+        function clearResponse() {
+            document.getElementById('responseBox').textContent = '';
+            document.getElementById('responseBox').classList.remove('streaming');
+            document.getElementById('tokenCount').textContent = '0';
+            document.getElementById('duration').textContent = '0ms';
+            tokenCount = 0;
+            startTime = null;
+            log('info', 'Response cleared');
+        }
+
+        // Connect on page load
+        window.addEventListener('load', () => {
+            connect();
+
+            // Allow Enter to send query (Ctrl+Enter for newline)
+            document.getElementById('queryInput').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey) {
+                    e.preventDefault();
+                    sendQuery();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
