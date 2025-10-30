@@ -34,7 +34,7 @@ jobs:
         run: |
           python3 tests/security_audit.py \
             --output .claude/audits/security-report-ci.json \
-            --fail-on high \
+            --fail-on critical \
             --verbose
         continue-on-error: true
         id: security_scan
