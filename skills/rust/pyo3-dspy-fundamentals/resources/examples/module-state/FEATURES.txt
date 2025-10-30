@@ -1,0 +1,33 @@
+Module State Example - Feature Checklist
+
+✓ Wrap DSPy module in Rust struct (StatefulModule)
+✓ Store module as Py<PyAny> (line 42)
+✓ Maintain query history (Vec<QueryRecord>, line 44)
+✓ State serialization (save_state, line 180-194)
+✓ State deserialization (load_state, line 199-215)
+✓ Multiple queries with state preservation (lines 278-312)
+✓ Clear GIL management patterns (Python::with_gil throughout)
+
+Key Demonstrations:
+- Py<PyAny> for holding Python objects across GIL boundaries
+- State management with Vec<QueryRecord>
+- History tracking with timestamps and metadata
+- JSON serialization with serde_json
+- GIL acquisition with Python::with_gil
+- Accessing Python objects with .bind(py)
+- Extracting Rust data before releasing GIL
+
+Code Structure:
+- Lines 17-23: QueryRecord struct (individual queries)
+- Lines 26-31: ModuleState struct (serializable state)
+- Lines 40-50: StatefulModule struct (main wrapper)
+- Lines 58-80: new() - Module initialization
+- Lines 95-131: query_with_metadata() - Query execution with history
+- Lines 180-194: save_state() - State persistence
+- Lines 199-215: load_state() - State restoration
+- Lines 252-385: main() - Complete demonstration
+
+Total Lines:
+- main.rs: 386 lines
+- README.md: 300 lines (comprehensive documentation)
+- Cargo.toml: 11 lines (dependencies)

@@ -1,0 +1,11 @@
+[package]
+name = "hello-world"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# PyO3 for Python-Rust interop
+pyo3 = { version = "0.20", features = ["auto-initialize"] }
+
+# Error handling
+anyhow = "1.0"
