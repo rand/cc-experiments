@@ -388,6 +388,439 @@ high_volume_predictor = dspy.Predict("text -> category", lm=modal_lm)
 
 ---
 
+## Advanced Patterns
+
+### Pattern 9: Multi-Region Deployment with Failover
+
+```python
+import dspy
+import os
+from typing import List, Optional
+
+class MultiRegionLM:
+    """LM with automatic failover across regions/providers."""
+
+    def __init__(self, endpoints: List[dict], max_retries=2):
+        """
+        Args:
+            endpoints: List of {provider, model, api_key, api_base}
+            max_retries: Retries per endpoint before failover
+        """
+        self.endpoints = endpoints
+        self.max_retries = max_retries
+        self.current_idx = 0
+
+    def __call__(self, prompt, **kwargs):
+        """Try each endpoint until success."""
+        last_error = None
+
+        for endpoint_idx in range(len(self.endpoints)):
+            endpoint = self.endpoints[self.current_idx]
+
+            for retry in range(self.max_retries):
+                try:
+                    lm = dspy.LM(
+                        model=endpoint["model"],
+                        api_key=endpoint.get("api_key"),
+                        api_base=endpoint.get("api_base"),
+                        **kwargs
+                    )
+                    return lm(prompt)
+
+                except Exception as e:
+                    last_error = e
+                    print(f"Endpoint {self.current_idx} attempt {retry+1} failed: {e}")
+
+            # Move to next endpoint
+            self.current_idx = (self.current_idx + 1) % len(self.endpoints)
+
+        raise Exception(f"All endpoints failed. Last error: {last_error}")
+
+# Configure multi-region setup
+endpoints = [
+    {
+        "provider": "openai",
+        "model": "openai/gpt-4o-mini",
+        "api_key": os.getenv("OPENAI_API_KEY"),
+    },
+    {
+        "provider": "anthropic",
+        "model": "anthropic/claude-3-5-sonnet-20241022",
+        "api_key": os.getenv("ANTHROPIC_API_KEY"),
+    },
+    {
+        "provider": "modal",
+        "model": "openai/meta-llama/Meta-Llama-3.1-8B-Instruct",
+        "api_base": "https://your-app.modal.run/v1",
+        "api_key": "EMPTY",
+    },
+]
+
+multi_region_lm = MultiRegionLM(endpoints)
+```
+
+**When to use**:
+- Production systems requiring 99.9%+ uptime
+- Multi-cloud strategies
+- Cost optimization through provider arbitrage
+- Geographic latency reduction
+
+### Pattern 10: Cost-Optimized Model Router
+
+```python
+import dspy
+from typing import Callable
+
+class CostOptimizedRouter:
+    """Route requests to cost-appropriate models."""
+
+    def __init__(self, fast_lm: dspy.LM, smart_lm: dspy.LM,
+                 complexity_fn: Callable[[str], float]):
+        """
+        Args:
+            fast_lm: Cheap, fast model (e.g., gpt-4o-mini)
+            smart_lm: Expensive, capable model (e.g., gpt-4o)
+            complexity_fn: Function returning 0-1 complexity score
+        """
+        self.fast_lm = fast_lm
+        self.smart_lm = smart_lm
+        self.complexity_fn = complexity_fn
+        self.complexity_threshold = 0.6
+
+    def __call__(self, prompt, **kwargs):
+        """Route based on prompt complexity."""
+        complexity = self.complexity_fn(prompt)
+
+        if complexity < self.complexity_threshold:
+            # Use fast model for simple prompts
+            return self.fast_lm(prompt, **kwargs)
+        else:
+            # Use smart model for complex prompts
+            return self.smart_lm(prompt, **kwargs)
+
+# Complexity heuristic
+def estimate_complexity(prompt: str) -> float:
+    """Estimate prompt complexity (0-1 scale)."""
+    score = 0.0
+
+    # Length factor
+    word_count = len(prompt.split())
+    score += min(word_count / 1000, 0.3)
+
+    # Complexity keywords
+    complex_keywords = ["analyze", "compare", "evaluate", "synthesize", "reasoning"]
+    keyword_count = sum(1 for kw in complex_keywords if kw in prompt.lower())
+    score += min(keyword_count * 0.15, 0.4)
+
+    # Multi-step indicators
+    if any(ind in prompt.lower() for ind in ["step by step", "first", "then", "finally"]):
+        score += 0.3
+
+    return min(score, 1.0)
+
+# Configure router
+fast = dspy.LM("openai/gpt-4o-mini", max_tokens=500)
+smart = dspy.LM("openai/gpt-4o", max_tokens=2000)
+
+router = CostOptimizedRouter(fast, smart, estimate_complexity)
+dspy.configure(lm=router)
+```
+
+**Benefits**:
+- Reduce costs by 60-80% on average workloads
+- Maintain quality on complex tasks
+- Automatic routing based on prompt analysis
+
+### Pattern 11: Modal + caching for Batch Processing
+
+```python
+import modal
+import dspy
+
+app = modal.App("dspy-batch-processor")
+
+# Persistent cache volume
+cache_volume = modal.Volume.from_name("llm-cache", create_if_missing=True)
+
+@app.function(
+    image=modal.Image.debian_slim().pip_install("vllm", "transformers", "diskcache"),
+    gpu="L40S",
+    volumes={"/cache": cache_volume},
+    timeout=1800,
+)
+def batch_inference(prompts: list[str], model: str = "meta-llama/Meta-Llama-3.1-8B-Instruct"):
+    """Process prompts in batch with caching."""
+    from vllm import LLM, SamplingParams
+    from diskcache import Cache
+
+    # Initialize cache
+    cache = Cache("/cache/responses")
+
+    # Load model once
+    llm = LLM(model=model, download_dir="/cache/models")
+
+    results = []
+    uncached_prompts = []
+    uncached_indices = []
+
+    # Check cache first
+    for i, prompt in enumerate(prompts):
+        cached = cache.get(prompt)
+        if cached:
+            results.append(cached)
+        else:
+            uncached_prompts.append(prompt)
+            uncached_indices.append(i)
+            results.append(None)  # Placeholder
+
+    # Batch process uncached prompts
+    if uncached_prompts:
+        params = SamplingParams(temperature=0.0, max_tokens=1000)
+        outputs = llm.generate(uncached_prompts, params)
+
+        # Store in cache and results
+        for idx, output in zip(uncached_indices, outputs):
+            response = output.outputs[0].text
+            cache.set(prompts[idx], response)
+            results[idx] = response
+
+    return results
+
+# Use in DSPy
+@app.local_entrypoint()
+def main():
+    prompts = ["What is DSPy?"] * 100  # Example batch
+    results = batch_inference.remote(prompts)
+    print(f"Processed {len(results)} prompts")
+```
+
+**When to use**:
+- Large-scale batch processing (>1000 prompts)
+- Repeated prompts across runs
+- Cost-sensitive workloads
+- Offline evaluation pipelines
+
+---
+
+## Production Considerations
+
+### Deployment Architecture
+
+**Single Model (Simple)**:
+```
+Client → DSPy App → OpenAI API
+```
+- Use for: MVPs, low-traffic apps (<100 req/day)
+- Cost: Pay-per-token to API provider
+- Latency: 200-2000ms depending on provider
+
+**Modal-Hosted (Scalable)**:
+```
+Client → DSPy App → Modal Endpoint → vLLM → Model
+```
+- Use for: Production apps, custom models, cost optimization
+- Cost: $0.50-2.00/hour GPU time (only when active)
+- Latency: 50-500ms (lower than API with L40S/H100)
+
+**Hybrid (Optimal)**:
+```
+Client → DSPy App → Router → [Modal (batch), OpenAI (realtime), Anthropic (complex)]
+```
+- Use for: Large-scale production
+- Cost: 40-70% reduction vs API-only
+- Latency: 50-2000ms depending on route
+
+### Scaling Guidelines
+
+**Request Volume**:
+- <100/day: Direct API calls (OpenAI, Anthropic)
+- 100-10K/day: Modal with 1-2 GPUs
+- 10K-100K/day: Modal with autoscaling (2-10 GPUs)
+- >100K/day: Multi-region Modal + API failover
+
+**Model Size**:
+- 7B parameters: L40S GPU (48GB VRAM) - $0.50/hr
+- 13B parameters: L40S or A100 (40GB) - $1.00/hr
+- 70B parameters: 2x A100 (80GB) or H100 - $4.00/hr
+
+### Monitoring and Observability
+
+```python
+import dspy
+import time
+import logging
+from contextlib import contextmanager
+
+# Setup logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+class MonitoredLM:
+    """LM wrapper with monitoring."""
+
+    def __init__(self, lm: dspy.LM, metrics_callback=None):
+        self.lm = lm
+        self.metrics_callback = metrics_callback
+        self.call_count = 0
+        self.total_latency = 0.0
+        self.error_count = 0
+
+    def __call__(self, prompt, **kwargs):
+        self.call_count += 1
+        start_time = time.time()
+
+        try:
+            result = self.lm(prompt, **kwargs)
+            latency = time.time() - start_time
+            self.total_latency += latency
+
+            # Log metrics
+            logger.info(f"LM call #{self.call_count}: {latency:.2f}s")
+
+            if self.metrics_callback:
+                self.metrics_callback({
+                    "call_count": self.call_count,
+                    "latency": latency,
+                    "success": True,
+                    "prompt_length": len(prompt),
+                    "timestamp": start_time,
+                })
+
+            return result
+
+        except Exception as e:
+            self.error_count += 1
+            logger.error(f"LM call failed: {e}")
+
+            if self.metrics_callback:
+                self.metrics_callback({
+                    "call_count": self.call_count,
+                    "error": str(e),
+                    "success": False,
+                    "timestamp": start_time,
+                })
+
+            raise
+
+    def stats(self):
+        """Return aggregated statistics."""
+        avg_latency = self.total_latency / self.call_count if self.call_count > 0 else 0
+        error_rate = self.error_count / self.call_count if self.call_count > 0 else 0
+
+        return {
+            "total_calls": self.call_count,
+            "avg_latency_ms": avg_latency * 1000,
+            "error_count": self.error_count,
+            "error_rate": error_rate,
+        }
+
+# Usage
+lm = dspy.LM("openai/gpt-4o-mini")
+monitored_lm = MonitoredLM(lm)
+dspy.configure(lm=monitored_lm)
+
+# After processing
+print(monitored_lm.stats())
+```
+
+### Cost Management
+
+**Budget Tracking**:
+```python
+class BudgetLM:
+    """LM with budget enforcement."""
+
+    def __init__(self, lm: dspy.LM, max_budget_usd: float,
+                 cost_per_1k_tokens: float):
+        self.lm = lm
+        self.max_budget = max_budget_usd
+        self.cost_per_1k = cost_per_1k_tokens
+        self.total_cost = 0.0
+        self.total_tokens = 0
+
+    def __call__(self, prompt, **kwargs):
+        # Estimate cost before call
+        estimated_tokens = len(prompt.split()) * 1.3  # Rough estimate
+        estimated_cost = (estimated_tokens / 1000) * self.cost_per_1k
+
+        if self.total_cost + estimated_cost > self.max_budget:
+            raise Exception(
+                f"Budget exceeded: ${self.total_cost:.2f} / ${self.max_budget:.2f}"
+            )
+
+        result = self.lm(prompt, **kwargs)
+
+        # Update actual cost (if available from response metadata)
+        self.total_tokens += estimated_tokens
+        self.total_cost += estimated_cost
+
+        return result
+
+    def budget_status(self):
+        return {
+            "spent": self.total_cost,
+            "remaining": self.max_budget - self.total_cost,
+            "percentage": (self.total_cost / self.max_budget) * 100,
+        }
+
+# Usage: limit to $10 budget
+lm = dspy.LM("openai/gpt-4o-mini")
+budget_lm = BudgetLM(lm, max_budget_usd=10.0, cost_per_1k_tokens=0.15)
+dspy.configure(lm=budget_lm)
+```
+
+### Error Recovery and Resilience
+
+**Circuit Breaker Pattern**:
+```python
+import time
+
+class CircuitBreakerLM:
+    """LM with circuit breaker for resilience."""
+
+    def __init__(self, lm: dspy.LM, failure_threshold=5,
+                 recovery_timeout=60):
+        self.lm = lm
+        self.failure_threshold = failure_threshold
+        self.recovery_timeout = recovery_timeout
+        self.failure_count = 0
+        self.last_failure_time = None
+        self.circuit_open = False
+
+    def __call__(self, prompt, **kwargs):
+        # Check if circuit is open
+        if self.circuit_open:
+            if time.time() - self.last_failure_time < self.recovery_timeout:
+                raise Exception("Circuit breaker open - service unavailable")
+            else:
+                # Try recovery
+                self.circuit_open = False
+                self.failure_count = 0
+
+        try:
+            result = self.lm(prompt, **kwargs)
+            # Reset on success
+            self.failure_count = 0
+            return result
+
+        except Exception as e:
+            self.failure_count += 1
+            self.last_failure_time = time.time()
+
+            if self.failure_count >= self.failure_threshold:
+                self.circuit_open = True
+                logger.error("Circuit breaker opened")
+
+            raise
+
+# Usage
+lm = dspy.LM("openai/gpt-4o-mini")
+resilient_lm = CircuitBreakerLM(lm, failure_threshold=5, recovery_timeout=60)
+dspy.configure(lm=resilient_lm)
+```
+
+---
+
 ## Quick Reference
 
 ### Installation Commands
@@ -516,15 +949,36 @@ def serve():
 
 ## Related Skills
 
+### Core DSPy Skills
 - `dspy-signatures.md` - Next step: Define input/output signatures
 - `dspy-modules.md` - Building composable prediction modules
 - `dspy-optimizers.md` - Optimizing prompts with teleprompters
+- `dspy-evaluation.md` - Evaluating program performance
+- `dspy-rag.md` - Building RAG systems
+- `dspy-assertions.md` - Adding validation and constraints
+
+### Advanced DSPy Skills
+- `dspy-agents.md` - Building autonomous agents with tool use
+- `dspy-prompt-engineering.md` - Advanced prompting techniques
+- `dspy-finetuning.md` - Fine-tuning models with DSPy
+- `dspy-streaming.md` - Implementing streaming responses
+- `dspy-structured-outputs.md` - Generating structured data
+- `dspy-caching.md` - Implementing caching strategies
+- `dspy-testing.md` - Testing DSPy programs
+- `dspy-deployment.md` - Production deployment patterns
+
+### Infrastructure Skills
 - `modal-functions-basics.md` - Modal deployment fundamentals
 - `modal-gpu-workloads.md` - GPU selection and optimization for Modal
 - `modal-web-endpoints.md` - Creating Modal web endpoints for inference
 - `llm-dataset-preparation.md` - Preparing training data for optimization
 
+### Resources
+- `resources/dspy/level1-quickstart.md` - Getting started guide
+- `resources/dspy/level2-architecture.md` - DSPy architecture deep dive
+- `resources/dspy/level3-production.md` - Production deployment guide
+
 ---
 
-**Last Updated**: 2025-10-25
+**Last Updated**: 2025-10-30
 **Format Version**: 1.0 (Atomic)

@@ -1,7 +1,7 @@
 # Atomic Skills for Claude Code
 
 [![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-Plugin-blue)](https://docs.claude.com/en/docs/claude-code/plugins)
-[![Skills](https://img.shields.io/badge/Skills-350+-green)](skills/)
+[![Skills](https://img.shields.io/badge/Skills-447-green)](skills/)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
 **Context-efficient development knowledge via progressive skill discovery**
@@ -21,7 +21,7 @@ This creates an challenging tradeoff between comprehensive coverage and context 
 
 ## The Solution: Atomic Skills + Progressive Discovery
 
-### Atomic Skills (350+ total)
+### Atomic Skills (447 total)
 Each skill is **focused, self-contained, and composable**:
 - Average 320 lines - small enough to load quickly
 - Single responsibility - covers one clear topic
@@ -102,6 +102,12 @@ Complete implementation guides loaded only when needed:
 - **HuggingFace**: Hub, Transformers, Datasets, Spaces, AutoTrain (5 skills)
 - **Fine-tuning**: Unsloth, LoRA/PEFT, dataset prep (3 skills)
 
+**Rust & PyO3** (19 skills):
+- **DSPy-PyO3 Integration**: RAG pipelines, agents, async streaming, production deployment, optimization (7 skills with 36 production examples)
+- **Performance**: GIL management, parallel execution, data science, collections/iterators (6 skills)
+- **Web**: Axum frameworks, streaming responses, IPC, gRPC (2 skills)
+- **Production**: Packaging, testing, debugging, modules/functions/errors (4 skills with 20 examples)
+
 **Information Retrieval** (5 skills):
 - Search fundamentals (TF-IDF, BM25, Elasticsearch)
 - Vector search (dense retrieval, embeddings)
@@ -157,7 +163,7 @@ Complete implementation guides loaded only when needed:
 /plugin install https://github.com/rand/cc-polymath
 ```
 
-That's it! All 350+ skills and the `/skills` command are immediately available.
+That's it! All 447 skills and the `/skills` command are immediately available.
 
 **For local development or testing**:
 ```bash
@@ -289,6 +295,7 @@ cat skills/database/redpanda-streaming.md
         ├── networking/    # SSH, mTLS, VPN, NAT traversal (5)
         ├── tui/           # Terminal UI: Bubble Tea, Ratatui (5)
         ├── zig/           # Zig systems programming (6)
+        ├── rust/          # Rust & PyO3: DSPy integration, performance, production (19)
         ├── workflow/      # Beads task management (4)
         ├── data/          # ETL, streaming, batch (5)
         ├── deployment/    # Heroku, Netlify (6)
@@ -323,6 +330,7 @@ cat skills/database/redpanda-streaming.md
 | **Database** | Postgres, Mongo, Redis, Redpanda, Iceberg | 11 | discover-database |
 | **Caching** | Redis, HTTP, CDN, Service Workers | 7 | discover-caching |
 | **ML/AI** | DSPy, HuggingFace, Arize, GraphRAG | 33 | discover-ml |
+| **Rust/PyO3** | DSPy integration, RAG, agents, async, production | 19 | N/A |
 | **IR** | Elasticsearch, Vector DBs, Ranking | 5 | discover-ir |
 | **Systems** | WebAssembly, eBPF | 8 | discover-wasm, discover-ebpf |
 | **Collaboration** | GitHub, PRD, RFC | 17 | discover-collaboration, discover-product, discover-engineering |
@@ -516,4 +524,4 @@ Feel free to fork and adapt for your own use. Pull requests welcome.
 
 ---
 
-**350+ atomic skills** • **41 gateway Agent Skills** • **35+ categories** • **100% CI-validated**
+**447 atomic skills** • **41 gateway Agent Skills** • **35+ categories** • **100% CI-validated**

@@ -2,7 +2,7 @@
 
 ## Category Overview
 
-**Total Skills**: 25
+**Total Skills**: 33
 **Category**: ml
 
 ## Skills in This Category
@@ -37,12 +37,52 @@ cat skills/ml/diffusion-model-basics.md
 
 ---
 
+### dspy-advanced-patterns.md
+**Description**: Advanced DSPy patterns including typed predictors with Pydantic, streaming responses, batching strategies, prompt versioning, context management, and dynamic signatures
+
+**Load this skill**:
+```bash
+cat skills/ml/dspy-advanced-patterns.md
+```
+
+---
+
+### dspy-agents.md
+**Description**: Building ReAct agents with tool use, memory, error recovery, streaming, and state machine patterns
+
+**Load this skill**:
+```bash
+cat skills/ml/dspy-agents.md
+```
+
+---
+
 ### dspy-assertions.md
 **Description**: Adding constraints and validation to DSPy programs with assertions and suggestions
 
 **Load this skill**:
 ```bash
 cat skills/ml/dspy-assertions.md
+```
+
+---
+
+### dspy-compilation.md
+**Description**: Advanced DSPy compilation strategies including custom compilers, multi-stage compilation, caching, incremental compilation, and visualization
+
+**Load this skill**:
+```bash
+cat skills/ml/dspy-compilation.md
+```
+
+---
+
+### dspy-debugging.md
+**Description**: Debugging DSPy programs with output inspection, prompt inspection, execution tracing, profiling, and interactive debugging
+
+**Load this skill**:
+```bash
+cat skills/ml/dspy-debugging.md
 ```
 
 ---
@@ -57,6 +97,16 @@ cat skills/ml/dspy-evaluation.md
 
 ---
 
+### dspy-integrations.md
+**Description**: Integrating DSPy with LangChain, LlamaIndex, FastAPI, Gradio, MLflow, databases, Streamlit, and MCP/A2A protocols
+
+**Load this skill**:
+```bash
+cat skills/ml/dspy-integrations.md
+```
+
+---
+
 ### dspy-modules.md
 **Description**: Building composable prediction modules with Predict, ChainOfThought, ReAct, and custom modules
 
@@ -67,12 +117,32 @@ cat skills/ml/dspy-modules.md
 
 ---
 
+### dspy-multi-agent.md
+**Description**: Multi-agent systems with hierarchical, peer-to-peer, pipeline, and GEPA-optimized architectures for coordinated AI systems
+
+**Load this skill**:
+```bash
+cat skills/ml/dspy-multi-agent.md
+```
+
+---
+
 ### dspy-optimizers.md
 **Description**: Optimizing DSPy programs with teleprompters, BootstrapFewShot, MIPROv2, and compilation
 
 **Load this skill**:
 ```bash
 cat skills/ml/dspy-optimizers.md
+```
+
+---
+
+### dspy-production.md
+**Description**: Production deployment patterns including Modal serverless, caching strategies, circuit breakers, monitoring with Prometheus, A/B testing, and blue-green deployments
+
+**Load this skill**:
+```bash
+cat skills/ml/dspy-production.md
 ```
 
 ---
@@ -103,6 +173,16 @@ cat skills/ml/dspy-setup.md
 **Load this skill**:
 ```bash
 cat skills/ml/dspy-signatures.md
+```
+
+---
+
+### dspy-testing.md
+**Description**: Testing DSPy programs with unit tests, mocking, integration tests, property-based testing with Hypothesis, and performance testing
+
+**Load this skill**:
+```bash
+cat skills/ml/dspy-testing.md
 ```
 
 ---
@@ -267,7 +347,7 @@ ls skills/ml/*.md
 cat skills/ml/custom-llm-evaluation.md
 cat skills/ml/diffusion-finetuning.md
 cat skills/ml/diffusion-model-basics.md
-# ... and 22 more
+# ... and 30 more
 ```
 
 ## Related Categories

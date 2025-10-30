@@ -404,6 +404,469 @@ print("Best answer:", result.answer)
 
 ---
 
+## Advanced Patterns
+
+### Pattern 9: Module with Caching and Memoization
+
+```python
+import dspy
+from functools import lru_cache
+from typing import Tuple
+import hashlib
+
+class CachedModule(dspy.Module):
+    """Module with intelligent caching for expensive operations."""
+
+    def __init__(self, cache_size=128):
+        super().__init__()
+        self.predictor = dspy.ChainOfThought("question -> answer")
+        self.cache_size = cache_size
+        self._setup_cache()
+
+    def _setup_cache(self):
+        """Setup LRU cache for predictions."""
+        @lru_cache(maxsize=self.cache_size)
+        def cached_predict(question_hash: str, question: str) -> str:
+            result = self.predictor(question=question)
+            return result.answer
+
+        self._cached_predict = cached_predict
+
+    def _hash_input(self, question: str) -> str:
+        """Create hash of input for cache key."""
+        return hashlib.md5(question.encode()).hexdigest()
+
+    def forward(self, question):
+        question_hash = self._hash_input(question)
+        answer = self._cached_predict(question_hash, question)
+
+        return dspy.Prediction(
+            answer=answer,
+            cached=question_hash in [
+                arg[0] for arg in self._cached_predict.cache_info()._asdict().values()
+            ]
+        )
+
+    def cache_stats(self):
+        """Return cache statistics."""
+        return self._cached_predict.cache_info()
+
+# Usage
+cached_qa = CachedModule(cache_size=256)
+result1 = cached_qa(question="What is DSPy?")  # Cache miss
+result2 = cached_qa(question="What is DSPy?")  # Cache hit
+
+print(cached_qa.cache_stats())  # CacheInfo(hits=1, misses=1, ...)
+```
+
+**Benefits**:
+- Avoid redundant LM calls for repeated inputs
+- Significant cost reduction (60-90% with high cache hit rate)
+- Reduced latency for cached queries
+- Configurable cache size
+
+### Pattern 10: Hierarchical Module Decomposition
+
+```python
+import dspy
+
+class DocumentProcessor(dspy.Module):
+    """Process documents through hierarchical pipeline."""
+
+    def __init__(self):
+        super().__init__()
+        # Level 1: Document understanding
+        self.extract_topics = dspy.Predict("document -> topics: list[str]")
+        self.extract_entities = dspy.Predict("document -> entities: list[str]")
+
+        # Level 2: Analysis
+        self.analyze_sentiment = dspy.ChainOfThought("document, topics -> sentiment, score: float")
+        self.generate_summary = dspy.ChainOfThought("document, topics, entities -> summary")
+
+        # Level 3: Synthesis
+        self.generate_report = dspy.ChainOfThought(
+            "document, topics, entities, sentiment, summary -> report"
+        )
+
+    def forward(self, document):
+        # Level 1: Extract features
+        topics = self.extract_topics(document=document)
+        entities = self.extract_entities(document=document)
+
+        # Level 2: Analyze
+        sentiment = self.analyze_sentiment(
+            document=document,
+            topics=", ".join(topics.topics)
+        )
+
+        summary = self.generate_summary(
+            document=document,
+            topics=", ".join(topics.topics),
+            entities=", ".join(entities.entities)
+        )
+
+        # Level 3: Synthesize
+        report = self.generate_report(
+            document=document,
+            topics=", ".join(topics.topics),
+            entities=", ".join(entities.entities),
+            sentiment=f"{sentiment.sentiment} ({sentiment.score})",
+            summary=summary.summary
+        )
+
+        return dspy.Prediction(
+            topics=topics.topics,
+            entities=entities.entities,
+            sentiment=sentiment.sentiment,
+            sentiment_score=sentiment.score,
+            summary=summary.summary,
+            report=report.report
+        )
+
+# Use hierarchical processor
+processor = DocumentProcessor()
+result = processor(document="Long document text...")
+```
+
+**When to use**:
+- Complex multi-stage pipelines
+- Clear separation of concerns
+- Independent optimization of each level
+- Reusable sub-modules
+
+### Pattern 11: Adaptive Module Selection
+
+```python
+import dspy
+from typing import Dict, Callable
+
+class AdaptiveRouter(dspy.Module):
+    """Route inputs to appropriate specialized modules."""
+
+    def __init__(self, modules: Dict[str, dspy.Module],
+                 router_fn: Callable[[str], str]):
+        """
+        Args:
+            modules: Dict of {module_name: module_instance}
+            router_fn: Function that returns module name given input
+        """
+        super().__init__()
+        self.modules = modules
+        self.router_fn = router_fn
+
+    def forward(self, **kwargs):
+        # Determine which module to use
+        module_name = self.router_fn(str(kwargs))
+        selected_module = self.modules.get(module_name)
+
+        if not selected_module:
+            raise ValueError(f"No module found for: {module_name}")
+
+        # Execute selected module
+        result = selected_module(**kwargs)
+
+        # Add routing metadata
+        result.selected_module = module_name
+
+        return result
+
+# Define specialized modules
+qa_module = dspy.ChainOfThought("question -> answer")
+summarize_module = dspy.ChainOfThought("document -> summary")
+translate_module = dspy.Predict("text, target_lang -> translation")
+
+# Define routing logic
+def route_request(input_str: str) -> str:
+    """Simple keyword-based routing."""
+    if "summarize" in input_str.lower():
+        return "summarize"
+    elif "translate" in input_str.lower():
+        return "translate"
+    else:
+        return "qa"
+
+# Create adaptive router
+router = AdaptiveRouter(
+    modules={
+        "qa": qa_module,
+        "summarize": summarize_module,
+        "translate": translate_module,
+    },
+    router_fn=route_request
+)
+
+# Use router
+result1 = router(question="What is DSPy?")  # Routes to QA
+result2 = router(document="Long text...", task="summarize")  # Routes to summarize
+```
+
+**Benefits**:
+- Single entry point for multiple task types
+- Specialized modules for each task
+- Easy to add new modules
+- Automatic routing based on input
+
+---
+
+## Production Considerations
+
+### Module Performance Optimization
+
+```python
+import dspy
+import time
+from typing import Optional
+
+class PerformanceOptimizedModule(dspy.Module):
+    """Module with performance monitoring and optimization."""
+
+    def __init__(self):
+        super().__init__()
+        self.fast_path = dspy.Predict("question -> answer")
+        self.accurate_path = dspy.ChainOfThought("question -> answer, reasoning")
+
+        # Performance tracking
+        self.fast_count = 0
+        self.accurate_count = 0
+        self.total_time = 0.0
+
+    def forward(self, question, require_reasoning=False, max_latency_ms=1000):
+        start_time = time.time()
+
+        # Choose path based on requirements
+        if require_reasoning or len(question.split()) > 50:
+            # Use accurate but slower path
+            result = self.accurate_path(question=question)
+            self.accurate_count += 1
+        else:
+            # Use fast path
+            result = self.fast_path(question=question)
+            self.fast_count += 1
+
+            # Check latency budget
+            elapsed_ms = (time.time() - start_time) * 1000
+            if elapsed_ms > max_latency_ms:
+                # Log latency violation
+                print(f"Warning: Latency {elapsed_ms:.0f}ms exceeded budget {max_latency_ms}ms")
+
+        self.total_time += time.time() - start_time
+
+        return result
+
+    def performance_stats(self):
+        """Return performance statistics."""
+        total_calls = self.fast_count + self.accurate_count
+        return {
+            "total_calls": total_calls,
+            "fast_path_calls": self.fast_count,
+            "accurate_path_calls": self.accurate_count,
+            "fast_path_percentage": (self.fast_count / total_calls * 100) if total_calls > 0 else 0,
+            "avg_latency_ms": (self.total_time / total_calls * 1000) if total_calls > 0 else 0,
+        }
+
+# Usage
+module = PerformanceOptimizedModule()
+
+# Fast path
+result1 = module(question="What is 2+2?")
+
+# Accurate path
+result2 = module(question="What is 2+2?", require_reasoning=True)
+
+print(module.performance_stats())
+```
+
+### Module Testing and Validation
+
+```python
+import dspy
+from typing import List, Tuple
+
+class TestableModule(dspy.Module):
+    """Module with built-in testing and validation."""
+
+    def __init__(self):
+        super().__init__()
+        self.predictor = dspy.ChainOfThought("question -> answer")
+        self.test_cases = []
+
+    def forward(self, question):
+        return self.predictor(question=question)
+
+    def add_test_case(self, question: str, expected_answer: str):
+        """Add test case for validation."""
+        self.test_cases.append((question, expected_answer))
+
+    def run_tests(self, similarity_threshold=0.7) -> Tuple[int, int, List[dict]]:
+        """
+        Run all test cases.
+
+        Returns:
+            (passed_count, total_count, failures)
+        """
+        passed = 0
+        failures = []
+
+        for question, expected in self.test_cases:
+            result = self(question=question)
+            predicted = result.answer.lower()
+            expected_lower = expected.lower()
+
+            # Simple containment check (can be more sophisticated)
+            if expected_lower in predicted or predicted in expected_lower:
+                passed += 1
+            else:
+                failures.append({
+                    "question": question,
+                    "expected": expected,
+                    "predicted": result.answer,
+                })
+
+        return passed, len(self.test_cases), failures
+
+# Usage
+module = TestableModule()
+
+# Add test cases
+module.add_test_case("What is the capital of France?", "Paris")
+module.add_test_case("What is 2+2?", "4")
+module.add_test_case("Who wrote Hamlet?", "Shakespeare")
+
+# Run tests
+passed, total, failures = module.run_tests()
+print(f"Tests: {passed}/{total} passed")
+
+if failures:
+    print("\nFailures:")
+    for f in failures:
+        print(f"  Q: {f['question']}")
+        print(f"  Expected: {f['expected']}")
+        print(f"  Got: {f['predicted']}")
+```
+
+### Production Deployment Patterns
+
+```python
+import dspy
+import logging
+from typing import Optional
+import json
+
+# Setup logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+class ProductionModule(dspy.Module):
+    """Production-ready module with comprehensive error handling."""
+
+    def __init__(self, fallback_response: Optional[str] = None):
+        super().__init__()
+        self.predictor = dspy.ChainOfThought("question -> answer, confidence: float")
+        self.fallback_response = fallback_response or "I'm unable to answer that question."
+
+        # Metrics
+        self.success_count = 0
+        self.error_count = 0
+        self.fallback_count = 0
+
+    def forward(self, question, user_id: Optional[str] = None):
+        """
+        Production-ready forward pass with full error handling.
+
+        Args:
+            question: User question
+            user_id: Optional user identifier for logging
+
+        Returns:
+            Prediction with answer and metadata
+        """
+        try:
+            # Log request
+            logger.info(f"Request from user={user_id}: {question[:100]}")
+
+            # Validate input
+            if not question or len(question.strip()) == 0:
+                raise ValueError("Empty question")
+
+            if len(question) > 5000:
+                raise ValueError("Question too long (>5000 chars)")
+
+            # Make prediction
+            result = self.predictor(question=question)
+
+            # Validate output
+            if not hasattr(result, 'answer') or not result.answer:
+                raise ValueError("Empty answer from model")
+
+            # Parse confidence
+            try:
+                confidence = float(result.confidence)
+            except:
+                confidence = 0.5
+                logger.warning("Invalid confidence value, using default 0.5")
+
+            # Check confidence threshold
+            if confidence < 0.3:
+                logger.warning(f"Low confidence ({confidence}) for question: {question[:100]}")
+                self.fallback_count += 1
+                return dspy.Prediction(
+                    answer=self.fallback_response,
+                    confidence=0.0,
+                    status="fallback",
+                    reason="low_confidence"
+                )
+
+            # Success
+            self.success_count += 1
+            logger.info(f"Success: confidence={confidence:.2f}")
+
+            return dspy.Prediction(
+                answer=result.answer,
+                confidence=confidence,
+                status="success"
+            )
+
+        except Exception as e:
+            # Error handling
+            self.error_count += 1
+            logger.error(f"Error processing question: {e}", exc_info=True)
+
+            return dspy.Prediction(
+                answer=self.fallback_response,
+                confidence=0.0,
+                status="error",
+                error=str(e)
+            )
+
+    def health_check(self) -> dict:
+        """Return health status for monitoring."""
+        total_requests = self.success_count + self.error_count + self.fallback_count
+        error_rate = (self.error_count / total_requests) if total_requests > 0 else 0
+
+        return {
+            "status": "healthy" if error_rate < 0.1 else "degraded",
+            "total_requests": total_requests,
+            "success_count": self.success_count,
+            "error_count": self.error_count,
+            "fallback_count": self.fallback_count,
+            "error_rate": error_rate,
+        }
+
+# Usage
+module = ProductionModule(fallback_response="I don't have enough information to answer that.")
+
+# Process request
+result = module(question="What is DSPy?", user_id="user123")
+print(f"Answer: {result.answer}")
+print(f"Status: {result.status}")
+
+# Check health
+health = module.health_check()
+print(f"Health: {json.dumps(health, indent=2)}")
+```
+
+---
+
 ## Quick Reference
 
 ### Module Comparison
@@ -518,13 +981,28 @@ def forward(self, x):
 
 ## Related Skills
 
+### Core DSPy Skills
 - `dspy-signatures.md` - Defining signatures for modules
+- `dspy-setup.md` - LM configuration for modules
 - `dspy-optimizers.md` - Optimizing module parameters
 - `dspy-rag.md` - Building RAG pipelines with modules
 - `dspy-assertions.md` - Adding validation to modules
 - `dspy-evaluation.md` - Evaluating module performance
 
+### Advanced DSPy Skills
+- `dspy-agents.md` - Building agent modules with tool use
+- `dspy-caching.md` - Implementing module-level caching
+- `dspy-streaming.md` - Streaming module outputs
+- `dspy-testing.md` - Testing modules comprehensively
+- `dspy-deployment.md` - Deploying modules to production
+- `dspy-prompt-engineering.md` - Advanced module patterns
+
+### Resources
+- `resources/dspy/level1-quickstart.md` - Getting started with modules
+- `resources/dspy/level2-architecture.md` - Module architecture patterns
+- `resources/dspy/level3-production.md` - Production module deployment
+
 ---
 
-**Last Updated**: 2025-10-25
+**Last Updated**: 2025-10-30
 **Format Version**: 1.0 (Atomic)
