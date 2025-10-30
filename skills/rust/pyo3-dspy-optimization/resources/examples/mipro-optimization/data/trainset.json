@@ -1,0 +1,252 @@
+[
+  {
+    "question": "What is the capital of France?",
+    "context": "France is a country in Western Europe. Its capital and largest city is Paris, which is located in the north-central part of the country.",
+    "answer": "Paris"
+  },
+  {
+    "question": "Who wrote Romeo and Juliet?",
+    "context": "Romeo and Juliet is a tragedy written by William Shakespeare early in his career about two young star-crossed lovers whose deaths ultimately reconcile their feuding families.",
+    "answer": "William Shakespeare"
+  },
+  {
+    "question": "What is the largest planet in our solar system?",
+    "context": "Jupiter is the fifth planet from the Sun and the largest in the Solar System. It is a gas giant with a mass more than two and a half times that of all the other planets in the Solar System combined.",
+    "answer": "Jupiter"
+  },
+  {
+    "question": "What year did World War II end?",
+    "context": "World War II ended in 1945 with the surrender of Nazi Germany in May and the surrender of Japan in September following the atomic bombings of Hiroshima and Nagasaki.",
+    "answer": "1945"
+  },
+  {
+    "question": "What is the chemical symbol for gold?",
+    "context": "Gold is a chemical element with the symbol Au (from Latin: aurum) and atomic number 79. It is a bright, slightly reddish yellow, dense, soft, malleable, and ductile metal.",
+    "answer": "Au"
+  },
+  {
+    "question": "Who painted the Mona Lisa?",
+    "context": "The Mona Lisa is a half-length portrait painting by Italian artist Leonardo da Vinci. It is considered an archetypal masterpiece of the Italian Renaissance.",
+    "answer": "Leonardo da Vinci"
+  },
+  {
+    "question": "What is the speed of light?",
+    "context": "The speed of light in vacuum, commonly denoted c, is a universal physical constant that is exactly equal to 299,792,458 meters per second.",
+    "answer": "299,792,458 meters per second"
+  },
+  {
+    "question": "What is the smallest country in the world?",
+    "context": "Vatican City is the smallest country in the world by both area and population. It is an enclave within Rome, Italy, with an area of approximately 44 hectares.",
+    "answer": "Vatican City"
+  },
+  {
+    "question": "Who invented the telephone?",
+    "context": "Alexander Graham Bell was a Scottish-born inventor, scientist, and engineer who is credited with patenting the first practical telephone in 1876.",
+    "answer": "Alexander Graham Bell"
+  },
+  {
+    "question": "What is the longest river in the world?",
+    "context": "The Nile River is the longest river in the world, measuring approximately 6,650 kilometers (4,130 miles) long. It flows through northeastern Africa.",
+    "answer": "The Nile River"
+  },
+  {
+    "question": "What is the boiling point of water at sea level?",
+    "context": "At sea level, water boils at 100 degrees Celsius (212 degrees Fahrenheit) under standard atmospheric pressure of 1 atmosphere.",
+    "answer": "100 degrees Celsius"
+  },
+  {
+    "question": "Who was the first President of the United States?",
+    "context": "George Washington served as the first President of the United States from 1789 to 1797. He was a Founding Father and commander of the Continental Army during the Revolutionary War.",
+    "answer": "George Washington"
+  },
+  {
+    "question": "What is the currency of Japan?",
+    "context": "The yen is the official currency of Japan. It is the third most traded currency in the foreign exchange market after the United States dollar and the euro.",
+    "answer": "Yen"
+  },
+  {
+    "question": "How many continents are there?",
+    "context": "There are seven continents on Earth: Africa, Antarctica, Asia, Australia (Oceania), Europe, North America, and South America.",
+    "answer": "Seven"
+  },
+  {
+    "question": "What is the tallest mountain in the world?",
+    "context": "Mount Everest is Earth's highest mountain above sea level, located in the Mahalangur Himal sub-range of the Himalayas. Its peak is 8,848.86 meters (29,031.7 feet) above sea level.",
+    "answer": "Mount Everest"
+  },
+  {
+    "question": "Who discovered penicillin?",
+    "context": "Penicillin was discovered in 1928 by Scottish scientist Alexander Fleming. He noticed that a mold called Penicillium notatum had antibacterial properties.",
+    "answer": "Alexander Fleming"
+  },
+  {
+    "question": "What is the largest ocean on Earth?",
+    "context": "The Pacific Ocean is the largest and deepest of Earth's oceanic divisions. It extends from the Arctic Ocean in the north to the Southern Ocean in the south and is bounded by Asia and Australia in the west and the Americas in the east.",
+    "answer": "Pacific Ocean"
+  },
+  {
+    "question": "What year did humans first land on the Moon?",
+    "context": "The Apollo 11 mission successfully landed humans on the Moon on July 20, 1969. Neil Armstrong and Buzz Aldrin became the first humans to walk on the lunar surface.",
+    "answer": "1969"
+  },
+  {
+    "question": "What is the main language spoken in Brazil?",
+    "context": "Portuguese is the official and national language of Brazil. It is spoken by virtually all of the country's 200 million inhabitants, making Brazil the most populous Portuguese-speaking country in the world.",
+    "answer": "Portuguese"
+  },
+  {
+    "question": "Who wrote the Harry Potter series?",
+    "context": "J.K. Rowling is the British author who wrote the Harry Potter fantasy series. The series consists of seven novels published between 1997 and 2007.",
+    "answer": "J.K. Rowling"
+  },
+  {
+    "question": "What is the smallest bone in the human body?",
+    "context": "The stapes, also called the stirrup bone, is the smallest bone in the human body. It is located in the middle ear and is approximately 2.5-3 millimeters in length.",
+    "answer": "Stapes"
+  },
+  {
+    "question": "What is photosynthesis?",
+    "context": "Photosynthesis is the process by which plants, algae, and some bacteria convert light energy into chemical energy stored in glucose. It uses carbon dioxide and water, releasing oxygen as a byproduct.",
+    "answer": "The process by which plants convert light energy into chemical energy"
+  },
+  {
+    "question": "Who developed the theory of relativity?",
+    "context": "Albert Einstein developed the theory of relativity, which includes the special theory of relativity (1905) and the general theory of relativity (1915). These theories revolutionized our understanding of space, time, and gravity.",
+    "answer": "Albert Einstein"
+  },
+  {
+    "question": "What is the hardest natural substance on Earth?",
+    "context": "Diamond is the hardest known natural substance on Earth. It is made of carbon atoms arranged in a crystal structure and has a hardness of 10 on the Mohs scale.",
+    "answer": "Diamond"
+  },
+  {
+    "question": "How many bones are in the adult human body?",
+    "context": "An adult human skeleton consists of 206 bones. These bones provide structure, protect organs, anchor muscles, and store calcium.",
+    "answer": "206"
+  },
+  {
+    "question": "What is the capital of Australia?",
+    "context": "Canberra is the capital city of Australia. It is located in the Australian Capital Territory and was selected as the capital in 1908 as a compromise between Sydney and Melbourne.",
+    "answer": "Canberra"
+  },
+  {
+    "question": "Who painted 'The Starry Night'?",
+    "context": "The Starry Night is an oil on canvas painting by Dutch Post-Impressionist painter Vincent van Gogh. Painted in June 1889, it depicts the view from his asylum room window at Saint-Rémy-de-Provence.",
+    "answer": "Vincent van Gogh"
+  },
+  {
+    "question": "What is the largest organ in the human body?",
+    "context": "The skin is the largest organ of the human body. It covers the entire external surface of the human body and accounts for about 15% of total body weight.",
+    "answer": "Skin"
+  },
+  {
+    "question": "What is the freezing point of water?",
+    "context": "Water freezes at 0 degrees Celsius (32 degrees Fahrenheit) under standard atmospheric pressure. This is the temperature at which water transitions from liquid to solid state.",
+    "answer": "0 degrees Celsius"
+  },
+  {
+    "question": "Who invented the World Wide Web?",
+    "context": "Tim Berners-Lee, a British scientist, invented the World Wide Web (WWW) in 1989 while working at CERN. He wrote the first web browser and web server.",
+    "answer": "Tim Berners-Lee"
+  },
+  {
+    "question": "What is the closest planet to the Sun?",
+    "context": "Mercury is the smallest planet in the Solar System and the closest to the Sun. Its orbit around the Sun takes 87.97 Earth days, the shortest of all the planets.",
+    "answer": "Mercury"
+  },
+  {
+    "question": "How many chambers does the human heart have?",
+    "context": "The human heart has four chambers: two upper chambers called atria (right atrium and left atrium) and two lower chambers called ventricles (right ventricle and left ventricle).",
+    "answer": "Four"
+  },
+  {
+    "question": "What is the study of earthquakes called?",
+    "context": "Seismology is the scientific study of earthquakes and the propagation of elastic waves through the Earth. Seismologists study the causes and effects of earthquakes.",
+    "answer": "Seismology"
+  },
+  {
+    "question": "Who composed the 'Moonlight Sonata'?",
+    "context": "The Piano Sonata No. 14 in C-sharp minor 'Quasi una fantasia', known as the Moonlight Sonata, is a piano sonata by Ludwig van Beethoven, completed in 1801.",
+    "answer": "Ludwig van Beethoven"
+  },
+  {
+    "question": "What is the chemical formula for water?",
+    "context": "Water is a chemical compound consisting of two hydrogen atoms bonded to one oxygen atom. Its chemical formula is H2O.",
+    "answer": "H2O"
+  },
+  {
+    "question": "What is the largest desert in the world?",
+    "context": "The Antarctic Desert is the largest desert in the world, covering approximately 14 million square kilometers. A desert is defined by low precipitation, not temperature.",
+    "answer": "Antarctic Desert"
+  },
+  {
+    "question": "Who wrote '1984'?",
+    "context": "1984 is a dystopian social science fiction novel and cautionary tale written by English writer George Orwell. It was published in 1949.",
+    "answer": "George Orwell"
+  },
+  {
+    "question": "What is the powerhouse of the cell?",
+    "context": "Mitochondria are often called the powerhouse of the cell because they generate most of the cell's supply of adenosine triphosphate (ATP), which is used as a source of chemical energy.",
+    "answer": "Mitochondria"
+  },
+  {
+    "question": "How many sides does a hexagon have?",
+    "context": "A hexagon is a six-sided polygon. Regular hexagons have six equal sides and six equal angles of 120 degrees each.",
+    "answer": "Six"
+  },
+  {
+    "question": "What is the capital of Canada?",
+    "context": "Ottawa is the capital city of Canada. It is located in the eastern portion of southern Ontario, on the south bank of the Ottawa River.",
+    "answer": "Ottawa"
+  },
+  {
+    "question": "Who invented the printing press?",
+    "context": "Johannes Gutenberg was a German inventor who introduced printing to Europe with his mechanical movable-type printing press around 1440.",
+    "answer": "Johannes Gutenberg"
+  },
+  {
+    "question": "What is the most abundant gas in Earth's atmosphere?",
+    "context": "Nitrogen is the most abundant gas in Earth's atmosphere, making up about 78% of the air we breathe. Oxygen is the second most abundant at about 21%.",
+    "answer": "Nitrogen"
+  },
+  {
+    "question": "How many teeth does an adult human have?",
+    "context": "A normal adult human has 32 teeth, including 8 incisors, 4 canines, 8 premolars, and 12 molars (including 4 wisdom teeth).",
+    "answer": "32"
+  },
+  {
+    "question": "What is the smallest prime number?",
+    "context": "A prime number is a natural number greater than 1 that has no positive divisors other than 1 and itself. The smallest prime number is 2, which is also the only even prime number.",
+    "answer": "2"
+  },
+  {
+    "question": "Who discovered electricity?",
+    "context": "While electricity was known in ancient times, Benjamin Franklin is credited with discovering that lightning is electrical through his famous kite experiment in 1752.",
+    "answer": "Benjamin Franklin"
+  },
+  {
+    "question": "What is the largest mammal in the world?",
+    "context": "The blue whale is the largest animal known to have ever existed on Earth. Adult blue whales can reach lengths of up to 30 meters (98 feet) and weigh up to 200 tons.",
+    "answer": "Blue whale"
+  },
+  {
+    "question": "What is the value of pi to two decimal places?",
+    "context": "Pi (π) is a mathematical constant representing the ratio of a circle's circumference to its diameter. Its value is approximately 3.14159, or 3.14 to two decimal places.",
+    "answer": "3.14"
+  },
+  {
+    "question": "Who was the first woman to win a Nobel Prize?",
+    "context": "Marie Curie was the first woman to win a Nobel Prize. She won the Nobel Prize in Physics in 1903, shared with her husband Pierre Curie and Henri Becquerel, for their work on radioactivity.",
+    "answer": "Marie Curie"
+  },
+  {
+    "question": "What is the main component of the Sun?",
+    "context": "The Sun is composed primarily of hydrogen, which makes up about 73% of its mass. Helium is the second most abundant element at about 25%.",
+    "answer": "Hydrogen"
+  },
+  {
+    "question": "How many strings does a standard guitar have?",
+    "context": "A standard guitar has six strings. From thickest to thinnest, they are typically tuned to E, A, D, G, B, and E.",
+    "answer": "Six"
+  }
+]

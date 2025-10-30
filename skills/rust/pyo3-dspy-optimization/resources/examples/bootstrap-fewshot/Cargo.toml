@@ -1,0 +1,20 @@
+[package]
+name = "bootstrap-fewshot"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["auto-initialize"] }
+tokio = { version = "1.41", features = ["full"] }
+anyhow = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+
+[[bin]]
+name = "bootstrap-fewshot"
+path = "src/main.rs"
+
+[lib]
+name = "bootstrap_fewshot"
+path = "src/lib.rs"

@@ -1,0 +1,26 @@
+[package]
+name = "mipro-optimization"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# PyO3 for Python-Rust interop
+pyo3 = { version = "0.20", features = ["auto-initialize"] }
+
+# Async runtime
+tokio = { version = "1.35", features = ["full"] }
+
+# Error handling
+anyhow = "1.0"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[[bin]]
+name = "mipro-optimization"
+path = "src/main.rs"
+
+[lib]
+name = "mipro_optimization"
+path = "src/lib.rs"

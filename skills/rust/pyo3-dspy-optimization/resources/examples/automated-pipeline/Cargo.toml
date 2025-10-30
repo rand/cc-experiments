@@ -1,0 +1,40 @@
+[package]
+name = "automated-pipeline"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# PyO3 for Python-Rust interop
+pyo3 = { version = "0.20", features = ["auto-initialize"] }
+
+# Async runtime
+tokio = { version = "1.35", features = ["full"] }
+
+# Cron scheduling
+tokio-cron-scheduler = "0.10"
+
+# Error handling
+anyhow = "1.0"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde_yaml = "0.9"
+
+# HTTP client for webhooks
+reqwest = { version = "0.11", features = ["json"] }
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Time handling
+chrono = { version = "0.4", features = ["serde"] }
+
+[[bin]]
+name = "automated-pipeline"
+path = "src/main.rs"
+
+[lib]
+name = "automated_pipeline"
+path = "src/lib.rs"

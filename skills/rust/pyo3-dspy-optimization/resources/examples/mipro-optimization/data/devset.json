@@ -1,0 +1,102 @@
+[
+  {
+    "question": "What is the capital of Italy?",
+    "context": "Italy is a country in Southern Europe. Its capital city is Rome, which is also known as the Eternal City and has a history spanning over two and a half thousand years.",
+    "answer": "Rome"
+  },
+  {
+    "question": "Who wrote 'To Kill a Mockingbird'?",
+    "context": "To Kill a Mockingbird is a novel by American author Harper Lee. It was published in 1960 and won the Pulitzer Prize in 1961.",
+    "answer": "Harper Lee"
+  },
+  {
+    "question": "What is the second smallest planet in our solar system?",
+    "context": "Mars is the fourth planet from the Sun and the second smallest planet in the Solar System after Mercury. It is often called the Red Planet due to its reddish appearance.",
+    "answer": "Mars"
+  },
+  {
+    "question": "What year did the Titanic sink?",
+    "context": "The RMS Titanic sank in the North Atlantic Ocean on April 15, 1912, after striking an iceberg during her maiden voyage from Southampton to New York City.",
+    "answer": "1912"
+  },
+  {
+    "question": "What is the chemical symbol for silver?",
+    "context": "Silver is a chemical element with the symbol Ag (from Latin: argentum) and atomic number 47. It is a soft, white, lustrous transition metal.",
+    "answer": "Ag"
+  },
+  {
+    "question": "Who sculpted the Statue of David?",
+    "context": "David is a masterpiece of Renaissance sculpture created by Italian artist Michelangelo between 1501 and 1504. It depicts the Biblical hero David.",
+    "answer": "Michelangelo"
+  },
+  {
+    "question": "What is the speed of sound at sea level?",
+    "context": "The speed of sound in dry air at 20°C (68°F) is approximately 343 meters per second (1,235 kilometers per hour or 767 miles per hour).",
+    "answer": "343 meters per second"
+  },
+  {
+    "question": "What is the largest country in the world by area?",
+    "context": "Russia is the largest country in the world by land area, covering approximately 17.1 million square kilometers. It spans Eastern Europe and northern Asia.",
+    "answer": "Russia"
+  },
+  {
+    "question": "Who invented the light bulb?",
+    "context": "Thomas Edison is credited with inventing the first commercially practical incandescent light bulb in 1879, though several inventors contributed to the development of electric lighting.",
+    "answer": "Thomas Edison"
+  },
+  {
+    "question": "What is the second longest river in the world?",
+    "context": "The Amazon River is the second longest river in the world after the Nile, measuring approximately 6,400 kilometers (4,000 miles) in length. It flows through South America.",
+    "answer": "Amazon River"
+  },
+  {
+    "question": "What is the melting point of ice?",
+    "context": "Ice melts at 0 degrees Celsius (32 degrees Fahrenheit) under standard atmospheric pressure. This is the temperature at which ice transitions from solid to liquid state.",
+    "answer": "0 degrees Celsius"
+  },
+  {
+    "question": "Who was the 16th President of the United States?",
+    "context": "Abraham Lincoln served as the 16th President of the United States from 1861 until his assassination in 1865. He led the nation through the Civil War and worked to abolish slavery.",
+    "answer": "Abraham Lincoln"
+  },
+  {
+    "question": "What is the currency of the United Kingdom?",
+    "context": "The pound sterling (symbol: £; ISO code: GBP) is the official currency of the United Kingdom. It is the oldest currency still in use and the fourth most traded currency in the foreign exchange market.",
+    "answer": "Pound sterling"
+  },
+  {
+    "question": "How many planets are in our solar system?",
+    "context": "There are eight planets in our Solar System: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune. Pluto was reclassified as a dwarf planet in 2006.",
+    "answer": "Eight"
+  },
+  {
+    "question": "What is the second tallest mountain in the world?",
+    "context": "K2, also known as Mount Godwin-Austen or Chhogori, is the second highest mountain in the world after Mount Everest, at 8,611 meters (28,251 feet) above sea level.",
+    "answer": "K2"
+  },
+  {
+    "question": "Who discovered radioactivity?",
+    "context": "Henri Becquerel discovered radioactivity in 1896 when he observed that uranium salts emitted rays that could fog photographic plates. Marie and Pierre Curie later expanded on this work.",
+    "answer": "Henri Becquerel"
+  },
+  {
+    "question": "What is the second largest ocean on Earth?",
+    "context": "The Atlantic Ocean is the second largest ocean on Earth after the Pacific Ocean. It covers approximately 106.5 million square kilometers and separates the Americas from Europe and Africa.",
+    "answer": "Atlantic Ocean"
+  },
+  {
+    "question": "What year was the first computer invented?",
+    "context": "The first general-purpose electronic computer, ENIAC (Electronic Numerical Integrator and Computer), was completed in 1945 at the University of Pennsylvania.",
+    "answer": "1945"
+  },
+  {
+    "question": "What is the main language spoken in Argentina?",
+    "context": "Spanish is the official language of Argentina and is spoken by virtually all of the country's population. Argentine Spanish has its own distinctive accent and vocabulary.",
+    "answer": "Spanish"
+  },
+  {
+    "question": "Who wrote 'Pride and Prejudice'?",
+    "context": "Pride and Prejudice is a romantic novel of manners written by English author Jane Austen. It was first published in 1813 and has become one of the most beloved classics in English literature.",
+    "answer": "Jane Austen"
+  }
+]

@@ -1,0 +1,54 @@
+# Automated DSPy Optimization Pipeline Configuration
+
+# Pipeline identification
+name: "production_optimization"
+
+# DSPy optimizer to use (MIPROv2, BootstrapFewShot, etc.)
+optimizer: "MIPROv2"
+
+# Data paths
+train_data: "data/train.json"
+val_data: "data/val.json"
+
+# Quality gates - all must pass for deployment
+quality_gates:
+  - name: "accuracy_threshold"
+    metric: "accuracy"
+    min_value: 0.75
+    required: true
+
+  - name: "f1_score_threshold"
+    metric: "f1_score"
+    min_value: 0.70
+    required: true
+
+  - name: "evaluation_coverage"
+    metric: "examples_evaluated"
+    min_value: 100
+    required: true
+
+# Deployment configuration
+deploy_dir: "models/production"
+artifact_dir: "artifacts"
+auto_deploy: true
+enable_rollback: true
+
+# Optimization parameters
+max_trials: 100
+
+# Notification configuration
+notifications:
+  # Webhook for generic notifications
+  webhook_url: "https://example.com/webhooks/pipeline"
+
+  # Slack webhook for team notifications
+  slack_webhook: "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
+
+  # Email addresses for alerts
+  email_addresses:
+    - "team@example.com"
+    - "oncall@example.com"
+
+  # When to send notifications
+  notify_on_success: true
+  notify_on_failure: true

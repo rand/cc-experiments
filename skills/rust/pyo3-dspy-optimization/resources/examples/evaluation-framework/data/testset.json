@@ -1,0 +1,272 @@
+[
+  {
+    "input": "What is the capital of France?",
+    "expected_output": "Paris",
+    "metadata": {
+      "category": "geography",
+      "difficulty": "easy",
+      "topic": "world_capitals"
+    }
+  },
+  {
+    "input": "Explain the concept of photosynthesis.",
+    "expected_output": "Photosynthesis is the process by which green plants and some other organisms use sunlight to synthesize nutrients from carbon dioxide and water. It generally involves the green pigment chlorophyll and generates oxygen as a by-product.",
+    "metadata": {
+      "category": "biology",
+      "difficulty": "medium",
+      "topic": "plant_biology"
+    }
+  },
+  {
+    "input": "What is 15 × 23?",
+    "expected_output": "345",
+    "metadata": {
+      "category": "mathematics",
+      "difficulty": "easy",
+      "topic": "arithmetic"
+    }
+  },
+  {
+    "input": "Who wrote 'Romeo and Juliet'?",
+    "expected_output": "William Shakespeare",
+    "metadata": {
+      "category": "literature",
+      "difficulty": "easy",
+      "topic": "classic_literature"
+    }
+  },
+  {
+    "input": "Describe quantum entanglement in simple terms.",
+    "expected_output": "Quantum entanglement is a phenomenon where two or more particles become connected in such a way that the state of one particle instantly affects the state of the other, regardless of the distance between them. This connection persists even when the particles are separated by large distances.",
+    "metadata": {
+      "category": "physics",
+      "difficulty": "hard",
+      "topic": "quantum_mechanics"
+    }
+  },
+  {
+    "input": "What is the chemical formula for water?",
+    "expected_output": "H2O",
+    "metadata": {
+      "category": "chemistry",
+      "difficulty": "easy",
+      "topic": "basic_chemistry"
+    }
+  },
+  {
+    "input": "Name the first president of the United States.",
+    "expected_output": "George Washington",
+    "metadata": {
+      "category": "history",
+      "difficulty": "easy",
+      "topic": "american_history"
+    }
+  },
+  {
+    "input": "What is the speed of light in vacuum?",
+    "expected_output": "299,792,458 meters per second (approximately 300,000 km/s or 186,000 miles/s)",
+    "metadata": {
+      "category": "physics",
+      "difficulty": "medium",
+      "topic": "constants"
+    }
+  },
+  {
+    "input": "Explain the difference between DNA and RNA.",
+    "expected_output": "DNA (deoxyribonucleic acid) is double-stranded and contains the sugar deoxyribose, while RNA (ribonucleic acid) is typically single-stranded and contains the sugar ribose. DNA uses thymine as a base, while RNA uses uracil instead. DNA stores genetic information, while RNA is primarily involved in protein synthesis.",
+    "metadata": {
+      "category": "biology",
+      "difficulty": "medium",
+      "topic": "molecular_biology"
+    }
+  },
+  {
+    "input": "What is the square root of 144?",
+    "expected_output": "12",
+    "metadata": {
+      "category": "mathematics",
+      "difficulty": "easy",
+      "topic": "algebra"
+    }
+  },
+  {
+    "input": "Who painted the Mona Lisa?",
+    "expected_output": "Leonardo da Vinci",
+    "metadata": {
+      "category": "art",
+      "difficulty": "easy",
+      "topic": "renaissance_art"
+    }
+  },
+  {
+    "input": "What is the largest planet in our solar system?",
+    "expected_output": "Jupiter",
+    "metadata": {
+      "category": "astronomy",
+      "difficulty": "easy",
+      "topic": "solar_system"
+    }
+  },
+  {
+    "input": "Explain the greenhouse effect.",
+    "expected_output": "The greenhouse effect is a natural process where certain gases in Earth's atmosphere trap heat from the sun. These greenhouse gases allow sunlight to enter the atmosphere but prevent some of the heat from escaping back into space, warming the planet. While essential for life, human activities have increased greenhouse gas concentrations, leading to enhanced warming.",
+    "metadata": {
+      "category": "environmental_science",
+      "difficulty": "medium",
+      "topic": "climate"
+    }
+  },
+  {
+    "input": "What is the boiling point of water at sea level?",
+    "expected_output": "100 degrees Celsius or 212 degrees Fahrenheit",
+    "metadata": {
+      "category": "chemistry",
+      "difficulty": "easy",
+      "topic": "properties_of_matter"
+    }
+  },
+  {
+    "input": "Define the term 'mitosis'.",
+    "expected_output": "Mitosis is a type of cell division in which a single cell divides to produce two identical daughter cells, each containing the same number of chromosomes as the parent cell. It is the process by which most cells in the body divide for growth and repair.",
+    "metadata": {
+      "category": "biology",
+      "difficulty": "medium",
+      "topic": "cell_biology"
+    }
+  },
+  {
+    "input": "What are the three states of matter?",
+    "expected_output": "Solid, liquid, and gas",
+    "metadata": {
+      "category": "physics",
+      "difficulty": "easy",
+      "topic": "states_of_matter"
+    }
+  },
+  {
+    "input": "Who developed the theory of relativity?",
+    "expected_output": "Albert Einstein",
+    "metadata": {
+      "category": "physics",
+      "difficulty": "easy",
+      "topic": "scientific_history"
+    }
+  },
+  {
+    "input": "What is the Pythagorean theorem?",
+    "expected_output": "The Pythagorean theorem states that in a right-angled triangle, the square of the length of the hypotenuse equals the sum of the squares of the lengths of the other two sides: a² + b² = c²",
+    "metadata": {
+      "category": "mathematics",
+      "difficulty": "medium",
+      "topic": "geometry"
+    }
+  },
+  {
+    "input": "Name the seven continents.",
+    "expected_output": "Africa, Antarctica, Asia, Australia, Europe, North America, and South America",
+    "metadata": {
+      "category": "geography",
+      "difficulty": "easy",
+      "topic": "world_geography"
+    }
+  },
+  {
+    "input": "What is an ecosystem?",
+    "expected_output": "An ecosystem is a community of living organisms interacting with each other and their physical environment. It includes all the plants, animals, and microorganisms in a particular area, along with non-living components like water, soil, and climate.",
+    "metadata": {
+      "category": "environmental_science",
+      "difficulty": "medium",
+      "topic": "ecology"
+    }
+  },
+  {
+    "input": "What is the atomic number of carbon?",
+    "expected_output": "6",
+    "metadata": {
+      "category": "chemistry",
+      "difficulty": "easy",
+      "topic": "periodic_table"
+    }
+  },
+  {
+    "input": "Explain Newton's first law of motion.",
+    "expected_output": "Newton's first law of motion, also known as the law of inertia, states that an object at rest stays at rest and an object in motion stays in motion with the same speed and in the same direction unless acted upon by an unbalanced force.",
+    "metadata": {
+      "category": "physics",
+      "difficulty": "medium",
+      "topic": "classical_mechanics"
+    }
+  },
+  {
+    "input": "What is the largest organ in the human body?",
+    "expected_output": "The skin",
+    "metadata": {
+      "category": "biology",
+      "difficulty": "easy",
+      "topic": "human_anatomy"
+    }
+  },
+  {
+    "input": "Define 'evaporation'.",
+    "expected_output": "Evaporation is the process by which a liquid turns into a gas or vapor. It occurs when molecules at the surface of a liquid gain enough energy to overcome the forces holding them in the liquid state and escape into the air.",
+    "metadata": {
+      "category": "chemistry",
+      "difficulty": "easy",
+      "topic": "phase_changes"
+    }
+  },
+  {
+    "input": "What is the smallest prime number?",
+    "expected_output": "2",
+    "metadata": {
+      "category": "mathematics",
+      "difficulty": "easy",
+      "topic": "number_theory"
+    }
+  },
+  {
+    "input": "Describe the water cycle.",
+    "expected_output": "The water cycle is the continuous movement of water on, above, and below the Earth's surface. It involves evaporation of water from oceans and lakes, condensation into clouds, precipitation as rain or snow, and runoff back into bodies of water.",
+    "metadata": {
+      "category": "environmental_science",
+      "difficulty": "medium",
+      "topic": "natural_cycles"
+    }
+  },
+  {
+    "input": "What does CPU stand for?",
+    "expected_output": "Central Processing Unit",
+    "metadata": {
+      "category": "computer_science",
+      "difficulty": "easy",
+      "topic": "computer_hardware"
+    }
+  },
+  {
+    "input": "Who is known as the father of modern physics?",
+    "expected_output": "Isaac Newton or Galileo Galilei",
+    "metadata": {
+      "category": "physics",
+      "difficulty": "medium",
+      "topic": "scientific_history"
+    }
+  },
+  {
+    "input": "What is the function of red blood cells?",
+    "expected_output": "Red blood cells carry oxygen from the lungs to the body's tissues and transport carbon dioxide from the tissues back to the lungs for exhalation.",
+    "metadata": {
+      "category": "biology",
+      "difficulty": "medium",
+      "topic": "physiology"
+    }
+  },
+  {
+    "input": "What is the value of pi (π) to two decimal places?",
+    "expected_output": "3.14",
+    "metadata": {
+      "category": "mathematics",
+      "difficulty": "easy",
+      "topic": "constants"
+    }
+  }
+]
