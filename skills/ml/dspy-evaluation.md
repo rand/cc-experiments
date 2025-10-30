@@ -513,14 +513,658 @@ analyze_common_patterns(errors)
 
 ---
 
-## Related Skills
+## Advanced Patterns
 
-- `dspy-optimizers.md` - Using metrics for optimization
-- `dspy-modules.md` - Programs to evaluate
-- `dspy-assertions.md` - Runtime validation
-- `llm-dataset-preparation.md` - Creating evaluation datasets
+### Pattern 9: Continuous Evaluation Pipeline
+
+```python
+import dspy
+from dspy.evaluate import Evaluate
+from typing import List, Dict
+import json
+from datetime import datetime
+from pathlib import Path
+
+class ContinuousEvaluator:
+    """Automated evaluation pipeline for production monitoring."""
+
+    def __init__(self, program: dspy.Module, metrics: Dict[str, callable], testset: List[dspy.Example]):
+        self.program = program
+        self.metrics = metrics
+        self.testset = testset
+        self.history = []
+
+    def evaluate_snapshot(self) -> Dict:
+        """Run full evaluation suite."""
+        snapshot = {
+            'timestamp': datetime.now().isoformat(),
+            'scores': {},
+        }
+
+        for metric_name, metric_fn in self.metrics.items():
+            evaluator = Evaluate(
+                devset=self.testset,
+                metric=metric_fn,
+                num_threads=4,
+                display_progress=False,
+            )
+
+            score = evaluator(self.program)
+            snapshot['scores'][metric_name] = score
+
+        self.history.append(snapshot)
+        return snapshot
+
+    def save_history(self, filepath: str):
+        """Save evaluation history."""
+        Path(filepath).parent.mkdir(parents=True, exist_ok=True)
+        with open(filepath, 'w') as f:
+            json.dump(self.history, f, indent=2)
+
+    def check_degradation(self, threshold: float = 0.05) -> List[str]:
+        """Check for performance degradation."""
+        if len(self.history) < 2:
+            return []
+
+        current = self.history[-1]['scores']
+        previous = self.history[-2]['scores']
+
+        alerts = []
+        for metric_name in current:
+            curr_score = current[metric_name]
+            prev_score = previous[metric_name]
+
+            if curr_score < prev_score - threshold:
+                alerts.append(
+                    f"{metric_name}: {prev_score:.2%} → {curr_score:.2%} "
+                    f"(degraded by {(prev_score - curr_score):.2%})"
+                )
+
+        return alerts
+
+# Set up continuous evaluation
+program = dspy.ChainOfThought("question -> answer")
+program.load("models/production_v1.json")
+
+testset = [...]  # Production test set
+
+metrics = {
+    'accuracy': lambda ex, pred, trace: ex.answer.lower() in pred.answer.lower(),
+    'precision': lambda ex, pred, trace: compute_precision(ex, pred),
+    'recall': lambda ex, pred, trace: compute_recall(ex, pred),
+}
+
+evaluator = ContinuousEvaluator(program, metrics, testset)
+
+# Run periodic evaluation (e.g., daily)
+snapshot = evaluator.evaluate_snapshot()
+print(f"Evaluation snapshot: {snapshot}")
+
+# Check for degradation
+alerts = evaluator.check_degradation(threshold=0.03)
+if alerts:
+    print("⚠️ Performance degradation detected:")
+    for alert in alerts:
+        print(f"  - {alert}")
+    # Send alerts to monitoring system
+
+# Save history
+evaluator.save_history("monitoring/eval_history.json")
+```
+
+**When to use**:
+- Production systems requiring continuous monitoring
+- Detecting model drift or degradation
+- Automated quality assurance
+
+### Pattern 10: Stratified Evaluation
+
+```python
+import dspy
+from dspy.evaluate import Evaluate
+from typing import List, Dict, Callable
+from collections import defaultdict
+
+class StratifiedEvaluator:
+    """Evaluate performance across different data strata."""
+
+    def __init__(self, metric: Callable, stratify_fn: Callable):
+        self.metric = metric
+        self.stratify_fn = stratify_fn
+
+    def evaluate(self, program: dspy.Module, testset: List[dspy.Example]) -> Dict:
+        """Evaluate with stratification."""
+
+        # Group examples by strata
+        strata = defaultdict(list)
+        for example in testset:
+            stratum = self.stratify_fn(example)
+            strata[stratum].append(example)
+
+        # Evaluate each stratum
+        results = {}
+        for stratum_name, stratum_examples in strata.items():
+            if not stratum_examples:
+                continue
+
+            evaluator = Evaluate(
+                devset=stratum_examples,
+                metric=self.metric,
+                num_threads=4,
+                display_progress=False,
+            )
+
+            score = evaluator(program)
+            results[stratum_name] = {
+                'score': score,
+                'count': len(stratum_examples),
+            }
+
+        # Overall score
+        total_examples = sum(r['count'] for r in results.values())
+        overall_score = sum(
+            r['score'] * r['count'] for r in results.values()
+        ) / total_examples
+
+        results['overall'] = {
+            'score': overall_score,
+            'count': total_examples,
+        }
+
+        return results
+
+# Define stratification function
+def stratify_by_difficulty(example: dspy.Example) -> str:
+    """Stratify by question length (proxy for difficulty)."""
+    word_count = len(example.question.split())
+
+    if word_count < 10:
+        return 'easy'
+    elif word_count < 20:
+        return 'medium'
+    else:
+        return 'hard'
+
+# Use stratified evaluator
+def accuracy(ex, pred, trace=None):
+    return ex.answer.lower() in pred.answer.lower()
+
+evaluator = StratifiedEvaluator(accuracy, stratify_by_difficulty)
+
+program = dspy.ChainOfThought("question -> answer")
+results = evaluator.evaluate(program, testset)
+
+# Print results by stratum
+print("\n=== Stratified Results ===")
+for stratum, data in results.items():
+    print(f"{stratum:10} | Score: {data['score']:.1%} | Count: {data['count']:3}")
+```
+
+**When to use**:
+- Identify performance gaps across data segments
+- Ensure fairness across different input types
+- Debug systematic failures
+
+### Pattern 11: Cost-Performance Tradeoff Analysis
+
+```python
+import dspy
+from dspy.evaluate import Evaluate
+from typing import List, Tuple
+import matplotlib.pyplot as plt
+
+class CostPerformanceAnalyzer:
+    """Analyze cost vs performance tradeoffs."""
+
+    def __init__(self, testset: List[dspy.Example], metric: callable):
+        self.testset = testset
+        self.metric = metric
+
+    def analyze_models(
+        self,
+        program_factory: callable,
+        model_configs: List[dict]
+    ) -> List[dict]:
+        """Evaluate multiple model configurations."""
+
+        results = []
+
+        for config in model_configs:
+            print(f"\nEvaluating {config['name']}...")
+
+            # Create program with this config
+            lm = dspy.LM(
+                config['model'],
+                max_tokens=config.get('max_tokens', 500),
+            )
+            dspy.configure(lm=lm)
+
+            program = program_factory()
+
+            # Evaluate
+            evaluator = Evaluate(
+                devset=self.testset,
+                metric=self.metric,
+                num_threads=4,
+            )
+
+            score = evaluator(program)
+
+            results.append({
+                'name': config['name'],
+                'model': config['model'],
+                'score': score,
+                'cost_per_1k': config.get('cost_per_1k', 0),
+            })
+
+        return results
+
+    def plot_tradeoff(self, results: List[dict]):
+        """Visualize cost-performance tradeoff."""
+        names = [r['name'] for r in results]
+        scores = [r['score'] * 100 for r in results]
+        costs = [r['cost_per_1k'] for r in results]
+
+        plt.figure(figsize=(10, 6))
+        plt.scatter(costs, scores, s=100)
+
+        for i, name in enumerate(names):
+            plt.annotate(name, (costs[i], scores[i]), xytext=(5, 5),
+                        textcoords='offset points')
+
+        plt.xlabel('Cost per 1K tokens (USD)')
+        plt.ylabel('Accuracy (%)')
+        plt.title('Cost vs Performance Tradeoff')
+        plt.grid(True, alpha=0.3)
+        plt.savefig('cost_performance_tradeoff.png')
+        print("\nPlot saved to cost_performance_tradeoff.png")
+
+# Define model configurations
+model_configs = [
+    {'name': 'GPT-4o-mini', 'model': 'openai/gpt-4o-mini', 'cost_per_1k': 0.15},
+    {'name': 'GPT-4o', 'model': 'openai/gpt-4o', 'cost_per_1k': 2.50},
+    {'name': 'Claude Haiku', 'model': 'anthropic/claude-3-haiku-20240307', 'cost_per_1k': 0.25},
+    {'name': 'Claude Sonnet', 'model': 'anthropic/claude-3-5-sonnet-20241022', 'cost_per_1k': 3.00},
+]
+
+# Analyze
+def program_factory():
+    return dspy.ChainOfThought("question -> answer")
+
+def accuracy(ex, pred, trace=None):
+    return ex.answer.lower() in pred.answer.lower()
+
+analyzer = CostPerformanceAnalyzer(testset, accuracy)
+results = analyzer.analyze_models(program_factory, model_configs)
+
+# Display results
+print("\n=== Cost-Performance Analysis ===")
+for r in sorted(results, key=lambda x: x['score'], reverse=True):
+    print(f"{r['name']:15} | Accuracy: {r['score']:.1%} | Cost: ${r['cost_per_1k']:.2f}/1K")
+
+# Plot
+analyzer.plot_tradeoff(results)
+```
+
+**When to use**:
+- Optimize deployment costs
+- Choose appropriate model for use case
+- Justify infrastructure spending
 
 ---
 
-**Last Updated**: 2025-10-25
+## Production Considerations
+
+### Deployment Strategy
+
+**Evaluation in CI/CD**:
+```yaml
+# .github/workflows/evaluate.yml
+name: Model Evaluation
+
+on:
+  pull_request:
+    paths:
+      - 'models/**'
+      - 'prompts/**'
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install uv
+          uv pip install dspy-ai
+
+      - name: Run evaluation
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          python scripts/evaluate_model.py --threshold 0.80
+
+      - name: Upload results
+        uses: actions/upload-artifact@v3
+        with:
+          name: evaluation-results
+          path: results/evaluation_*.json
+```
+
+**Evaluation script**:
+```python
+# scripts/evaluate_model.py
+import dspy
+import argparse
+import json
+from dspy.evaluate import Evaluate
+from pathlib import Path
+
+def load_program(model_path: str) -> dspy.Module:
+    """Load model from path."""
+    program = dspy.ChainOfThought("question -> answer")
+    program.load(model_path)
+    return program
+
+def load_testset(testset_path: str) -> list:
+    """Load test set."""
+    with open(testset_path) as f:
+        data = json.load(f)
+
+    return [
+        dspy.Example(**item).with_inputs("question")
+        for item in data
+    ]
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--model', default='models/latest.json')
+    parser.add_argument('--testset', default='data/testset.json')
+    parser.add_argument('--threshold', type=float, default=0.80)
+    args = parser.parse_args()
+
+    # Load
+    program = load_program(args.model)
+    testset = load_testset(args.testset)
+
+    # Evaluate
+    def accuracy(ex, pred, trace=None):
+        return ex.answer.lower() in pred.answer.lower()
+
+    evaluator = Evaluate(devset=testset, metric=accuracy, num_threads=4)
+    score = evaluator(program)
+
+    # Save results
+    results = {
+        'model': args.model,
+        'score': score,
+        'threshold': args.threshold,
+        'passed': score >= args.threshold,
+    }
+
+    Path('results').mkdir(exist_ok=True)
+    with open('results/evaluation_latest.json', 'w') as f:
+        json.dump(results, f, indent=2)
+
+    print(f"\n=== Evaluation Results ===")
+    print(f"Score: {score:.1%}")
+    print(f"Threshold: {args.threshold:.1%}")
+    print(f"Status: {'✓ PASS' if results['passed'] else '✗ FAIL'}")
+
+    if not results['passed']:
+        exit(1)  # Fail CI if below threshold
+
+if __name__ == '__main__':
+    main()
+```
+
+### Real-time Performance Monitoring
+
+```python
+import dspy
+from typing import Dict, Optional
+from datetime import datetime, timedelta
+import threading
+import time
+
+class RealTimeMonitor:
+    """Monitor DSPy program performance in real-time."""
+
+    def __init__(self, program: dspy.Module, window_size: int = 100):
+        self.program = program
+        self.window_size = window_size
+        self.metrics = {
+            'total_calls': 0,
+            'recent_latencies': [],
+            'recent_successes': [],
+            'error_count': 0,
+        }
+        self.lock = threading.Lock()
+
+    def __call__(self, *args, **kwargs):
+        """Wrapped call with monitoring."""
+        start = time.time()
+
+        with self.lock:
+            self.metrics['total_calls'] += 1
+
+        try:
+            result = self.program(*args, **kwargs)
+
+            latency = time.time() - start
+            with self.lock:
+                self.metrics['recent_latencies'].append(latency)
+                self.metrics['recent_successes'].append(True)
+
+                # Keep only recent data
+                if len(self.metrics['recent_latencies']) > self.window_size:
+                    self.metrics['recent_latencies'].pop(0)
+                    self.metrics['recent_successes'].pop(0)
+
+            return result
+
+        except Exception as e:
+            with self.lock:
+                self.metrics['error_count'] += 1
+                self.metrics['recent_successes'].append(False)
+                if len(self.metrics['recent_successes']) > self.window_size:
+                    self.metrics['recent_successes'].pop(0)
+            raise
+
+    def get_stats(self) -> Dict:
+        """Get current statistics."""
+        with self.lock:
+            if not self.metrics['recent_latencies']:
+                avg_latency = 0.0
+                p95_latency = 0.0
+            else:
+                avg_latency = sum(self.metrics['recent_latencies']) / len(self.metrics['recent_latencies'])
+                sorted_latencies = sorted(self.metrics['recent_latencies'])
+                p95_idx = int(len(sorted_latencies) * 0.95)
+                p95_latency = sorted_latencies[p95_idx] if sorted_latencies else 0.0
+
+            if not self.metrics['recent_successes']:
+                success_rate = 1.0
+            else:
+                success_rate = sum(self.metrics['recent_successes']) / len(self.metrics['recent_successes'])
+
+            return {
+                'total_calls': self.metrics['total_calls'],
+                'avg_latency_ms': avg_latency * 1000,
+                'p95_latency_ms': p95_latency * 1000,
+                'success_rate': success_rate,
+                'error_count': self.metrics['error_count'],
+            }
+
+# Use monitor
+program = dspy.ChainOfThought("question -> answer")
+program.load("models/production.json")
+
+monitored = RealTimeMonitor(program, window_size=100)
+
+# Use in production
+result = monitored(question="What is DSPy?")
+
+# Check stats periodically
+stats = monitored.get_stats()
+print(f"Avg latency: {stats['avg_latency_ms']:.1f}ms")
+print(f"P95 latency: {stats['p95_latency_ms']:.1f}ms")
+print(f"Success rate: {stats['success_rate']:.1%}")
+```
+
+### Shadow Evaluation
+
+```python
+import dspy
+from typing import Dict
+import logging
+
+class ShadowEvaluator:
+    """Run new model in shadow mode alongside production."""
+
+    def __init__(self, production: dspy.Module, shadow: dspy.Module):
+        self.production = production
+        self.shadow = shadow
+        self.comparison_data = []
+
+    def __call__(self, *args, **kwargs):
+        """Run both models, return production result."""
+
+        # Production call (synchronous, user-facing)
+        prod_result = self.production(*args, **kwargs)
+
+        # Shadow call (async, logged for analysis)
+        try:
+            shadow_result = self.shadow(*args, **kwargs)
+
+            # Compare results
+            comparison = {
+                'production': prod_result.answer if hasattr(prod_result, 'answer') else str(prod_result),
+                'shadow': shadow_result.answer if hasattr(shadow_result, 'answer') else str(shadow_result),
+                'match': self._compare(prod_result, shadow_result),
+            }
+
+            self.comparison_data.append(comparison)
+
+            # Log significant differences
+            if not comparison['match']:
+                logging.info(f"Shadow divergence: {comparison}")
+
+        except Exception as e:
+            logging.error(f"Shadow evaluation failed: {e}")
+
+        # Always return production result
+        return prod_result
+
+    def _compare(self, prod_result, shadow_result) -> bool:
+        """Compare results."""
+        if hasattr(prod_result, 'answer') and hasattr(shadow_result, 'answer'):
+            return prod_result.answer.lower() == shadow_result.answer.lower()
+        return str(prod_result) == str(shadow_result)
+
+    def get_analysis(self) -> Dict:
+        """Analyze shadow performance."""
+        if not self.comparison_data:
+            return {'match_rate': 0.0, 'total_comparisons': 0}
+
+        matches = sum(1 for c in self.comparison_data if c['match'])
+        return {
+            'match_rate': matches / len(self.comparison_data),
+            'total_comparisons': len(self.comparison_data),
+            'divergences': [c for c in self.comparison_data if not c['match']],
+        }
+
+# Load models
+production = dspy.ChainOfThought("question -> answer")
+production.load("models/production_v1.json")
+
+shadow = dspy.ChainOfThought("question -> answer")
+shadow.load("models/candidate_v2.json")
+
+# Use shadow evaluator
+evaluator = ShadowEvaluator(production, shadow)
+
+# Production traffic
+result = evaluator(question="What is DSPy?")
+
+# Analyze after N requests
+if len(evaluator.comparison_data) >= 1000:
+    analysis = evaluator.get_analysis()
+    print(f"Shadow match rate: {analysis['match_rate']:.1%}")
+
+    if analysis['match_rate'] >= 0.95:
+        print("✓ Shadow model ready for promotion")
+    else:
+        print("✗ Shadow model needs more work")
+```
+
+### Best Practices Checklist
+
+```
+Development:
+✅ DO: Use separate test set (never seen during training)
+✅ DO: Evaluate baseline before optimization
+✅ DO: Use multiple metrics for comprehensive assessment
+✅ DO: Run error analysis on failures
+✅ DO: Version control evaluation datasets
+✅ DO: Document metric definitions clearly
+
+Production:
+✅ DO: Integrate evaluation into CI/CD pipeline
+✅ DO: Set quality thresholds for deployment
+✅ DO: Monitor performance continuously
+✅ DO: Use shadow evaluation for new models
+✅ DO: Track cost alongside performance
+✅ DO: Alert on performance degradation
+
+Scaling:
+✅ DO: Parallelize evaluation (num_threads)
+✅ DO: Sample for large-scale evaluation
+✅ DO: Cache evaluation results
+✅ DO: Use stratified evaluation for fairness
+
+❌ DON'T: Evaluate on training data (overfitting)
+❌ DON'T: Rely on single metric only
+❌ DON'T: Skip baseline comparison
+❌ DON'T: Deploy without evaluation
+❌ DON'T: Ignore systematic error patterns
+```
+
+---
+
+## Related Skills
+
+### Core DSPy Skills
+- `dspy-optimizers.md` - Using metrics for optimization
+- `dspy-modules.md` - Programs to evaluate
+- `dspy-assertions.md` - Runtime validation
+- `dspy-signatures.md` - Signature quality evaluation
+- `dspy-setup.md` - LM configuration for evaluation
+
+### Advanced DSPy Skills
+- `dspy-agents.md` - Evaluating agent performance
+- `dspy-multi-agent.md` - Multi-agent evaluation strategies
+- `dspy-production.md` - Production monitoring and evaluation
+- `dspy-testing.md` - Testing methodologies
+- `dspy-debugging.md` - Debugging evaluation failures
+- `dspy-advanced-patterns.md` - Advanced evaluation patterns
+
+### Infrastructure Skills
+- `modal-functions-basics.md` - Running large-scale evaluation on Modal
+- `llm-dataset-preparation.md` - Creating evaluation datasets
+
+### Resources
+- `resources/dspy/level2-evaluation.md` - Evaluation deep dive
+- `resources/dspy/level3-production.md` - Production evaluation guide
+- `resources/dspy/evaluation-cookbook.md` - Evaluation recipes
+
+---
+
+**Last Updated**: 2025-10-30
 **Format Version**: 1.0 (Atomic)
