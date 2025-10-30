@@ -1,4 +1,6 @@
 ---
+name: pyo3-testing-debugging
+description: PyO3 testing and debugging including unit tests, integration tests, property-based testing, native debugging, memory leak detection, and profiling
 skill_id: rust-pyo3-testing-debugging
 title: PyO3 Testing and Debugging
 category: rust
