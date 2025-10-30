@@ -1,0 +1,15 @@
+[package]
+name = "tokio-asyncio-bridge"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+pyo3 = { version = "0.20", features = ["auto-initialize"] }
+pyo3-asyncio = { version = "0.20", features = ["tokio-runtime"] }
+tokio = { version = "1.42", features = ["full"] }
+anyhow = "1.0"
+futures = "0.3"
+
+[[bin]]
+name = "tokio-asyncio-bridge"
+path = "src/main.rs"
