@@ -1,4 +1,5 @@
 ---
+name: pyo3-performance-gil-parallel
 description: "Master PyO3 performance optimization through GIL management, parallel execution, sub-interpreters, and lock-free data structures. Learn to build high-performance Python extensions that leverage multi-core systems while maintaining safety and correctness."
 globs: ["**/*.rs", "**/*.py", "**/Cargo.toml"]
 ---

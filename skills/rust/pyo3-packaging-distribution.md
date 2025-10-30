@@ -1,4 +1,6 @@
 ---
+name: pyo3-packaging-distribution
+description: PyO3 packaging and distribution using maturin, setuptools-rust, wheel building, cross-compilation
 skill_id: rust-pyo3-packaging-distribution
 title: PyO3 Packaging and Distribution
 category: rust

@@ -1,4 +1,6 @@
 ---
+name: engineering-dependency-management
+description: Strategic approach to managing external libraries, frameworks, and packages throughout the software development lifecycle
 skill_id: engineering.dependency-management
 version: 1.0.0
 category: engineering

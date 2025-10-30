@@ -1,4 +1,5 @@
 ---
+name: pyo3-async-embedded-wasm
 description: "Master async Python integration with Tokio, embedded Python interpreters, and WASM compilation with PyO3. Build async extensions, embed Python in Rust applications, and compile for browser/WASI environments."
 globs: ["**/*.rs", "**/*.py", "**/Cargo.toml", "**/*.wasm"]
 ---
