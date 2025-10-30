@@ -1,0 +1,98 @@
+# Tracing Configuration for Agent Observability
+#
+# This file configures tracing behavior for the agent observability example.
+# It supports multiple output formats and destinations.
+
+[global]
+# Service name for distributed tracing
+service_name = "dspy-agent-rust"
+service_version = "0.1.0"
+environment = "development"
+
+[console]
+# Console output configuration
+enabled = true
+format = "pretty"  # Options: pretty, compact, json
+show_target = true
+show_thread_ids = true
+show_line_numbers = true
+show_level = true
+
+[file]
+# File logging configuration
+enabled = true
+path = "/tmp/agent-observability.log"
+format = "json"  # Options: json, pretty
+rotation = "daily"  # Options: daily, hourly, size
+max_size_mb = 100
+
+[jaeger]
+# Jaeger/OpenTelemetry configuration
+enabled = true
+endpoint = "localhost:6831"
+# Sampling strategy: always, never, or ratio (0.0-1.0)
+sampling = "always"
+# Maximum queue size for spans
+max_queue_size = 2048
+# Batch size for span export
+batch_size = 512
+
+[filters]
+# Log level filters by module
+# Syntax: "module::path=level"
+default_level = "info"
+module_levels = [
+    "agent_observability=debug",
+    "pyo3=info",
+    "tokio=warn",
+    "hyper=warn",
+]
+
+[metrics]
+# Metrics collection configuration
+enabled = true
+# Export interval in seconds
+export_interval = 60
+# Retention period for in-memory metrics
+retention_hours = 24
+
+[spans]
+# Span configuration
+# Record events within spans
+record_events = true
+# Maximum span attributes
+max_attributes = 128
+# Maximum span events
+max_events = 128
+
+[performance]
+# Performance tuning
+# Enable async I/O for logging
+async_io = true
+# Buffer size for async logging
+buffer_size = 8192
+
+[integrations]
+# Integration with external systems
+
+[integrations.prometheus]
+enabled = false
+endpoint = "localhost:9090"
+push_interval = 60
+
+[integrations.grafana]
+enabled = false
+endpoint = "localhost:3000"
+api_key = ""
+
+[security]
+# Security settings for sensitive data
+# Redact sensitive fields in logs
+redact_patterns = [
+    "password",
+    "token",
+    "api_key",
+    "secret",
+]
+# Encrypt logs at rest
+encrypt_at_rest = false

@@ -1,0 +1,76 @@
+# Prometheus Configuration for Agent Service
+
+global:
+  scrape_interval: 15s # Set the scrape interval to every 15 seconds
+  evaluation_interval: 15s # Evaluate rules every 15 seconds
+  external_labels:
+    cluster: 'agent-service'
+    environment: 'production'
+
+# Alertmanager configuration (optional)
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          # - 'alertmanager:9093'
+
+# Load rules once and periodically evaluate them
+rule_files:
+  # - "alerts/*.yml"
+
+# Scrape configurations
+scrape_configs:
+  # Agent service metrics
+  - job_name: 'agent-service'
+    scrape_interval: 10s
+    metrics_path: '/api/v1/metrics'
+    static_configs:
+      - targets: ['agent-service:3000']
+        labels:
+          service: 'agent-service'
+          instance: 'production'
+
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          service: 'prometheus'
+
+  # Redis metrics (if redis_exporter is added)
+  # - job_name: 'redis'
+  #   scrape_interval: 10s
+  #   static_configs:
+  #     - targets: ['redis-exporter:9121']
+  #       labels:
+  #         service: 'redis'
+
+# Recording rules for pre-computed metrics
+# rule_files:
+#   - 'recording_rules.yml'
+
+# Example recording rules (create recording_rules.yml if needed):
+# groups:
+#   - name: agent_service_metrics
+#     interval: 30s
+#     rules:
+#       # Request rate (requests per second)
+#       - record: agent:requests:rate5m
+#         expr: rate(agent_requests_total[5m])
+#
+#       # Error rate
+#       - record: agent:errors:rate5m
+#         expr: rate(agent_requests_failure[5m])
+#
+#       # Average latency
+#       - record: agent:latency:avg5m
+#         expr: rate(agent_request_latency_seconds_sum[5m]) / rate(agent_request_latency_seconds_count[5m])
+#
+#       # 95th percentile latency
+#       - record: agent:latency:p95
+#         expr: histogram_quantile(0.95, rate(agent_request_latency_seconds_bucket[5m]))
+#
+#       # 99th percentile latency
+#       - record: agent:latency:p99
+#         expr: histogram_quantile(0.99, rate(agent_request_latency_seconds_bucket[5m]))
