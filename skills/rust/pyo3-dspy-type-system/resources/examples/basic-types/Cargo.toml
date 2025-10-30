@@ -1,0 +1,13 @@
+[package]
+name = "basic-types"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["auto-initialize"] }
+anyhow = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[dev-dependencies]
+# Add test-specific dependencies here if needed

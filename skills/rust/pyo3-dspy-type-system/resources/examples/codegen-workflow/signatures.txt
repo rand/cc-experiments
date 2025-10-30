@@ -1,0 +1,27 @@
+# DSPy Signature Definitions
+# Format: input_fields -> output_fields
+# One signature per line, comments start with #
+
+# Simple question-answering
+question -> answer
+
+# Translation with context
+source_text, target_language -> translated_text
+
+# Multi-step reasoning
+context, question -> reasoning, answer
+
+# Classification
+text, categories -> label, confidence
+
+# Information extraction
+document -> entities, relations, summary
+
+# SQL generation
+natural_language_query -> sql_query
+
+# Code generation
+description, language -> code, explanation
+
+# Summarization with constraints
+article, max_length -> summary

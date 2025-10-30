@@ -1,0 +1,11 @@
+# Rust build artifacts
+/target/
+Cargo.lock
+
+# Generated code (build artifact)
+# Uncomment this line if you want to ignore generated.rs
+# src/generated.rs
+
+# Note: You can choose to commit generated.rs for easier
+# review, or ignore it as a pure build artifact.
+# The source of truth is signatures.txt + signature_codegen.py

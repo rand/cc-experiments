@@ -1,0 +1,22 @@
+[package]
+name = "validation-testing"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["auto-initialize"] }
+anyhow = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[dev-dependencies]
+# For more advanced testing scenarios
+approx = "0.5"  # Floating-point comparison
+
+[lib]
+name = "validation_testing"
+path = "src/lib.rs"
+
+[[bin]]
+name = "validation-testing"
+path = "src/main.rs"
