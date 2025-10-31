@@ -235,8 +235,8 @@ class ModuleInspector:
             for item in node.body
         )
 
-        # TODO: Extract signature from __init__ or class attributes
-        # For now, return basic info
+        # Note: Signature extraction from __init__ or class attributes not yet implemented
+        # Currently returns basic info
         return ModuleInfo(
             name=name,
             signature=None,

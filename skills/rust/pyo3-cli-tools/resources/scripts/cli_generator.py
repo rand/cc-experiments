@@ -718,13 +718,13 @@ from {module_name}.cli import main
 
 def test_version() -> None:
     """Test version flag."""
-    # TODO: Implement version test
+    # Note: Version test implementation pending
     pass
 
 
 def test_help() -> None:
     """Test help output."""
-    # TODO: Implement help test
+    # Note: Help test implementation pending
     pass
 
 
@@ -733,7 +733,7 @@ def test_help() -> None:
             func_name = cmd.name.replace('-', '_')
             test_content += f'''def test_{func_name}() -> None:
     """Test {cmd.name} command."""
-    # TODO: Implement {cmd.name} test
+    # Note: Command test implementation pending
     pass
 
 
@@ -1049,7 +1049,7 @@ class CLIGeneratorApp:
         """Execute add-command command."""
         logger.info(f"Adding command: {args.name}")
 
-        # TODO: Implement adding command to existing project
+        # Note: Adding command to existing project not yet supported
 
         if args.output_format == "json":
             result = {
@@ -1068,7 +1068,7 @@ class CLIGeneratorApp:
         """Execute scaffold command."""
         logger.info("Starting interactive scaffold")
 
-        # TODO: Implement interactive scaffolding
+        # Note: Interactive scaffolding not yet implemented
 
         if args.output_format == "json":
             result = {

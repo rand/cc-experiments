@@ -585,7 +585,7 @@ class Plugin:
         Returns:
             Processed data
         """
-        # TODO: Implement processing logic
+        # Note: Processing logic not yet implemented - currently returns data unmodified
         return data
 '''
         return template
