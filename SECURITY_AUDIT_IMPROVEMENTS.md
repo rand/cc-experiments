@@ -108,7 +108,7 @@ self.trusted_install_domains = {
 ### Layer 4: Pattern Improvements
 
 **SQL TRUNCATE** (`tests/security_audit.py:75-76`):
-```python
+```text
 # SQL TRUNCATE statement (not truncate() function)
 r'\bTRUNCATE\s+(?:TABLE\s+)?\w+\s*;': ('HIGH', 'SQL TRUNCATE statement',
              'Require backup and confirmation'),
@@ -116,7 +116,7 @@ r'\bTRUNCATE\s+(?:TABLE\s+)?\w+\s*;': ('HIGH', 'SQL TRUNCATE statement',
 Fixed to only match SQL statements with semicolons, not Python string truncation functions.
 
 **Redis eval() Exclusion** (`tests/security_audit.py:88`):
-```python
+```text
 # eval() usage - but NOT redis_client.eval() or redisClient.eval() or redis.eval()
 r'(?<!redis_client\.)\b(?<!redisClient\.)\b(?<!redis\.)\beval\s*\(': ('CRITICAL', 'eval() usage',
           'Never use eval() with user input'),
