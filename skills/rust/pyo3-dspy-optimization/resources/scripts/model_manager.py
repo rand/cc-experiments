@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Model Manager for DSPy Compiled Models
 

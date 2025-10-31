@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Cache Manager for DSPy Predictions
 

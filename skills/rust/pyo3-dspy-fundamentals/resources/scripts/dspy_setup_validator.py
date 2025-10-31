@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 DSPy + PyO3 Setup Validator
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Trajectory Logger for DSPy ReAct Agents
 

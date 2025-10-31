@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Prometheus Metrics Collector for DSPy Services
 
