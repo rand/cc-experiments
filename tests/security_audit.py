@@ -409,7 +409,8 @@ class SecurityAuditor:
 
         # Skip string literals containing code patterns (false positives)
         # e.g., message="Use of 'eval()' is a security risk"
-        is_in_string = (line.count('"') >= 2 or line.count("'") >= 2) and ('=' in line or ':' in line)
+        # e.g., if 'rm -rf' in line:  (checking for pattern, not executing)
+        is_in_string = (line.count('"') >= 2 or line.count("'") >= 2) and ('=' in line or ':' in line or ' in ' in line or 'not in' in line)
 
         # Check if this line has safety context
         has_safety_context = self._check_safety_context(line_num, lines)
@@ -418,7 +419,7 @@ class SecurityAuditor:
         is_trusted = self._is_trusted_install(line)
 
         # Dangerous commands
-        if not is_comment:
+        if not is_comment and not is_in_string:
             for pattern, (severity, issue, recommendation) in self.dangerous_commands.items():
                 if re.search(pattern, line, re.IGNORECASE):
                     # Adjust severity based on context

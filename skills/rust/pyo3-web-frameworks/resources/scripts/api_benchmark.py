@@ -145,6 +145,7 @@ class APIBenchmark:
     def _setup_ssl_context(self) -> None:
         """Setup SSL context"""
         if not self.verify_ssl:
+            # WARNING: Disabling SSL verification for benchmarking only - NOT FOR PRODUCTION
             self.ssl_context = ssl._create_unverified_context()
         else:
             self.ssl_context = ssl.create_default_context()

@@ -60,6 +60,7 @@ cleanup() {
         # Safety check: only delete if it's in /tmp
         if [[ "$TEMP_DIR" == /tmp/* ]]; then
             log_info "Cleaning up temporary directory: $TEMP_DIR"
+            # Safe in this context: path is verified to be in /tmp
             rm -rf "$TEMP_DIR"
         fi
     fi
