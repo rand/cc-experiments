@@ -294,7 +294,10 @@ class SecurityAuditor:
         if file_path.suffix == '.md':
             return 'documentation'
         elif file_path.suffix in {'.py', '.sh', '.js', '.ts', '.bash', '.zsh'}:
-            if 'example' in str(file_path).lower() or 'demo' in str(file_path).lower():
+            path_lower = str(file_path).lower()
+            # Check if it's an example/demo/test/template script
+            example_indicators = ['example', 'demo', 'test', 'template', 'fixture', 'mock']
+            if any(indicator in path_lower for indicator in example_indicators):
                 return 'example_script'
             return 'executable_script'
         return 'other'
@@ -402,7 +405,11 @@ class SecurityAuditor:
         """Scan a single line for security issues with context awareness."""
 
         # Skip comments in most cases (but not for secrets)
-        is_comment = line.strip().startswith('#') or line.strip().startswith('//')
+        is_comment = line.strip().startswith('#') or line.strip().startswith('//') or line.strip().startswith('*')
+
+        # Skip string literals containing code patterns (false positives)
+        # e.g., message="Use of 'eval()' is a security risk"
+        is_in_string = (line.count('"') >= 2 or line.count("'") >= 2) and ('=' in line or ':' in line)
 
         # Check if this line has safety context
         has_safety_context = self._check_safety_context(line_num, lines)
@@ -421,11 +428,14 @@ class SecurityAuditor:
                                         line_num, issue, line.strip(), recommendation)
 
         # Command injection (scripts only)
-        if is_script:
+        if is_script and not is_in_string:
             for pattern, (severity, issue, recommendation) in self.injection_patterns.items():
                 if re.search(pattern, line):
-                    self._add_finding(severity, 'Command Injection Risk', file_path,
-                                    line_num, issue, line.strip(), recommendation)
+                    # Apply context-aware severity adjustment
+                    adjusted_severity = self._adjust_severity(severity, file_context, has_safety_context, is_trusted)
+                    if adjusted_severity:  # None means skip
+                        self._add_finding(adjusted_severity, 'Command Injection Risk', file_path,
+                                        line_num, issue, line.strip(), recommendation)
 
         # Hardcoded secrets (scan all files, including comments)
         for pattern, (severity, issue, recommendation) in self.secrets_patterns.items():
@@ -434,14 +444,20 @@ class SecurityAuditor:
                 # Additional validation: check if it's clearly a test value
                 matched_value = match.group(0)
                 if not self._is_test_credential(matched_value, file_path):
-                    self._add_finding(severity, 'Hardcoded Secret', file_path,
-                                    line_num, issue, line.strip(), recommendation)
+                    # Apply context-aware severity adjustment
+                    adjusted_severity = self._adjust_severity(severity, file_context, has_safety_context, is_trusted)
+                    if adjusted_severity:  # None means skip
+                        self._add_finding(adjusted_severity, 'Hardcoded Secret', file_path,
+                                        line_num, issue, line.strip(), recommendation)
 
         # Cloud credentials (scan all files, including comments)
         for pattern, (severity, issue, recommendation) in self.cloud_credentials_patterns.items():
             if re.search(pattern, line):
-                self._add_finding(severity, 'Cloud Credentials', file_path,
-                                line_num, issue, line.strip(), recommendation)
+                # Apply context-aware severity adjustment
+                adjusted_severity = self._adjust_severity(severity, file_context, has_safety_context, is_trusted)
+                if adjusted_severity:  # None means skip
+                    self._add_finding(adjusted_severity, 'Cloud Credentials', file_path,
+                                    line_num, issue, line.strip(), recommendation)
 
         # Network security
         if not is_comment:
@@ -491,8 +507,11 @@ class SecurityAuditor:
         if is_script:
             for pattern, (severity, issue, recommendation) in self.secure_defaults_patterns.items():
                 if re.search(pattern, line):
-                    self._add_finding(severity, 'Insecure Defaults', file_path,
-                                    line_num, issue, line.strip(), recommendation)
+                    # Apply context-aware severity adjustment
+                    adjusted_severity = self._adjust_severity(severity, file_context, has_safety_context, is_trusted)
+                    if adjusted_severity:  # None means skip
+                        self._add_finding(adjusted_severity, 'Insecure Defaults', file_path,
+                                        line_num, issue, line.strip(), recommendation)
 
         # Unsafe deserialization (scripts only)
         if is_script and not is_comment:
