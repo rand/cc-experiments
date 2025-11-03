@@ -1,0 +1,68 @@
+# Gitleaks configuration for cc-polymath
+# This configuration file helps prevent false positives while maintaining security
+
+title = "cc-polymath gitleaks config"
+
+[extend]
+# Use default gitleaks rules as baseline
+useDefault = true
+
+[allowlist]
+description = "Allowlist for false positives in documentation and test examples"
+
+# Allowlist paths - documentation and example files
+paths = [
+    # Documentation files showing security anti-patterns
+    '''skills/SECURITY\.md''',
+    '''skills/security/.*\.md''',
+    '''skills/api/.*\.md''',
+    '''skills/cryptography/.*\.md''',
+    '''skills/protocols/.*\.md''',
+    '''skills/rust/.*/resources/REFERENCE\.md''',
+
+    # Work notes and production readiness docs
+    '''\.work/.*\.md''',
+
+    # Test and example files
+    '''.*/resources/scripts/README\.md''',
+    '''.*/examples/.*''',
+    '''.*/tests/.*''',
+]
+
+# Allowlist specific regex patterns for false positives
+regexes = [
+    # WebSocket handshake keys (not secrets, part of protocol)
+    '''Sec-WebSocket-Key: [A-Za-z0-9+/=]+''',
+
+    # Test tokens clearly marked as examples or test-only
+    '''TOKEN="eyJhbGciOi.*".*# Test token''',
+    '''token.*=.*"eyJhbGciOi.*".*test''',
+
+    # Example API keys clearly marked as bad examples
+    '''API_KEY = "sk-live-EXAMPLE_BAD".*# Never hardcode''',
+    '''API_KEY = "sk_test_[^"]*".*# Hardcoded - example''',
+    '''API_KEY = "sk_test_[^"]*".*# Example of what''',
+
+    # Password examples in security documentation
+    '''password = "EXAMPLE_BAD_PASSWORD".*# Never hardcode''',
+    '''DB_PASSWORD="example123"''',
+    '''API_KEY="my-secret-key"''',
+
+    # Generic test/example markers
+    '''API_KEY = "[^"]*".*# Real API key''',  # Ironically, in docs showing what NOT to do
+    '''expired_token = "[^"]*".*# Test token''',
+]
+
+# Allowlist specific commits (if needed for historical reasons)
+# commits = []
+
+# Allowlist specific stopwords - words/phrases that indicate false positives
+stopwords = [
+    "example",
+    "test",
+    "sample",
+    "placeholder",
+    "your-secret-key",
+    "EXAMPLE_BAD",
+    "test_password_for_local_dev_only",
+]
