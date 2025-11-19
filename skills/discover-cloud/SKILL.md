@@ -23,9 +23,24 @@ This skill auto-activates when you're working with:
 
 ### Quick Reference
 
-The Cloud category contains 0 skills:
+The Cloud category contains 13 skills:
 
+**AWS Skills (7)**:
+1. **aws-lambda-functions** - Lambda function development, triggers, optimization
+2. **aws-api-gateway** - REST/HTTP/WebSocket APIs, authorization, integrations
+3. **aws-databases** - RDS, DynamoDB, ElastiCache, Aurora
+4. **aws-iam-security** - IAM, Cognito, Secrets Manager, KMS
+5. **aws-storage** - S3, EBS, EFS, Glacier, lifecycle policies
+6. **aws-ec2-compute** - EC2, Auto Scaling, Load Balancing, AMIs
+7. **aws-networking** - VPC, security groups, Route53, CloudFront
 
+**GCP Skills (6)**:
+1. **gcp-serverless** - Cloud Functions, Cloud Run, App Engine
+2. **gcp-compute** - Compute Engine, GKE, autoscaling
+3. **gcp-databases** - Cloud SQL, Firestore, Bigtable, Spanner
+4. **gcp-storage** - Cloud Storage, Persistent Disk, Filestore
+5. **gcp-iam-security** - IAM, service accounts, Secret Manager, KMS
+6. **gcp-networking** - VPC, firewall, Cloud DNS, Cloud CDN
 
 ### Load Full Category Details
 
@@ -46,7 +61,22 @@ This loads the full Cloud category index with:
 Load individual skills as needed:
 
 ```bash
+# AWS Skills
+cat skills/cloud/aws/aws-lambda-functions.md
+cat skills/cloud/aws/aws-api-gateway.md
+cat skills/cloud/aws/aws-databases.md
+cat skills/cloud/aws/aws-iam-security.md
+cat skills/cloud/aws/aws-storage.md
+cat skills/cloud/aws/aws-ec2-compute.md
+cat skills/cloud/aws/aws-networking.md
 
+# GCP Skills
+cat skills/cloud/gcp/gcp-serverless.md
+cat skills/cloud/gcp/gcp-compute.md
+cat skills/cloud/gcp/gcp-databases.md
+cat skills/cloud/gcp/gcp-storage.md
+cat skills/cloud/gcp/gcp-iam-security.md
+cat skills/cloud/gcp/gcp-networking.md
 ```
 
 ## Progressive Loading

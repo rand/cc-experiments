@@ -26,14 +26,14 @@ This skill auto-activates when you're working with:
 
 The Protocols category contains 8 skills:
 
-1. **http-fundamentals** - HTTP/1.1 basics, methods, headers, status codes
-2. **http2-multiplexing** - HTTP/2 with multiplexing, server push, HPACK
-3. **http3-quic** - HTTP/3 over QUIC, 0-RTT, connection migration
-4. **tcp-fundamentals** - TCP protocol, handshake, flow control, congestion
-5. **udp-fundamentals** - UDP protocol, connectionless communication
-6. **quic-protocol** - QUIC transport layer deep dive
-7. **protocol-selection** - Guide for choosing protocols
-8. **protocol-debugging** - Debug protocols with tcpdump, Wireshark, curl
+1. **grpc-implementation** - gRPC services with Protocol Buffers, streaming RPCs
+2. **http2-multiplexing** - HTTP/2 binary protocol, multiplexing, server push, HPACK
+3. **kafka-streams** - Apache Kafka stream processing and event streaming
+4. **mqtt-messaging** - MQTT pub-sub messaging for IoT and real-time applications
+5. **amqp-rabbitmq** - RabbitMQ and AMQP message broker implementation
+6. **protobuf-schemas** - Protocol Buffers schema design, evolution, code generation
+7. **tcp-optimization** - TCP performance optimization and tuning
+8. **websocket-protocols** - WebSocket protocol implementation, scaling, production
 
 ### Load Full Category Details
 
@@ -54,36 +54,48 @@ This loads the full Protocols category index with:
 Load individual skills as needed:
 
 ```bash
-cat skills/protocols/http-fundamentals.md
+cat skills/protocols/grpc-implementation.md
 cat skills/protocols/http2-multiplexing.md
-cat skills/protocols/tcp-fundamentals.md
-cat skills/protocols/protocol-debugging.md
+cat skills/protocols/kafka-streams.md
+cat skills/protocols/mqtt-messaging.md
+cat skills/protocols/amqp-rabbitmq.md
+cat skills/protocols/protobuf-schemas.md
+cat skills/protocols/tcp-optimization.md
+cat skills/protocols/websocket-protocols.md
 ```
 
 ## Common Workflows
 
-### Web Development
+### gRPC Microservices
 ```bash
-# HTTP basics → HTTP/2 optimization → Debugging
-cat skills/protocols/http-fundamentals.md
+# Schema design → gRPC implementation → Optimization
+cat skills/protocols/protobuf-schemas.md
+cat skills/protocols/grpc-implementation.md
 cat skills/protocols/http2-multiplexing.md
-cat skills/protocols/protocol-debugging.md
+cat skills/protocols/tcp-optimization.md
 ```
 
-### Protocol Selection
+### Event Streaming Pipeline
 ```bash
-# Understand options → Choose protocol → Implement
-cat skills/protocols/protocol-selection.md
-cat skills/protocols/tcp-fundamentals.md
-cat skills/protocols/udp-fundamentals.md
+# Kafka setup → Stream processing → Schema evolution
+cat skills/protocols/kafka-streams.md
+cat skills/protocols/protobuf-schemas.md
 ```
 
-### Performance Optimization
+### Real-time IoT Platform
 ```bash
-# Current protocol → Modern alternatives → Debug issues
-cat skills/protocols/http-fundamentals.md
-cat skills/protocols/http3-quic.md
-cat skills/protocols/protocol-debugging.md
+# MQTT for devices → RabbitMQ for backend → WebSockets for web
+cat skills/protocols/mqtt-messaging.md
+cat skills/protocols/amqp-rabbitmq.md
+cat skills/protocols/websocket-protocols.md
+```
+
+### High-Performance Web Application
+```bash
+# HTTP/2 optimization → WebSocket for real-time → TCP tuning
+cat skills/protocols/http2-multiplexing.md
+cat skills/protocols/websocket-protocols.md
+cat skills/protocols/tcp-optimization.md
 ```
 
 ## Progressive Loading
