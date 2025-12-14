@@ -1,5 +1,8 @@
 # Atomic Skills for Claude Code
 
+[![Run in Smithery](https://smithery.ai/badge/skills/rand)](https://smithery.ai/skills?ns=rand&utm_source=github&utm_medium=badge)
+
+
 [![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-Plugin-blue)](https://docs.claude.com/en/docs/claude-code/plugins)
 [![Skills](https://img.shields.io/badge/Skills-447-green)](skills/)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
