@@ -45,7 +45,6 @@
     "context-efficient"
   ],
   "skills": "./skills",
-  "agents": "./agents",
   "commands": "./commands",
   "hooks": {
     "SessionStart": [
