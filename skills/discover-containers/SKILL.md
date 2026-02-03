@@ -1,6 +1,11 @@
 ---
 name: discover-containers
 description: Automatically discover container skills when working with Docker, Dockerfile optimization, docker-compose, container networking, container security, container registries, or Kubernetes. Activates for containerization and orchestration tasks.
+license: MIT
+metadata:
+  author: rand
+  version: "3.1"
+compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
 # Containers Skills Discovery
@@ -67,6 +72,5 @@ This gateway skill enables progressive loading:
 2. **Browse skills**: Run `Read <cc-polymath-root>/skills/containers/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
----
 
 **Next Steps**: Run `Read <cc-polymath-root>/skills/containers/INDEX.md` to see full category details.

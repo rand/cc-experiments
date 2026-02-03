@@ -1,6 +1,9 @@
 # Research Skills Index
 
-Complete research methodology skills covering quantitative, qualitative, and mixed methods approaches.
+## Category Overview
+
+**Total Skills**: 7
+**Focus**: Research methodology — quantitative, qualitative, and mixed methods
 
 ## Skills in This Category
 

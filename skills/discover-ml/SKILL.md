@@ -1,6 +1,11 @@
 ---
 name: discover-ml
 description: Automatically discover machine learning and AI skills when working with machine learning, PyTorch, training, inference, RAG, embeddings, fine-tuning, LLM, DSPy, HuggingFace, or diffusion models. Activates for ML development tasks.
+license: MIT
+metadata:
+  author: rand
+  version: "3.1"
+compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
 # Ml Skills Discovery
@@ -88,6 +93,5 @@ This gateway skill enables progressive loading:
 2. **Browse skills**: Run `Read <cc-polymath-root>/skills/ml/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
----
 
 **Next Steps**: Run `Read <cc-polymath-root>/skills/ml/INDEX.md` to see full category details.

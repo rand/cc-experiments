@@ -1,5 +1,5 @@
 ---
-description: Discover and activate relevant skills (400 skills, 38 gateways)
+description: Discover and activate relevant skills (410+ skills, 40 gateways)
 argument-hint: [category|search-term] (optional)
 ---
 
@@ -32,10 +32,10 @@ ls *.{json,md,go,py,rs,swift,zig,toml,yaml,yml} 2>/dev/null | head -20
 
 **Technology Detection → Gateway Mapping:**
 - `package.json` → **discover-frontend** (React, Next.js, TypeScript)
-- `go.mod` → **discover-backend** (Go), may also need discover-api
-- `requirements.txt`, `pyproject.toml`, `uv.lock` → **discover-backend** (Python), **discover-ml** if ML work
-- `Cargo.toml` → **discover-backend** (Rust), **discover-wasm** if WASM
-- `build.zig` → Zig skills at root level
+- `go.mod` → **discover-api** (Go), **discover-cloud**
+- `requirements.txt`, `pyproject.toml`, `uv.lock` → **discover-api** (Python), **discover-ml** if ML work
+- `Cargo.toml` → **discover-wasm** if WASM, **discover-api** for web services
+- `build.zig` → **discover-zig**
 - `*.swift`, `*.xcodeproj` → **discover-mobile** (iOS/Swift)
 - `Dockerfile`, `docker-compose.yml` → **discover-containers**
 - `.beads/` → Beads workflow skills (root level)
@@ -64,6 +64,8 @@ Map to gateway keywords:
 - "math", "linear algebra" → **discover-math**
 - "compiler", "parser", "AST" → **discover-plt**
 - "diagram", "flowchart", "Mermaid", "visualization" → **discover-diagrams**
+- "MCP", "MCP server", "tool protocol" → **discover-mcp**
+- "agent", "agentic", "tool use", "task decomposition" → **discover-agentic**
 
 ### 4. Provide Contextual Recommendations
 
@@ -80,7 +82,7 @@ RECOMMENDED FOR THIS PROJECT:
 → discover-[category]
   Read <cc-polymath-root>/skills/discover-[category]/SKILL.md
 
-CATEGORIES (400 skills):
+CATEGORIES (410+ skills):
 Frontend (8) | Database (8) | API (7) | Testing (6) | Diagrams (8) | ML (30)
 Math (19) | Debugging (14) | Build Systems (8) | Caching (7) | Observability (8)
 Containers (5) | CI/CD (4) | PLT (13) | Formal (10) | Cloud (13)
@@ -192,9 +194,9 @@ RELATED: discover-observability, discover-caching
 
 **If ARGUMENT = "list":**
 
-Show all 38 gateway categories:
+Show all 40 gateway categories:
 ```
-ALL CATEGORIES (400 skills)
+ALL CATEGORIES (410+ skills)
 
 BACKEND & DATA:
   discover-api (7)         - REST, GraphQL, auth, rate limiting
@@ -230,9 +232,13 @@ SPECIALIZED:
   discover-ebpf (4)        - eBPF tracing, networking, security
   discover-ir (5)          - LLVM IR, compiler optimizations
   discover-modal (2)       - Modal functions, scheduling
-  discover-engineering (4) - Code review, documentation, leadership
+  discover-engineering (6) - Code review, git workflows, documentation, leadership
   discover-product (4)     - Product strategy, roadmaps
-  discover-collaboration (5)      - Collaboration, code review, pair programming
+  discover-collaboration (6)      - GitHub workflows, code review, pair programming
+
+AI & AGENTIC:
+  discover-mcp (3)         - MCP servers, tool design, testing
+  discover-agentic (3)     - Task decomposition, tool use, memory patterns
 
 AGENT SKILLS (Root):
   elegant-design          - UI/UX design, accessibility, design systems
@@ -276,7 +282,7 @@ Skills catalog not found at skills/README.md
 Expected structure:
 skills/
 ├── README.md              (Master catalog)
-├── discover-*/SKILL.md    (38 gateway skills)
+├── discover-*/SKILL.md    (40 gateway skills)
 └── {category}/INDEX.md    (Category indexes)
 
 Is your repository in a different location?
@@ -320,4 +326,4 @@ ROOT-LEVEL SKILLS:
 - Keep output concise and actionable
 - Never modify the skills library
 - Provide clear, copy-paste commands
-- The catalog has: 400 skills, 38 gateways, 31 categories
+- The catalog has: 410+ skills, 40 gateways, 33 categories

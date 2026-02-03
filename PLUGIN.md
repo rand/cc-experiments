@@ -1,13 +1,13 @@
 # cc-polymath Claude Code Plugin
 
-**Version:** 2.0.0
+**Version:** 3.1.0
 **Type:** Skills & Commands Plugin
 **Author:** rand
 **License:** MIT
 
 ## Overview
 
-cc-polymath is a comprehensive Claude Code plugin that provides 400 atomic, production-ready skills across 31+ domains, plus context-aware skill discovery commands and specialized subagents. It uses a gateway-based progressive loading architecture to minimize context usage while maximizing skill availability.
+cc-polymath is a comprehensive Claude Code plugin that provides 410+ atomic, production-ready skills across 33+ domains, plus context-aware skill discovery commands and specialized subagents. It uses a gateway-based progressive loading architecture to minimize context usage while maximizing skill availability.
 
 ## Plugin Structure
 
@@ -15,9 +15,9 @@ cc-polymath is a comprehensive Claude Code plugin that provides 400 atomic, prod
 cc-polymath/
 ├── .claude-plugin/
 │   └── plugin.json              # Plugin manifest
-├── skills/                       # 400 skills, 31+ domains
+├── skills/                       # 410+ skills, 33+ domains
 │   ├── README.md                 # Master catalog (gateway index)
-│   ├── discover-*/               # 38 gateway skills
+│   ├── discover-*/               # 40 gateway skills
 │   │   └── SKILL.md
 │   ├── api/                      # Category directories
 │   │   └── INDEX.md              # Category index
@@ -27,19 +27,17 @@ cc-polymath/
 │   ├── diagrams/
 │   ├── ml/
 │   ├── math/
-│   └── [28+ more categories...]
+│   └── [30+ more categories...]
 ├── commands/                     # Slash commands
-│   ├── skills.md                 # /skills command
-│   ├── discover-api.md           # /discover-api command
-│   ├── discover-database.md      # /discover-database command
-│   ├── discover-frontend.md      # /discover-frontend command
-│   ├── discover-ml.md            # /discover-ml command
-│   └── [6+ more gateway commands...]
+│   └── skills.md                 # /skills command
 ├── agents/                       # Specialized subagents
 │   ├── skill-navigator.md        # Skills library expert guide
 │   ├── architecture-advisor.md   # System design specialist
-│   └── polyglot-engineer.md      # Multi-language expert
-├── marketplace.json              # Marketplace configuration
+│   ├── polyglot-engineer.md      # Multi-language expert
+│   └── skill-creator.md          # Generates new spec-compliant skills
+├── .claude-plugin/
+│   ├── plugin.json               # Plugin manifest
+│   └── marketplace.json          # Marketplace configuration
 ├── LICENSE                       # MIT License
 ├── README.md                     # Main documentation
 ├── PLUGIN.md                     # This file
@@ -65,8 +63,8 @@ Install the plugin with a single command:
 Claude Code will:
 1. Clone the repository to `<cc-polymath-root>/`
 2. Register all slash commands (e.g., `/skills`, `/discover-api`, etc.)
-3. Make all 400 skills available for discovery
-4. Register specialized subagents (skill-navigator, architecture-advisor, polyglot-engineer)
+3. Make all 410+ skills available for discovery
+4. Register specialized subagents (skill-navigator, architecture-advisor, polyglot-engineer, skill-creator)
 5. Enable gateway-based progressive loading
 
 ### For Developers
@@ -85,19 +83,19 @@ cd cc-polymath
 
 ### Three-Tier Progressive Loading
 
-**Tier 1: Gateway Skills (28 skills)**
+**Tier 1: Gateway Skills (40 skills)**
 - Lightweight entry points (~200 lines each)
 - Activate based on project keywords
 - Guide to category indexes
 - Examples: `discover-frontend`, `discover-database`, `discover-ml`
 
-**Tier 2: Category Indexes (31 indexes)**
+**Tier 2: Category Indexes (33+ indexes)**
 - Comprehensive category overviews
 - List all skills in category with descriptions
 - Load-on-demand when category is relevant
 - Examples: `api/INDEX.md`, `database/INDEX.md`
 
-**Tier 3: Individual Skills (400 skills)**
+**Tier 3: Individual Skills (410+ skills)**
 - Deep, actionable guidance (~320 lines avg)
 - Load only when specifically needed
 - Contain code examples, best practices, workflows
@@ -118,7 +116,7 @@ Project detected → Gateway activates → Category shown → Skill loaded
 ```
 
 **Context Savings:**
-- Loading all 400 skills: ~143,000 lines
+- Loading all 410+ skills: ~143,000 lines
 - Gateway-based approach: ~200-1,500 lines per session
 - **98-99% context reduction**
 
@@ -171,10 +169,10 @@ These commands complement the auto-discovery system by providing explicit invoca
 
 ## Specialized Subagents
 
-cc-polymath includes three specialized subagents that leverage the skills library for focused workflows:
+cc-polymath includes four specialized subagents that leverage the skills library for focused workflows:
 
 ### `skill-navigator`
-**Purpose:** Expert guide for navigating the 400-skill library
+**Purpose:** Expert guide for navigating the 410+ skill library
 
 **Use when:**
 - Users need help finding relevant skills
@@ -220,7 +218,7 @@ Leverages language-specific skills and can implement solutions in the best-fit l
 
 ## Skill Categories
 
-### Available Categories (31 total)
+### Available Categories (33+ total)
 
 | Category | Skills | Description |
 |----------|--------|-------------|
@@ -247,7 +245,7 @@ Leverages language-specific skills and can implement solutions in the best-fit l
 {
   "name": "cc-polymath",
   "version": "2.0.0",
-  "description": "400 atomic, production-ready skills with gateway-based progressive loading for Claude Code. 31+ domains including API design, databases, ML, diagrams (Mermaid), mathematics, testing, infrastructure, cryptography, protocols, and more. Context-efficient three-tier architecture with auto-discovery gateways.",
+  "description": "410+ atomic, production-ready skills with gateway-based progressive loading for Claude Code. 33+ domains including API design, databases, ML, diagrams (Mermaid), mathematics, testing, infrastructure, cryptography, protocols, MCP, agentic workflows, and more. Context-efficient three-tier architecture with auto-discovery gateways.",
   "author": {
     "name": "rand"
   },
@@ -274,7 +272,7 @@ Leverages language-specific skills and can implement solutions in the best-fit l
   - Added 10 gateway discovery slash commands (`/discover-*`)
   - Created 3 specialized subagents (skill-navigator, architecture-advisor, polyglot-engineer)
   - Added marketplace.json for distribution
-  - Updated to 400 skills across 31+ domains
+  - Updated to 410+ skills across 33+ domains
   - Enhanced keywords for better discoverability
   - Converted to Claude Code plugin
   - Added plugin manifest
@@ -283,7 +281,7 @@ Leverages language-specific skills and can implement solutions in the best-fit l
   - Added LICENSE for marketplace compatibility
 
 - **v1.0.0** - Manual installation
-  - 400 skills across 31 categories
+  - 410+ skills across 33+ categories
   - Gateway-based progressive loading
   - Manual sync with install.sh
 
@@ -510,7 +508,7 @@ cd <cc-polymath-root>/skills/
 ├── .claude-plugin/
 │   └── plugin.json          # Metadata read by Claude Code
 ├── skills/                   # Discovered by skill system
-│   ├── README.md             # Master catalog (38 gateways)
+│   ├── README.md             # Master catalog (40 gateways)
 │   ├── discover-*/SKILL.md   # Gateway skills
 │   └── */INDEX.md            # Category indexes
 ├── commands/                 # Auto-registered by plugin system

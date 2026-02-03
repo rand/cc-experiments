@@ -1,6 +1,11 @@
 ---
 name: discover-wasm
 description: Automatically discover WebAssembly skills when working with WebAssembly, WASM, WASI, wasm-bindgen, Rust to WASM, wasm-pack, or browser runtime. Activates for WASM development tasks.
+license: MIT
+metadata:
+  author: rand
+  version: "3.1"
+compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
 # Wasm Skills Discovery
@@ -65,6 +70,5 @@ This gateway skill enables progressive loading:
 2. **Browse skills**: Run `Read <cc-polymath-root>/skills/wasm/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
----
 
 **Next Steps**: Run `Read <cc-polymath-root>/skills/wasm/INDEX.md` to see full category details.

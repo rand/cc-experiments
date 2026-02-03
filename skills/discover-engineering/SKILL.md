@@ -1,6 +1,11 @@
 ---
 name: discover-engineering
 description: Automatically discover software engineering practice skills when working with code review, documentation, pair programming, production debugging, performance profiling, deployment strategies, or software engineering practices. Activates for engineering development tasks.
+license: MIT
+metadata:
+  author: rand
+  version: "3.1"
+compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
 # Engineering Skills Discovery
@@ -111,6 +116,5 @@ This gateway skill enables progressive loading:
 2. **Browse skills**: Run `Read <cc-polymath-root>/skills/engineering/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
----
 
 **Next Steps**: Run `Read <cc-polymath-root>/skills/engineering/INDEX.md` to see full category details.

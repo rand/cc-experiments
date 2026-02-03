@@ -1,7 +1,7 @@
 # Skills Catalog
 
-**Total Skills**: 293 across 31 categories
-**Gateway Skills**: 28 (auto-discovered by Claude Code)
+**Total Skills**: 410+ across 33+ categories
+**Gateway Skills**: 40 (auto-discovered by Claude Code)
 **Agent Skills**: 3 (elegant-design, anti-slop, typed-holes-refactor)
 
 ## Overview
@@ -174,7 +174,7 @@ Read <cc-polymath-root>/skills/observability/INDEX.md
 ---
 
 ### Build Systems (8 skills)
-**Gateway**: `discover-build`
+**Gateway**: `discover-build-systems`
 **Keywords**: build systems, Make, CMake, Gradle, Maven, Bazel, compilation
 **Skills**: Make, CMake, Gradle, Maven, Bazel, cross-platform builds, build optimization
 
@@ -245,7 +245,7 @@ Read <cc-polymath-root>/skills/containers/INDEX.md
 
 ---
 
-### Data Pipelines (5 skills)
+### Data Pipelines (9 skills)
 **Gateway**: `discover-data`
 **Keywords**: ETL, data pipelines, batch processing, stream processing, orchestration
 **Skills**: ETL patterns, batch processing, stream processing, pipeline orchestration, data validation
@@ -305,10 +305,10 @@ Read <cc-polymath-root>/skills/ebpf/INDEX.md
 
 ---
 
-### Engineering Practices (4 skills)
+### Engineering Practices (6+ skills)
 **Gateway**: `discover-engineering`
 **Keywords**: engineering practices, code review, technical leadership
-**Skills**: Code review, documentation, technical leadership, team practices
+**Skills**: Code review, code review rules, git workflows, documentation, technical leadership, team practices
 
 Read <cc-polymath-root>/skills/engineering/INDEX.md
 
@@ -325,7 +325,7 @@ Read <cc-polymath-root>/skills/product/INDEX.md
 
 ---
 
-### Collaboration (5 skills)
+### Collaboration (6 skills)
 **Gateway**: `discover-collaboration`
 **Keywords**: collaboration, code review, documentation, pair programming
 **Skills**: Code review, documentation, pair programming, team workflows
@@ -365,15 +365,135 @@ Read <cc-polymath-root>/skills/workflow/INDEX.md
 
 ---
 
+### Cryptography (15 skills)
+**Gateway**: `discover-cryptography`
+**Keywords**: TLS, certificates, encryption, PKI, key management, secrets
+**Skills**: TLS configuration, certificate management, PKI, key management, encryption at rest, secrets rotation, signing
+
+Read <cc-polymath-root>/skills/cryptography/INDEX.md
+
+
+---
+
+### Distributed Systems (19 skills)
+**Gateway**: `discover-distributed-systems`
+**Keywords**: distributed systems, consensus, CRDT, event sourcing, CAP theorem
+**Skills**: Raft consensus, CRDTs, event sourcing, partitioning, replication, distributed locks
+
+Read <cc-polymath-root>/skills/distributed-systems/INDEX.md
+
+
+---
+
+### Protocols (12 skills)
+**Gateway**: `discover-protocols`
+**Keywords**: gRPC, Kafka, MQTT, AMQP, protobuf, HTTP/2, HTTP/3
+**Skills**: gRPC, Kafka streams, MQTT, AMQP/RabbitMQ, protobuf, HTTP/2, HTTP/3, TCP optimization
+
+Read <cc-polymath-root>/skills/protocols/INDEX.md
+
+
+---
+
+### Proxies (8 skills)
+**Gateway**: `discover-proxies`
+**Keywords**: Nginx, Envoy, Traefik, reverse proxy, load balancing
+**Skills**: Nginx, Envoy, Traefik, reverse proxy, forward proxy, NATS messaging
+
+Read <cc-polymath-root>/skills/proxies/INDEX.md
+
+
+---
+
+### Networking (5 skills)
+**Gateway**: `discover-networking`
+**Keywords**: Tailscale, mTLS, NAT traversal, SSH, VPN
+**Skills**: Tailscale VPN, mTLS, NAT traversal, Mosh, network resilience
+
+Read <cc-polymath-root>/skills/networking/INDEX.md
+
+
+---
+
+### Security (9 skills)
+**Gateway**: `discover-security`
+**Keywords**: authentication, authorization, OAuth, secrets, security headers, vulnerabilities
+**Skills**: Authentication, authorization, OAuth 2.0, secrets management, security headers, input validation, security rules
+
+Read <cc-polymath-root>/skills/security/INDEX.md
+
+
+---
+
+### Zig (6 skills)
+**Gateway**: `discover-zig`
+**Keywords**: Zig, systems programming, memory management, build system
+**Skills**: Project setup, memory management, build system, C interop, testing, package management
+
+Read <cc-polymath-root>/skills/zig/INDEX.md
+
+
+---
+
+### Terminal UI (6 skills)
+**Gateway**: `discover-tui`
+**Keywords**: terminal UI, TUI, Bubble Tea, Ratatui, CLI
+**Skills**: Bubble Tea architecture/components, Ratatui architecture/widgets, TUI best practices
+
+Read <cc-polymath-root>/skills/tui/INDEX.md
+
+
+---
+
+### Rust / PyO3 (19 skills)
+**Gateway**: Auto-discovered via discover-backend keywords
+**Keywords**: Rust, PyO3, Python extensions, FFI
+**Skills**: PyO3 fundamentals, classes, async, packaging, testing, data science, DSPy integration
+
+Read <cc-polymath-root>/skills/rust/INDEX.md
+
+
+---
+
+### Research (8 skills)
+**Gateway**: `discover-research`
+**Keywords**: research methods, data collection, analysis, synthesis
+**Skills**: Research design, data collection, analysis, qualitative/quantitative methods, synthesis, writing
+
+Read <cc-polymath-root>/skills/research/INDEX.md
+
+
+---
+
+### MCP (3 skills)
+**Gateway**: `discover-mcp`
+**Keywords**: MCP, Model Context Protocol, tool design, MCP server
+**Skills**: MCP server fundamentals, tool design, testing
+
+Read <cc-polymath-root>/skills/mcp/INDEX.md
+
+
+---
+
+### Agentic (3 skills)
+**Gateway**: `discover-agentic`
+**Keywords**: agentic, task decomposition, tool use, memory patterns
+**Skills**: Task decomposition, tool use patterns, memory management
+
+Read <cc-polymath-root>/skills/agentic/INDEX.md
+
+
+---
+
 ## Quick Reference
 
 ### Find Skills by Technology
 
-**Python**: discover-backend, discover-ml, discover-data, discover-testing
+**Python**: discover-ml, discover-data, discover-testing
 **TypeScript/React**: discover-frontend, discover-testing
-**Zig**: discover-backend, discover-build
-**Go**: discover-backend, discover-cloud
-**Rust**: discover-backend, discover-wasm
+**Zig**: discover-zig, discover-build-systems
+**Go**: discover-cloud, discover-api
+**Rust**: discover-wasm
 
 ### Find Skills by Task
 
@@ -383,19 +503,6 @@ Read <cc-polymath-root>/skills/workflow/INDEX.md
 **Debug Issues**: discover-debugging, discover-observability
 **Deploy Application**: discover-deployment, discover-cloud, discover-infra, discover-cicd
 **Data Engineering**: discover-data, discover-database, discover-observability
-
-### Root-Level Skills
-
-40 skills at root level (not yet categorized):
-- Zig skills (zig-*.md)
-- TUI skills (bubbletea-*.md, ratatui-*.md)
-- iOS skills (swift*.md, ios-*.md, swiftui-*.md)
-- Modal skills (modal-*.md)
-- Networking skills (mosh-*.md, mtls-*.md, nat-traversal.md, network-resilience-patterns.md, tailscale-vpn.md)
-- Discovery/Meta skills (skill-*.md)
-- Misc (apache-iceberg.md, duckdb-analytics.md, redpanda-streaming.md)
-
-These will be integrated into appropriate categories in a future update.
 
 ---
 

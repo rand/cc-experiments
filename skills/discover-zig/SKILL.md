@@ -1,6 +1,11 @@
 ---
 name: discover-zig
 description: Automatically discover Zig programming skills when working with Zig, comptime, allocators, build.zig, safety, C interop, memory management, or systems programming. Activates for Zig development tasks.
+license: MIT
+metadata:
+  author: rand
+  version: "3.1"
+compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
 # Zig Skills Discovery
@@ -66,6 +71,5 @@ This gateway skill enables progressive loading:
 2. **Browse skills**: Run `Read <cc-polymath-root>/skills/zig/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
----
 
 **Next Steps**: Run `Read <cc-polymath-root>/skills/zig/INDEX.md` to see full category details.

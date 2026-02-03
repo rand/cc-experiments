@@ -2,7 +2,7 @@
 
 ## Category Overview
 
-**Total Skills**: 10
+**Total Skills**: 11
 **Category**: frontend
 
 ## Skills in This Category
@@ -94,6 +94,18 @@ Read <cc-polymath-root>/skills/frontend/web-accessibility.md
 **Load this skill**:
 Read <cc-polymath-root>/skills/frontend/web-workers.md
 
+
+---
+
+### react-rules.md
+**Description**: 43 opinionated rules for React development
+**Lines**: ~274
+**Use When**:
+- Need quick reference for React best practices
+- Reviewing React components and patterns
+- Onboarding developers to React conventions
+
+**Key Concepts**: Component design, hooks, state management, performance, testing, accessibility
 
 ---
 

@@ -54,7 +54,7 @@ Install cc-polymath as a plugin:
 ```
 
 That's it! The plugin system will:
-- Download all 400 skills to `<cc-polymath-root>/skills/`
+- Download all 410+ skills to `<cc-polymath-root>/skills/`
 - Register the `/skills` command automatically
 - Make everything available immediately
 
@@ -68,7 +68,7 @@ Check that the plugin is installed:
 
 You should see:
 ```
-cc-polymath (v2.0.0) - 400 atomic skills with gateway-based progressive loading
+cc-polymath (v2.0.0) - 410+ atomic skills with gateway-based progressive loading
 ```
 
 Test the `/skills` command:
@@ -151,7 +151,7 @@ git pull
 
 ### Skills Structure
 
-The 400 skills across 31 categories are identical:
+The 410+ skills across 33+ categories are identical:
 - Same gateway architecture
 - Same progressive loading
 - Same skill content and guidance
@@ -171,7 +171,7 @@ All discovery mechanisms work exactly the same:
 All existing workflows continue to work:
 - Gateway skills still activate based on project context
 - Skills still compose with each other
-- All 38 gateways, 31 categories, 400 skills unchanged
+- All 40 gateways, 33+ categories, 410+ skills unchanged
 
 ## Troubleshooting
 

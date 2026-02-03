@@ -2,7 +2,7 @@
 
 ## Category Overview
 
-**Total Skills**: 14
+**Total Skills**: 16
 **Category**: engineering
 
 ## Skills in This Category
@@ -129,6 +129,39 @@ Read <cc-polymath-root>/skills/engineering/technical-debt.md
 
 **Load this skill**:
 Read <cc-polymath-root>/skills/engineering/test-driven-development.md
+
+
+---
+
+### code-review-rules.md
+**Description**: Opinionated code review checklist with 50+ actionable rules for security, performance, readability, testing, and error handling
+**Lines**: ~341
+**Use When**:
+- Need a structured checklist for code reviews
+- Reviewing PRs for common issues
+- Training team members on review practices
+
+**Key Concepts**: Security checks, performance review, readability, testing coverage, error handling patterns
+
+**Load this skill**:
+Read <cc-polymath-root>/skills/engineering/code-review-rules.md
+
+
+---
+
+### git-workflows.md
+**Description**: Git workflow mastery including branch strategies, rebase vs merge, commit conventions, conflict resolution, and worktree usage
+**Lines**: ~370
+**Use When**:
+- Setting up Git branching strategies
+- Resolving merge conflicts
+- Establishing commit conventions
+- Using Git worktrees for parallel work
+
+**Key Concepts**: Branch strategies, rebase vs merge, conventional commits, conflict resolution, worktrees, interactive rebase
+
+**Load this skill**:
+Read <cc-polymath-root>/skills/engineering/git-workflows.md
 
 
 ---

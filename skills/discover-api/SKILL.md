@@ -1,6 +1,11 @@
 ---
 name: discover-api
 description: Automatically discover API design skills when working with REST APIs, GraphQL schemas, API authentication, OAuth, JWT, rate limiting, API versioning, error handling, or endpoint design. Activates for backend API development tasks.
+license: MIT
+metadata:
+  author: rand
+  version: "3.1"
+compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
 # API Skills Discovery
@@ -23,7 +28,7 @@ This skill auto-activates when you're working with:
 
 ### Quick Reference
 
-The API category contains 7 specialized skills:
+The API category contains 8 specialized skills:
 
 1. **rest-api-design** - RESTful resource modeling, HTTP semantics, URL conventions
 2. **graphql-schema-design** - GraphQL types, resolvers, N+1 problem prevention
@@ -32,6 +37,7 @@ The API category contains 7 specialized skills:
 5. **api-rate-limiting** - Token bucket, sliding window, rate limiting algorithms
 6. **api-versioning** - API versioning, deprecation, backward compatibility
 7. **api-error-handling** - RFC 7807 errors, validation, standardized responses
+8. **api-design-rules** - 35 opinionated rules for API design
 
 ### Load Full Category Details
 
@@ -63,6 +69,9 @@ Read <cc-polymath-root>/skills/api/api-authorization.md
 Read <cc-polymath-root>/skills/api/api-rate-limiting.md
 Read <cc-polymath-root>/skills/api/api-error-handling.md
 Read <cc-polymath-root>/skills/api/api-versioning.md
+
+# Rules and best practices
+Read <cc-polymath-root>/skills/api/api-design-rules.md
 
 
 ## Common Workflows
@@ -194,6 +203,5 @@ Read <cc-polymath-root>/skills/api/api-rate-limiting.md
 Read <cc-polymath-root>/skills/api/api-versioning.md
 
 
----
 
 **Next Steps**: Run `Read <cc-polymath-root>/skills/api/INDEX.md` to see full category details, or load specific skills using the bash commands above.

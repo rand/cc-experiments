@@ -1,6 +1,10 @@
 # Diagrams Skills
 
-Visual documentation and diagramming with Mermaid.js and other tools.
+## Category Overview
+
+**Total Skills**: 8
+**Focus**: Visual documentation and diagramming with Mermaid.js
+**Use Cases**: Architecture diagrams, sequence flows, ER diagrams, project timelines
 
 ## Available Skills
 

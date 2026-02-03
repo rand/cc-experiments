@@ -4,7 +4,7 @@ Comprehensive skills for designing, securing, and implementing production-ready 
 
 ## Category Overview
 
-**Total Skills**: 7
+**Total Skills**: 8
 **Focus**: REST APIs, GraphQL, Authentication, Authorization, Rate Limiting, Versioning, Error Handling
 **Use Cases**: Backend API development, microservices, web services, mobile backends
 
@@ -114,6 +114,18 @@ Comprehensive skills for designing, securing, and implementing production-ready 
 - Providing actionable error information to clients
 
 **Key Concepts**: RFC 7807, error codes, validation errors, error messages, error logging, problem details
+
+---
+
+### api-design-rules.md
+**Description**: 35 opinionated rules for API design
+**Lines**: ~300
+**Use When**:
+- Need a quick reference of API design best practices
+- Reviewing API designs for common mistakes
+- Training team members on API conventions
+
+**Key Concepts**: Resource naming, HTTP methods, pagination, error formats, security, versioning
 
 ---
 

@@ -2,7 +2,7 @@
 
 ## Category Overview
 
-**Total Skills**: 33
+**Total Skills**: 34
 **Category**: ml
 
 ## Skills in This Category
@@ -300,6 +300,23 @@ Read <cc-polymath-root>/skills/ml/stable-diffusion-deployment.md
 
 **Load this skill**:
 Read <cc-polymath-root>/skills/ml/unsloth-finetuning.md
+
+
+---
+
+### prompt-engineering.md
+**Description**: Prompt engineering patterns for developers including system prompts, few-shot learning, chain-of-thought, structured output, and tool use prompts
+**Lines**: ~408
+**Use When**:
+- Designing system prompts for LLM applications
+- Implementing few-shot or chain-of-thought patterns
+- Structuring LLM outputs for programmatic use
+- Building tool-use and agent prompts
+
+**Key Concepts**: System prompts, few-shot learning, chain-of-thought, structured output, tool use, prompt chaining, guardrails
+
+**Load this skill**:
+Read <cc-polymath-root>/skills/ml/prompt-engineering.md
 
 
 ---

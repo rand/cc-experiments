@@ -1,6 +1,11 @@
 ---
 name: discover-ebpf
 description: Automatically discover eBPF and kernel skills when working with eBPF, kernel tracing, XDP, kprobes, BPF, Linux kernel, or network filtering. Activates for eBPF development tasks.
+license: MIT
+metadata:
+  author: rand
+  version: "3.1"
+compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
 # Ebpf Skills Discovery
@@ -66,6 +71,5 @@ This gateway skill enables progressive loading:
 2. **Browse skills**: Run `Read <cc-polymath-root>/skills/ebpf/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
----
 
 **Next Steps**: Run `Read <cc-polymath-root>/skills/ebpf/INDEX.md` to see full category details.

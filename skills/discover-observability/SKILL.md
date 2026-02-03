@@ -1,6 +1,11 @@
 ---
 name: discover-observability
 description: Automatically discover observability and monitoring skills when working with Prometheus, Grafana, distributed tracing, structured logging, metrics, alerting, dashboards, or monitoring. Activates for observability development tasks.
+license: MIT
+metadata:
+  author: rand
+  version: "3.1"
+compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
 # Observability Skills Discovery
@@ -71,6 +76,5 @@ This gateway skill enables progressive loading:
 2. **Browse skills**: Run `Read <cc-polymath-root>/skills/observability/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
----
 
 **Next Steps**: Run `Read <cc-polymath-root>/skills/observability/INDEX.md` to see full category details.

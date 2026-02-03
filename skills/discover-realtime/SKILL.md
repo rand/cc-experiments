@@ -1,6 +1,11 @@
 ---
 name: discover-realtime
 description: Automatically discover realtime communication skills when working with WebSocket, Server-Sent Events, SSE, pub/sub, real-time communication, or live updates. Activates for realtime development tasks.
+license: MIT
+metadata:
+  author: rand
+  version: "3.1"
+compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
 # Realtime Skills Discovery
@@ -65,6 +70,5 @@ This gateway skill enables progressive loading:
 2. **Browse skills**: Run `Read <cc-polymath-root>/skills/realtime/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
----
 
 **Next Steps**: Run `Read <cc-polymath-root>/skills/realtime/INDEX.md` to see full category details.

@@ -1,6 +1,11 @@
 ---
 name: discover-math
 description: Automatically discover mathematics and algorithm skills when working with linear algebra, calculus, optimization, statistics, probability, numerical methods, category theory, or topology. Activates for math development tasks.
+license: MIT
+metadata:
+  author: rand
+  version: "3.1"
+compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
 # Math Skills Discovery
@@ -74,6 +79,5 @@ This gateway skill enables progressive loading:
 2. **Browse skills**: Run `Read <cc-polymath-root>/skills/math/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
----
 
 **Next Steps**: Run `Read <cc-polymath-root>/skills/math/INDEX.md` to see full category details.

@@ -1,6 +1,11 @@
 ---
 name: discover-modal
 description: Automatically discover Modal platform skills when working with Modal, serverless GPU, cloud functions, Modal.com, GPU workloads, web endpoints, or scheduled jobs. Activates for Modal development tasks.
+license: MIT
+metadata:
+  author: rand
+  version: "3.1"
+compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
 # Modal Skills Discovery
@@ -60,6 +65,5 @@ This gateway skill enables progressive loading:
 2. **Browse skills**: Run `Read <cc-polymath-root>/skills/modal/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
----
 
 **Next Steps**: Run `Read <cc-polymath-root>/skills/modal/INDEX.md` to see full category details.

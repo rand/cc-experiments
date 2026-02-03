@@ -1,6 +1,11 @@
 ---
 name: discover-workflow
 description: Automatically discover workflow and task management skills when working with task management, Beads, workflow automation, multi-session patterns, or project tracking. Activates for workflow development tasks.
+license: MIT
+metadata:
+  author: rand
+  version: "3.1"
+compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
 # Workflow Skills Discovery
@@ -70,6 +75,5 @@ This gateway skill enables progressive loading:
 2. **Browse skills**: Run `Read <cc-polymath-root>/skills/workflow/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
----
 
 **Next Steps**: Run `Read <cc-polymath-root>/skills/workflow/INDEX.md` to see full category details.

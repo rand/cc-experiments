@@ -1,6 +1,11 @@
 ---
 name: discover-frontend
 description: Automatically discover frontend development skills when working with React, Next.js, UI components, state management, data fetching, forms, accessibility, performance optimization, or SEO. Activates for frontend web development tasks.
+license: MIT
+metadata:
+  author: rand
+  version: "3.1"
+compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
 # Frontend Skills Discovery
@@ -354,6 +359,5 @@ Read <cc-polymath-root>/skills/frontend/react-data-fetching.md
 4. **Follow workflows**: Use recommended sequences for common patterns
 5. **elegant-design**: Note that elegant-design is a separate Agent Skill that auto-activates for UI design work
 
----
 
 **Next Steps**: Run `Read <cc-polymath-root>/skills/frontend/INDEX.md` to see full category details, or load specific skills using the bash commands above.

@@ -1,7 +1,7 @@
 # Atomic Skills for Claude Code
 
 [![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-Plugin-blue)](https://docs.claude.com/en/docs/claude-code/plugins)
-[![Skills](https://img.shields.io/badge/Skills-400-green)](skills/)
+[![Skills](https://img.shields.io/badge/Skills-410%2B-green)](skills/)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
 **Context-efficient development knowledge via progressive skill discovery**
@@ -42,7 +42,7 @@ This creates an challenging tradeoff between comprehensive coverage and context 
 
 ## The Solution: Atomic Skills + Progressive Discovery
 
-### Atomic Skills (400 total)
+### Atomic Skills (410+ total)
 Each skill is **focused, self-contained, and composable**:
 - Average 320 lines - small enough to load quickly
 - Single responsibility - covers one clear topic
@@ -53,7 +53,7 @@ Each skill is **focused, self-contained, and composable**:
 
 ### Three-Tier Architecture
 
-**Tier 1: Gateway Skills (31 auto-discovered Agent Skills)**
+**Tier 1: Gateway Skills (40 auto-discovered Agent Skills)**
 Lightweight entry points that activate automatically based on keywords:
 - `discover-api` → triggers on "REST", "GraphQL", "authentication"
 - `discover-database` → triggers on "PostgreSQL", "MongoDB", "Redis"
@@ -184,7 +184,7 @@ Complete implementation guides loaded only when needed:
 /plugin install https://github.com/rand/cc-polymath
 ```
 
-That's it! All 400 skills and the `/skills` command are immediately available.
+That's it! All 410+ skills and the `/skills` command are immediately available.
 
 **For local development or testing**:
 ```bash
@@ -545,4 +545,4 @@ Feel free to fork and adapt for your own use. Pull requests welcome.
 
 ---
 
-**400 atomic skills** • **41 gateway Agent Skills** • **35+ categories** • **100% CI-validated**
+**410+ atomic skills** • **40 gateway Agent Skills** • **33+ categories** • **100% CI-validated**

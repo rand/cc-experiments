@@ -1,6 +1,11 @@
 ---
 name: discover-data
 description: Automatically discover data pipeline and ETL skills when working with ETL, data pipelines, streaming, batch processing, data validation, or pipeline orchestration. Activates for data development tasks.
+license: MIT
+metadata:
+  author: rand
+  version: "3.1"
+compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
 # Data Skills Discovery
@@ -109,6 +114,5 @@ This gateway skill enables progressive loading:
 2. **Browse skills**: Run `Read <cc-polymath-root>/skills/data/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
----
 
 **Next Steps**: Run `Read <cc-polymath-root>/skills/data/INDEX.md` to see full category details.

@@ -1,5 +1,5 @@
 #!/bin/bash
-# cc-polymath v3.0.0 validation script
+# cc-polymath v3.1.0 validation script
 set -uo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -39,10 +39,10 @@ else
   fail "SessionStart hook missing from plugin.json"
 fi
 VERSION=$(python3 -c "import json; print(json.load(open('.claude-plugin/plugin.json'))['version'])" 2>/dev/null)
-if [ "$VERSION" = "3.0.0" ]; then
-  pass "Version is 3.0.0"
+if [ "$VERSION" = "3.1.0" ]; then
+  pass "Version is 3.1.0"
 else
-  fail "Version is $VERSION, expected 3.0.0"
+  fail "Version is $VERSION, expected 3.1.0"
 fi
 
 # 3. marketplace.json is valid and matches
@@ -53,10 +53,10 @@ else
   fail "marketplace.json is invalid JSON"
 fi
 MKT_VERSION=$(python3 -c "import json; print(json.load(open('.claude-plugin/marketplace.json'))['plugins'][0]['version'])" 2>/dev/null)
-if [ "$MKT_VERSION" = "3.0.0" ]; then
-  pass "marketplace.json version matches (3.0.0)"
+if [ "$MKT_VERSION" = "3.1.0" ]; then
+  pass "marketplace.json version matches (3.1.0)"
 else
-  fail "marketplace.json version is $MKT_VERSION, expected 3.0.0"
+  fail "marketplace.json version is $MKT_VERSION, expected 3.1.0"
 fi
 
 # 4. Cross-reference validation
@@ -116,8 +116,56 @@ if [ "$MISSING_FM" -eq 0 ]; then
   pass "All gateways have YAML frontmatter"
 fi
 
-# 7. Skill counts
-echo "7. Checking skill counts..."
+# 7. Agent Skills spec compliance
+echo "7. Checking Agent Skills spec compliance..."
+SPEC_FAIL=0
+for gw in skills/discover-*/SKILL.md; do
+  NAME=$(python3 -c "
+import re
+text = open('$gw').read()
+m = re.search(r'^name:\s*(.+)$', text, re.M)
+print(m.group(1).strip() if m else '')
+" 2>/dev/null)
+  DESC=$(python3 -c "
+import re
+text = open('$gw').read()
+m = re.search(r'^description:\s*(.+)$', text, re.M)
+print(m.group(1).strip() if m else '')
+" 2>/dev/null)
+  # Name must be kebab-case, 1-64 chars
+  if [ -z "$NAME" ]; then
+    fail "Missing name: $gw"
+    SPEC_FAIL=$((SPEC_FAIL + 1))
+  elif ! echo "$NAME" | grep -qE '^[a-z0-9]([a-z0-9-]*[a-z0-9])?$'; then
+    fail "Name not kebab-case: $gw ($NAME)"
+    SPEC_FAIL=$((SPEC_FAIL + 1))
+  elif [ ${#NAME} -gt 64 ]; then
+    fail "Name >64 chars: $gw ($NAME)"
+    SPEC_FAIL=$((SPEC_FAIL + 1))
+  fi
+  # Description must exist and be ≤1024 chars
+  if [ -z "$DESC" ]; then
+    fail "Missing description: $gw"
+    SPEC_FAIL=$((SPEC_FAIL + 1))
+  elif [ ${#DESC} -gt 1024 ]; then
+    warn "Description >1024 chars: $gw (${#DESC} chars)"
+  fi
+  # Check for required spec fields
+  if ! grep -q '^license:' "$gw"; then
+    fail "Missing license field: $gw"
+    SPEC_FAIL=$((SPEC_FAIL + 1))
+  fi
+  if ! grep -q '^metadata:' "$gw"; then
+    fail "Missing metadata block: $gw"
+    SPEC_FAIL=$((SPEC_FAIL + 1))
+  fi
+done
+if [ "$SPEC_FAIL" -eq 0 ]; then
+  pass "All gateways pass Agent Skills spec checks"
+fi
+
+# 8. Skill counts
+echo "8. Checking skill counts..."
 LEAF_SKILLS=$(find skills -mindepth 2 -name "*.md" \
   -not -name "INDEX.md" -not -name "README.md" -not -name "SKILL.md" \
   -not -path "*/discover-*/*" -not -path "*/resources/*" | wc -l | tr -d ' ')
@@ -129,17 +177,19 @@ pass "$TOTAL total skills ($LEAF_SKILLS in categories + $ROOT_SKILLS root-level)
 CLAIMED=$(python3 -c "
 import json, re
 d = json.load(open('.claude-plugin/plugin.json'))
-m = re.search(r'(\d+) production', d['description'])
+m = re.search(r'(\d+)\+? production', d['description'])
 print(m.group(1) if m else 'unknown')
 " 2>/dev/null)
-if [ "$CLAIMED" = "$TOTAL" ]; then
-  pass "plugin.json claims $CLAIMED skills — matches actual"
+if [ "$CLAIMED" = "unknown" ]; then
+  warn "Could not parse skill count from plugin.json description"
+elif [ "$TOTAL" -ge "$CLAIMED" ]; then
+  pass "plugin.json claims ${CLAIMED}+ skills — actual is $TOTAL"
 else
-  warn "plugin.json claims $CLAIMED skills but actual is $TOTAL"
+  warn "plugin.json claims ${CLAIMED}+ skills but actual is only $TOTAL"
 fi
 
-# 8. No redundant discover commands
-echo "8. Checking commands directory..."
+# 9. No redundant discover commands
+echo "9. Checking commands directory..."
 DISCOVER_CMDS=$(ls commands/discover-*.md 2>/dev/null | wc -l | tr -d ' ')
 if [ "$DISCOVER_CMDS" -eq 0 ]; then
   pass "No redundant discover-*.md commands"
@@ -152,8 +202,8 @@ else
   fail "commands/skills.md missing"
 fi
 
-# 9. No stale count references
-echo "9. Checking for stale skill count references..."
+# 10. No stale count references
+echo "10. Checking for stale skill count references..."
 STALE_447=$(grep -r '\b447\b' --include="*.md" . 2>/dev/null | grep -v '.git/' | grep -v '.reasoning_logs/' | wc -l | tr -d ' ')
 if [ "$STALE_447" -eq 0 ]; then
   pass "No stale 447 skill count references"

@@ -4,7 +4,7 @@ Comprehensive skills for application security, vulnerability assessment, and sec
 
 ## Category Overview
 
-**Total Skills**: 6
+**Total Skills**: 7
 **Focus**: Authentication, Authorization, Input Validation, Security Headers, Vulnerability Assessment, Secrets Management
 **Use Cases**: Secure application development, security audits, OWASP compliance, penetration testing, secrets handling
 
@@ -103,6 +103,18 @@ Comprehensive skills for application security, vulnerability assessment, and sec
 - Designing multi-environment secret strategies
 
 **Key Concepts**: HashiCorp Vault, AWS Secrets Manager, GCP Secret Manager, environment variables, key rotation, dynamic credentials, secrets in CI/CD, zero-downtime rotation
+
+---
+
+### security-rules.md
+**Description**: 42 opinionated rules for application security
+**Lines**: ~271
+**Use When**:
+- Need quick reference for security best practices
+- Reviewing code for security vulnerabilities
+- Onboarding developers to security conventions
+
+**Key Concepts**: Input validation, authentication, authorization, secrets management, OWASP, dependency scanning, logging
 
 ---
 

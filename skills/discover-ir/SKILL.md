@@ -1,6 +1,11 @@
 ---
 name: discover-ir
 description: Automatically discover intermediate representation and compiler skills when working with LLVM IR, SSA, compiler optimization, intermediate representation, code generation, or optimization passes. Activates for IR development tasks.
+license: MIT
+metadata:
+  author: rand
+  version: "3.1"
+compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
 # Ir Skills Discovery
@@ -66,6 +71,5 @@ This gateway skill enables progressive loading:
 2. **Browse skills**: Run `Read <cc-polymath-root>/skills/ir/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
----
 
 **Next Steps**: Run `Read <cc-polymath-root>/skills/ir/INDEX.md` to see full category details.

@@ -2,7 +2,7 @@
 
 ## Category Overview
 
-**Total Skills**: 11
+**Total Skills**: 12
 **Category**: database
 
 ## Skills in This Category
@@ -103,6 +103,18 @@ Read <cc-polymath-root>/skills/database/redis-data-structures.md
 **Load this skill**:
 Read <cc-polymath-root>/skills/database/redpanda-streaming.md
 
+
+---
+
+### sql-rules.md
+**Description**: 33 opinionated rules for SQL and database work
+**Lines**: ~280
+**Use When**:
+- Need quick reference for SQL best practices
+- Reviewing database queries and schemas
+- Onboarding developers to database conventions
+
+**Key Concepts**: Parameterized queries, indexing, migrations, performance, schema design
 
 ---
 

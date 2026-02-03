@@ -1,6 +1,11 @@
 ---
 name: discover-security
 description: Automatically discover security skills when working with authentication, authorization, input validation, security headers, vulnerability assessment, or secrets management. Activates for application security, OWASP, and security hardening tasks.
+license: MIT
+metadata:
+  author: rand
+  version: "3.1"
+compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
 # Security Skills Discovery
@@ -243,6 +248,5 @@ Read <cc-polymath-root>/skills/security/authentication.md
 Read <cc-polymath-root>/skills/security/authorization.md
 
 
----
 
 **Next Steps**: Run `Read <cc-polymath-root>/skills/security/INDEX.md` to see full category details, or load specific skills using the bash commands above.

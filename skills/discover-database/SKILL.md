@@ -1,6 +1,11 @@
 ---
 name: discover-database
 description: Automatically discover database skills when working with SQL, PostgreSQL, MongoDB, Redis, database schema design, query optimization, migrations, connection pooling, ORMs, or database selection. Activates for database design, optimization, and implementation tasks.
+license: MIT
+metadata:
+  author: rand
+  version: "3.1"
+compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
 # Database Skills Discovery
@@ -267,6 +272,5 @@ Read <cc-polymath-root>/skills/database/orm-patterns.md
 4. **Follow workflows**: Use recommended sequences for common patterns
 5. **Decision support**: Start with `database-selection.md` for new projects
 
----
 
 **Next Steps**: Run `Read <cc-polymath-root>/skills/database/INDEX.md` to see full category details, or load specific skills using the bash commands above.

@@ -40,8 +40,8 @@ Expected output:
 ✓ Found .claude-plugin/plugin.json
 ✓ Found skills/README.md
 ✓ Found commands/skills.md
-✓ Found 38 gateway skills
-✓ Skills catalog readable (31 categories)
+✓ Found 40 gateway skills
+✓ Skills catalog readable (33+ categories)
 ✓ File permissions OK
 
 ━━━ Summary ━━━
@@ -76,7 +76,7 @@ RECOMMENDED FOR THIS PROJECT:
 → discover-testing
   Read <cc-polymath-root>/skills/discover-testing/SKILL.md
 
-CATEGORIES (400 skills):
+CATEGORIES (410+ skills):
 Frontend (10) | Database (11) | API (7) | Testing (6) | Diagrams (8) | ML (33)
 [...]
 ```
@@ -159,7 +159,7 @@ Let's make something visual:
 | `/skills` | Project recommendations | See skills relevant to current directory |
 | `/skills [category]` | Browse category | `/skills frontend` or `/skills database` |
 | `/skills [search]` | Search for skills | `/skills postgres` or `/skills react` |
-| `/skills list` | Show all categories | See all 31 categories |
+| `/skills list` | Show all categories | See all 33+ categories |
 | `/discover-api` | Load API skills | REST, GraphQL, authentication |
 | `/discover-frontend` | Load frontend skills | React, Next.js, TypeScript |
 | `/discover-database` | Load database skills | SQL, NoSQL, optimization |
@@ -214,7 +214,7 @@ cc-polymath uses a smart three-tier system to minimize context usage:
 - Deep technical content
 - Example: `rest-api-design.md` has full REST patterns
 
-**Result**: Loading 3-5 gateway skills uses ~2-5K tokens vs 143K tokens if you loaded all 400 skills upfront. That's **98% context savings**.
+**Result**: Loading 3-5 gateway skills uses ~2-5K tokens vs 143K tokens if you loaded all 410+ skills upfront. That's **98% context savings**.
 
 ### Under the Hood
 
@@ -231,7 +231,7 @@ cc-polymath uses a smart three-tier system to minimize context usage:
 
 ## What's Covered
 
-cc-polymath provides 400 skills across these domains:
+cc-polymath provides 410+ skills across these domains:
 
 **Core Development**:
 - **Frontend** (10): React, Next.js, TypeScript, state management, a11y
@@ -320,7 +320,7 @@ Now that you're set up and familiar with the basics, explore:
 
 ### 🔍 Explore Skills
 ```bash
-/skills list          # See all 31 categories
+/skills list          # See all 33+ categories
 /skills [topic]       # Search for specific topics
 ```
 

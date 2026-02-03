@@ -13,7 +13,7 @@ Open Claude Code and run:
 /plugin install cc-polymath@cc-polymath
 ```
 
-That's it. All 400 skills are immediately available and auto-discover as you work.
+That's it. All 410+ skills are immediately available and auto-discover as you work.
 
 For local development, use:
 ```
@@ -64,7 +64,7 @@ rm -rf ~/.claude/plugins/cc-polymath
 
 ### How do I know which skills are available?
 
-List all 31 categories:
+List all 33+ categories:
 ```
 /skills list
 ```
@@ -182,7 +182,7 @@ Loading 3-5 skills uses **less context than most project files**. This is why th
 
 ### How are skills organized?
 
-By **31 categories** grouped into themes:
+By **33+ categories** grouped into themes:
 
 **Core Development** (125 skills)
 - Languages: Python, Rust, Zig, Go, JavaScript
@@ -438,7 +438,7 @@ With cc-polymath, you spend context on your actual work, not documentation.
 
 | Approach | Granularity | Reusability | Context Efficiency |
 |----------|-------------|-------------|-------------------|
-| **cc-polymath** | Atomic (400 skills) | Compose freely | 98% savings |
+| **cc-polymath** | Atomic (410+ skills) | Compose freely | 98% savings |
 | **Monolithic** | Large chapters | Load all-or-nothing | High overhead |
 | **Best for** | Precise knowledge | Flexible workflows | Efficient context |
 
@@ -466,7 +466,7 @@ Atomic skills let you load *exactly* what you need, no more. This precision is w
 - [PLUGIN.md](../PLUGIN.md) - Plugin architecture details
 
 **Explore Skills**
-- `/skills list` - All 31 categories
+- `/skills list` - All 33+ categories
 - `/skills [topic]` - Search for specific topics
 - `Read <cc-polymath-root>/skills/README.md` - Full skill catalog
 

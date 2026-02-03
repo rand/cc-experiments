@@ -1,6 +1,11 @@
 ---
 name: discover-research
 description: Automatically discover research methodology skills when working with research methodology, literature review, systematic review, evidence synthesis, academic research, or experimental design. Activates for research tasks.
+license: MIT
+metadata:
+  author: rand
+  version: "3.1"
+compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
 # Research Skills Discovery

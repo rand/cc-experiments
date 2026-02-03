@@ -1,6 +1,11 @@
 ---
 name: discover-diagrams
 description: Automatically discover diagram and visualization skills when working with flowcharts, sequence diagrams, architecture diagrams, ER diagrams, Gantt charts, mindmaps, or any visual documentation using Mermaid.js. Activates for documentation and visualization tasks.
+license: MIT
+metadata:
+  author: rand
+  version: "3.1"
+compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
 # Diagrams Skills Discovery
@@ -251,6 +256,5 @@ graph TD
 - Check syntax highlighting for errors
 - Start simple, add complexity incrementally
 
----
 
 **Next Steps**: Run `Read <cc-polymath-root>/skills/diagrams/INDEX.md` to see full category details, or load specific diagram skills using the bash commands above.
