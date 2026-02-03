@@ -11,9 +11,8 @@
 **Description**: Building network layers for iOS/macOS apps
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/mobile/ios-networking.md
-```
+Read <cc-polymath-root>/skills/mobile/ios-networking.md
+
 
 ---
 
@@ -21,9 +20,8 @@ cat ~/.claude/skills/mobile/ios-networking.md
 **Description**: Writing unit tests for iOS/macOS apps
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/mobile/ios-testing.md
-```
+Read <cc-polymath-root>/skills/mobile/ios-testing.md
+
 
 ---
 
@@ -31,9 +29,8 @@ cat ~/.claude/skills/mobile/ios-testing.md
 **Description**: Accessing iOS-specific APIs not available in React Native
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/mobile/react-native-native-modules.md
-```
+Read <cc-polymath-root>/skills/mobile/react-native-native-modules.md
+
 
 ---
 
@@ -41,9 +38,8 @@ cat ~/.claude/skills/mobile/react-native-native-modules.md
 **Description**: Implementing multi-screen navigation in React Native apps
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/mobile/react-native-navigation.md
-```
+Read <cc-polymath-root>/skills/mobile/react-native-navigation.md
+
 
 ---
 
@@ -51,9 +47,8 @@ cat ~/.claude/skills/mobile/react-native-navigation.md
 **Description**: App animations are dropping frames (not 60fps)
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/mobile/react-native-performance.md
-```
+Read <cc-polymath-root>/skills/mobile/react-native-performance.md
+
 
 ---
 
@@ -61,9 +56,8 @@ cat ~/.claude/skills/mobile/react-native-performance.md
 **Description**: Starting a new React Native project for iOS development
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/mobile/react-native-setup.md
-```
+Read <cc-polymath-root>/skills/mobile/react-native-setup.md
+
 
 ---
 
@@ -71,9 +65,8 @@ cat ~/.claude/skills/mobile/react-native-setup.md
 **Description**: Working with async/await in Swift
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/mobile/swift-concurrency.md
-```
+Read <cc-polymath-root>/skills/mobile/swift-concurrency.md
+
 
 ---
 
@@ -81,9 +74,8 @@ cat ~/.claude/skills/mobile/swift-concurrency.md
 **Description**: Building iOS/macOS apps with local persistence
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/mobile/swiftdata-persistence.md
-```
+Read <cc-polymath-root>/skills/mobile/swiftdata-persistence.md
+
 
 ---
 
@@ -91,9 +83,8 @@ cat ~/.claude/skills/mobile/swiftdata-persistence.md
 **Description**: Building iOS/macOS apps with SwiftUI
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/mobile/swiftui-architecture.md
-```
+Read <cc-polymath-root>/skills/mobile/swiftui-architecture.md
+
 
 ---
 
@@ -101,9 +92,8 @@ cat ~/.claude/skills/mobile/swiftui-architecture.md
 **Description**: Implementing navigation in iOS 17+ apps
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/mobile/swiftui-navigation.md
-```
+Read <cc-polymath-root>/skills/mobile/swiftui-navigation.md
+
 
 ---
 
@@ -114,9 +104,9 @@ cat ~/.claude/skills/mobile/swiftui-navigation.md
 ls skills/mobile/*.md
 
 # Load specific skills
-cat ~/.claude/skills/mobile/ios-networking.md
-cat ~/.claude/skills/mobile/ios-testing.md
-cat ~/.claude/skills/mobile/react-native-native-modules.md
+Read <cc-polymath-root>/skills/mobile/ios-networking.md
+Read <cc-polymath-root>/skills/mobile/ios-testing.md
+Read <cc-polymath-root>/skills/mobile/react-native-native-modules.md
 # ... and 7 more
 ```
 
@@ -128,6 +118,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-mobile` gateway skill for common workflows and integration patterns.
 
-```bash
-cat ~/.claude/skills/discover-mobile/SKILL.md
-```
+Read <cc-polymath-root>/skills/discover-mobile/SKILL.md
+

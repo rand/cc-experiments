@@ -4,7 +4,6 @@ description: Setting up application logging infrastructure
 ---
 
 
-
 # Structured Logging
 
 **Scope**: JSON logging, log levels, correlation IDs, log aggregation, structured formats

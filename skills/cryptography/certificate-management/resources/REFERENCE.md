@@ -336,11 +336,11 @@ openssl req -x509 -new -nodes -key key.pem -days 365 \
 ```
 
 **CA-Signed Certificate**:
-```bash
+
 # Submit CSR to CA (Let's Encrypt, DigiCert, etc.)
 # CA validates domain ownership
 # CA signs CSR and returns certificate
-```
+
 
 ### 4. Deployment
 

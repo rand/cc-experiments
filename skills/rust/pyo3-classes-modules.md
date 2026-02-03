@@ -171,7 +171,7 @@ All resources meet Wave 10-11 quality standards:
 
 ```bash
 # Load comprehensive reference
-cat ~/.claude/skills/rust/pyo3-classes-modules/resources/REFERENCE.md
+Read <cc-polymath-root>/skills/rust/pyo3-classes-modules/resources/REFERENCE.md
 
 # Inspect a PyO3 class
 python skills/rust/pyo3-classes-modules/resources/scripts/class_inspector.py --inspect MyClass

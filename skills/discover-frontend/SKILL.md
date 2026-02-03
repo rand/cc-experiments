@@ -42,9 +42,8 @@ The Frontend category contains 10 core skills (+ elegant-design):
 
 For complete descriptions and workflows:
 
-```bash
-cat ~/.claude/skills/frontend/INDEX.md
-```
+Read <cc-polymath-root>/skills/frontend/INDEX.md
+
 
 This loads the full Frontend category index with:
 - Detailed skill descriptions
@@ -56,77 +55,73 @@ This loads the full Frontend category index with:
 
 Load individual skills as needed:
 
-```bash
+
 # Core React patterns
-cat ~/.claude/skills/frontend/react-component-patterns.md
-cat ~/.claude/skills/frontend/react-state-management.md
-cat ~/.claude/skills/frontend/react-data-fetching.md
+Read <cc-polymath-root>/skills/frontend/react-component-patterns.md
+Read <cc-polymath-root>/skills/frontend/react-state-management.md
+Read <cc-polymath-root>/skills/frontend/react-data-fetching.md
 
 # Next.js specific
-cat ~/.claude/skills/frontend/nextjs-app-router.md
-cat ~/.claude/skills/frontend/nextjs-seo.md
+Read <cc-polymath-root>/skills/frontend/nextjs-app-router.md
+Read <cc-polymath-root>/skills/frontend/nextjs-seo.md
 
 # Forms and validation
-cat ~/.claude/skills/frontend/react-form-handling.md
+Read <cc-polymath-root>/skills/frontend/react-form-handling.md
 
 # Quality and performance
-cat ~/.claude/skills/frontend/web-accessibility.md
-cat ~/.claude/skills/frontend/frontend-performance.md
+Read <cc-polymath-root>/skills/frontend/web-accessibility.md
+Read <cc-polymath-root>/skills/frontend/frontend-performance.md
 
 # Concurrency and workers
-cat ~/.claude/skills/frontend/web-workers.md
-cat ~/.claude/skills/frontend/browser-concurrency.md
+Read <cc-polymath-root>/skills/frontend/web-workers.md
+Read <cc-polymath-root>/skills/frontend/browser-concurrency.md
 
 # Design system and UI (Agent Skill - auto-discovered separately)
 # elegant-design/SKILL.md activates independently for UI design work
-```
+
 
 ## Common Workflows
 
 ### New Next.js Application
 **Sequence**: App Router → Components → Data Fetching
 
-```bash
-cat ~/.claude/skills/frontend/nextjs-app-router.md          # Setup routing, layouts
-cat ~/.claude/skills/frontend/react-component-patterns.md   # Build components
-cat ~/.claude/skills/frontend/react-data-fetching.md        # Fetch data
-```
+Read <cc-polymath-root>/skills/frontend/nextjs-app-router.md          # Setup routing, layouts
+Read <cc-polymath-root>/skills/frontend/react-component-patterns.md   # Build components
+Read <cc-polymath-root>/skills/frontend/react-data-fetching.md        # Fetch data
+
 
 ### Elegant UI Design
 **Sequence**: Design System → Components → Accessibility
 
-```bash
+
 # Note: elegant-design auto-activates as separate Agent Skill
 # for design-focused work (shadcn/ui, accessible interfaces, etc.)
-cat ~/.claude/skills/frontend/react-component-patterns.md
-cat ~/.claude/skills/frontend/web-accessibility.md
-```
+Read <cc-polymath-root>/skills/frontend/react-component-patterns.md
+Read <cc-polymath-root>/skills/frontend/web-accessibility.md
+
 
 ### Form Implementation
 **Sequence**: Form Handling → State Management
 
-```bash
-cat ~/.claude/skills/frontend/react-form-handling.md     # Build forms
-cat ~/.claude/skills/frontend/react-state-management.md  # Manage form state
-```
+Read <cc-polymath-root>/skills/frontend/react-form-handling.md     # Build forms
+Read <cc-polymath-root>/skills/frontend/react-state-management.md  # Manage form state
+
 
 ### Production Optimization
 **Sequence**: Performance → Accessibility → SEO
 
-```bash
-cat ~/.claude/skills/frontend/frontend-performance.md    # Optimize bundle
-cat ~/.claude/skills/frontend/web-accessibility.md       # Ensure accessibility
-cat ~/.claude/skills/frontend/nextjs-seo.md              # Optimize SEO
-```
+Read <cc-polymath-root>/skills/frontend/frontend-performance.md    # Optimize bundle
+Read <cc-polymath-root>/skills/frontend/web-accessibility.md       # Ensure accessibility
+Read <cc-polymath-root>/skills/frontend/nextjs-seo.md              # Optimize SEO
+
 
 ### CPU-Intensive Features & PWAs
 **Sequence**: Workers → Concurrency → Performance
 
-```bash
-cat ~/.claude/skills/frontend/web-workers.md             # Offload heavy computation
-cat ~/.claude/skills/frontend/browser-concurrency.md     # Service Workers, offline support
-cat ~/.claude/skills/frontend/frontend-performance.md    # Optimize overall performance
-```
+Read <cc-polymath-root>/skills/frontend/web-workers.md             # Offload heavy computation
+Read <cc-polymath-root>/skills/frontend/browser-concurrency.md     # Service Workers, offline support
+Read <cc-polymath-root>/skills/frontend/frontend-performance.md    # Optimize overall performance
+
 
 ## Skill Selection Guide
 
@@ -247,49 +242,40 @@ Total context: 2K + 4K + skill(s) = 6-12K tokens vs 25K+ for entire index.
 ## Quick Start Examples
 
 **"Build a Next.js app with App Router"**:
-```bash
-cat ~/.claude/skills/frontend/nextjs-app-router.md
-```
+Read <cc-polymath-root>/skills/frontend/nextjs-app-router.md
+
 
 **"Create reusable React components"**:
-```bash
-cat ~/.claude/skills/frontend/react-component-patterns.md
-```
+Read <cc-polymath-root>/skills/frontend/react-component-patterns.md
+
 
 **"Implement global state management"**:
-```bash
-cat ~/.claude/skills/frontend/react-state-management.md
-```
+Read <cc-polymath-root>/skills/frontend/react-state-management.md
+
 
 **"Build a form with validation"**:
-```bash
-cat ~/.claude/skills/frontend/react-form-handling.md
-```
+Read <cc-polymath-root>/skills/frontend/react-form-handling.md
+
 
 **"Optimize my app performance"**:
-```bash
-cat ~/.claude/skills/frontend/frontend-performance.md
-```
+Read <cc-polymath-root>/skills/frontend/frontend-performance.md
+
 
 **"Make my app accessible"**:
-```bash
-cat ~/.claude/skills/frontend/web-accessibility.md
-```
+Read <cc-polymath-root>/skills/frontend/web-accessibility.md
+
 
 **"Improve SEO"**:
-```bash
-cat ~/.claude/skills/frontend/nextjs-seo.md
-```
+Read <cc-polymath-root>/skills/frontend/nextjs-seo.md
+
 
 **"Offload heavy computation"**:
-```bash
-cat ~/.claude/skills/frontend/web-workers.md
-```
+Read <cc-polymath-root>/skills/frontend/web-workers.md
+
 
 **"Build a PWA with offline support"**:
-```bash
-cat ~/.claude/skills/frontend/browser-concurrency.md
-```
+Read <cc-polymath-root>/skills/frontend/browser-concurrency.md
+
 
 ## React vs Next.js Decision
 
@@ -329,9 +315,8 @@ cat ~/.claude/skills/frontend/browser-concurrency.md
 - Time-travel debugging needed
 
 For detailed guidance:
-```bash
-cat ~/.claude/skills/frontend/react-state-management.md
-```
+Read <cc-polymath-root>/skills/frontend/react-state-management.md
+
 
 ## Data Fetching Decision
 
@@ -358,18 +343,17 @@ cat ~/.claude/skills/frontend/react-state-management.md
 - DevTools for debugging
 
 For detailed patterns:
-```bash
-cat ~/.claude/skills/frontend/react-data-fetching.md
-```
+Read <cc-polymath-root>/skills/frontend/react-data-fetching.md
+
 
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects frontend work
-2. **Browse skills**: Run `cat ~/.claude/skills/frontend/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read <cc-polymath-root>/skills/frontend/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 4. **Follow workflows**: Use recommended sequences for common patterns
 5. **elegant-design**: Note that elegant-design is a separate Agent Skill that auto-activates for UI design work
 
 ---
 
-**Next Steps**: Run `cat ~/.claude/skills/frontend/INDEX.md` to see full category details, or load specific skills using the bash commands above.
+**Next Steps**: Run `Read <cc-polymath-root>/skills/frontend/INDEX.md` to see full category details, or load specific skills using the bash commands above.

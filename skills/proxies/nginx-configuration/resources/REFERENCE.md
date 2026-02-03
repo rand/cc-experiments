@@ -2587,10 +2587,10 @@ ngxtop -l /var/log/nginx/access.log -f combined
 ```
 
 **nginx-amplify** - Nginx monitoring:
-```bash
+
 # Official Nginx monitoring (free)
 # https://amplify.nginx.com/
-```
+
 
 **Analyze Logs**:
 ```bash

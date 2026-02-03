@@ -4,7 +4,6 @@ description: Adding databases (Postgres, MySQL, MongoDB) to Heroku apps
 ---
 
 
-
 # Heroku Add-ons
 
 **Scope**: Heroku add-on ecosystem, Postgres, Redis, monitoring, logging, email services
@@ -471,19 +470,19 @@ heroku pg:connection-pooling:attach DATABASE
 ```
 
 **3. Consolidate Redis instances**:
-```bash
+
 # Use namespaces instead of multiple Redis instances
 # cache:user:123
 # session:abc456
 # queue:high_priority
-```
+
 
 **4. Scale dynos during low traffic**:
-```bash
+
 # Use Heroku Scheduler to scale down at night
 # Job at 11pm: heroku ps:scale web=1 worker=0
 # Job at 6am: heroku ps:scale web=2 worker=1
-```
+
 
 **5. Remove unused add-ons**:
 ```bash

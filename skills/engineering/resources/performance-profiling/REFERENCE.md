@@ -1206,12 +1206,12 @@ speedscope profile.speedscope
 - Zoom and pan
 
 **Firefox Profiler**:
-```bash
+
 # Profile Firefox itself
 # Open about:profiling
 # Start profiling, perform actions, stop
 # Analyze in https://profiler.firefox.com
-```
+
 
 ---
 
@@ -2740,12 +2740,12 @@ def process(data):
 ### 12.10 Profiling Without Commit
 
 **Anti-Pattern**:
-```bash
+
 # Profile uncommitted code
 # Make changes
 # Profile again
 # Can't compare because code changed
-```
+
 
 **Correct Approach**:
 ```bash

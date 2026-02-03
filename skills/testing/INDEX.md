@@ -11,9 +11,8 @@
 **Description**: Test complete user workflows from UI to backend
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/testing/e2e-testing.md
-```
+Read <cc-polymath-root>/skills/testing/e2e-testing.md
+
 
 ---
 
@@ -21,9 +20,8 @@ cat ~/.claude/skills/testing/e2e-testing.md
 **Description**: Test interactions between multiple components or services
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/testing/integration-testing.md
-```
+Read <cc-polymath-root>/skills/testing/integration-testing.md
+
 
 ---
 
@@ -31,9 +29,8 @@ cat ~/.claude/skills/testing/integration-testing.md
 **Description**: Measure system performance under load (response time, throughput)
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/testing/performance-testing.md
-```
+Read <cc-polymath-root>/skills/testing/performance-testing.md
+
 
 ---
 
@@ -41,9 +38,8 @@ cat ~/.claude/skills/testing/performance-testing.md
 **Description**: Determine what code needs testing vs what to skip
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/testing/test-coverage-strategy.md
-```
+Read <cc-polymath-root>/skills/testing/test-coverage-strategy.md
+
 
 ---
 
@@ -51,9 +47,8 @@ cat ~/.claude/skills/testing/test-coverage-strategy.md
 **Description**: Design APIs and interfaces through tests
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/testing/test-driven-development.md
-```
+Read <cc-polymath-root>/skills/testing/test-driven-development.md
+
 
 ---
 
@@ -61,9 +56,8 @@ cat ~/.claude/skills/testing/test-driven-development.md
 **Description**: Write isolated tests for individual functions, classes, or modules
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/testing/unit-testing-patterns.md
-```
+Read <cc-polymath-root>/skills/testing/unit-testing-patterns.md
+
 
 ---
 
@@ -74,9 +68,9 @@ cat ~/.claude/skills/testing/unit-testing-patterns.md
 ls skills/testing/*.md
 
 # Load specific skills
-cat ~/.claude/skills/testing/e2e-testing.md
-cat ~/.claude/skills/testing/integration-testing.md
-cat ~/.claude/skills/testing/performance-testing.md
+Read <cc-polymath-root>/skills/testing/e2e-testing.md
+Read <cc-polymath-root>/skills/testing/integration-testing.md
+Read <cc-polymath-root>/skills/testing/performance-testing.md
 # ... and 3 more
 ```
 
@@ -88,6 +82,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-testing` gateway skill for common workflows and integration patterns.
 
-```bash
-cat ~/.claude/skills/discover-testing/SKILL.md
-```
+Read <cc-polymath-root>/skills/discover-testing/SKILL.md
+

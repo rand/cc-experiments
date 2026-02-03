@@ -499,7 +499,7 @@ Comprehensive 700+ line guide covering:
 - Memory management best practices
 - Debugging cross-language issues
 
-**Load**: `cat ~/.claude/skills/rust/pyo3-dspy-fundamentals/resources/REFERENCE.md`
+**Load**: `Read <cc-polymath-root>/skills/rust/pyo3-dspy-fundamentals/resources/REFERENCE.md`
 
 ### Scripts
 

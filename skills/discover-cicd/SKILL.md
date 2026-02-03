@@ -33,9 +33,8 @@ The Cicd category contains 4 skills:
 
 For complete descriptions and workflows:
 
-```bash
-cat ~/.claude/skills/cicd/INDEX.md
-```
+Read <cc-polymath-root>/skills/cicd/INDEX.md
+
 
 This loads the full Cicd category index with:
 - Detailed skill descriptions
@@ -47,12 +46,11 @@ This loads the full Cicd category index with:
 
 Load individual skills as needed:
 
-```bash
-cat ~/.claude/skills/cicd/cd-deployment-patterns.md
-cat ~/.claude/skills/cicd/ci-optimization.md
-cat ~/.claude/skills/cicd/ci-security.md
-cat ~/.claude/skills/cicd/ci-testing-strategy.md
-```
+Read <cc-polymath-root>/skills/cicd/cd-deployment-patterns.md
+Read <cc-polymath-root>/skills/cicd/ci-optimization.md
+Read <cc-polymath-root>/skills/cicd/ci-security.md
+Read <cc-polymath-root>/skills/cicd/ci-testing-strategy.md
+
 
 ## Progressive Loading
 
@@ -64,9 +62,9 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects cicd work
-2. **Browse skills**: Run `cat ~/.claude/skills/cicd/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read <cc-polymath-root>/skills/cicd/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 ---
 
-**Next Steps**: Run `cat ~/.claude/skills/cicd/INDEX.md` to see full category details.
+**Next Steps**: Run `Read <cc-polymath-root>/skills/cicd/INDEX.md` to see full category details.

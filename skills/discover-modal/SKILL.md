@@ -30,9 +30,8 @@ The Modal category contains 2 skills:
 
 For complete descriptions and workflows:
 
-```bash
-cat ~/.claude/skills/modal/INDEX.md
-```
+Read <cc-polymath-root>/skills/modal/INDEX.md
+
 
 This loads the full Modal category index with:
 - Detailed skill descriptions
@@ -44,10 +43,9 @@ This loads the full Modal category index with:
 
 Load individual skills as needed:
 
-```bash
-cat ~/.claude/skills/modal/modal-common-errors.md
-cat ~/.claude/skills/modal/modal-performance-debugging.md
-```
+Read <cc-polymath-root>/skills/modal/modal-common-errors.md
+Read <cc-polymath-root>/skills/modal/modal-performance-debugging.md
+
 
 ## Progressive Loading
 
@@ -59,9 +57,9 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects modal work
-2. **Browse skills**: Run `cat ~/.claude/skills/modal/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read <cc-polymath-root>/skills/modal/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 ---
 
-**Next Steps**: Run `cat ~/.claude/skills/modal/INDEX.md` to see full category details.
+**Next Steps**: Run `Read <cc-polymath-root>/skills/modal/INDEX.md` to see full category details.

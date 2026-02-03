@@ -366,18 +366,18 @@ git push origin :refs/tags/v1.0.0
 ```
 
 ### Yank from PyPI
-```bash
+
 # Cannot delete from PyPI, but can yank
 # Use PyPI web interface to mark as "yanked"
 # Users can still install with ==version, but not by default
-```
+
 
 ### Create Patch Release
-```bash
+
 # Fix issue
 # Bump to v1.0.1
 # Follow release process
-```
+
 
 ## Best Practices
 

@@ -4,7 +4,6 @@ description: Managing secrets and credentials in CI/CD pipelines
 ---
 
 
-
 # CI Security
 
 **Scope**: Secret management, OIDC authentication, supply chain security, SBOM generation, vulnerability scanning, and secure pipeline patterns

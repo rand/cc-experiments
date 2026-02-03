@@ -4,7 +4,6 @@ description: Building UIs with pre-made components
 ---
 
 
-
 # Bubble Tea Components (Bubbles)
 
 **Use this skill when:**

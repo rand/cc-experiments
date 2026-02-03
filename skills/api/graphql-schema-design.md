@@ -4,7 +4,6 @@ description: Designing GraphQL APIs from scratch
 ---
 
 
-
 # GraphQL Schema Design
 
 **Scope**: Schema design, resolvers, N+1 prevention, pagination, authorization

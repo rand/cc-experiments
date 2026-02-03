@@ -96,9 +96,9 @@ Visual documentation and diagramming with Mermaid.js and other tools.
 ## Usage Patterns
 
 ### Documentation
-```bash
+
 # In markdown files
-```mermaid
+mermaid
 graph TD
     A --> B
 ```

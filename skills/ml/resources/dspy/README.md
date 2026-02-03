@@ -52,7 +52,7 @@ These resources complement the DSPy skills in `skills/ml/dspy-*.md`. Reference t
 cp skills/ml/resources/dspy/templates/custom-module-template.py my_project/
 
 # View a checklist
-cat ~/.claude/skills/ml/resources/dspy/checklists/production-readiness.md
+Read <cc-polymath-root>/skills/ml/resources/dspy/checklists/production-readiness.md
 
 # Explore an example
 cd skills/ml/resources/dspy/examples/multi-agent-rag-system/

@@ -4,7 +4,6 @@ description: Starting a new React Native project for iOS development
 ---
 
 
-
 # React Native Setup
 
 **Scope**: React Native project setup, Expo vs bare workflow, iOS development environment, tooling configuration

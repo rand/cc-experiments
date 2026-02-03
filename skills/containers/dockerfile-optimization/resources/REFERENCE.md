@@ -811,10 +811,10 @@ RUN apt-get update && \
 
 **4. Use .dockerignore**:
 
-```bash
+
 # Reduces build context from 500MB to 5MB
 # See .dockerignore section above
-```
+
 
 **5. Optimize Dependencies**:
 

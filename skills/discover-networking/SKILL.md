@@ -35,9 +35,8 @@ The Networking category contains 5 skills:
 
 For complete descriptions and workflows:
 
-```bash
-cat ~/.claude/skills/networking/INDEX.md
-```
+Read <cc-polymath-root>/skills/networking/INDEX.md
+
 
 This loads the full Networking category index with:
 - Detailed skill descriptions
@@ -49,11 +48,10 @@ This loads the full Networking category index with:
 
 Load individual skills as needed:
 
-```bash
-cat ~/.claude/skills/networking/mosh-resilient-ssh.md
-cat ~/.claude/skills/networking/mtls-implementation.md
-cat ~/.claude/skills/networking/nat-traversal.md
-```
+Read <cc-polymath-root>/skills/networking/mosh-resilient-ssh.md
+Read <cc-polymath-root>/skills/networking/mtls-implementation.md
+Read <cc-polymath-root>/skills/networking/nat-traversal.md
+
 
 ## Progressive Loading
 
@@ -65,9 +63,9 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects networking work
-2. **Browse skills**: Run `cat ~/.claude/skills/networking/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read <cc-polymath-root>/skills/networking/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 ---
 
-**Next Steps**: Run `cat ~/.claude/skills/networking/INDEX.md` to see full category details.
+**Next Steps**: Run `Read <cc-polymath-root>/skills/networking/INDEX.md` to see full category details.

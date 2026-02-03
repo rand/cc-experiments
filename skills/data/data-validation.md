@@ -4,7 +4,6 @@ description: Validating data schema before processing
 ---
 
 
-
 # Data Validation
 
 **Scope**: Schema validation, data quality checks, anomaly detection

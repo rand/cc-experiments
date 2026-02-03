@@ -4,7 +4,6 @@ description: Skill for formal sat solving strategies
 ---
 
 
-
 # SAT Solving Strategies
 
 ## Metadata

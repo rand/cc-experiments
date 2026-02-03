@@ -24,14 +24,12 @@ This skill auto-activates when you're working with:
 The Collaboration category contains 0 skills:
 
 
-
 ### Load Full Category Details
 
 For complete descriptions and workflows:
 
-```bash
-cat ~/.claude/skills/collaboration/INDEX.md
-```
+Read <cc-polymath-root>/skills/collaboration/INDEX.md
+
 
 This loads the full Collaboration category index with:
 - Detailed skill descriptions
@@ -43,9 +41,6 @@ This loads the full Collaboration category index with:
 
 Load individual skills as needed:
 
-```bash
-
-```
 
 ## Progressive Loading
 
@@ -57,9 +52,9 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects collaboration work
-2. **Browse skills**: Run `cat ~/.claude/skills/collaboration/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read <cc-polymath-root>/skills/collaboration/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 ---
 
-**Next Steps**: Run `cat ~/.claude/skills/collaboration/INDEX.md` to see full category details.
+**Next Steps**: Run `Read <cc-polymath-root>/skills/collaboration/INDEX.md` to see full category details.

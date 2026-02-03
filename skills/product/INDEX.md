@@ -11,9 +11,8 @@
 **Description**: Research methods, stakeholder interviews, prioritization frameworks, and requirements synthesis for PRDs
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/product/prd-requirements-gathering.md
-```
+Read <cc-polymath-root>/skills/product/prd-requirements-gathering.md
+
 
 ---
 
@@ -21,9 +20,8 @@ cat ~/.claude/skills/product/prd-requirements-gathering.md
 **Description**: PRD document structure, templates, and best practices for product requirements documentation
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/product/prd-structure-templates.md
-```
+Read <cc-polymath-root>/skills/product/prd-structure-templates.md
+
 
 ---
 
@@ -31,9 +29,8 @@ cat ~/.claude/skills/product/prd-structure-templates.md
 **Description**: API specifications, data models, architecture diagrams, and technical constraints for product requirements
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/product/prd-technical-specifications.md
-```
+Read <cc-polymath-root>/skills/product/prd-technical-specifications.md
+
 
 ---
 
@@ -41,9 +38,8 @@ cat ~/.claude/skills/product/prd-technical-specifications.md
 **Description**: Writing effective user stories, epics, acceptance criteria, and story mapping for product requirements
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/product/prd-user-stories-acceptance.md
-```
+Read <cc-polymath-root>/skills/product/prd-user-stories-acceptance.md
+
 
 ---
 
@@ -54,9 +50,9 @@ cat ~/.claude/skills/product/prd-user-stories-acceptance.md
 ls skills/product/*.md
 
 # Load specific skills
-cat ~/.claude/skills/product/prd-requirements-gathering.md
-cat ~/.claude/skills/product/prd-structure-templates.md
-cat ~/.claude/skills/product/prd-technical-specifications.md
+Read <cc-polymath-root>/skills/product/prd-requirements-gathering.md
+Read <cc-polymath-root>/skills/product/prd-structure-templates.md
+Read <cc-polymath-root>/skills/product/prd-technical-specifications.md
 # ... and 1 more
 ```
 
@@ -68,6 +64,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-product` gateway skill for common workflows and integration patterns.
 
-```bash
-cat ~/.claude/skills/discover-product/SKILL.md
-```
+Read <cc-polymath-root>/skills/discover-product/SKILL.md
+

@@ -4,7 +4,6 @@ description: Debugging slow queries in PostgreSQL
 ---
 
 
-
 # PostgreSQL Query Optimization
 
 **Scope**: Query analysis, EXPLAIN plans, index strategies, query rewriting

@@ -561,11 +561,11 @@ Effort:      good-first-issue, help-wanted
 
 ### ❌ Issues Not Linked to PRs
 
-```bash
+
 # WRONG: PR merged without closing issue
 # Issue #123 remains open
 # No connection between fix and issue
-```
+
 
 **Problems**:
 - Issues stay open after fix
@@ -590,11 +590,11 @@ Closes #123"
 
 ### ❌ Ignoring Stale Issues
 
-```bash
+
 # WRONG: 500 open issues, many years old
 # No activity on 300+ issues
 # Overwhelms actual work
-```
+
 
 **Problems**:
 - Can't see what's actually active
@@ -643,7 +643,7 @@ Body: I don't understand the documentation...
 - Difficult to search for bugs
 - Wastes project management overhead
 
-```bash
+
 # CORRECT: Use Discussions for questions
 # Enable Discussions in repository
 # Settings → Features → Discussions
@@ -658,7 +658,7 @@ Body: I don't understand the documentation...
 # - Bug reports
 # - Specific feature requests
 # - Actionable tasks
-```
+
 
 ---
 

@@ -38,9 +38,8 @@ The Security category contains 6 specialized skills:
 
 For complete descriptions and workflows:
 
-```bash
-cat ~/.claude/skills/security/INDEX.md
-```
+Read <cc-polymath-root>/skills/security/INDEX.md
+
 
 This loads the full Security category index with:
 - Detailed skill descriptions
@@ -52,77 +51,73 @@ This loads the full Security category index with:
 
 Load individual skills as needed:
 
-```bash
+
 # Identity and access
-cat ~/.claude/skills/security/authentication.md
-cat ~/.claude/skills/security/authorization.md
+Read <cc-polymath-root>/skills/security/authentication.md
+Read <cc-polymath-root>/skills/security/authorization.md
 
 # Input security
-cat ~/.claude/skills/security/input-validation.md
-cat ~/.claude/skills/security/security-headers.md
+Read <cc-polymath-root>/skills/security/input-validation.md
+Read <cc-polymath-root>/skills/security/security-headers.md
 
 # Security operations
-cat ~/.claude/skills/security/vulnerability-assessment.md
-cat ~/.claude/skills/security/secrets-management.md
-```
+Read <cc-polymath-root>/skills/security/vulnerability-assessment.md
+Read <cc-polymath-root>/skills/security/secrets-management.md
+
 
 ## Common Workflows
 
 ### Secure Web Application
 **Sequence**: Authentication → Authorization → Input validation → Security headers
 
-```bash
-cat ~/.claude/skills/security/authentication.md        # User login
-cat ~/.claude/skills/security/authorization.md         # Access control
-cat ~/.claude/skills/security/input-validation.md      # XSS/SQL injection prevention
-cat ~/.claude/skills/security/security-headers.md      # Browser protection
-```
+Read <cc-polymath-root>/skills/security/authentication.md        # User login
+Read <cc-polymath-root>/skills/security/authorization.md         # Access control
+Read <cc-polymath-root>/skills/security/input-validation.md      # XSS/SQL injection prevention
+Read <cc-polymath-root>/skills/security/security-headers.md      # Browser protection
+
 
 ### Security Audit
 **Sequence**: Vulnerability assessment → Input validation → Headers → Secrets
 
-```bash
-cat ~/.claude/skills/security/vulnerability-assessment.md  # OWASP Top 10 testing
-cat ~/.claude/skills/security/input-validation.md          # Injection testing
-cat ~/.claude/skills/security/security-headers.md          # Header configuration
-cat ~/.claude/skills/security/secrets-management.md        # Credential security
-```
+Read <cc-polymath-root>/skills/security/vulnerability-assessment.md  # OWASP Top 10 testing
+Read <cc-polymath-root>/skills/security/input-validation.md          # Injection testing
+Read <cc-polymath-root>/skills/security/security-headers.md          # Header configuration
+Read <cc-polymath-root>/skills/security/secrets-management.md        # Credential security
+
 
 ### API Security
 **Sequence**: Authentication → Authorization → Input validation → Secrets
 
-```bash
-cat ~/.claude/skills/security/authentication.md        # JWT/OAuth2
-cat ~/.claude/skills/security/authorization.md         # API access control
-cat ~/.claude/skills/security/input-validation.md      # Request validation
-cat ~/.claude/skills/security/secrets-management.md    # API key management
-```
+Read <cc-polymath-root>/skills/security/authentication.md        # JWT/OAuth2
+Read <cc-polymath-root>/skills/security/authorization.md         # API access control
+Read <cc-polymath-root>/skills/security/input-validation.md      # Request validation
+Read <cc-polymath-root>/skills/security/secrets-management.md    # API key management
+
 
 ### DevSecOps Pipeline
 **Sequence**: Vulnerability assessment → Secrets → Input validation
 
-```bash
-cat ~/.claude/skills/security/vulnerability-assessment.md  # Security scanning
-cat ~/.claude/skills/security/secrets-management.md        # CI/CD secrets
-cat ~/.claude/skills/security/input-validation.md          # SAST validation
-```
+Read <cc-polymath-root>/skills/security/vulnerability-assessment.md  # Security scanning
+Read <cc-polymath-root>/skills/security/secrets-management.md        # CI/CD secrets
+Read <cc-polymath-root>/skills/security/input-validation.md          # SAST validation
+
 
 ### Secure New Application
 **Full security implementation from scratch**:
 
-```bash
+
 # 1. Identity and access
-cat ~/.claude/skills/security/authentication.md
-cat ~/.claude/skills/security/authorization.md
+Read <cc-polymath-root>/skills/security/authentication.md
+Read <cc-polymath-root>/skills/security/authorization.md
 
 # 2. Input protection
-cat ~/.claude/skills/security/input-validation.md
-cat ~/.claude/skills/security/security-headers.md
+Read <cc-polymath-root>/skills/security/input-validation.md
+Read <cc-polymath-root>/skills/security/security-headers.md
 
 # 3. Operations
-cat ~/.claude/skills/security/secrets-management.md
-cat ~/.claude/skills/security/vulnerability-assessment.md
-```
+Read <cc-polymath-root>/skills/security/secrets-management.md
+Read <cc-polymath-root>/skills/security/vulnerability-assessment.md
+
 
 ## Skill Selection Guide
 
@@ -203,7 +198,7 @@ Security skills commonly combine with:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects security-related work
-2. **Browse skills**: Run `cat ~/.claude/skills/security/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read <cc-polymath-root>/skills/security/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 4. **Follow workflows**: Use recommended sequences for common security patterns
 5. **Combine skills**: Load multiple skills for comprehensive security coverage
@@ -220,41 +215,34 @@ Total context: 2K + 3K + skill(s) = 5-12K tokens vs 30K+ for entire index.
 ## Quick Start Examples
 
 **"Implement user authentication"**:
-```bash
-cat ~/.claude/skills/security/authentication.md
-```
+Read <cc-polymath-root>/skills/security/authentication.md
+
 
 **"Add role-based access control"**:
-```bash
-cat ~/.claude/skills/security/authorization.md
-```
+Read <cc-polymath-root>/skills/security/authorization.md
+
 
 **"Prevent SQL injection"**:
-```bash
-cat ~/.claude/skills/security/input-validation.md
-```
+Read <cc-polymath-root>/skills/security/input-validation.md
+
 
 **"Configure Content Security Policy"**:
-```bash
-cat ~/.claude/skills/security/security-headers.md
-```
+Read <cc-polymath-root>/skills/security/security-headers.md
+
 
 **"Test for OWASP vulnerabilities"**:
-```bash
-cat ~/.claude/skills/security/vulnerability-assessment.md
-```
+Read <cc-polymath-root>/skills/security/vulnerability-assessment.md
+
 
 **"Integrate HashiCorp Vault"**:
-```bash
-cat ~/.claude/skills/security/secrets-management.md
-```
+Read <cc-polymath-root>/skills/security/secrets-management.md
+
 
 **"Secure API with JWT"**:
-```bash
-cat ~/.claude/skills/security/authentication.md
-cat ~/.claude/skills/security/authorization.md
-```
+Read <cc-polymath-root>/skills/security/authentication.md
+Read <cc-polymath-root>/skills/security/authorization.md
+
 
 ---
 
-**Next Steps**: Run `cat ~/.claude/skills/security/INDEX.md` to see full category details, or load specific skills using the bash commands above.
+**Next Steps**: Run `Read <cc-polymath-root>/skills/security/INDEX.md` to see full category details, or load specific skills using the bash commands above.

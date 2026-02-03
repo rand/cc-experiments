@@ -431,7 +431,7 @@ jobs:
 ### Security Advisories
 
 **Create private security advisory**:
-```bash
+
 # Via web UI:
 # Security tab → Advisories → New draft security advisory
 
@@ -446,7 +446,7 @@ jobs:
 # - CWE: Common Weakness Enumeration
 # - Description: Detailed description
 # - References: Links to related information
-```
+
 
 **Coordinated disclosure workflow**:
 ```
@@ -625,10 +625,10 @@ Low: Address when convenient
 
 ### ❌ Ignoring Dependabot Alerts
 
-```bash
+
 # WRONG: 50 open Dependabot alerts, all ignored
 # Some critical vulnerabilities months old
-```
+
 
 **Problems**:
 - Exposed to known vulnerabilities
@@ -636,7 +636,7 @@ Low: Address when convenient
 - Accumulating technical debt
 - Regulatory compliance issues
 
-```bash
+
 # CORRECT: Triage and address alerts
 # 1. Review new alerts weekly
 # 2. Prioritize by severity (Critical > High > Medium > Low)
@@ -646,7 +646,7 @@ Low: Address when convenient
 
 # Enable auto-merge for patch updates
 # Use Dependabot auto-merge workflow
-```
+
 
 ### ❌ Committing Secrets
 
@@ -686,11 +686,11 @@ API_KEY = os.environ.get("API_KEY")
 
 ### ❌ No Code Scanning
 
-```bash
+
 # WRONG: No automated security analysis
 # Vulnerabilities only found in production
 # No visibility into code quality issues
-```
+
 
 **Problems**:
 - Security vulnerabilities reach production
@@ -725,11 +725,11 @@ jobs:
 
 ### ❌ No Security Policy
 
-```bash
+
 # WRONG: No SECURITY.md file
 # Users don't know how to report vulnerabilities
 # Public issues created for security bugs
-```
+
 
 **Problems**:
 - Security issues disclosed publicly
@@ -764,12 +764,12 @@ Please report security vulnerabilities privately:
 
 ### ❌ Manual Dependency Updates
 
-```bash
+
 # WRONG: Manually updating dependencies
 # Updates happen sporadically
 # Security patches delayed
 # High maintenance burden
-```
+
 
 **Problems**:
 - Slow response to vulnerabilities

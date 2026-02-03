@@ -4,7 +4,6 @@ description: Setting up CI/CD pipelines with GitHub Actions
 ---
 
 
-
 # GitHub Actions Workflows
 
 **Scope**: Workflow syntax, triggers, jobs, steps, matrix builds, caching, and artifacts for GitHub Actions CI/CD pipelines

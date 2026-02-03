@@ -829,7 +829,7 @@ Comprehensive 800+ line guide covering:
 - Testing type conversions
 - Migration guide from dynamic to typed
 
-**Load**: `cat ~/.claude/skills/rust/pyo3-dspy-type-system/resources/REFERENCE.md`
+**Load**: `Read <cc-polymath-root>/skills/rust/pyo3-dspy-type-system/resources/REFERENCE.md`
 
 ### Scripts
 

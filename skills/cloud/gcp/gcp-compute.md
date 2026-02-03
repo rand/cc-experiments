@@ -455,7 +455,7 @@ service = run_v2.Service(
 ❌ **Unbounded concurrency**: Default Cloud Run concurrency can overwhelm databases or external APIs.
 ✅ **Better**: Set max concurrency based on backend capacity (e.g., database connection pool size).
 
-```bash
+
 # ❌ Don't: Ignore sustained use discounts when evaluating costs
 # Manually calculating costs without considering automatic discounts
 
@@ -463,7 +463,7 @@ service = run_v2.Service(
 # Sustained use: 20-30% automatic discount for running >25% of month
 # Committed use: 57% discount for 3-year commitment
 # Preemptible: 80% discount for interruptible workloads
-```
+
 
 ❌ **Ignoring discounts**: Not accounting for sustained use discounts leads to inaccurate cost projections.
 ✅ **Better**: Use GCP Pricing Calculator and factor in automatic discounts for long-running workloads.

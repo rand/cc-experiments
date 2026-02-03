@@ -11,9 +11,8 @@
 **Description**: eBPF basics including program types, verifier, maps, BCC vs libbpf toolchains, and loading programs
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/ebpf/ebpf-fundamentals.md
-```
+Read <cc-polymath-root>/skills/ebpf/ebpf-fundamentals.md
+
 
 ---
 
@@ -21,9 +20,8 @@ cat ~/.claude/skills/ebpf/ebpf-fundamentals.md
 **Description**: Fast packet processing with XDP, TC filtering, socket programs, load balancing, and Cilium networking
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/ebpf/ebpf-networking.md
-```
+Read <cc-polymath-root>/skills/ebpf/ebpf-networking.md
+
 
 ---
 
@@ -31,9 +29,8 @@ cat ~/.claude/skills/ebpf/ebpf-networking.md
 **Description**: Security monitoring with eBPF including syscall tracking, file/network monitoring, Falco, Tetragon, and threat detection
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/ebpf/ebpf-security-monitoring.md
-```
+Read <cc-polymath-root>/skills/ebpf/ebpf-security-monitoring.md
+
 
 ---
 
@@ -41,9 +38,8 @@ cat ~/.claude/skills/ebpf/ebpf-security-monitoring.md
 **Description**: Using eBPF for tracing with bpftrace, kprobes, uprobes, tracepoints, and performance analysis
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/ebpf/ebpf-tracing-observability.md
-```
+Read <cc-polymath-root>/skills/ebpf/ebpf-tracing-observability.md
+
 
 ---
 
@@ -54,9 +50,9 @@ cat ~/.claude/skills/ebpf/ebpf-tracing-observability.md
 ls skills/ebpf/*.md
 
 # Load specific skills
-cat ~/.claude/skills/ebpf/ebpf-fundamentals.md
-cat ~/.claude/skills/ebpf/ebpf-networking.md
-cat ~/.claude/skills/ebpf/ebpf-security-monitoring.md
+Read <cc-polymath-root>/skills/ebpf/ebpf-fundamentals.md
+Read <cc-polymath-root>/skills/ebpf/ebpf-networking.md
+Read <cc-polymath-root>/skills/ebpf/ebpf-security-monitoring.md
 # ... and 1 more
 ```
 
@@ -68,6 +64,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-ebpf` gateway skill for common workflows and integration patterns.
 
-```bash
-cat ~/.claude/skills/discover-ebpf/SKILL.md
-```
+Read <cc-polymath-root>/skills/discover-ebpf/SKILL.md
+

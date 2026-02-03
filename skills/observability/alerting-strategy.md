@@ -4,7 +4,6 @@ description: Setting up production monitoring and on-call rotation
 ---
 
 
-
 # Alerting Strategy
 
 **Scope**: Alert conditions, severity levels, on-call rotation, alert fatigue, SLO-based alerts

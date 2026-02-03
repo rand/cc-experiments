@@ -7,7 +7,7 @@ Having issues with cc-polymath? This guide covers the 10 most common problems an
 Run the verification script for instant analysis:
 
 ```bash
-bash ~/.claude/plugins/cc-polymath/scripts/verify-install.sh
+bash <cc-polymath-root>/scripts/verify-install.sh
 ```
 
 This checks:
@@ -47,7 +47,7 @@ Error: Command not found
 /plugin install cc-polymath@cc-polymath
 
 # Step 3: Verify installation worked
-bash ~/.claude/plugins/cc-polymath/scripts/verify-install.sh
+bash <cc-polymath-root>/scripts/verify-install.sh
 ```
 
 **Additional context**: Commands are defined in `/commands/` and registered via `.claude-plugin/plugin.json`. If they're not available immediately after installation, restart Claude Code.
@@ -58,7 +58,7 @@ bash ~/.claude/plugins/cc-polymath/scripts/verify-install.sh
 
 **Symptom**: When trying to load skills manually, you get errors like:
 ```
-cat: ~/.claude/plugins/cc-polymath/skills/api/rest-api-design.md: No such file or directory
+cat: <cc-polymath-root>/skills/api/rest-api-design.md: No such file or directory
 ```
 
 **Cause**: Plugin installed to wrong location, or using old paths from a manual installation.
@@ -70,7 +70,7 @@ cat: ~/.claude/plugins/cc-polymath/skills/api/rest-api-design.md: No such file o
 [ -d ~/.claude/plugins/cc-polymath ] && echo "Plugin found" || echo "Plugin not found"
 
 # Step 2: List what's actually there
-ls -la ~/.claude/plugins/cc-polymath/skills/ | head -20
+ls -la <cc-polymath-root>/skills/ | head -20
 
 # Step 3: If the directory doesn't exist, reinstall
 /plugin uninstall cc-polymath
@@ -78,10 +78,10 @@ ls -la ~/.claude/plugins/cc-polymath/skills/ | head -20
 /plugin install cc-polymath@cc-polymath
 
 # Step 4: Verify it worked
-bash ~/.claude/plugins/cc-polymath/scripts/verify-install.sh
+bash <cc-polymath-root>/scripts/verify-install.sh
 ```
 
-**Common mistake**: Using old paths like `~/.claude/skills/` instead of `~/.claude/plugins/cc-polymath/skills/`. See Issue #4 if you have both directories.
+**Common mistake**: Using old paths like `<cc-polymath-root>/skills/` instead of `<cc-polymath-root>/skills/`. See Issue #4 if you have both directories.
 
 ---
 
@@ -105,7 +105,7 @@ bash ~/.claude/plugins/cc-polymath/scripts/verify-install.sh
 /skills postgres      # Search for PostgreSQL-specific skills
 
 # Option 3: Check if the skill exists
-ls ~/.claude/plugins/cc-polymath/skills/ | grep discover-
+ls <cc-polymath-root>/skills/ | grep discover-
 ```
 
 **Note**: Auto-discovery is a convenience feature, not guaranteed. Manual commands are always reliable. For consistent access, use `/discover-*` commands or `/skills` search explicitly.
@@ -116,7 +116,7 @@ ls ~/.claude/plugins/cc-polymath/skills/ | grep discover-
 
 **Symptom**: Skills loading from unexpected locations, inconsistent behavior, or duplicate paths.
 
-**Cause**: You installed skills manually to `~/.claude/skills/` before the plugin system existed. Now both directories exist and Claude might be loading from the wrong one.
+**Cause**: You installed skills manually to `<cc-polymath-root>/skills/` before the plugin system existed. Now both directories exist and Claude might be loading from the wrong one.
 
 **Solution**:
 
@@ -137,10 +137,10 @@ rm -rf ~/.claude/skills
 /plugin install cc-polymath@cc-polymath
 
 # Step 5: Run verification
-bash ~/.claude/plugins/cc-polymath/scripts/verify-install.sh
+bash <cc-polymath-root>/scripts/verify-install.sh
 ```
 
-**Why this matters**: The plugin system at `~/.claude/plugins/cc-polymath/` is the source of truth. Manual installations at `~/.claude/skills/` will be stale and cause confusion.
+**Why this matters**: The plugin system at `<cc-polymath-root>/` is the source of truth. Manual installations at `<cc-polymath-root>/skills/` will be stale and cause confusion.
 
 ---
 
@@ -148,7 +148,7 @@ bash ~/.claude/plugins/cc-polymath/scripts/verify-install.sh
 
 **Symptom**: You get errors when trying to read or execute plugin files:
 ```
-Permission denied: ~/.claude/plugins/cc-polymath/scripts/verify-install.sh
+Permission denied: <cc-polymath-root>/scripts/verify-install.sh
 ```
 
 **Cause**: Plugin files were installed with incorrect file permissions, or your user doesn't have read access.
@@ -157,18 +157,18 @@ Permission denied: ~/.claude/plugins/cc-polymath/scripts/verify-install.sh
 
 ```bash
 # Step 1: Fix permissions on all plugin files
-chmod -R u+rX ~/.claude/plugins/cc-polymath/
+chmod -R u+rX <cc-polymath-root>/
 
 # Step 2: Verify permissions are readable
-ls -la ~/.claude/plugins/cc-polymath/ | head -5
+ls -la <cc-polymath-root>/ | head -5
 
 # Step 3: Test access
-bash ~/.claude/plugins/cc-polymath/scripts/verify-install.sh
+bash <cc-polymath-root>/scripts/verify-install.sh
 
 # If still failing, check your user and ownership
 # Step 4: (Advanced) Fix ownership if needed
 whoami                                    # Check your username
-ls -ld ~/.claude/plugins/cc-polymath/     # Check current owner
+ls -ld <cc-polymath-root>/     # Check current owner
 # If owner differs, contact system administrator
 ```
 
@@ -201,12 +201,12 @@ ls -ld ~/.claude/plugins/cc-polymath/     # Check current owner
 /plugin list | grep cc-polymath
 
 # Step 4: Run verification
-bash ~/.claude/plugins/cc-polymath/scripts/verify-install.sh
+bash <cc-polymath-root>/scripts/verify-install.sh
 ```
 
 **Breaking changes in v2.0.1+**:
-- Commands updated to use correct paths: `~/.claude/plugins/cc-polymath/`
-- Old paths like `~/.claude/skills/` no longer work
+- Commands updated to use correct paths: `<cc-polymath-root>/`
+- Old paths like `<cc-polymath-root>/skills/` no longer work
 - Plugin system required (no manual skill files)
 
 If you need version history: `git log --oneline` in the plugin directory shows all releases.
@@ -215,7 +215,7 @@ If you need version history: `git log --oneline` in the plugin directory shows a
 
 ## 7. Skills Catalog Shows Wrong Count
 
-**Symptom**: Commands report different numbers of skills than the README says (e.g., you see 283 skills but README says 447).
+**Symptom**: Commands report different numbers of skills than the README says (e.g., you see 283 skills but README says 400).
 
 **Cause**: Cached catalog data, incomplete installation, or you're counting a subset (only gateway skills vs all skills).
 
@@ -223,17 +223,17 @@ If you need version history: `git log --oneline` in the plugin directory shows a
 
 ```bash
 # Step 1: Count actual skill files
-find ~/.claude/plugins/cc-polymath/skills -name "*.md" -type f | wc -l
+find <cc-polymath-root>/skills -name "*.md" -type f | wc -l
 
 # You should see ~450+ files (skills + indexes + gateways)
 
 # Step 2: Count just gateway skills
-find ~/.claude/plugins/cc-polymath/skills -type d -name "discover-*" | wc -l
+find <cc-polymath-root>/skills -type d -name "discover-*" | wc -l
 
 # Should be 28-31 gateways
 
 # Step 3: Count category indexes
-find ~/.claude/plugins/cc-polymath/skills -name "INDEX.md" | wc -l
+find <cc-polymath-root>/skills -name "INDEX.md" | wc -l
 
 # Should be 30+
 
@@ -243,14 +243,14 @@ find ~/.claude/plugins/cc-polymath/skills -name "INDEX.md" | wc -l
 /plugin install cc-polymath@cc-polymath
 
 # Step 5: Verify
-bash ~/.claude/plugins/cc-polymath/scripts/verify-install.sh
+bash <cc-polymath-root>/scripts/verify-install.sh
 ```
 
 **Note on counting**: 
 - **283 skills** = Individual atomic skill files (not counting gateways or indexes)
 - **31 gateways** = discover-* entry points
 - **30+ indexes** = Category overviews
-- **447 total** = Skills + gateways + indexes + meta files
+- **400 total** = Skills + gateways + indexes + meta files
 
 If you see significantly different numbers, your installation is incomplete.
 
@@ -277,15 +277,15 @@ If you see significantly different numbers, your installation is incomplete.
 # Look for the one you need
 
 # Option 3: Search the filesystem directly
-find ~/.claude/plugins/cc-polymath/skills -name "*rest*" -o -name "*api*"
+find <cc-polymath-root>/skills -name "*rest*" -o -name "*api*"
 
 # Option 4: Check the category index
-cat ~/.claude/plugins/cc-polymath/skills/api/INDEX.md
+Read <cc-polymath-root>/skills/api/INDEX.md
 
 # Look for "REST" or similar keywords in the file
 
 # Option 5: If skill truly doesn't exist
-cat ~/.claude/plugins/cc-polymath/skills/README.md
+Read <cc-polymath-root>/skills/README.md
 
 # Check the full catalog to see what categories exist
 ```
@@ -312,21 +312,21 @@ cat ~/.claude/plugins/cc-polymath/skills/README.md
 /discover-api         # ~200 lines, shows quick reference
 
 # Tier 2: Category Indexes (detailed listings)
-cat ~/.claude/plugins/cc-polymath/skills/api/INDEX.md
+Read <cc-polymath-root>/skills/api/INDEX.md
 # ~500 lines, shows all 7 API skills with descriptions
 
 # Tier 3: Individual Skills (complete guides)
-cat ~/.claude/plugins/cc-polymath/skills/api/rest-api-design.md
+Read <cc-polymath-root>/skills/api/rest-api-design.md
 # ~320 lines, full REST implementation patterns
 
 # Step 2: To see all skills in a category, load the INDEX
 /skills api           # Shows all API skills
 
 # Or browse directly:
-cat ~/.claude/plugins/cc-polymath/skills/api/INDEX.md
+Read <cc-polymath-root>/skills/api/INDEX.md
 
 # Step 3: Then load the specific skill you need
-cat ~/.claude/plugins/cc-polymath/skills/api/rest-api-design.md
+Read <cc-polymath-root>/skills/api/rest-api-design.md
 ```
 
 **Design note**: This three-tier system minimizes context usage. Gateway skills use ~1K tokens, the full category list ~2.5K tokens, and individual skills ~1.5K tokens. Loading everything upfront would use 143K tokens. Load what you actually need.
@@ -336,7 +336,7 @@ cat ~/.claude/plugins/cc-polymath/skills/api/rest-api-design.md
 ## 10. Commands Reference Wrong Paths
 
 **Symptom**: Old commands or documentation show paths like:
-- `~/.claude/skills/discover-frontend/SKILL.md`
+- `<cc-polymath-root>/skills/discover-frontend/SKILL.md`
 - `skills/api/rest-api-design.md` (relative path)
 
 And you get "file not found" errors.
@@ -347,28 +347,28 @@ And you get "file not found" errors.
 
 ```bash
 # WRONG (old paths):
-cat ~/.claude/skills/discover-frontend/SKILL.md
+Read <cc-polymath-root>/skills/discover-frontend/SKILL.md
 cat skills/api/rest-api-design.md
 
 # CORRECT (current paths):
-cat ~/.claude/plugins/cc-polymath/skills/discover-frontend/SKILL.md
-cat ~/.claude/plugins/cc-polymath/skills/api/rest-api-design.md
+Read <cc-polymath-root>/skills/discover-frontend/SKILL.md
+Read <cc-polymath-root>/skills/api/rest-api-design.md
 
 # Quick reference:
-# Replace this:    ~/.claude/skills/
-# With this:       ~/.claude/plugins/cc-polymath/skills/
+# Replace this:    <cc-polymath-root>/skills/
+# With this:       <cc-polymath-root>/skills/
 
 # Test with a working command
-cat ~/.claude/plugins/cc-polymath/skills/README.md
+Read <cc-polymath-root>/skills/README.md
 # Should output the skills catalog
 
 # If you have saved commands or scripts with old paths
 # Use find and replace:
 # Before:          skills/
-# After:           ~/.claude/plugins/cc-polymath/skills/
+# After:           <cc-polymath-root>/skills/
 ```
 
-**Why this changed**: The plugin system requires skills to live in `~/.claude/plugins/cc-polymath/` instead of `~/.claude/skills/`. This allows multiple plugins to coexist without conflicts.
+**Why this changed**: The plugin system requires skills to live in `<cc-polymath-root>/` instead of `<cc-polymath-root>/skills/`. This allows multiple plugins to coexist without conflicts.
 
 ---
 
@@ -386,10 +386,10 @@ If the 10 common issues don't solve your problem, try deeper investigation:
 find ~/.claude/plugins/cc-polymath -type f -name "*.md" | wc -l
 
 # Check for specific file existence
-[ -f ~/.claude/plugins/cc-polymath/commands/skills.md ] && echo "Found" || echo "Missing"
+[ -f <cc-polymath-root>/commands/skills.md ] && echo "Found" || echo "Missing"
 
 # Inspect plugin configuration
-cat ~/.claude/plugins/cc-polymath/.claude-plugin/plugin.json
+Read <cc-polymath-root>/.claude-plugin/plugin.json
 
 # Check bash PATH (if script execution fails)
 echo $PATH
@@ -398,7 +398,7 @@ which bash
 
 ### Manual Verification Steps
 
-1. **Installation directory**: `~/.claude/plugins/cc-polymath/` should exist
+1. **Installation directory**: `<cc-polymath-root>/` should exist
 2. **Plugin config**: `.claude-plugin/plugin.json` should be present
 3. **Skills catalog**: `skills/README.md` should list 31+ categories
 4. **Gateway skills**: `skills/discover-*` directories (28-31 total)
@@ -415,7 +415,7 @@ If you've tried these solutions and still have issues:
 - **Read FAQ**: [FAQ.md](FAQ.md) for quick answers
 - **Report bug**: [GitHub Issues](https://github.com/rand/cc-polymath/issues) with:
   - Steps to reproduce
-  - Output of `bash ~/.claude/plugins/cc-polymath/scripts/verify-install.sh`
+  - Output of `bash <cc-polymath-root>/scripts/verify-install.sh`
   - Your platform (macOS, Linux, Windows + WSL)
   - Claude Code version
 
@@ -427,15 +427,15 @@ If you've tried these solutions and still have issues:
 |-------|---------|-----------|
 | Plugin not installed | Command not found | `/plugin marketplace add rand/cc-polymath
 /plugin install cc-polymath@cc-polymath` |
-| Wrong file path | "No such file or directory" | Update path to `~/.claude/plugins/cc-polymath/` |
+| Wrong file path | "No such file or directory" | Update path to `<cc-polymath-root>/` |
 | Auto-discovery not working | Skills don't auto-load | Use `/discover-*` commands explicitly |
 | Old installation conflict | Inconsistent behavior | `rm -rf ~/.claude/skills` |
-| Permission denied | Can't read files | `chmod -R u+rX ~/.claude/plugins/cc-polymath/` |
+| Permission denied | Can't read files | `chmod -R u+rX <cc-polymath-root>/` |
 | Outdated version | Commands work differently | `/plugin uninstall` then `/plugin install` |
-| Wrong skill count | Fewer skills than expected | Check if counting gateways (31) vs all files (447) |
+| Wrong skill count | Fewer skills than expected | Check if counting gateways (31) vs all files (400) |
 | Can't find skill | Search returns nothing | Use `/skills [category]` to browse |
 | Gateway incomplete | Missing skills from category | Load INDEX.md for complete listing |
-| Old documentation | Paths don't work | Replace `skills/` with `~/.claude/plugins/cc-polymath/skills/` |
+| Old documentation | Paths don't work | Replace `skills/` with `<cc-polymath-root>/skills/` |
 
 ---
 
@@ -443,7 +443,7 @@ If you've tried these solutions and still have issues:
 
 Once you've resolved your issue:
 
-1. **Verify everything works**: `bash ~/.claude/plugins/cc-polymath/scripts/verify-install.sh`
+1. **Verify everything works**: `bash <cc-polymath-root>/scripts/verify-install.sh`
 2. **Try your first command**: `/skills` to see what's recommended
 3. **Read getting started**: [GETTING_STARTED.md](GETTING_STARTED.md)
 4. **See examples**: [FIRST_CONVERSATIONS.md](FIRST_CONVERSATIONS.md)

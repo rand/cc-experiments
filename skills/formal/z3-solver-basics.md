@@ -4,7 +4,6 @@ description: Skill for formal z3 solver basics
 ---
 
 
-
 # Z3 Solver Basics
 
 ## Metadata

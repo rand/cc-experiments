@@ -4,7 +4,6 @@ description: Building serverless functions on Modal.com
 ---
 
 
-
 # Modal Functions Basics
 
 **Use this skill when:**

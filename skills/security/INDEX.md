@@ -321,14 +321,13 @@ Comprehensive skills for application security, vulnerability assessment, and sec
 
 All skills are available in the `skills/security/` directory:
 
-```bash
-cat ~/.claude/skills/security/authentication.md
-cat ~/.claude/skills/security/authorization.md
-cat ~/.claude/skills/security/input-validation.md
-cat ~/.claude/skills/security/security-headers.md
-cat ~/.claude/skills/security/vulnerability-assessment.md
-cat ~/.claude/skills/security/secrets-management.md
-```
+Read <cc-polymath-root>/skills/security/authentication.md
+Read <cc-polymath-root>/skills/security/authorization.md
+Read <cc-polymath-root>/skills/security/input-validation.md
+Read <cc-polymath-root>/skills/security/security-headers.md
+Read <cc-polymath-root>/skills/security/vulnerability-assessment.md
+Read <cc-polymath-root>/skills/security/secrets-management.md
+
 
 **Pro tip**: Start with authentication and authorization (identity/access), then add input validation and security headers (protection), then implement vulnerability assessment and secrets management (operations).
 

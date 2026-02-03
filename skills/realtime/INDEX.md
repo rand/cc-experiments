@@ -11,9 +11,8 @@
 **Description**: Use pub/sub patterns when you need:
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/realtime/pubsub-patterns.md
-```
+Read <cc-polymath-root>/skills/realtime/pubsub-patterns.md
+
 
 ---
 
@@ -21,9 +20,8 @@ cat ~/.claude/skills/realtime/pubsub-patterns.md
 **Description**: Use real-time sync patterns when you need:
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/realtime/realtime-sync.md
-```
+Read <cc-polymath-root>/skills/realtime/realtime-sync.md
+
 
 ---
 
@@ -31,9 +29,8 @@ cat ~/.claude/skills/realtime/realtime-sync.md
 **Description**: Use Server-Sent Events when you need:
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/realtime/server-sent-events.md
-```
+Read <cc-polymath-root>/skills/realtime/server-sent-events.md
+
 
 ---
 
@@ -41,9 +38,8 @@ cat ~/.claude/skills/realtime/server-sent-events.md
 **Description**: Use WebSocket implementation when you need:
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/realtime/websocket-implementation.md
-```
+Read <cc-polymath-root>/skills/realtime/websocket-implementation.md
+
 
 ---
 
@@ -54,9 +50,9 @@ cat ~/.claude/skills/realtime/websocket-implementation.md
 ls skills/realtime/*.md
 
 # Load specific skills
-cat ~/.claude/skills/realtime/pubsub-patterns.md
-cat ~/.claude/skills/realtime/realtime-sync.md
-cat ~/.claude/skills/realtime/server-sent-events.md
+Read <cc-polymath-root>/skills/realtime/pubsub-patterns.md
+Read <cc-polymath-root>/skills/realtime/realtime-sync.md
+Read <cc-polymath-root>/skills/realtime/server-sent-events.md
 # ... and 1 more
 ```
 
@@ -68,6 +64,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-realtime` gateway skill for common workflows and integration patterns.
 
-```bash
-cat ~/.claude/skills/discover-realtime/SKILL.md
-```
+Read <cc-polymath-root>/skills/discover-realtime/SKILL.md
+

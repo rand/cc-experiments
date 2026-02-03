@@ -82,69 +82,67 @@ This skill is automatically activated when your task involves:
 
 ### Load Individual Skills
 
-```bash
 # From skills directory
-cat ~/.claude/skills/research/research-synthesis.md
-cat ~/.claude/skills/research/quantitative-methods.md
-cat ~/.claude/skills/research/qualitative-methods.md
-cat ~/.claude/skills/research/research-design.md
-cat ~/.claude/skills/research/data-collection.md
-cat ~/.claude/skills/research/data-analysis.md
-cat ~/.claude/skills/research/research-writing.md
-```
+Read <cc-polymath-root>/skills/research/research-synthesis.md
+Read <cc-polymath-root>/skills/research/quantitative-methods.md
+Read <cc-polymath-root>/skills/research/qualitative-methods.md
+Read <cc-polymath-root>/skills/research/research-design.md
+Read <cc-polymath-root>/skills/research/data-collection.md
+Read <cc-polymath-root>/skills/research/data-analysis.md
+Read <cc-polymath-root>/skills/research/research-writing.md
+
 
 ### Common Workflow Combinations
 
 **Quantitative Research Study**:
-```bash
+
 # Planning phase
-cat ~/.claude/skills/research/research-design.md
+Read <cc-polymath-root>/skills/research/research-design.md
 
 # Data collection
-cat ~/.claude/skills/research/data-collection.md
-cat ~/.claude/skills/research/quantitative-methods.md
+Read <cc-polymath-root>/skills/research/data-collection.md
+Read <cc-polymath-root>/skills/research/quantitative-methods.md
 
 # Analysis and reporting
-cat ~/.claude/skills/research/data-analysis.md
-cat ~/.claude/skills/research/research-writing.md
-```
+Read <cc-polymath-root>/skills/research/data-analysis.md
+Read <cc-polymath-root>/skills/research/research-writing.md
+
 
 **Qualitative Research Study**:
-```bash
+
 # Planning phase
-cat ~/.claude/skills/research/research-design.md
+Read <cc-polymath-root>/skills/research/research-design.md
 
 # Data collection
-cat ~/.claude/skills/research/data-collection.md
-cat ~/.claude/skills/research/qualitative-methods.md
+Read <cc-polymath-root>/skills/research/data-collection.md
+Read <cc-polymath-root>/skills/research/qualitative-methods.md
 
 # Analysis and reporting
-cat ~/.claude/skills/research/data-analysis.md
-cat ~/.claude/skills/research/research-writing.md
-```
+Read <cc-polymath-root>/skills/research/data-analysis.md
+Read <cc-polymath-root>/skills/research/research-writing.md
+
 
 **Literature Review / Meta-Analysis**:
-```bash
+
 # Synthesis phase
-cat ~/.claude/skills/research/research-synthesis.md
+Read <cc-polymath-root>/skills/research/research-synthesis.md
 
 # If including quantitative synthesis
-cat ~/.claude/skills/research/quantitative-methods.md
+Read <cc-polymath-root>/skills/research/quantitative-methods.md
 
 # Writing phase
-cat ~/.claude/skills/research/research-writing.md
-```
+Read <cc-polymath-root>/skills/research/research-writing.md
+
 
 **Mixed Methods Study**:
-```bash
 # All methods
-cat ~/.claude/skills/research/research-design.md
-cat ~/.claude/skills/research/quantitative-methods.md
-cat ~/.claude/skills/research/qualitative-methods.md
-cat ~/.claude/skills/research/data-collection.md
-cat ~/.claude/skills/research/data-analysis.md
-cat ~/.claude/skills/research/research-writing.md
-```
+Read <cc-polymath-root>/skills/research/research-design.md
+Read <cc-polymath-root>/skills/research/quantitative-methods.md
+Read <cc-polymath-root>/skills/research/qualitative-methods.md
+Read <cc-polymath-root>/skills/research/data-collection.md
+Read <cc-polymath-root>/skills/research/data-analysis.md
+Read <cc-polymath-root>/skills/research/research-writing.md
+
 
 ## Progressive Loading
 
@@ -229,29 +227,25 @@ Based on keywords in your task, these skills auto-load:
 ## Quick Start Examples
 
 ### "I need to design a survey study"
-```bash
-cat ~/.claude/skills/research/research-design.md
-cat ~/.claude/skills/research/data-collection.md
-cat ~/.claude/skills/research/quantitative-methods.md
-```
+Read <cc-polymath-root>/skills/research/research-design.md
+Read <cc-polymath-root>/skills/research/data-collection.md
+Read <cc-polymath-root>/skills/research/quantitative-methods.md
+
 
 ### "I need to analyze interview transcripts"
-```bash
-cat ~/.claude/skills/research/qualitative-methods.md
-cat ~/.claude/skills/research/data-analysis.md
-```
+Read <cc-polymath-root>/skills/research/qualitative-methods.md
+Read <cc-polymath-root>/skills/research/data-analysis.md
+
 
 ### "I need to conduct a meta-analysis"
-```bash
-cat ~/.claude/skills/research/research-synthesis.md
-cat ~/.claude/skills/research/quantitative-methods.md
-```
+Read <cc-polymath-root>/skills/research/research-synthesis.md
+Read <cc-polymath-root>/skills/research/quantitative-methods.md
+
 
 ### "I need to write up my results"
-```bash
-cat ~/.claude/skills/research/research-writing.md
-cat ~/.claude/skills/research/data-analysis.md
-```
+Read <cc-polymath-root>/skills/research/research-writing.md
+Read <cc-polymath-root>/skills/research/data-analysis.md
+
 
 ## Best Practices
 

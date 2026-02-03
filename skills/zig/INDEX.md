@@ -11,9 +11,8 @@
 **Description**: Configuring build.zig
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/zig/zig-build-system.md
-```
+Read <cc-polymath-root>/skills/zig/zig-build-system.md
+
 
 ---
 
@@ -21,9 +20,8 @@ cat ~/.claude/skills/zig/zig-build-system.md
 **Description**: Calling C libraries from Zig
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/zig/zig-c-interop.md
-```
+Read <cc-polymath-root>/skills/zig/zig-c-interop.md
+
 
 ---
 
@@ -31,9 +29,8 @@ cat ~/.claude/skills/zig/zig-c-interop.md
 **Description**: Managing memory in Zig
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/zig/zig-memory-management.md
-```
+Read <cc-polymath-root>/skills/zig/zig-memory-management.md
+
 
 ---
 
@@ -41,9 +38,8 @@ cat ~/.claude/skills/zig/zig-memory-management.md
 **Description**: Adding dependencies to Zig projects
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/zig/zig-package-management.md
-```
+Read <cc-polymath-root>/skills/zig/zig-package-management.md
+
 
 ---
 
@@ -51,9 +47,8 @@ cat ~/.claude/skills/zig/zig-package-management.md
 **Description**: Initializing new Zig projects
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/zig/zig-project-setup.md
-```
+Read <cc-polymath-root>/skills/zig/zig-project-setup.md
+
 
 ---
 
@@ -61,9 +56,8 @@ cat ~/.claude/skills/zig/zig-project-setup.md
 **Description**: Writing unit tests in Zig
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/zig/zig-testing.md
-```
+Read <cc-polymath-root>/skills/zig/zig-testing.md
+
 
 ---
 
@@ -74,9 +68,9 @@ cat ~/.claude/skills/zig/zig-testing.md
 ls skills/zig/*.md
 
 # Load specific skills
-cat ~/.claude/skills/zig/zig-build-system.md
-cat ~/.claude/skills/zig/zig-c-interop.md
-cat ~/.claude/skills/zig/zig-memory-management.md
+Read <cc-polymath-root>/skills/zig/zig-build-system.md
+Read <cc-polymath-root>/skills/zig/zig-c-interop.md
+Read <cc-polymath-root>/skills/zig/zig-memory-management.md
 # ... and 3 more
 ```
 
@@ -88,6 +82,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-zig` gateway skill for common workflows and integration patterns.
 
-```bash
-cat ~/.claude/skills/discover-zig/SKILL.md
-```
+Read <cc-polymath-root>/skills/discover-zig/SKILL.md
+

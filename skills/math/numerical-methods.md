@@ -4,7 +4,6 @@ description: Solving ordinary differential equations (ODEs)
 ---
 
 
-
 # Numerical Methods
 
 ## Metadata

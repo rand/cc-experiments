@@ -4,7 +4,6 @@ description: Connecting over unreliable networks (mobile, WiFi)
 ---
 
 
-
 # Mosh - Resilient SSH Alternative
 
 **Use this skill when:**
@@ -61,13 +60,13 @@ mosh user@server
 
 ### Local Echo
 
-```bash
+
 # Mosh predicts typing locally
 # No lag when typing even on high-latency links
 
 # Underlined text = predicted (not yet confirmed by server)
 # Normal text = confirmed by server
-```
+
 
 ### IP Roaming
 
@@ -159,16 +158,16 @@ rsync -avz --progress file.txt user@server:
 
 ### Port Requirements
 
-```bash
+
 # Mosh needs UDP ports open
 # Some restrictive networks block UDP
 
 # Fallback to SSH if UDP blocked
-```
+
 
 ## Comparison
 
-```bash
+
 # SSH:
 # - Works everywhere (TCP port 22)
 # - File transfers (scp/sftp)
@@ -181,7 +180,7 @@ rsync -avz --progress file.txt user@server:
 # - Low-latency typing
 # - Requires UDP ports
 # - Terminal only
-```
+
 
 ## Related Skills
 

@@ -11,9 +11,8 @@
 **Description**: Query expansion, spell correction, semantic search, query classification, entity recognition, and autocomplete
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/ir/ir-query-understanding.md
-```
+Read <cc-polymath-root>/skills/ir/ir-query-understanding.md
+
 
 ---
 
@@ -21,9 +20,8 @@ cat ~/.claude/skills/ir/ir-query-understanding.md
 **Description**: Learning to rank, cross-encoder reranking, ranking features, and evaluation metrics (nDCG, MAP, MRR)
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/ir/ir-ranking-reranking.md
-```
+Read <cc-polymath-root>/skills/ir/ir-ranking-reranking.md
+
 
 ---
 
@@ -31,9 +29,8 @@ cat ~/.claude/skills/ir/ir-ranking-reranking.md
 **Description**: Collaborative filtering, content-based filtering, hybrid recommenders, matrix factorization, and cold start solutions
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/ir/ir-recommendation-systems.md
-```
+Read <cc-polymath-root>/skills/ir/ir-recommendation-systems.md
+
 
 ---
 
@@ -41,9 +38,8 @@ cat ~/.claude/skills/ir/ir-recommendation-systems.md
 **Description**: Core information retrieval concepts including TF-IDF, BM25, inverted indexes, and Elasticsearch
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/ir/ir-search-fundamentals.md
-```
+Read <cc-polymath-root>/skills/ir/ir-search-fundamentals.md
+
 
 ---
 
@@ -51,9 +47,8 @@ cat ~/.claude/skills/ir/ir-search-fundamentals.md
 **Description**: Dense retrieval using embeddings, vector databases, approximate nearest neighbors, and hybrid search
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/ir/ir-vector-search.md
-```
+Read <cc-polymath-root>/skills/ir/ir-vector-search.md
+
 
 ---
 
@@ -64,9 +59,9 @@ cat ~/.claude/skills/ir/ir-vector-search.md
 ls skills/ir/*.md
 
 # Load specific skills
-cat ~/.claude/skills/ir/ir-query-understanding.md
-cat ~/.claude/skills/ir/ir-ranking-reranking.md
-cat ~/.claude/skills/ir/ir-recommendation-systems.md
+Read <cc-polymath-root>/skills/ir/ir-query-understanding.md
+Read <cc-polymath-root>/skills/ir/ir-ranking-reranking.md
+Read <cc-polymath-root>/skills/ir/ir-recommendation-systems.md
 # ... and 2 more
 ```
 
@@ -78,6 +73,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-ir` gateway skill for common workflows and integration patterns.
 
-```bash
-cat ~/.claude/skills/discover-ir/SKILL.md
-```
+Read <cc-polymath-root>/skills/discover-ir/SKILL.md
+

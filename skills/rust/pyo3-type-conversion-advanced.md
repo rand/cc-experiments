@@ -173,7 +173,7 @@ All resources meet Wave 10-11 quality standards:
 
 ```bash
 # Load comprehensive reference
-cat ~/.claude/skills/rust/pyo3-type-conversion-advanced/resources/REFERENCE.md
+Read <cc-polymath-root>/skills/rust/pyo3-type-conversion-advanced/resources/REFERENCE.md
 
 # Profile conversions
 python skills/rust/pyo3-type-conversion-advanced/resources/scripts/conversion_profiler.py \

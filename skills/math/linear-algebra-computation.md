@@ -4,7 +4,6 @@ description: Solving systems of linear equations (Ax = b)
 ---
 
 
-
 # Linear Algebra Computation
 
 ## Metadata

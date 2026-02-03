@@ -4,7 +4,6 @@ description: Deploying static sites, JAMstack apps, or frontend frameworks to Ne
 ---
 
 
-
 # Netlify Deployment
 
 **Scope**: Netlify site deployment, build settings, continuous deployment, and configuration

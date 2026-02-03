@@ -4,7 +4,6 @@ description: Building accessible web applications
 ---
 
 
-
 # Web Accessibility
 
 **Scope**: WCAG 2.1 AA, ARIA, keyboard navigation, screen readers, color contrast

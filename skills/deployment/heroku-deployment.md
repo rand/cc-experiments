@@ -4,7 +4,6 @@ description: Deploying web applications, APIs, or worker processes to Heroku
 ---
 
 
-
 # Heroku Deployment
 
 **Scope**: Heroku app deployment, Procfile, buildpacks, pipelines, review apps

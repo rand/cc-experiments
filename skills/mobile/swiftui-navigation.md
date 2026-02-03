@@ -4,7 +4,6 @@ description: Implementing navigation in iOS 17+ apps
 ---
 
 
-
 # SwiftUI Navigation Patterns
 
 **Use this skill when:**

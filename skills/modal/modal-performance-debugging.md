@@ -4,7 +4,6 @@ description: Modal functions running slower than expected
 ---
 
 
-
 # Modal Performance Debugging
 
 **Scope**: Modal.com performance profiling, optimization, and cost reduction

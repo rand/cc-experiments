@@ -4,7 +4,6 @@ description: Implementing mutual TLS authentication
 ---
 
 
-
 # mTLS Implementation
 
 **Use this skill when:**

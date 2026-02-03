@@ -4,7 +4,6 @@ description: Debugging latency issues in microservices
 ---
 
 
-
 # Distributed Tracing
 
 **Scope**: OpenTelemetry, spans, trace context, sampling, Jaeger, Zipkin, trace propagation

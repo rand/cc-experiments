@@ -186,7 +186,7 @@ Communication:
 ```
 
 **VS Code Live Share Example**:
-```bash
+
 # Host starts session
 # Share link with pair
 
@@ -197,7 +197,7 @@ Communication:
 # - No lag (local editing)
 # - Each person uses own setup
 # - Shared terminal and debugger
-```
+
 
 ---
 

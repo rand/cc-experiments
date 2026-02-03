@@ -41,9 +41,8 @@ The Math category contains 11 skills:
 
 For complete descriptions and workflows:
 
-```bash
-cat ~/.claude/skills/math/INDEX.md
-```
+Read <cc-polymath-root>/skills/math/INDEX.md
+
 
 This loads the full Math category index with:
 - Detailed skill descriptions
@@ -55,13 +54,12 @@ This loads the full Math category index with:
 
 Load individual skills as needed:
 
-```bash
-cat ~/.claude/skills/math/abstract-algebra.md
-cat ~/.claude/skills/math/category-theory-foundations.md
-cat ~/.claude/skills/math/differential-equations.md
-cat ~/.claude/skills/math/linear-algebra-computation.md
-cat ~/.claude/skills/math/number-theory.md
-```
+Read <cc-polymath-root>/skills/math/abstract-algebra.md
+Read <cc-polymath-root>/skills/math/category-theory-foundations.md
+Read <cc-polymath-root>/skills/math/differential-equations.md
+Read <cc-polymath-root>/skills/math/linear-algebra-computation.md
+Read <cc-polymath-root>/skills/math/number-theory.md
+
 
 ## Progressive Loading
 
@@ -73,9 +71,9 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects math work
-2. **Browse skills**: Run `cat ~/.claude/skills/math/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read <cc-polymath-root>/skills/math/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 ---
 
-**Next Steps**: Run `cat ~/.claude/skills/math/INDEX.md` to see full category details.
+**Next Steps**: Run `Read <cc-polymath-root>/skills/math/INDEX.md` to see full category details.

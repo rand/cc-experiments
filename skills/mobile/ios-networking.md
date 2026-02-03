@@ -4,7 +4,6 @@ description: Building network layers for iOS/macOS apps
 ---
 
 
-
 # iOS Networking Patterns
 
 **Use this skill when:**

@@ -4,7 +4,6 @@ description: Implementing CSP solvers with systematic search
 ---
 
 
-
 # Backtracking Search
 
 **Scope**: Backtracking search for CSPs, variable ordering heuristics, value ordering, optimization

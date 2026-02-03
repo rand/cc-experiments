@@ -33,9 +33,8 @@ The Realtime category contains 4 skills:
 
 For complete descriptions and workflows:
 
-```bash
-cat ~/.claude/skills/realtime/INDEX.md
-```
+Read <cc-polymath-root>/skills/realtime/INDEX.md
+
 
 This loads the full Realtime category index with:
 - Detailed skill descriptions
@@ -47,12 +46,11 @@ This loads the full Realtime category index with:
 
 Load individual skills as needed:
 
-```bash
-cat ~/.claude/skills/realtime/pubsub-patterns.md
-cat ~/.claude/skills/realtime/realtime-sync.md
-cat ~/.claude/skills/realtime/server-sent-events.md
-cat ~/.claude/skills/realtime/websocket-implementation.md
-```
+Read <cc-polymath-root>/skills/realtime/pubsub-patterns.md
+Read <cc-polymath-root>/skills/realtime/realtime-sync.md
+Read <cc-polymath-root>/skills/realtime/server-sent-events.md
+Read <cc-polymath-root>/skills/realtime/websocket-implementation.md
+
 
 ## Progressive Loading
 
@@ -64,9 +62,9 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects realtime work
-2. **Browse skills**: Run `cat ~/.claude/skills/realtime/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read <cc-polymath-root>/skills/realtime/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 ---
 
-**Next Steps**: Run `cat ~/.claude/skills/realtime/INDEX.md` to see full category details.
+**Next Steps**: Run `Read <cc-polymath-root>/skills/realtime/INDEX.md` to see full category details.

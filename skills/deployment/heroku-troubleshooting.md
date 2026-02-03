@@ -4,7 +4,6 @@ description: Application crashes on Heroku with H10, H12, H13, H14 errors
 ---
 
 
-
 # Heroku Troubleshooting
 
 **Scope**: Debugging Heroku apps, log analysis, crashes, performance issues, scaling strategies
@@ -358,11 +357,11 @@ psycopg2-binary==2.9.9  # Use binary (not source)
 ### Pattern 5: Database Connection Pool Exhaustion
 
 **Symptom**:
-```bash
+
 # Error in logs:
 # OperationalError: FATAL: remaining connection slots are reserved
 # Or: psycopg2.pool.PoolError: connection pool exhausted
-```
+
 
 **Diagnose**:
 ```bash
@@ -414,10 +413,10 @@ engine = create_engine(
 ### Pattern 6: Failed Migrations
 
 **Symptom**:
-```bash
+
 # Release phase failed
 # Error: relation "new_table" already exists
-```
+
 
 **Rollback failed release**:
 ```bash
@@ -454,10 +453,10 @@ class Migration(migrations.Migration):
 ### Pattern 7: High Dyno Load (H23)
 
 **Symptom**:
-```bash
+
 # Error H23 (Endpoint exhaustion)
 # All dynos busy, requests queuing
-```
+
 
 **Diagnose**:
 ```bash

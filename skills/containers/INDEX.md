@@ -11,9 +11,8 @@
 **Description**: Configuring container network connectivity
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/containers/container-networking.md
-```
+Read <cc-polymath-root>/skills/containers/container-networking.md
+
 
 ---
 
@@ -21,9 +20,8 @@ cat ~/.claude/skills/containers/container-networking.md
 **Description**: Choosing a container registry (ECR/GCR/Harbor/Docker Hub)
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/containers/container-registry-management.md
-```
+Read <cc-polymath-root>/skills/containers/container-registry-management.md
+
 
 ---
 
@@ -31,9 +29,8 @@ cat ~/.claude/skills/containers/container-registry-management.md
 **Description**: Hardening container images for production
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/containers/container-security.md
-```
+Read <cc-polymath-root>/skills/containers/container-security.md
+
 
 ---
 
@@ -41,9 +38,8 @@ cat ~/.claude/skills/containers/container-security.md
 **Description**: Setting up local development environments
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/containers/docker-compose-development.md
-```
+Read <cc-polymath-root>/skills/containers/docker-compose-development.md
+
 
 ---
 
@@ -51,9 +47,8 @@ cat ~/.claude/skills/containers/docker-compose-development.md
 **Description**: Writing Dockerfiles for production applications
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/containers/dockerfile-optimization.md
-```
+Read <cc-polymath-root>/skills/containers/dockerfile-optimization.md
+
 
 ---
 
@@ -64,9 +59,9 @@ cat ~/.claude/skills/containers/dockerfile-optimization.md
 ls skills/containers/*.md
 
 # Load specific skills
-cat ~/.claude/skills/containers/container-networking.md
-cat ~/.claude/skills/containers/container-registry-management.md
-cat ~/.claude/skills/containers/container-security.md
+Read <cc-polymath-root>/skills/containers/container-networking.md
+Read <cc-polymath-root>/skills/containers/container-registry-management.md
+Read <cc-polymath-root>/skills/containers/container-security.md
 # ... and 2 more
 ```
 
@@ -78,6 +73,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-containers` gateway skill for common workflows and integration patterns.
 
-```bash
-cat ~/.claude/skills/discover-containers/SKILL.md
-```
+Read <cc-polymath-root>/skills/discover-containers/SKILL.md
+

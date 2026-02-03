@@ -11,9 +11,8 @@
 **Description**: Abstract algebra including groups, rings, fields, Galois theory, and algebraic structures
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/math/abstract-algebra.md
-```
+Read <cc-polymath-root>/skills/math/abstract-algebra.md
+
 
 ---
 
@@ -21,9 +20,8 @@ cat ~/.claude/skills/math/abstract-algebra.md
 **Description**: Category theory foundations including categories, functors, natural transformations, limits, and adjunctions
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/math/category-theory-foundations.md
-```
+Read <cc-polymath-root>/skills/math/category-theory-foundations.md
+
 
 ---
 
@@ -31,9 +29,8 @@ cat ~/.claude/skills/math/category-theory-foundations.md
 **Description**: Differential equations including ODEs, PDEs, analytical methods, numerical solutions
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/math/differential-equations.md
-```
+Read <cc-polymath-root>/skills/math/differential-equations.md
+
 
 ---
 
@@ -41,9 +38,8 @@ cat ~/.claude/skills/math/differential-equations.md
 **Description**: Solving systems of linear equations (Ax = b)
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/math/linear-algebra-computation.md
-```
+Read <cc-polymath-root>/skills/math/linear-algebra-computation.md
+
 
 ---
 
@@ -51,9 +47,8 @@ cat ~/.claude/skills/math/linear-algebra-computation.md
 **Description**: Number theory including primes, modular arithmetic, Diophantine equations, and cryptographic applications
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/math/number-theory.md
-```
+Read <cc-polymath-root>/skills/math/number-theory.md
+
 
 ---
 
@@ -61,9 +56,8 @@ cat ~/.claude/skills/math/number-theory.md
 **Description**: Solving ordinary differential equations (ODEs)
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/math/numerical-methods.md
-```
+Read <cc-polymath-root>/skills/math/numerical-methods.md
+
 
 ---
 
@@ -71,9 +65,8 @@ cat ~/.claude/skills/math/numerical-methods.md
 **Description**: Machine learning model training (gradient descent, Adam, SGD)
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/math/optimization-algorithms.md
-```
+Read <cc-polymath-root>/skills/math/optimization-algorithms.md
+
 
 ---
 
@@ -81,9 +74,8 @@ cat ~/.claude/skills/math/optimization-algorithms.md
 **Description**: Statistical hypothesis testing (t-test, chi-square, ANOVA)
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/math/probability-statistics.md
-```
+Read <cc-polymath-root>/skills/math/probability-statistics.md
+
 
 ---
 
@@ -91,9 +83,8 @@ cat ~/.claude/skills/math/probability-statistics.md
 **Description**: Set theory including ZFC axioms, ordinals, cardinals, axiom of choice, and forcing
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/math/set-theory.md
-```
+Read <cc-polymath-root>/skills/math/set-theory.md
+
 
 ---
 
@@ -101,9 +92,8 @@ cat ~/.claude/skills/math/set-theory.md
 **Description**: Algebraic topology including fundamental groups, homology, homotopy theory, and computational topology
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/math/topology-algebraic.md
-```
+Read <cc-polymath-root>/skills/math/topology-algebraic.md
+
 
 ---
 
@@ -111,9 +101,8 @@ cat ~/.claude/skills/math/topology-algebraic.md
 **Description**: Point-set topology, metric spaces, open/closed sets, continuity, compactness, separation axioms
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/math/topology-point-set.md
-```
+Read <cc-polymath-root>/skills/math/topology-point-set.md
+
 
 ---
 
@@ -124,9 +113,9 @@ cat ~/.claude/skills/math/topology-point-set.md
 ls skills/math/*.md
 
 # Load specific skills
-cat ~/.claude/skills/math/abstract-algebra.md
-cat ~/.claude/skills/math/category-theory-foundations.md
-cat ~/.claude/skills/math/differential-equations.md
+Read <cc-polymath-root>/skills/math/abstract-algebra.md
+Read <cc-polymath-root>/skills/math/category-theory-foundations.md
+Read <cc-polymath-root>/skills/math/differential-equations.md
 # ... and 8 more
 ```
 
@@ -138,6 +127,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-math` gateway skill for common workflows and integration patterns.
 
-```bash
-cat ~/.claude/skills/discover-math/SKILL.md
-```
+Read <cc-polymath-root>/skills/discover-math/SKILL.md
+

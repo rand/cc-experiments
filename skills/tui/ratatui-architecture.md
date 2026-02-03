@@ -4,7 +4,6 @@ description: Building terminal UIs in Rust
 ---
 
 
-
 # Ratatui Architecture (Rust TUI)
 
 **Use this skill when:**

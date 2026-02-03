@@ -4,7 +4,6 @@ description: Designing data extraction from multiple sources (databases, APIs, f
 ---
 
 
-
 # ETL Patterns
 
 **Scope**: Extract-Transform-Load patterns, data sources, transformations, incremental processing

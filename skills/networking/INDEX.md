@@ -11,9 +11,8 @@
 **Description**: Connecting over unreliable networks (mobile, WiFi)
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/networking/mosh-resilient-ssh.md
-```
+Read <cc-polymath-root>/skills/networking/mosh-resilient-ssh.md
+
 
 ---
 
@@ -21,9 +20,8 @@ cat ~/.claude/skills/networking/mosh-resilient-ssh.md
 **Description**: Implementing mutual TLS authentication
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/networking/mtls-implementation.md
-```
+Read <cc-polymath-root>/skills/networking/mtls-implementation.md
+
 
 ---
 
@@ -31,9 +29,8 @@ cat ~/.claude/skills/networking/mtls-implementation.md
 **Description**: Building peer-to-peer applications
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/networking/nat-traversal.md
-```
+Read <cc-polymath-root>/skills/networking/nat-traversal.md
+
 
 ---
 
@@ -41,9 +38,8 @@ cat ~/.claude/skills/networking/nat-traversal.md
 **Description**: Building robust network applications
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/networking/network-resilience-patterns.md
-```
+Read <cc-polymath-root>/skills/networking/network-resilience-patterns.md
+
 
 ---
 
@@ -51,9 +47,8 @@ cat ~/.claude/skills/networking/network-resilience-patterns.md
 **Description**: Creating secure private networks (mesh VPN)
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/networking/tailscale-vpn.md
-```
+Read <cc-polymath-root>/skills/networking/tailscale-vpn.md
+
 
 ---
 
@@ -64,9 +59,9 @@ cat ~/.claude/skills/networking/tailscale-vpn.md
 ls skills/networking/*.md
 
 # Load specific skills
-cat ~/.claude/skills/networking/mosh-resilient-ssh.md
-cat ~/.claude/skills/networking/mtls-implementation.md
-cat ~/.claude/skills/networking/nat-traversal.md
+Read <cc-polymath-root>/skills/networking/mosh-resilient-ssh.md
+Read <cc-polymath-root>/skills/networking/mtls-implementation.md
+Read <cc-polymath-root>/skills/networking/nat-traversal.md
 # ... and 2 more
 ```
 
@@ -78,6 +73,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-networking` gateway skill for common workflows and integration patterns.
 
-```bash
-cat ~/.claude/skills/discover-networking/SKILL.md
-```
+Read <cc-polymath-root>/skills/discover-networking/SKILL.md
+

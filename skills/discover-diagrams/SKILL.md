@@ -40,9 +40,8 @@ The diagrams category contains 8 specialized Mermaid.js skills:
 
 For complete descriptions and workflows:
 
-```bash
-cat ~/.claude/skills/diagrams/INDEX.md
-```
+Read <cc-polymath-root>/skills/diagrams/INDEX.md
+
 
 This loads the full diagrams category index with:
 - Detailed skill descriptions
@@ -54,71 +53,66 @@ This loads the full diagrams category index with:
 
 Load individual skills as needed:
 
-```bash
+
 # Process and logic
-cat ~/.claude/skills/diagrams/mermaid-flowcharts.md
-cat ~/.claude/skills/diagrams/mermaid-sequence-diagrams.md
+Read <cc-polymath-root>/skills/diagrams/mermaid-flowcharts.md
+Read <cc-polymath-root>/skills/diagrams/mermaid-sequence-diagrams.md
 
 # Structure and design
-cat ~/.claude/skills/diagrams/mermaid-class-state-diagrams.md
-cat ~/.claude/skills/diagrams/mermaid-er-diagrams.md
-cat ~/.claude/skills/diagrams/mermaid-architecture-diagrams.md
+Read <cc-polymath-root>/skills/diagrams/mermaid-class-state-diagrams.md
+Read <cc-polymath-root>/skills/diagrams/mermaid-er-diagrams.md
+Read <cc-polymath-root>/skills/diagrams/mermaid-architecture-diagrams.md
 
 # Data and metrics
-cat ~/.claude/skills/diagrams/mermaid-charts.md
+Read <cc-polymath-root>/skills/diagrams/mermaid-charts.md
 
 # Planning and history
-cat ~/.claude/skills/diagrams/mermaid-project-diagrams.md
+Read <cc-polymath-root>/skills/diagrams/mermaid-project-diagrams.md
 
 # Specialized diagrams
-cat ~/.claude/skills/diagrams/mermaid-specialized.md
-```
+Read <cc-polymath-root>/skills/diagrams/mermaid-specialized.md
+
 
 ## Common Workflows
 
 ### Document REST API
 **Sequence**: Architecture → Sequence → ER
 
-```bash
-cat ~/.claude/skills/diagrams/mermaid-architecture-diagrams.md  # System design
-cat ~/.claude/skills/diagrams/mermaid-sequence-diagrams.md      # Request/response flows
-cat ~/.claude/skills/diagrams/mermaid-er-diagrams.md            # Database schema
-```
+Read <cc-polymath-root>/skills/diagrams/mermaid-architecture-diagrams.md  # System design
+Read <cc-polymath-root>/skills/diagrams/mermaid-sequence-diagrams.md      # Request/response flows
+Read <cc-polymath-root>/skills/diagrams/mermaid-er-diagrams.md            # Database schema
+
 
 ### Document Feature Implementation
 **Sequence**: Flowchart → Sequence → State
 
-```bash
-cat ~/.claude/skills/diagrams/mermaid-flowcharts.md             # Business logic
-cat ~/.claude/skills/diagrams/mermaid-sequence-diagrams.md      # Service interactions
-cat ~/.claude/skills/diagrams/mermaid-class-state-diagrams.md   # State management
-```
+Read <cc-polymath-root>/skills/diagrams/mermaid-flowcharts.md             # Business logic
+Read <cc-polymath-root>/skills/diagrams/mermaid-sequence-diagrams.md      # Service interactions
+Read <cc-polymath-root>/skills/diagrams/mermaid-class-state-diagrams.md   # State management
+
 
 ### Project Planning
 **Sequence**: Mindmap → Gantt → Timeline
 
-```bash
-cat ~/.claude/skills/diagrams/mermaid-specialized.md            # Brainstorm with mindmap
-cat ~/.claude/skills/diagrams/mermaid-project-diagrams.md       # Schedule with Gantt
-cat ~/.claude/skills/diagrams/mermaid-project-diagrams.md       # Roadmap with timeline
-```
+Read <cc-polymath-root>/skills/diagrams/mermaid-specialized.md            # Brainstorm with mindmap
+Read <cc-polymath-root>/skills/diagrams/mermaid-project-diagrams.md       # Schedule with Gantt
+Read <cc-polymath-root>/skills/diagrams/mermaid-project-diagrams.md       # Roadmap with timeline
+
 
 ### System Architecture Documentation
 **Sequence**: C4 Context → C4 Container → Sequence
 
-```bash
-cat ~/.claude/skills/diagrams/mermaid-architecture-diagrams.md  # System context
-cat ~/.claude/skills/diagrams/mermaid-architecture-diagrams.md  # Technology choices
-cat ~/.claude/skills/diagrams/mermaid-sequence-diagrams.md      # Runtime behavior
-```
+Read <cc-polymath-root>/skills/diagrams/mermaid-architecture-diagrams.md  # System context
+Read <cc-polymath-root>/skills/diagrams/mermaid-architecture-diagrams.md  # Technology choices
+Read <cc-polymath-root>/skills/diagrams/mermaid-sequence-diagrams.md      # Runtime behavior
+
 
 ### Database Design
 **Sequence**: ER → Class
 
-```bash
-cat ~/.claude/skills/diagrams/mermaid-er-diagrams.md            # Schema design
-cat ~/.claude/skills/diagrams/mermaid-class-state-diagrams.md   # ORM models
-```
+Read <cc-polymath-root>/skills/diagrams/mermaid-er-diagrams.md            # Schema design
+Read <cc-polymath-root>/skills/diagrams/mermaid-class-state-diagrams.md   # ORM models
+
 
 ## Diagram Selection Guide
 
@@ -179,7 +173,7 @@ Diagram skills commonly combine with:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects diagram/visualization work
-2. **Browse skills**: Run `cat ~/.claude/skills/diagrams/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read <cc-polymath-root>/skills/diagrams/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual diagram skills
 4. **Follow workflows**: Use recommended sequences for comprehensive documentation
 5. **Combine diagrams**: Multiple diagram types provide complete picture
@@ -196,44 +190,36 @@ Total context: 2K + 3K + skill(s) = 5-10K tokens vs 30K+ for entire category.
 ## Quick Start Examples
 
 **"Create a flowchart for user authentication"**:
-```bash
-cat ~/.claude/skills/diagrams/mermaid-flowcharts.md
-```
+Read <cc-polymath-root>/skills/diagrams/mermaid-flowcharts.md
+
 
 **"Document API interactions"**:
-```bash
-cat ~/.claude/skills/diagrams/mermaid-sequence-diagrams.md
-```
+Read <cc-polymath-root>/skills/diagrams/mermaid-sequence-diagrams.md
+
 
 **"Design database schema"**:
-```bash
-cat ~/.claude/skills/diagrams/mermaid-er-diagrams.md
-```
+Read <cc-polymath-root>/skills/diagrams/mermaid-er-diagrams.md
+
 
 **"Show system architecture"**:
-```bash
-cat ~/.claude/skills/diagrams/mermaid-architecture-diagrams.md
-```
+Read <cc-polymath-root>/skills/diagrams/mermaid-architecture-diagrams.md
+
 
 **"Create class diagram for ORM models"**:
-```bash
-cat ~/.claude/skills/diagrams/mermaid-class-state-diagrams.md
-```
+Read <cc-polymath-root>/skills/diagrams/mermaid-class-state-diagrams.md
+
 
 **"Visualize project timeline"**:
-```bash
-cat ~/.claude/skills/diagrams/mermaid-project-diagrams.md
-```
+Read <cc-polymath-root>/skills/diagrams/mermaid-project-diagrams.md
+
 
 **"Show data distribution"**:
-```bash
-cat ~/.claude/skills/diagrams/mermaid-charts.md
-```
+Read <cc-polymath-root>/skills/diagrams/mermaid-charts.md
+
 
 **"Document Git workflow"**:
-```bash
-cat ~/.claude/skills/diagrams/mermaid-specialized.md
-```
+Read <cc-polymath-root>/skills/diagrams/mermaid-specialized.md
+
 
 ## Best Practices
 
@@ -267,4 +253,4 @@ graph TD
 
 ---
 
-**Next Steps**: Run `cat ~/.claude/skills/diagrams/INDEX.md` to see full category details, or load specific diagram skills using the bash commands above.
+**Next Steps**: Run `Read <cc-polymath-root>/skills/diagrams/INDEX.md` to see full category details, or load specific diagram skills using the bash commands above.

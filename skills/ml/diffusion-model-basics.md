@@ -4,7 +4,6 @@ description: Understanding diffusion model theory and mechanics (forward/reverse
 ---
 
 
-
 # Diffusion Model Basics
 
 **Scope**: Diffusion model fundamentals, architectures, inference pipelines, and model selection

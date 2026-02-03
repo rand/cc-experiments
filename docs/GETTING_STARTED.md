@@ -2,7 +2,7 @@
 
 ## What is cc-polymath?
 
-cc-polymath is a Claude Code plugin that provides **447 production-ready skills** across 31+ domains, organized through an intelligent three-tier discovery system. Instead of loading thousands of lines of documentation upfront, skills auto-discover based on your work and activate only when needed.
+cc-polymath is a Claude Code plugin that provides **400 production-ready skills** across 31+ domains, organized through an intelligent three-tier discovery system. Instead of loading thousands of lines of documentation upfront, skills auto-discover based on your work and activate only when needed.
 
 **The Problem**: Traditional approaches force you to either load everything (overwhelming context) or remember what exists (cognitive overhead).
 
@@ -29,7 +29,7 @@ That's it! Skills are now available and will auto-discover as you work.
 Verify your installation is working correctly:
 
 ```bash
-bash ~/.claude/plugins/cc-polymath/scripts/verify-install.sh
+bash <cc-polymath-root>/scripts/verify-install.sh
 ```
 
 Expected output:
@@ -40,7 +40,7 @@ Expected output:
 ✓ Found .claude-plugin/plugin.json
 ✓ Found skills/README.md
 ✓ Found commands/skills.md
-✓ Found 28 gateway skills
+✓ Found 38 gateway skills
 ✓ Skills catalog readable (31 categories)
 ✓ File permissions OK
 
@@ -71,12 +71,12 @@ You'll see personalized recommendations based on the files in your directory. Fo
 ```
 RECOMMENDED FOR THIS PROJECT:
 → discover-frontend
-  cat ~/.claude/plugins/cc-polymath/skills/discover-frontend/SKILL.md
+  Read <cc-polymath-root>/skills/discover-frontend/SKILL.md
 
 → discover-testing
-  cat ~/.claude/plugins/cc-polymath/skills/discover-testing/SKILL.md
+  Read <cc-polymath-root>/skills/discover-testing/SKILL.md
 
-CATEGORIES (447 skills):
+CATEGORIES (400 skills):
 Frontend (10) | Database (11) | API (7) | Testing (6) | Diagrams (8) | ML (33)
 [...]
 ```
@@ -214,7 +214,7 @@ cc-polymath uses a smart three-tier system to minimize context usage:
 - Deep technical content
 - Example: `rest-api-design.md` has full REST patterns
 
-**Result**: Loading 3-5 gateway skills uses ~2-5K tokens vs 143K tokens if you loaded all 447 skills upfront. That's **98% context savings**.
+**Result**: Loading 3-5 gateway skills uses ~2-5K tokens vs 143K tokens if you loaded all 400 skills upfront. That's **98% context savings**.
 
 ### Under the Hood
 
@@ -225,13 +225,13 @@ cc-polymath uses a smart three-tier system to minimize context usage:
 
 **Commands execute bash**:
 - Slash commands like `/discover-frontend` run bash commands
-- They execute `cat ~/.claude/plugins/cc-polymath/skills/discover-frontend/SKILL.md`
+- They execute `Read <cc-polymath-root>/skills/discover-frontend/SKILL.md`
 - Output loads into Claude's context
 - Both auto-discovery and commands work together seamlessly
 
 ## What's Covered
 
-cc-polymath provides 447 skills across these domains:
+cc-polymath provides 400 skills across these domains:
 
 **Core Development**:
 - **Frontend** (10): React, Next.js, TypeScript, state management, a11y
@@ -313,7 +313,7 @@ Now that you're set up and familiar with the basics, explore:
 
 ### 🆘 Troubleshooting
 - **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Common issues and solutions
-- **Run diagnostics**: `bash ~/.claude/plugins/cc-polymath/scripts/diagnose.sh`
+- **Run diagnostics**: `bash <cc-polymath-root>/scripts/diagnose.sh`
 
 ### ❓ Quick Answers
 - **[FAQ.md](FAQ.md)** - Frequently asked questions
@@ -419,7 +419,7 @@ You now know:
 
 **Questions or issues?**
 - Check [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
-- Run diagnostics: `bash ~/.claude/plugins/cc-polymath/scripts/diagnose.sh`
+- Run diagnostics: `bash <cc-polymath-root>/scripts/diagnose.sh`
 - See examples: [FIRST_CONVERSATIONS.md](FIRST_CONVERSATIONS.md)
 - Report bugs: [GitHub Issues](https://github.com/rand/cc-polymath/issues)
 

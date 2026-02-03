@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # diagnose.sh - Comprehensive cc-polymath diagnostics
 #
-# Usage: bash ~/.claude/plugins/cc-polymath/scripts/diagnose.sh [--verbose]
+# Usage: bash <cc-polymath-root>/scripts/diagnose.sh [--verbose]
 #
 # This script performs comprehensive read-only diagnostics to help
 # troubleshoot cc-polymath installation and configuration issues.
@@ -118,7 +118,7 @@ if [ -f "$PLUGIN_DIR/commands/discover-api.md" ]; then
             echo "│ ✓ Command paths are correct"
         else
             echo "│ ✗ Command paths need updating"
-            echo "│   Expected: ~/.claude/plugins/cc-polymath/skills/"
+            echo "│   Expected: <cc-polymath-root>/skills/"
             echo "│   Found:    $path_in_cmd"
         fi
     else
@@ -135,7 +135,7 @@ echo "┌─ Legacy Installation Check"
 echo "│"
 if [ -d "$HOME/.claude/skills" ] && [ ! -L "$HOME/.claude/skills" ]; then
     echo "│ ⚠ Old manual installation detected"
-    echo "│   Location: ~/.claude/skills/"
+    echo "│   Location: <cc-polymath-root>/skills/"
     echo "│"
     echo "│ Recommendation: Migrate to plugin"
     echo "│   See: $PLUGIN_DIR/MIGRATION.md"

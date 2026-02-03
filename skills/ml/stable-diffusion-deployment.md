@@ -4,7 +4,6 @@ description: Deploying Stable Diffusion models to production environments
 ---
 
 
-
 # Stable Diffusion Deployment
 
 **Scope**: Deploying Stable Diffusion to production, optimization techniques, scalable inference APIs

@@ -4,7 +4,6 @@ description: Measure system performance under load (response time, throughput)
 ---
 
 
-
 # Performance Testing
 
 ## When to Use This Skill

@@ -4,7 +4,6 @@ description: Working with ORMs (SQLAlchemy, Prisma, GORM, Diesel)
 ---
 
 
-
 # ORM Patterns
 
 **Scope**: ORM usage patterns, N+1 prevention, transactions, best practices

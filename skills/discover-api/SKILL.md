@@ -37,9 +37,8 @@ The API category contains 7 specialized skills:
 
 For complete descriptions and workflows:
 
-```bash
-cat ~/.claude/skills/api/INDEX.md
-```
+Read <cc-polymath-root>/skills/api/INDEX.md
+
 
 This loads the full API category index with:
 - Detailed skill descriptions
@@ -51,66 +50,63 @@ This loads the full API category index with:
 
 Load individual skills as needed:
 
-```bash
+
 # Core API design
-cat ~/.claude/skills/api/rest-api-design.md
-cat ~/.claude/skills/api/graphql-schema-design.md
+Read <cc-polymath-root>/skills/api/rest-api-design.md
+Read <cc-polymath-root>/skills/api/graphql-schema-design.md
 
 # Security and access control
-cat ~/.claude/skills/api/api-authentication.md
-cat ~/.claude/skills/api/api-authorization.md
+Read <cc-polymath-root>/skills/api/api-authentication.md
+Read <cc-polymath-root>/skills/api/api-authorization.md
 
 # Production hardening
-cat ~/.claude/skills/api/api-rate-limiting.md
-cat ~/.claude/skills/api/api-error-handling.md
-cat ~/.claude/skills/api/api-versioning.md
-```
+Read <cc-polymath-root>/skills/api/api-rate-limiting.md
+Read <cc-polymath-root>/skills/api/api-error-handling.md
+Read <cc-polymath-root>/skills/api/api-versioning.md
+
 
 ## Common Workflows
 
 ### New REST API
 **Sequence**: REST design → Authentication → Authorization
 
-```bash
-cat ~/.claude/skills/api/rest-api-design.md      # Resource modeling, HTTP methods
-cat ~/.claude/skills/api/api-authentication.md   # User authentication
-cat ~/.claude/skills/api/api-authorization.md    # Access control
-```
+Read <cc-polymath-root>/skills/api/rest-api-design.md      # Resource modeling, HTTP methods
+Read <cc-polymath-root>/skills/api/api-authentication.md   # User authentication
+Read <cc-polymath-root>/skills/api/api-authorization.md    # Access control
+
 
 ### New GraphQL API
 **Sequence**: GraphQL schema → Authentication → Authorization
 
-```bash
-cat ~/.claude/skills/api/graphql-schema-design.md  # Schema design, resolvers
-cat ~/.claude/skills/api/api-authentication.md     # User authentication
-cat ~/.claude/skills/api/api-authorization.md      # Field-level permissions
-```
+Read <cc-polymath-root>/skills/api/graphql-schema-design.md  # Schema design, resolvers
+Read <cc-polymath-root>/skills/api/api-authentication.md     # User authentication
+Read <cc-polymath-root>/skills/api/api-authorization.md      # Field-level permissions
+
 
 ### API Hardening
 **Sequence**: Rate limiting → Error handling → Versioning
 
-```bash
-cat ~/.claude/skills/api/api-rate-limiting.md    # Prevent abuse
-cat ~/.claude/skills/api/api-error-handling.md   # Standardized errors
-cat ~/.claude/skills/api/api-versioning.md       # Manage evolution
-```
+Read <cc-polymath-root>/skills/api/api-rate-limiting.md    # Prevent abuse
+Read <cc-polymath-root>/skills/api/api-error-handling.md   # Standardized errors
+Read <cc-polymath-root>/skills/api/api-versioning.md       # Manage evolution
+
 
 ### Complete API Stack
 **Full implementation from scratch**:
 
-```bash
+
 # 1. Design phase
-cat ~/.claude/skills/api/rest-api-design.md
+Read <cc-polymath-root>/skills/api/rest-api-design.md
 
 # 2. Security phase
-cat ~/.claude/skills/api/api-authentication.md
-cat ~/.claude/skills/api/api-authorization.md
-cat ~/.claude/skills/api/api-rate-limiting.md
+Read <cc-polymath-root>/skills/api/api-authentication.md
+Read <cc-polymath-root>/skills/api/api-authorization.md
+Read <cc-polymath-root>/skills/api/api-rate-limiting.md
 
 # 3. Production readiness
-cat ~/.claude/skills/api/api-error-handling.md
-cat ~/.claude/skills/api/api-versioning.md
-```
+Read <cc-polymath-root>/skills/api/api-error-handling.md
+Read <cc-polymath-root>/skills/api/api-versioning.md
+
 
 ## Skill Selection Guide
 
@@ -162,7 +158,7 @@ API skills commonly combine with:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects API-related work
-2. **Browse skills**: Run `cat ~/.claude/skills/api/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read <cc-polymath-root>/skills/api/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 4. **Follow workflows**: Use recommended sequences for common API patterns
 5. **Combine skills**: Load multiple skills for comprehensive coverage
@@ -179,30 +175,25 @@ Total context: 2K + 3K + skill(s) = 5-10K tokens vs 25K+ for entire index.
 ## Quick Start Examples
 
 **"Design a REST API for a blog"**:
-```bash
-cat ~/.claude/skills/api/rest-api-design.md
-```
+Read <cc-polymath-root>/skills/api/rest-api-design.md
+
 
 **"Add OAuth authentication to my API"**:
-```bash
-cat ~/.claude/skills/api/api-authentication.md
-```
+Read <cc-polymath-root>/skills/api/api-authentication.md
+
 
 **"Implement role-based access control"**:
-```bash
-cat ~/.claude/skills/api/api-authorization.md
-```
+Read <cc-polymath-root>/skills/api/api-authorization.md
+
 
 **"Prevent API abuse"**:
-```bash
-cat ~/.claude/skills/api/api-rate-limiting.md
-```
+Read <cc-polymath-root>/skills/api/api-rate-limiting.md
+
 
 **"Design an API versioning strategy"**:
-```bash
-cat ~/.claude/skills/api/api-versioning.md
-```
+Read <cc-polymath-root>/skills/api/api-versioning.md
+
 
 ---
 
-**Next Steps**: Run `cat ~/.claude/skills/api/INDEX.md` to see full category details, or load specific skills using the bash commands above.
+**Next Steps**: Run `Read <cc-polymath-root>/skills/api/INDEX.md` to see full category details, or load specific skills using the bash commands above.

@@ -4,7 +4,6 @@ description: Processing real-time event streams (clicks, IoT, logs)
 ---
 
 
-
 # Stream Processing
 
 **Scope**: Kafka, event streaming, windowing, stateful processing

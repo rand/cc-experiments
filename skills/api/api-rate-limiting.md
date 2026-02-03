@@ -4,7 +4,6 @@ description: Implementing rate limiting for APIs
 ---
 
 
-
 # API Rate Limiting
 
 **Use this skill when:**

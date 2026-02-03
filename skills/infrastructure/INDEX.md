@@ -11,9 +11,8 @@
 **Description**: Building serverless APIs and backends
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/infrastructure/aws-serverless.md
-```
+Read <cc-polymath-root>/skills/infrastructure/aws-serverless.md
+
 
 ---
 
@@ -21,9 +20,8 @@ cat ~/.claude/skills/infrastructure/aws-serverless.md
 **Description**: Building serverless APIs at the edge (low latency globally)
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/infrastructure/cloudflare-workers.md
-```
+Read <cc-polymath-root>/skills/infrastructure/cloudflare-workers.md
+
 
 ---
 
@@ -31,9 +29,8 @@ cat ~/.claude/skills/infrastructure/cloudflare-workers.md
 **Description**: Cloud costs are growing unexpectedly
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/infrastructure/cost-optimization.md
-```
+Read <cc-polymath-root>/skills/infrastructure/cost-optimization.md
+
 
 ---
 
@@ -41,9 +38,8 @@ cat ~/.claude/skills/infrastructure/cost-optimization.md
 **Description**: Setting up IAM roles and policies
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/infrastructure/infrastructure-security.md
-```
+Read <cc-polymath-root>/skills/infrastructure/infrastructure-security.md
+
 
 ---
 
@@ -51,9 +47,8 @@ cat ~/.claude/skills/infrastructure/infrastructure-security.md
 **Description**: Deploying containerized applications at scale
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/infrastructure/kubernetes-basics.md
-```
+Read <cc-polymath-root>/skills/infrastructure/kubernetes-basics.md
+
 
 ---
 
@@ -61,9 +56,8 @@ cat ~/.claude/skills/infrastructure/kubernetes-basics.md
 **Description**: Provisioning cloud infrastructure (AWS, GCP, Azure, Cloudflare)
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/infrastructure/terraform-patterns.md
-```
+Read <cc-polymath-root>/skills/infrastructure/terraform-patterns.md
+
 
 ---
 
@@ -74,9 +68,9 @@ cat ~/.claude/skills/infrastructure/terraform-patterns.md
 ls skills/infrastructure/*.md
 
 # Load specific skills
-cat ~/.claude/skills/infrastructure/aws-serverless.md
-cat ~/.claude/skills/infrastructure/cloudflare-workers.md
-cat ~/.claude/skills/infrastructure/cost-optimization.md
+Read <cc-polymath-root>/skills/infrastructure/aws-serverless.md
+Read <cc-polymath-root>/skills/infrastructure/cloudflare-workers.md
+Read <cc-polymath-root>/skills/infrastructure/cost-optimization.md
 # ... and 3 more
 ```
 
@@ -88,6 +82,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-infrastructure` gateway skill for common workflows and integration patterns.
 
-```bash
-cat ~/.claude/skills/discover-infrastructure/SKILL.md
-```
+Read <cc-polymath-root>/skills/discover-infrastructure/SKILL.md
+

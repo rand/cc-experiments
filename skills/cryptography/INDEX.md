@@ -11,9 +11,8 @@
 **Description**: PKI fundamentals including certificate authorities, chains of trust, X.509 certificates, and certificate lifecycle
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/cryptography/pki-fundamentals.md
-```
+Read <cc-polymath-root>/skills/cryptography/pki-fundamentals.md
+
 
 ---
 
@@ -21,9 +20,8 @@ cat ~/.claude/skills/cryptography/pki-fundamentals.md
 **Description**: TLS/SSL configuration including TLS 1.2/1.3 setup, cipher suites, security best practices, and server configuration
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/cryptography/tls-configuration.md
-```
+Read <cc-polymath-root>/skills/cryptography/tls-configuration.md
+
 
 ---
 
@@ -31,9 +29,8 @@ cat ~/.claude/skills/cryptography/tls-configuration.md
 **Description**: Legacy SSL/TLS protocols (SSL 2.0/3.0, TLS 1.0/1.1), vulnerabilities, deprecation, and migration strategies
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/cryptography/ssl-legacy.md
-```
+Read <cc-polymath-root>/skills/cryptography/ssl-legacy.md
+
 
 ---
 
@@ -41,9 +38,8 @@ cat ~/.claude/skills/cryptography/ssl-legacy.md
 **Description**: Server Name Indication (SNI) for multi-domain TLS hosting, routing, and configuration patterns
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/cryptography/sni-routing.md
-```
+Read <cc-polymath-root>/skills/cryptography/sni-routing.md
+
 
 ---
 
@@ -51,9 +47,8 @@ cat ~/.claude/skills/cryptography/sni-routing.md
 **Description**: Certificate lifecycle management including rotation, renewal, monitoring, automation with Let's Encrypt and ACME
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/cryptography/certificate-management.md
-```
+Read <cc-polymath-root>/skills/cryptography/certificate-management.md
+
 
 ---
 
@@ -61,9 +56,8 @@ cat ~/.claude/skills/cryptography/certificate-management.md
 **Description**: Cryptography fundamentals including symmetric/asymmetric encryption, hashing, signing, key exchange, and common algorithms
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/cryptography/cryptography-basics.md
-```
+Read <cc-polymath-root>/skills/cryptography/cryptography-basics.md
+
 
 ---
 
@@ -71,9 +65,8 @@ cat ~/.claude/skills/cryptography/cryptography-basics.md
 **Description**: Cryptography best practices, common mistakes, security patterns, and anti-patterns to avoid
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/cryptography/crypto-best-practices.md
-```
+Read <cc-polymath-root>/skills/cryptography/crypto-best-practices.md
+
 
 ---
 
@@ -84,9 +77,9 @@ cat ~/.claude/skills/cryptography/crypto-best-practices.md
 ls skills/cryptography/*.md
 
 # Load specific skills
-cat ~/.claude/skills/cryptography/pki-fundamentals.md
-cat ~/.claude/skills/cryptography/tls-configuration.md
-cat ~/.claude/skills/cryptography/certificate-management.md
+Read <cc-polymath-root>/skills/cryptography/pki-fundamentals.md
+Read <cc-polymath-root>/skills/cryptography/tls-configuration.md
+Read <cc-polymath-root>/skills/cryptography/certificate-management.md
 # ... and 4 more
 ```
 
@@ -98,6 +91,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-cryptography` gateway skill for common workflows and integration patterns.
 
-```bash
-cat ~/.claude/skills/discover-cryptography/SKILL.md
-```
+Read <cc-polymath-root>/skills/discover-cryptography/SKILL.md
+

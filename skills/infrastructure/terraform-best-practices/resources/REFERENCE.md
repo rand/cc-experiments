@@ -503,7 +503,7 @@ terraform {
 ### State Locking
 
 #### Why State Locking Matters
-```bash
+
 # Without locking:
 # User A: terraform apply (starts)
 # User B: terraform apply (starts) <- CONFLICT!
@@ -513,7 +513,7 @@ terraform {
 # User A: terraform apply (acquires lock)
 # User B: terraform apply (waits for lock)
 # Result: Safe sequential execution
-```
+
 
 #### DynamoDB Locking Configuration
 ```hcl

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # demo-skills.sh - Interactive demonstration of key cc-polymath skills
 #
-# Usage: bash ~/.claude/plugins/cc-polymath/scripts/demo-skills.sh
+# Usage: bash <cc-polymath-root>/scripts/demo-skills.sh
 #
 # This script provides an interactive walkthrough showcasing 5 key skills
 # to help new users understand what cc-polymath offers. All operations
@@ -194,6 +194,6 @@ echo "  • Try /skills in Claude Code"
 echo "  • Read: $PLUGIN_DIR/docs/GETTING_STARTED.md"
 echo "  • Examples: $PLUGIN_DIR/docs/FIRST_CONVERSATIONS.md"
 echo ""
-echo "Explore 447 skills across 31 categories!"
+echo "Explore 400 skills across 31 categories!"
 echo ""
 echo "Happy coding! 🚀"

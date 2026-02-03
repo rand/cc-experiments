@@ -4,7 +4,6 @@ description: Building peer-to-peer applications
 ---
 
 
-
 # NAT Traversal Techniques
 
 **Use this skill when:**

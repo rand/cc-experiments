@@ -11,9 +11,8 @@
 **Description**: Implementing zero-downtime deployment strategies
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/cicd/cd-deployment-patterns.md
-```
+Read <cc-polymath-root>/skills/cicd/cd-deployment-patterns.md
+
 
 ---
 
@@ -21,9 +20,8 @@ cat ~/.claude/skills/cicd/cd-deployment-patterns.md
 **Description**: CI pipelines are taking too long (>10 minutes for feedback)
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/cicd/ci-optimization.md
-```
+Read <cc-polymath-root>/skills/cicd/ci-optimization.md
+
 
 ---
 
@@ -31,9 +29,8 @@ cat ~/.claude/skills/cicd/ci-optimization.md
 **Description**: Managing secrets and credentials in CI/CD pipelines
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/cicd/ci-security.md
-```
+Read <cc-polymath-root>/skills/cicd/ci-security.md
+
 
 ---
 
@@ -41,9 +38,8 @@ cat ~/.claude/skills/cicd/ci-security.md
 **Description**: Designing test execution strategies for CI pipelines
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/cicd/ci-testing-strategy.md
-```
+Read <cc-polymath-root>/skills/cicd/ci-testing-strategy.md
+
 
 ---
 
@@ -54,9 +50,9 @@ cat ~/.claude/skills/cicd/ci-testing-strategy.md
 ls skills/cicd/*.md
 
 # Load specific skills
-cat ~/.claude/skills/cicd/cd-deployment-patterns.md
-cat ~/.claude/skills/cicd/ci-optimization.md
-cat ~/.claude/skills/cicd/ci-security.md
+Read <cc-polymath-root>/skills/cicd/cd-deployment-patterns.md
+Read <cc-polymath-root>/skills/cicd/ci-optimization.md
+Read <cc-polymath-root>/skills/cicd/ci-security.md
 # ... and 1 more
 ```
 
@@ -68,6 +64,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-cicd` gateway skill for common workflows and integration patterns.
 
-```bash
-cat ~/.claude/skills/discover-cicd/SKILL.md
-```
+Read <cc-polymath-root>/skills/discover-cicd/SKILL.md
+

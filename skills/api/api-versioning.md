@@ -4,7 +4,6 @@ description: Planning API changes and deciding on versioning approach
 ---
 
 
-
 # API Versioning
 
 **Scope**: API versioning strategies, breaking changes, deprecation workflow, migration patterns

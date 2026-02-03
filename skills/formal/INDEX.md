@@ -11,9 +11,8 @@
 **Description**: Implementing CSP solvers with systematic search
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/formal/backtracking-search.md
-```
+Read <cc-polymath-root>/skills/formal/backtracking-search.md
+
 
 ---
 
@@ -21,9 +20,8 @@ cat ~/.claude/skills/formal/backtracking-search.md
 **Description**: Pruning search space before backtracking search
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/formal/constraint-propagation.md
-```
+Read <cc-polymath-root>/skills/formal/constraint-propagation.md
+
 
 ---
 
@@ -31,9 +29,8 @@ cat ~/.claude/skills/formal/constraint-propagation.md
 **Description**: Modeling scheduling problems (meetings, courses, jobs)
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/formal/csp-modeling.md
-```
+Read <cc-polymath-root>/skills/formal/csp-modeling.md
+
 
 ---
 
@@ -41,9 +38,8 @@ cat ~/.claude/skills/formal/csp-modeling.md
 **Description**: Formalizing mathematics using existing results
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/formal/lean-mathlib4.md
-```
+Read <cc-polymath-root>/skills/formal/lean-mathlib4.md
+
 
 ---
 
@@ -51,9 +47,8 @@ cat ~/.claude/skills/formal/lean-mathlib4.md
 **Description**: Learning Lean 4 from scratch
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/formal/lean-proof-basics.md
-```
+Read <cc-polymath-root>/skills/formal/lean-proof-basics.md
+
 
 ---
 
@@ -61,9 +56,8 @@ cat ~/.claude/skills/formal/lean-proof-basics.md
 **Description**: Optimizing proof efficiency
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/formal/lean-tactics.md
-```
+Read <cc-polymath-root>/skills/formal/lean-tactics.md
+
 
 ---
 
@@ -71,9 +65,8 @@ cat ~/.claude/skills/formal/lean-tactics.md
 **Description**: Formalizing complex mathematics
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/formal/lean-theorem-proving.md
-```
+Read <cc-polymath-root>/skills/formal/lean-theorem-proving.md
+
 
 ---
 
@@ -81,9 +74,8 @@ cat ~/.claude/skills/formal/lean-theorem-proving.md
 **Description**: Skill for formal sat solving strategies
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/formal/sat-solving-strategies.md
-```
+Read <cc-polymath-root>/skills/formal/sat-solving-strategies.md
+
 
 ---
 
@@ -91,9 +83,8 @@ cat ~/.claude/skills/formal/sat-solving-strategies.md
 **Description**: Skill for formal smt theory applications
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/formal/smt-theory-applications.md
-```
+Read <cc-polymath-root>/skills/formal/smt-theory-applications.md
+
 
 ---
 
@@ -101,9 +92,8 @@ cat ~/.claude/skills/formal/smt-theory-applications.md
 **Description**: Skill for formal z3 solver basics
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/formal/z3-solver-basics.md
-```
+Read <cc-polymath-root>/skills/formal/z3-solver-basics.md
+
 
 ---
 
@@ -114,9 +104,9 @@ cat ~/.claude/skills/formal/z3-solver-basics.md
 ls skills/formal/*.md
 
 # Load specific skills
-cat ~/.claude/skills/formal/backtracking-search.md
-cat ~/.claude/skills/formal/constraint-propagation.md
-cat ~/.claude/skills/formal/csp-modeling.md
+Read <cc-polymath-root>/skills/formal/backtracking-search.md
+Read <cc-polymath-root>/skills/formal/constraint-propagation.md
+Read <cc-polymath-root>/skills/formal/csp-modeling.md
 # ... and 7 more
 ```
 
@@ -128,6 +118,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-formal` gateway skill for common workflows and integration patterns.
 
-```bash
-cat ~/.claude/skills/discover-formal/SKILL.md
-```
+Read <cc-polymath-root>/skills/discover-formal/SKILL.md
+

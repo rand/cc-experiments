@@ -11,9 +11,8 @@
 **Description**: Orchestrating complex data pipelines with dependencies
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/data/batch-processing.md
-```
+Read <cc-polymath-root>/skills/data/batch-processing.md
+
 
 ---
 
@@ -21,9 +20,8 @@ cat ~/.claude/skills/data/batch-processing.md
 **Description**: Validating data schema before processing
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/data/data-validation.md
-```
+Read <cc-polymath-root>/skills/data/data-validation.md
+
 
 ---
 
@@ -31,9 +29,8 @@ cat ~/.claude/skills/data/data-validation.md
 **Description**: Coordination patterns for distributed dataflow systems including barriers, epochs, and distributed snapshots
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/data/dataflow-coordination.md
-```
+Read <cc-polymath-root>/skills/data/dataflow-coordination.md
+
 
 ---
 
@@ -41,9 +38,8 @@ cat ~/.claude/skills/data/dataflow-coordination.md
 **Description**: Differential computation for incremental updates, maintaining indexed collections and efficient joins
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/data/differential-dataflow.md
-```
+Read <cc-polymath-root>/skills/data/differential-dataflow.md
+
 
 ---
 
@@ -51,9 +47,8 @@ cat ~/.claude/skills/data/differential-dataflow.md
 **Description**: Designing data extraction from multiple sources (databases, APIs, files)
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/data/etl-patterns.md
-```
+Read <cc-polymath-root>/skills/data/etl-patterns.md
+
 
 ---
 
@@ -61,9 +56,8 @@ cat ~/.claude/skills/data/etl-patterns.md
 **Description**: Coordinating complex multi-step data workflows
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/data/pipeline-orchestration.md
-```
+Read <cc-polymath-root>/skills/data/pipeline-orchestration.md
+
 
 ---
 
@@ -71,9 +65,8 @@ cat ~/.claude/skills/data/pipeline-orchestration.md
 **Description**: Processing real-time event streams (clicks, IoT, logs)
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/data/stream-processing.md
-```
+Read <cc-polymath-root>/skills/data/stream-processing.md
+
 
 ---
 
@@ -81,9 +74,8 @@ cat ~/.claude/skills/data/stream-processing.md
 **Description**: Windowing, sessionization, time-series aggregation, and late data handling for streaming systems
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/data/streaming-aggregations.md
-```
+Read <cc-polymath-root>/skills/data/streaming-aggregations.md
+
 
 ---
 
@@ -91,9 +83,8 @@ cat ~/.claude/skills/data/streaming-aggregations.md
 **Description**: Timely dataflow framework for low-latency, high-throughput streaming computation with progress tracking
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/data/timely-dataflow.md
-```
+Read <cc-polymath-root>/skills/data/timely-dataflow.md
+
 
 ---
 
@@ -104,9 +95,9 @@ cat ~/.claude/skills/data/timely-dataflow.md
 ls skills/data/*.md
 
 # Load specific skills
-cat ~/.claude/skills/data/batch-processing.md
-cat ~/.claude/skills/data/data-validation.md
-cat ~/.claude/skills/data/etl-patterns.md
+Read <cc-polymath-root>/skills/data/batch-processing.md
+Read <cc-polymath-root>/skills/data/data-validation.md
+Read <cc-polymath-root>/skills/data/etl-patterns.md
 # ... and 6 more
 ```
 
@@ -118,6 +109,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-data` gateway skill for common workflows and integration patterns.
 
-```bash
-cat ~/.claude/skills/discover-data/SKILL.md
-```
+Read <cc-polymath-root>/skills/discover-data/SKILL.md
+

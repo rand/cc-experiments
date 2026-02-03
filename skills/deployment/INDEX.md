@@ -11,9 +11,8 @@
 **Description**: Adding databases (Postgres, MySQL, MongoDB) to Heroku apps
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/deployment/heroku-addons.md
-```
+Read <cc-polymath-root>/skills/deployment/heroku-addons.md
+
 
 ---
 
@@ -21,9 +20,8 @@ cat ~/.claude/skills/deployment/heroku-addons.md
 **Description**: Deploying web applications, APIs, or worker processes to Heroku
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/deployment/heroku-deployment.md
-```
+Read <cc-polymath-root>/skills/deployment/heroku-deployment.md
+
 
 ---
 
@@ -31,9 +29,8 @@ cat ~/.claude/skills/deployment/heroku-deployment.md
 **Description**: Application crashes on Heroku with H10, H12, H13, H14 errors
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/deployment/heroku-troubleshooting.md
-```
+Read <cc-polymath-root>/skills/deployment/heroku-troubleshooting.md
+
 
 ---
 
@@ -41,9 +38,8 @@ cat ~/.claude/skills/deployment/heroku-troubleshooting.md
 **Description**: Deploying static sites, JAMstack apps, or frontend frameworks to Netlify
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/deployment/netlify-deployment.md
-```
+Read <cc-polymath-root>/skills/deployment/netlify-deployment.md
+
 
 ---
 
@@ -51,9 +47,8 @@ cat ~/.claude/skills/deployment/netlify-deployment.md
 **Description**: Building API endpoints for JAMstack applications
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/deployment/netlify-functions.md
-```
+Read <cc-polymath-root>/skills/deployment/netlify-functions.md
+
 
 ---
 
@@ -61,9 +56,8 @@ cat ~/.claude/skills/deployment/netlify-functions.md
 **Description**: Improving site load times and Core Web Vitals
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/deployment/netlify-optimization.md
-```
+Read <cc-polymath-root>/skills/deployment/netlify-optimization.md
+
 
 ---
 
@@ -74,9 +68,9 @@ cat ~/.claude/skills/deployment/netlify-optimization.md
 ls skills/deployment/*.md
 
 # Load specific skills
-cat ~/.claude/skills/deployment/heroku-addons.md
-cat ~/.claude/skills/deployment/heroku-deployment.md
-cat ~/.claude/skills/deployment/heroku-troubleshooting.md
+Read <cc-polymath-root>/skills/deployment/heroku-addons.md
+Read <cc-polymath-root>/skills/deployment/heroku-deployment.md
+Read <cc-polymath-root>/skills/deployment/heroku-troubleshooting.md
 # ... and 3 more
 ```
 
@@ -88,6 +82,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-deployment` gateway skill for common workflows and integration patterns.
 
-```bash
-cat ~/.claude/skills/discover-deployment/SKILL.md
-```
+Read <cc-polymath-root>/skills/discover-deployment/SKILL.md
+

@@ -11,9 +11,8 @@
 **Description**: Code review practices, PR etiquette, constructive feedback, automation tools, and effective review workflows
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/engineering/code-review.md
-```
+Read <cc-polymath-root>/skills/engineering/code-review.md
+
 
 ---
 
@@ -21,9 +20,8 @@ cat ~/.claude/skills/engineering/code-review.md
 **Description**: Code quality metrics, maintainability principles, SOLID design, code smells detection, and quality measurement
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/engineering/code-quality.md
-```
+Read <cc-polymath-root>/skills/engineering/code-quality.md
+
 
 ---
 
@@ -31,9 +29,8 @@ cat ~/.claude/skills/engineering/code-quality.md
 **Description**: CI/CD pipeline design, automated testing, deployment strategies, and continuous delivery best practices
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/engineering/continuous-integration.md
-```
+Read <cc-polymath-root>/skills/engineering/continuous-integration.md
+
 
 ---
 
@@ -41,9 +38,8 @@ cat ~/.claude/skills/engineering/continuous-integration.md
 **Description**: Gang of Four design patterns, when to use each pattern, implementation examples, and anti-patterns
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/engineering/design-patterns.md
-```
+Read <cc-polymath-root>/skills/engineering/design-patterns.md
+
 
 ---
 
@@ -51,9 +47,8 @@ cat ~/.claude/skills/engineering/design-patterns.md
 **Description**: Domain-Driven Design patterns, bounded contexts, aggregates, entities, value objects, and strategic design
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/engineering/domain-driven-design.md
-```
+Read <cc-polymath-root>/skills/engineering/domain-driven-design.md
+
 
 ---
 
@@ -61,9 +56,8 @@ cat ~/.claude/skills/engineering/domain-driven-design.md
 **Description**: Functional programming principles, immutability, pure functions, higher-order functions, and FP patterns
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/engineering/functional-programming.md
-```
+Read <cc-polymath-root>/skills/engineering/functional-programming.md
+
 
 ---
 
@@ -71,9 +65,8 @@ cat ~/.claude/skills/engineering/functional-programming.md
 **Description**: Pair programming techniques, driver-navigator roles, mob programming, remote pairing tools and best practices
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/engineering/pair-programming.md
-```
+Read <cc-polymath-root>/skills/engineering/pair-programming.md
+
 
 ---
 
@@ -81,9 +74,8 @@ cat ~/.claude/skills/engineering/pair-programming.md
 **Description**: Refactoring techniques, when to refactor, safe refactoring strategies, and code improvement patterns
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/engineering/refactoring-patterns.md
-```
+Read <cc-polymath-root>/skills/engineering/refactoring-patterns.md
+
 
 ---
 
@@ -91,9 +83,8 @@ cat ~/.claude/skills/engineering/refactoring-patterns.md
 **Description**: Stakeholder identification, feedback collection, consensus building, and approval processes for RFCs
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/engineering/rfc-consensus-building.md
-```
+Read <cc-polymath-root>/skills/engineering/rfc-consensus-building.md
+
 
 ---
 
@@ -101,9 +92,8 @@ cat ~/.claude/skills/engineering/rfc-consensus-building.md
 **Description**: Architecture Decision Records (ADRs), decision rationale, status tracking, and post-implementation review
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/engineering/rfc-decision-documentation.md
-```
+Read <cc-polymath-root>/skills/engineering/rfc-decision-documentation.md
+
 
 ---
 
@@ -111,9 +101,8 @@ cat ~/.claude/skills/engineering/rfc-decision-documentation.md
 **Description**: RFC document structure, templates, formatting conventions, and versioning for technical design documents
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/engineering/rfc-structure-format.md
-```
+Read <cc-polymath-root>/skills/engineering/rfc-structure-format.md
+
 
 ---
 
@@ -121,9 +110,8 @@ cat ~/.claude/skills/engineering/rfc-structure-format.md
 **Description**: Architecture proposals, technical diagrams, API design, trade-off analysis, and migration strategies for RFCs
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/engineering/rfc-technical-design.md
-```
+Read <cc-polymath-root>/skills/engineering/rfc-technical-design.md
+
 
 ---
 
@@ -131,9 +119,8 @@ cat ~/.claude/skills/engineering/rfc-technical-design.md
 **Description**: Identifying, measuring, tracking, and managing technical debt strategically and systematically
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/engineering/technical-debt.md
-```
+Read <cc-polymath-root>/skills/engineering/technical-debt.md
+
 
 ---
 
@@ -141,9 +128,8 @@ cat ~/.claude/skills/engineering/technical-debt.md
 **Description**: Test-Driven Development methodology, red-green-refactor cycle, unit testing best practices, and mocking strategies
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/engineering/test-driven-development.md
-```
+Read <cc-polymath-root>/skills/engineering/test-driven-development.md
+
 
 ---
 
@@ -154,9 +140,9 @@ cat ~/.claude/skills/engineering/test-driven-development.md
 ls skills/engineering/*.md
 
 # Load specific skills
-cat ~/.claude/skills/engineering/code-review.md
-cat ~/.claude/skills/engineering/code-quality.md
-cat ~/.claude/skills/engineering/continuous-integration.md
+Read <cc-polymath-root>/skills/engineering/code-review.md
+Read <cc-polymath-root>/skills/engineering/code-quality.md
+Read <cc-polymath-root>/skills/engineering/continuous-integration.md
 # ... and 11 more
 ```
 
@@ -168,6 +154,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-engineering` gateway skill for common workflows and integration patterns.
 
-```bash
-cat ~/.claude/skills/discover-engineering/SKILL.md
-```
+Read <cc-polymath-root>/skills/discover-engineering/SKILL.md
+

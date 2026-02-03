@@ -38,9 +38,8 @@ The Observability category contains 8 skills:
 
 For complete descriptions and workflows:
 
-```bash
-cat ~/.claude/skills/observability/INDEX.md
-```
+Read <cc-polymath-root>/skills/observability/INDEX.md
+
 
 This loads the full Observability category index with:
 - Detailed skill descriptions
@@ -52,13 +51,12 @@ This loads the full Observability category index with:
 
 Load individual skills as needed:
 
-```bash
-cat ~/.claude/skills/observability/alerting-strategy.md
-cat ~/.claude/skills/observability/dashboard-design.md
-cat ~/.claude/skills/observability/distributed-tracing.md
-cat ~/.claude/skills/observability/metrics-instrumentation.md
-cat ~/.claude/skills/observability/observability-cost-optimization.md
-```
+Read <cc-polymath-root>/skills/observability/alerting-strategy.md
+Read <cc-polymath-root>/skills/observability/dashboard-design.md
+Read <cc-polymath-root>/skills/observability/distributed-tracing.md
+Read <cc-polymath-root>/skills/observability/metrics-instrumentation.md
+Read <cc-polymath-root>/skills/observability/observability-cost-optimization.md
+
 
 ## Progressive Loading
 
@@ -70,9 +68,9 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects observability work
-2. **Browse skills**: Run `cat ~/.claude/skills/observability/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read <cc-polymath-root>/skills/observability/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 ---
 
-**Next Steps**: Run `cat ~/.claude/skills/observability/INDEX.md` to see full category details.
+**Next Steps**: Run `Read <cc-polymath-root>/skills/observability/INDEX.md` to see full category details.

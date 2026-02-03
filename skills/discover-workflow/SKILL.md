@@ -37,9 +37,8 @@ The Workflow category contains 5 skills:
 
 For complete descriptions and workflows:
 
-```bash
-cat ~/.claude/skills/workflow/INDEX.md
-```
+Read <cc-polymath-root>/skills/workflow/INDEX.md
+
 
 This loads the full Workflow category index with:
 - Detailed skill descriptions
@@ -51,13 +50,12 @@ This loads the full Workflow category index with:
 
 Load individual skills as needed:
 
-```bash
-cat ~/.claude/skills/workflow/beads-context-strategies.md
-cat ~/.claude/skills/workflow/beads-dependency-management.md
-cat ~/.claude/skills/workflow/beads-multi-session-patterns.md
-cat ~/.claude/skills/workflow/beads-workflow.md
-cat ~/.claude/skills/workflow/project-synthesis.md
-```
+Read <cc-polymath-root>/skills/workflow/beads-context-strategies.md
+Read <cc-polymath-root>/skills/workflow/beads-dependency-management.md
+Read <cc-polymath-root>/skills/workflow/beads-multi-session-patterns.md
+Read <cc-polymath-root>/skills/workflow/beads-workflow.md
+Read <cc-polymath-root>/skills/workflow/project-synthesis.md
+
 
 ## Progressive Loading
 
@@ -69,9 +67,9 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects workflow work
-2. **Browse skills**: Run `cat ~/.claude/skills/workflow/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read <cc-polymath-root>/skills/workflow/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 ---
 
-**Next Steps**: Run `cat ~/.claude/skills/workflow/INDEX.md` to see full category details.
+**Next Steps**: Run `Read <cc-polymath-root>/skills/workflow/INDEX.md` to see full category details.

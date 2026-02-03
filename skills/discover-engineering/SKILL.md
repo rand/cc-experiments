@@ -44,9 +44,8 @@ The Engineering category contains 14 skills:
 
 For complete descriptions and workflows:
 
-```bash
-cat ~/.claude/skills/engineering/INDEX.md
-```
+Read <cc-polymath-root>/skills/engineering/INDEX.md
+
 
 This loads the full Engineering category index with:
 - Detailed skill descriptions
@@ -58,49 +57,46 @@ This loads the full Engineering category index with:
 
 Load individual skills as needed:
 
-```bash
+
 # Software Development Practices
-cat ~/.claude/skills/engineering/code-review.md
-cat ~/.claude/skills/engineering/code-quality.md
-cat ~/.claude/skills/engineering/refactoring-patterns.md
-cat ~/.claude/skills/engineering/test-driven-development.md
-cat ~/.claude/skills/engineering/domain-driven-design.md
-cat ~/.claude/skills/engineering/functional-programming.md
-cat ~/.claude/skills/engineering/design-patterns.md
-cat ~/.claude/skills/engineering/technical-debt.md
-cat ~/.claude/skills/engineering/pair-programming.md
-cat ~/.claude/skills/engineering/continuous-integration.md
+Read <cc-polymath-root>/skills/engineering/code-review.md
+Read <cc-polymath-root>/skills/engineering/code-quality.md
+Read <cc-polymath-root>/skills/engineering/refactoring-patterns.md
+Read <cc-polymath-root>/skills/engineering/test-driven-development.md
+Read <cc-polymath-root>/skills/engineering/domain-driven-design.md
+Read <cc-polymath-root>/skills/engineering/functional-programming.md
+Read <cc-polymath-root>/skills/engineering/design-patterns.md
+Read <cc-polymath-root>/skills/engineering/technical-debt.md
+Read <cc-polymath-root>/skills/engineering/pair-programming.md
+Read <cc-polymath-root>/skills/engineering/continuous-integration.md
 
 # RFC & Documentation
-cat ~/.claude/skills/engineering/rfc-consensus-building.md
-cat ~/.claude/skills/engineering/rfc-decision-documentation.md
-cat ~/.claude/skills/engineering/rfc-structure-format.md
-cat ~/.claude/skills/engineering/rfc-technical-design.md
-```
+Read <cc-polymath-root>/skills/engineering/rfc-consensus-building.md
+Read <cc-polymath-root>/skills/engineering/rfc-decision-documentation.md
+Read <cc-polymath-root>/skills/engineering/rfc-structure-format.md
+Read <cc-polymath-root>/skills/engineering/rfc-technical-design.md
+
 
 ### Common Workflow Combinations
 
 **Code Quality Workflow:**
-```bash
 # Load related skills together
-cat ~/.claude/skills/engineering/code-review.md
-cat ~/.claude/skills/engineering/code-quality.md
-cat ~/.claude/skills/engineering/refactoring-patterns.md
-```
+Read <cc-polymath-root>/skills/engineering/code-review.md
+Read <cc-polymath-root>/skills/engineering/code-quality.md
+Read <cc-polymath-root>/skills/engineering/refactoring-patterns.md
+
 
 **TDD Workflow:**
-```bash
-cat ~/.claude/skills/engineering/test-driven-development.md
-cat ~/.claude/skills/engineering/code-quality.md
-cat ~/.claude/skills/engineering/continuous-integration.md
-```
+Read <cc-polymath-root>/skills/engineering/test-driven-development.md
+Read <cc-polymath-root>/skills/engineering/code-quality.md
+Read <cc-polymath-root>/skills/engineering/continuous-integration.md
+
 
 **Architecture Design Workflow:**
-```bash
-cat ~/.claude/skills/engineering/domain-driven-design.md
-cat ~/.claude/skills/engineering/design-patterns.md
-cat ~/.claude/skills/engineering/rfc-technical-design.md
-```
+Read <cc-polymath-root>/skills/engineering/domain-driven-design.md
+Read <cc-polymath-root>/skills/engineering/design-patterns.md
+Read <cc-polymath-root>/skills/engineering/rfc-technical-design.md
+
 
 ## Progressive Loading
 
@@ -112,9 +108,9 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects engineering work
-2. **Browse skills**: Run `cat ~/.claude/skills/engineering/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read <cc-polymath-root>/skills/engineering/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 ---
 
-**Next Steps**: Run `cat ~/.claude/skills/engineering/INDEX.md` to see full category details.
+**Next Steps**: Run `Read <cc-polymath-root>/skills/engineering/INDEX.md` to see full category details.

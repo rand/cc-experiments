@@ -1,0 +1,9 @@
+{
+  "hooks": [
+    {
+      "event": "SessionStart",
+      "type": "command",
+      "command": "echo 'cc-polymath plugin root: ${CLAUDE_PLUGIN_ROOT}'"
+    }
+  ]
+}

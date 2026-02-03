@@ -43,9 +43,8 @@ The Data category contains 9 skills:
 
 For complete descriptions and workflows:
 
-```bash
-cat ~/.claude/skills/data/INDEX.md
-```
+Read <cc-polymath-root>/skills/data/INDEX.md
+
 
 This loads the full Data category index with:
 - Detailed skill descriptions
@@ -57,48 +56,45 @@ This loads the full Data category index with:
 
 Load individual skills as needed:
 
-```bash
+
 # Traditional ETL/Batch
-cat ~/.claude/skills/data/batch-processing.md
-cat ~/.claude/skills/data/data-validation.md
-cat ~/.claude/skills/data/etl-patterns.md
-cat ~/.claude/skills/data/pipeline-orchestration.md
+Read <cc-polymath-root>/skills/data/batch-processing.md
+Read <cc-polymath-root>/skills/data/data-validation.md
+Read <cc-polymath-root>/skills/data/etl-patterns.md
+Read <cc-polymath-root>/skills/data/pipeline-orchestration.md
 
 # Stream Processing
-cat ~/.claude/skills/data/stream-processing.md
-cat ~/.claude/skills/data/streaming-aggregations.md
+Read <cc-polymath-root>/skills/data/stream-processing.md
+Read <cc-polymath-root>/skills/data/streaming-aggregations.md
 
 # Advanced Dataflow Systems
-cat ~/.claude/skills/data/timely-dataflow.md
-cat ~/.claude/skills/data/differential-dataflow.md
-cat ~/.claude/skills/data/dataflow-coordination.md
-```
+Read <cc-polymath-root>/skills/data/timely-dataflow.md
+Read <cc-polymath-root>/skills/data/differential-dataflow.md
+Read <cc-polymath-root>/skills/data/dataflow-coordination.md
+
 
 ## Common Workflow Combinations
 
 ### Real-Time Analytics Pipeline
-```bash
 # Load these skills together:
-cat ~/.claude/skills/data/stream-processing.md          # Kafka setup
-cat ~/.claude/skills/data/streaming-aggregations.md     # Windowing patterns
-cat ~/.claude/skills/data/dataflow-coordination.md      # Coordination
-```
+Read <cc-polymath-root>/skills/data/stream-processing.md          # Kafka setup
+Read <cc-polymath-root>/skills/data/streaming-aggregations.md     # Windowing patterns
+Read <cc-polymath-root>/skills/data/dataflow-coordination.md      # Coordination
+
 
 ### Incremental Computation System
-```bash
 # Load these skills together:
-cat ~/.claude/skills/data/timely-dataflow.md           # Foundation
-cat ~/.claude/skills/data/differential-dataflow.md     # Incremental updates
-cat ~/.claude/skills/data/dataflow-coordination.md     # Distributed coordination
-```
+Read <cc-polymath-root>/skills/data/timely-dataflow.md           # Foundation
+Read <cc-polymath-root>/skills/data/differential-dataflow.md     # Incremental updates
+Read <cc-polymath-root>/skills/data/dataflow-coordination.md     # Distributed coordination
+
 
 ### Hybrid Batch + Stream
-```bash
 # Load these skills together:
-cat ~/.claude/skills/data/batch-processing.md          # Batch jobs
-cat ~/.claude/skills/data/stream-processing.md         # Stream processing
-cat ~/.claude/skills/data/pipeline-orchestration.md    # Overall coordination
-```
+Read <cc-polymath-root>/skills/data/batch-processing.md          # Batch jobs
+Read <cc-polymath-root>/skills/data/stream-processing.md         # Stream processing
+Read <cc-polymath-root>/skills/data/pipeline-orchestration.md    # Overall coordination
+
 
 ## Progressive Loading
 
@@ -110,9 +106,9 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects data work
-2. **Browse skills**: Run `cat ~/.claude/skills/data/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read <cc-polymath-root>/skills/data/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 ---
 
-**Next Steps**: Run `cat ~/.claude/skills/data/INDEX.md` to see full category details.
+**Next Steps**: Run `Read <cc-polymath-root>/skills/data/INDEX.md` to see full category details.

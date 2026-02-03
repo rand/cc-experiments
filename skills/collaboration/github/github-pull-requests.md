@@ -488,11 +488,11 @@ Project requires linear history?
 
 ### ❌ Large, Monolithic PRs
 
-```bash
+
 # WRONG: 50 files changed, 5000 lines added
 # Touches frontend, backend, database, and infrastructure
 # Impossible to review effectively
-```
+
 
 **Problems**:
 - Difficult to review thoroughly
@@ -500,7 +500,7 @@ Project requires linear history?
 - Long review cycles
 - Merge conflicts likely
 
-```bash
+
 # CORRECT: Break into smaller PRs
 # PR 1: Database schema changes
 # PR 2: Backend API updates
@@ -508,7 +508,7 @@ Project requires linear history?
 # PR 4: Documentation updates
 
 # Each PR: 3-5 files, 200-400 lines
-```
+
 
 **Guidelines**:
 - Keep PRs under 400 lines of code
@@ -547,11 +547,11 @@ Related to #123
 
 ### ❌ Ignoring Review Feedback
 
-```bash
+
 # WRONG: Mark PR as ready without addressing comments
 # Reviewer: "Please add error handling"
 # Author: (ignores feedback and merges)
-```
+
 
 **Problems**:
 - Disrespects reviewer's time
@@ -559,7 +559,7 @@ Related to #123
 - Damages team collaboration
 - Defeats purpose of code review
 
-```bash
+
 # CORRECT: Address all feedback
 # 1. Make requested changes
 # 2. Respond to comments
@@ -571,7 +571,7 @@ Related to #123
 # - Discuss alternatives
 # - Seek consensus
 # - Don't merge until resolved
-```
+
 
 ### ❌ Force Pushing After Reviews
 
@@ -597,11 +597,11 @@ gh pr merge 42 --squash
 
 ### ❌ Merging Without Status Checks
 
-```bash
+
 # WRONG: Override failing checks and merge
 # Tests failing, linter errors, build broken
 # Merge anyway because "it works on my machine"
-```
+
 
 **Problems**:
 - Breaks main branch
@@ -609,7 +609,7 @@ gh pr merge 42 --squash
 - Erodes confidence in CI/CD
 - Creates firefighting situations
 
-```bash
+
 # CORRECT: Fix issues before merging
 # 1. Ensure all status checks pass
 # 2. Fix failing tests
@@ -619,7 +619,7 @@ gh pr merge 42 --squash
 
 # Enable branch protection to prevent this
 # Settings → Branches → Require status checks
-```
+
 
 ---
 

@@ -34,9 +34,8 @@ The Mobile category contains 4 skills:
 
 For complete descriptions and workflows:
 
-```bash
-cat ~/.claude/skills/mobile/INDEX.md
-```
+Read <cc-polymath-root>/skills/mobile/INDEX.md
+
 
 This loads the full Mobile category index with:
 - Detailed skill descriptions
@@ -48,12 +47,11 @@ This loads the full Mobile category index with:
 
 Load individual skills as needed:
 
-```bash
-cat ~/.claude/skills/mobile/react-native-native-modules.md
-cat ~/.claude/skills/mobile/react-native-navigation.md
-cat ~/.claude/skills/mobile/react-native-performance.md
-cat ~/.claude/skills/mobile/react-native-setup.md
-```
+Read <cc-polymath-root>/skills/mobile/react-native-native-modules.md
+Read <cc-polymath-root>/skills/mobile/react-native-navigation.md
+Read <cc-polymath-root>/skills/mobile/react-native-performance.md
+Read <cc-polymath-root>/skills/mobile/react-native-setup.md
+
 
 ## Progressive Loading
 
@@ -65,9 +63,9 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects mobile work
-2. **Browse skills**: Run `cat ~/.claude/skills/mobile/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read <cc-polymath-root>/skills/mobile/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 ---
 
-**Next Steps**: Run `cat ~/.claude/skills/mobile/INDEX.md` to see full category details.
+**Next Steps**: Run `Read <cc-polymath-root>/skills/mobile/INDEX.md` to see full category details.

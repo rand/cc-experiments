@@ -192,11 +192,11 @@ For handling concurrent work in different branches:
 
 ### Scenario
 
-```bash
+
 # Branch A creates: bd-400, bd-401, bd-402
 # Branch B creates: bd-400, bd-401, bd-403 (collision on IDs!)
 # Both branches merged to main
-```
+
 
 ### Resolution
 

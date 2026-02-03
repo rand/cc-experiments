@@ -423,12 +423,12 @@ git push origin main
 - Untested code reaches production
 - No audit trail
 
-```bash
+
 # CORRECT: Require PRs and reviews
 # Settings → Branches → Add rule for main
 # ✅ Require pull request reviews (2 approvals)
 # ✅ Require status checks
-```
+
 
 ### ❌ Hardcoded Secrets in Repository
 
@@ -502,10 +502,10 @@ git commit -m "Add issue and PR templates"
 
 ### ❌ Default Branch Named 'master'
 
-```bash
+
 # WRONG: Using outdated default branch name
 # main branch is called 'master'
-```
+
 
 ```bash
 # CORRECT: Use 'main' as default branch

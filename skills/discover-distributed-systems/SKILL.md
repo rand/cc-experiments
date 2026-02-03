@@ -47,9 +47,8 @@ The Distributed Systems category contains 17 skills:
 
 For complete descriptions and workflows:
 
-```bash
-cat ~/.claude/skills/distributed-systems/INDEX.md
-```
+Read <cc-polymath-root>/skills/distributed-systems/INDEX.md
+
 
 This loads the full Distributed Systems category index with:
 - Detailed skill descriptions
@@ -61,54 +60,48 @@ This loads the full Distributed Systems category index with:
 
 Load individual skills as needed:
 
-```bash
-cat ~/.claude/skills/distributed-systems/cap-theorem.md
-cat ~/.claude/skills/distributed-systems/consensus-raft.md
-cat ~/.claude/skills/distributed-systems/crdt-fundamentals.md
-cat ~/.claude/skills/distributed-systems/replication-strategies.md
-```
+Read <cc-polymath-root>/skills/distributed-systems/cap-theorem.md
+Read <cc-polymath-root>/skills/distributed-systems/consensus-raft.md
+Read <cc-polymath-root>/skills/distributed-systems/crdt-fundamentals.md
+Read <cc-polymath-root>/skills/distributed-systems/replication-strategies.md
+
 
 ## Common Workflows
 
 ### Understanding Consistency Trade-offs
-```bash
 # CAP → Eventual consistency → Conflict resolution
-cat ~/.claude/skills/distributed-systems/cap-theorem.md
-cat ~/.claude/skills/distributed-systems/eventual-consistency.md
-cat ~/.claude/skills/distributed-systems/conflict-resolution.md
-```
+Read <cc-polymath-root>/skills/distributed-systems/cap-theorem.md
+Read <cc-polymath-root>/skills/distributed-systems/eventual-consistency.md
+Read <cc-polymath-root>/skills/distributed-systems/conflict-resolution.md
+
 
 ### Implementing Consensus
-```bash
 # RAFT → Leader election → Replication
-cat ~/.claude/skills/distributed-systems/consensus-raft.md
-cat ~/.claude/skills/distributed-systems/leader-election.md
-cat ~/.claude/skills/distributed-systems/replication-strategies.md
-```
+Read <cc-polymath-root>/skills/distributed-systems/consensus-raft.md
+Read <cc-polymath-root>/skills/distributed-systems/leader-election.md
+Read <cc-polymath-root>/skills/distributed-systems/replication-strategies.md
+
 
 ### Building Eventually Consistent Systems
-```bash
 # CRDTs → Vector clocks → Conflict resolution
-cat ~/.claude/skills/distributed-systems/crdt-fundamentals.md
-cat ~/.claude/skills/distributed-systems/vector-clocks.md
-cat ~/.claude/skills/distributed-systems/conflict-resolution.md
-```
+Read <cc-polymath-root>/skills/distributed-systems/crdt-fundamentals.md
+Read <cc-polymath-root>/skills/distributed-systems/vector-clocks.md
+Read <cc-polymath-root>/skills/distributed-systems/conflict-resolution.md
+
 
 ### Advanced Causality Tracking
-```bash
 # Vector clocks → Dotted version vectors → Interval tree clocks
-cat ~/.claude/skills/distributed-systems/vector-clocks.md
-cat ~/.claude/skills/distributed-systems/dotted-version-vectors.md
-cat ~/.claude/skills/distributed-systems/interval-tree-clocks.md
-```
+Read <cc-polymath-root>/skills/distributed-systems/vector-clocks.md
+Read <cc-polymath-root>/skills/distributed-systems/dotted-version-vectors.md
+Read <cc-polymath-root>/skills/distributed-systems/interval-tree-clocks.md
+
 
 ### Scaling Data
-```bash
 # Partitioning → Replication → Gossip
-cat ~/.claude/skills/distributed-systems/partitioning-sharding.md
-cat ~/.claude/skills/distributed-systems/replication-strategies.md
-cat ~/.claude/skills/distributed-systems/gossip-protocols.md
-```
+Read <cc-polymath-root>/skills/distributed-systems/partitioning-sharding.md
+Read <cc-polymath-root>/skills/distributed-systems/replication-strategies.md
+Read <cc-polymath-root>/skills/distributed-systems/gossip-protocols.md
+
 
 ## Progressive Loading
 
@@ -120,9 +113,9 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects distributed systems work
-2. **Browse skills**: Run `cat ~/.claude/skills/distributed-systems/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read <cc-polymath-root>/skills/distributed-systems/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 ---
 
-**Next Steps**: Run `cat ~/.claude/skills/distributed-systems/INDEX.md` to see full category details.
+**Next Steps**: Run `Read <cc-polymath-root>/skills/distributed-systems/INDEX.md` to see full category details.

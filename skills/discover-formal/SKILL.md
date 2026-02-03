@@ -40,9 +40,8 @@ The Formal category contains 10 skills:
 
 For complete descriptions and workflows:
 
-```bash
-cat ~/.claude/skills/formal/INDEX.md
-```
+Read <cc-polymath-root>/skills/formal/INDEX.md
+
 
 This loads the full Formal category index with:
 - Detailed skill descriptions
@@ -54,13 +53,12 @@ This loads the full Formal category index with:
 
 Load individual skills as needed:
 
-```bash
-cat ~/.claude/skills/formal/backtracking-search.md
-cat ~/.claude/skills/formal/constraint-propagation.md
-cat ~/.claude/skills/formal/csp-modeling.md
-cat ~/.claude/skills/formal/lean-mathlib4.md
-cat ~/.claude/skills/formal/lean-proof-basics.md
-```
+Read <cc-polymath-root>/skills/formal/backtracking-search.md
+Read <cc-polymath-root>/skills/formal/constraint-propagation.md
+Read <cc-polymath-root>/skills/formal/csp-modeling.md
+Read <cc-polymath-root>/skills/formal/lean-mathlib4.md
+Read <cc-polymath-root>/skills/formal/lean-proof-basics.md
+
 
 ## Progressive Loading
 
@@ -72,9 +70,9 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects formal work
-2. **Browse skills**: Run `cat ~/.claude/skills/formal/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read <cc-polymath-root>/skills/formal/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 ---
 
-**Next Steps**: Run `cat ~/.claude/skills/formal/INDEX.md` to see full category details.
+**Next Steps**: Run `Read <cc-polymath-root>/skills/formal/INDEX.md` to see full category details.

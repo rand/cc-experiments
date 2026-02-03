@@ -4,7 +4,6 @@ description: Creating secure private networks (mesh VPN)
 ---
 
 
-
 # Tailscale VPN Setup
 
 **Use this skill when:**
@@ -402,13 +401,13 @@ tailscale up --authkey=$TAILSCALE_AUTH_KEY
 
 ### Enable MFA
 
-```bash
+
 # Enable in admin console
 # All users required to use MFA for authentication
 
 # Enforce key expiry
 # Set device authorization expiry
-```
+
 
 ## Monitoring
 

@@ -46,9 +46,8 @@ The Cloud category contains 13 skills:
 
 For complete descriptions and workflows:
 
-```bash
-cat ~/.claude/skills/cloud/INDEX.md
-```
+Read <cc-polymath-root>/skills/cloud/INDEX.md
+
 
 This loads the full Cloud category index with:
 - Detailed skill descriptions
@@ -60,24 +59,24 @@ This loads the full Cloud category index with:
 
 Load individual skills as needed:
 
-```bash
+
 # AWS Skills
-cat ~/.claude/skills/cloud/aws/aws-lambda-functions.md
-cat ~/.claude/skills/cloud/aws/aws-api-gateway.md
-cat ~/.claude/skills/cloud/aws/aws-databases.md
-cat ~/.claude/skills/cloud/aws/aws-iam-security.md
-cat ~/.claude/skills/cloud/aws/aws-storage.md
-cat ~/.claude/skills/cloud/aws/aws-ec2-compute.md
-cat ~/.claude/skills/cloud/aws/aws-networking.md
+Read <cc-polymath-root>/skills/cloud/aws/aws-lambda-functions.md
+Read <cc-polymath-root>/skills/cloud/aws/aws-api-gateway.md
+Read <cc-polymath-root>/skills/cloud/aws/aws-databases.md
+Read <cc-polymath-root>/skills/cloud/aws/aws-iam-security.md
+Read <cc-polymath-root>/skills/cloud/aws/aws-storage.md
+Read <cc-polymath-root>/skills/cloud/aws/aws-ec2-compute.md
+Read <cc-polymath-root>/skills/cloud/aws/aws-networking.md
 
 # GCP Skills
-cat ~/.claude/skills/cloud/gcp/gcp-serverless.md
-cat ~/.claude/skills/cloud/gcp/gcp-compute.md
-cat ~/.claude/skills/cloud/gcp/gcp-databases.md
-cat ~/.claude/skills/cloud/gcp/gcp-storage.md
-cat ~/.claude/skills/cloud/gcp/gcp-iam-security.md
-cat ~/.claude/skills/cloud/gcp/gcp-networking.md
-```
+Read <cc-polymath-root>/skills/cloud/gcp/gcp-serverless.md
+Read <cc-polymath-root>/skills/cloud/gcp/gcp-compute.md
+Read <cc-polymath-root>/skills/cloud/gcp/gcp-databases.md
+Read <cc-polymath-root>/skills/cloud/gcp/gcp-storage.md
+Read <cc-polymath-root>/skills/cloud/gcp/gcp-iam-security.md
+Read <cc-polymath-root>/skills/cloud/gcp/gcp-networking.md
+
 
 ## Progressive Loading
 
@@ -89,9 +88,9 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects cloud work
-2. **Browse skills**: Run `cat ~/.claude/skills/cloud/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read <cc-polymath-root>/skills/cloud/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 ---
 
-**Next Steps**: Run `cat ~/.claude/skills/cloud/INDEX.md` to see full category details.
+**Next Steps**: Run `Read <cc-polymath-root>/skills/cloud/INDEX.md` to see full category details.

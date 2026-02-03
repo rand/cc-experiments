@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # verify-install.sh - Verify cc-polymath plugin installation
 #
-# Usage: bash ~/.claude/plugins/cc-polymath/scripts/verify-install.sh
+# Usage: bash <cc-polymath-root>/scripts/verify-install.sh
 #
 # This script performs read-only checks to verify that cc-polymath is
 # installed correctly. It checks for:
@@ -81,7 +81,7 @@ fi
 
 # Check 5: No old manual installation conflict
 if [ -d "$HOME/.claude/skills" ] && [ ! -L "$HOME/.claude/skills" ]; then
-    echo "⚠ Old manual installation detected at ~/.claude/skills/"
+    echo "⚠ Old manual installation detected at <cc-polymath-root>/skills/"
     echo "  Consider migrating: see MIGRATION.md"
     echo "  This may cause conflicts with plugin installation"
     # Not a failure, just a warning

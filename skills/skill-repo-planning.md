@@ -301,16 +301,16 @@ Proposed: "kafka-redis-postgres-pipeline.md"
 
 ### Step 1: Run Discovery First
 
-```bash
+
 # Use skill-repo-discovery.md to catalog repository
 # Output: List of technologies, frameworks, patterns
-```
+
 
 ### Step 2: Compare Against Existing Skills
 
 ```bash
 # List existing skills
-ls /Users/rand/.claude/skills/*.md | xargs basename -s .md
+ls <cc-polymath-root>/skills/*.md | xargs basename -s .md
 
 # Check for gaps
 # Example: Found "FastAPI" in repo, but no fastapi-*.md skills
@@ -506,7 +506,7 @@ Proposed Skills:
 ```
 [ ] Run skill-repo-discovery.md first
 [ ] List all technologies/frameworks used
-[ ] Compare against existing skills (ls /Users/rand/.claude/skills/*.md)
+[ ] Compare against existing skills (ls <cc-polymath-root>/skills/*.md)
 [ ] Search for repeated imports/patterns (grep -rh "^import")
 [ ] Find custom libraries (grep -r "from internal")
 [ ] Analyze scripts/tooling (ls scripts/)
@@ -643,7 +643,7 @@ grep -rh "^from\|^import" --include="*.py" src/ | sort | uniq -c | sort -rn | he
 #   15 from fastapi import APIRouter
 
 # Step 3: Identify gaps
-ls /Users/rand/.claude/skills/*.md | grep -E "(redis|celery|stripe|fastapi)" | wc -l
+ls <cc-polymath-root>/skills/*.md | grep -E "(redis|celery|stripe|fastapi)" | wc -l
 # Output: 0 (no matching skills)
 
 # Step 4: Scope skills

@@ -11,9 +11,8 @@
 **Description**: Comprehensive guide to browser developer tools for debugging web applications. Covers Chrome/Firefox/Safari DevTools including Sources panel, breakpoints, performance profiling, memory analysis, network debugging, Console API, React/Vue debugging, and Lighthouse/Core Web Vitals.
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/debugging/browser-devtools.md
-```
+Read <cc-polymath-root>/skills/debugging/browser-devtools.md
+
 
 ---
 
@@ -21,9 +20,8 @@ cat ~/.claude/skills/debugging/browser-devtools.md
 **Description**: Race condition detection, deadlock debugging, and data race analysis using ThreadSanitizer and specialized tools
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/debugging/concurrency-debugging.md
-```
+Read <cc-polymath-root>/skills/debugging/concurrency-debugging.md
+
 
 ---
 
@@ -31,9 +29,8 @@ cat ~/.claude/skills/debugging/concurrency-debugging.md
 **Description**: Debugging applications inside containers using docker exec, kubectl debug, ephemeral containers, and distroless debugging techniques
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/debugging/container-debugging.md
-```
+Read <cc-polymath-root>/skills/debugging/container-debugging.md
+
 
 ---
 
@@ -41,9 +38,8 @@ cat ~/.claude/skills/debugging/container-debugging.md
 **Description**: Core dump generation, GDB/LLDB analysis, crash reporting, and post-mortem debugging across platforms
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/debugging/core-dump-analysis.md
-```
+Read <cc-polymath-root>/skills/debugging/core-dump-analysis.md
+
 
 ---
 
@@ -51,9 +47,8 @@ cat ~/.claude/skills/debugging/core-dump-analysis.md
 **Description**: Signal handling, crash reproduction, fuzzing for crash discovery, telemetry aggregation, and post-mortem workflows
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/debugging/crash-debugging.md
-```
+Read <cc-polymath-root>/skills/debugging/crash-debugging.md
+
 
 ---
 
@@ -61,9 +56,8 @@ cat ~/.claude/skills/debugging/crash-debugging.md
 **Description**: Debugging distributed systems with trace correlation, cross-service workflows, request replay, clock skew handling, and chaos engineering
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/debugging/distributed-systems-debugging.md
-```
+Read <cc-polymath-root>/skills/debugging/distributed-systems-debugging.md
+
 
 ---
 
@@ -71,9 +65,8 @@ cat ~/.claude/skills/debugging/distributed-systems-debugging.md
 **Description**: Comprehensive guide to GNU Debugger (GDB) for debugging C/C++/Rust programs. Covers breakpoints, stack traces, variable inspection, TUI mode, .gdbinit customization, Python scripting, remote debugging, and core file analysis.
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/debugging/gdb-fundamentals.md
-```
+Read <cc-polymath-root>/skills/debugging/gdb-fundamentals.md
+
 
 ---
 
@@ -81,9 +74,8 @@ cat ~/.claude/skills/debugging/gdb-fundamentals.md
 **Description**: Comprehensive guide to LLDB debugger for macOS/iOS development. Covers LLDB vs GDB differences, Swift/Objective-C debugging, Xcode integration, command-line usage, breakpoint expressions, watchpoints, Python scripting, and performance improvements (50x faster step-over in 2025).
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/debugging/lldb-macos-debugging.md
-```
+Read <cc-polymath-root>/skills/debugging/lldb-macos-debugging.md
+
 
 ---
 
@@ -91,9 +83,8 @@ cat ~/.claude/skills/debugging/lldb-macos-debugging.md
 **Description**: Comprehensive memory leak detection and debugging using heap profiling tools across multiple languages
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/debugging/memory-leak-debugging.md
-```
+Read <cc-polymath-root>/skills/debugging/memory-leak-debugging.md
+
 
 ---
 
@@ -101,9 +92,8 @@ cat ~/.claude/skills/debugging/memory-leak-debugging.md
 **Description**: Network debugging with tcpdump, Wireshark, curl, DNS tools, SSL/TLS inspection, and network tracing utilities
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/debugging/network-debugging.md
-```
+Read <cc-polymath-root>/skills/debugging/network-debugging.md
+
 
 ---
 
@@ -111,9 +101,8 @@ cat ~/.claude/skills/debugging/network-debugging.md
 **Description**: Performance profiling with CPU profilers (perf, pprof, py-spy), flame graphs, memory profiling (heaptrack, Valgrind), and profile-guided optimization
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/debugging/performance-profiling.md
-```
+Read <cc-polymath-root>/skills/debugging/performance-profiling.md
+
 
 ---
 
@@ -121,9 +110,8 @@ cat ~/.claude/skills/debugging/performance-profiling.md
 **Description**: Non-intrusive debugging in production environments with feature flags, dynamic logging, and observability correlation
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/debugging/production-debugging.md
-```
+Read <cc-polymath-root>/skills/debugging/production-debugging.md
+
 
 ---
 
@@ -131,9 +119,8 @@ cat ~/.claude/skills/debugging/production-debugging.md
 **Description**: Comprehensive guide to Python debugging tools and techniques. Covers pdb (built-in debugger), ipdb (IPython integration), VSCode debugger, PyCharm debugger, pytest debugging, remote debugging with debugpy, and performance profiling with cProfile.
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/debugging/python-debugging.md
-```
+Read <cc-polymath-root>/skills/debugging/python-debugging.md
+
 
 ---
 
@@ -141,9 +128,8 @@ cat ~/.claude/skills/debugging/python-debugging.md
 **Description**: Comprehensive guide to remote debugging techniques for production and development environments. Covers SSH port forwarding, VSCode Remote Development, JetBrains Gateway, container debugging (Docker), Kubernetes debugging, production-safe debugging, debug symbols, and source maps.
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/debugging/remote-debugging.md
-```
+Read <cc-polymath-root>/skills/debugging/remote-debugging.md
+
 
 ---
 
@@ -154,9 +140,9 @@ cat ~/.claude/skills/debugging/remote-debugging.md
 ls skills/debugging/*.md
 
 # Load specific skills
-cat ~/.claude/skills/debugging/browser-devtools.md
-cat ~/.claude/skills/debugging/concurrency-debugging.md
-cat ~/.claude/skills/debugging/container-debugging.md
+Read <cc-polymath-root>/skills/debugging/browser-devtools.md
+Read <cc-polymath-root>/skills/debugging/concurrency-debugging.md
+Read <cc-polymath-root>/skills/debugging/container-debugging.md
 # ... and 11 more
 ```
 
@@ -168,6 +154,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-debugging` gateway skill for common workflows and integration patterns.
 
-```bash
-cat ~/.claude/skills/discover-debugging/SKILL.md
-```
+Read <cc-polymath-root>/skills/discover-debugging/SKILL.md
+

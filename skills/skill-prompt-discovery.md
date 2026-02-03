@@ -4,7 +4,6 @@ description: User makes a request involving specific technologies or frameworks
 ---
 
 
-
 # Prompt Skill Discovery
 
 **Scope**: Analyzing user prompts/context to identify which existing skills should be activated

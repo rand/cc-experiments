@@ -4,7 +4,6 @@ description: Determine what code needs testing vs what to skip
 ---
 
 
-
 # Test Coverage Strategy
 
 ## When to Use This Skill

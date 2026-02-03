@@ -39,9 +39,8 @@ The Protocols category contains 8 skills:
 
 For complete descriptions and workflows:
 
-```bash
-cat ~/.claude/skills/protocols/INDEX.md
-```
+Read <cc-polymath-root>/skills/protocols/INDEX.md
+
 
 This loads the full Protocols category index with:
 - Detailed skill descriptions
@@ -53,50 +52,45 @@ This loads the full Protocols category index with:
 
 Load individual skills as needed:
 
-```bash
-cat ~/.claude/skills/protocols/grpc-implementation.md
-cat ~/.claude/skills/protocols/http2-multiplexing.md
-cat ~/.claude/skills/protocols/kafka-streams.md
-cat ~/.claude/skills/protocols/mqtt-messaging.md
-cat ~/.claude/skills/protocols/amqp-rabbitmq.md
-cat ~/.claude/skills/protocols/protobuf-schemas.md
-cat ~/.claude/skills/protocols/tcp-optimization.md
-cat ~/.claude/skills/protocols/websocket-protocols.md
-```
+Read <cc-polymath-root>/skills/protocols/grpc-implementation.md
+Read <cc-polymath-root>/skills/protocols/http2-multiplexing.md
+Read <cc-polymath-root>/skills/protocols/kafka-streams.md
+Read <cc-polymath-root>/skills/protocols/mqtt-messaging.md
+Read <cc-polymath-root>/skills/protocols/amqp-rabbitmq.md
+Read <cc-polymath-root>/skills/protocols/protobuf-schemas.md
+Read <cc-polymath-root>/skills/protocols/tcp-optimization.md
+Read <cc-polymath-root>/skills/protocols/websocket-protocols.md
+
 
 ## Common Workflows
 
 ### gRPC Microservices
-```bash
 # Schema design → gRPC implementation → Optimization
-cat ~/.claude/skills/protocols/protobuf-schemas.md
-cat ~/.claude/skills/protocols/grpc-implementation.md
-cat ~/.claude/skills/protocols/http2-multiplexing.md
-cat ~/.claude/skills/protocols/tcp-optimization.md
-```
+Read <cc-polymath-root>/skills/protocols/protobuf-schemas.md
+Read <cc-polymath-root>/skills/protocols/grpc-implementation.md
+Read <cc-polymath-root>/skills/protocols/http2-multiplexing.md
+Read <cc-polymath-root>/skills/protocols/tcp-optimization.md
+
 
 ### Event Streaming Pipeline
-```bash
 # Kafka setup → Stream processing → Schema evolution
-cat ~/.claude/skills/protocols/kafka-streams.md
-cat ~/.claude/skills/protocols/protobuf-schemas.md
-```
+Read <cc-polymath-root>/skills/protocols/kafka-streams.md
+Read <cc-polymath-root>/skills/protocols/protobuf-schemas.md
+
 
 ### Real-time IoT Platform
-```bash
 # MQTT for devices → RabbitMQ for backend → WebSockets for web
-cat ~/.claude/skills/protocols/mqtt-messaging.md
-cat ~/.claude/skills/protocols/amqp-rabbitmq.md
-cat ~/.claude/skills/protocols/websocket-protocols.md
-```
+Read <cc-polymath-root>/skills/protocols/mqtt-messaging.md
+Read <cc-polymath-root>/skills/protocols/amqp-rabbitmq.md
+Read <cc-polymath-root>/skills/protocols/websocket-protocols.md
+
 
 ### High-Performance Web Application
-```bash
 # HTTP/2 optimization → WebSocket for real-time → TCP tuning
-cat ~/.claude/skills/protocols/http2-multiplexing.md
-cat ~/.claude/skills/protocols/websocket-protocols.md
-cat ~/.claude/skills/protocols/tcp-optimization.md
-```
+Read <cc-polymath-root>/skills/protocols/http2-multiplexing.md
+Read <cc-polymath-root>/skills/protocols/websocket-protocols.md
+Read <cc-polymath-root>/skills/protocols/tcp-optimization.md
+
 
 ## Progressive Loading
 
@@ -108,9 +102,9 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects protocol work
-2. **Browse skills**: Run `cat ~/.claude/skills/protocols/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read <cc-polymath-root>/skills/protocols/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 ---
 
-**Next Steps**: Run `cat ~/.claude/skills/protocols/INDEX.md` to see full category details.
+**Next Steps**: Run `Read <cc-polymath-root>/skills/protocols/INDEX.md` to see full category details.

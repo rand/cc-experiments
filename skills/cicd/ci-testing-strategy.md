@@ -4,7 +4,6 @@ description: Designing test execution strategies for CI pipelines
 ---
 
 
-
 # CI Testing Strategy
 
 **Scope**: Test stages, parallel execution, test splitting, flaky test handling, and test result reporting in CI pipelines

@@ -4,7 +4,6 @@ description: Choosing state management solution
 ---
 
 
-
 # React State Management
 
 **Scope**: Context, Zustand, Jotai, Redux Toolkit, when to use each, state patterns

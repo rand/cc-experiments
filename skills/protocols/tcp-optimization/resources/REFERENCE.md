@@ -1510,10 +1510,10 @@ ACKs sent: ACK 2, ACK 2, ACK 2, ACK 2  (duplicate ACKs)
 **Trigger**: 3 duplicate ACKs (RFC 2581)
 
 **Configuration**:
-```bash
+
 # Duplicate ACK threshold (usually 3)
 # Note: This is typically hardcoded, not tunable via sysctl
-```
+
 
 ### Fast Recovery
 
@@ -1583,10 +1583,10 @@ Stay in fast recovery until all outstanding data ACKed
 ```
 
 **Configuration**:
-```bash
+
 # NewReno typically enabled by default (kernel implementation)
 # No explicit sysctl parameter
-```
+
 
 ### SACK-based Recovery
 
@@ -3615,7 +3615,7 @@ sysctl -w net.ipv4.tcp_window_scaling=0
 ```
 
 **5. Random tuning without measurement**:
-```bash
+
 # DON'T DO THIS
 # Copy settings from random blog posts
 # Apply tuning without testing
@@ -3626,10 +3626,10 @@ sysctl -w net.ipv4.tcp_window_scaling=0
 # Apply targeted tuning
 # Measure improvement
 # Document changes
-```
+
 
 **6. Same tuning everywhere**:
-```bash
+
 # DON'T DO THIS
 # Use same settings for all scenarios
 # Data center, WAN, mobile, etc.
@@ -3638,10 +3638,10 @@ sysctl -w net.ipv4.tcp_window_scaling=0
 # Tune for actual network characteristics
 # Measure BDP
 # Adjust for latency, bandwidth, loss
-```
+
 
 **7. Ignoring application layer**:
-```bash
+
 # DON'T EXPECT MAGIC
 # TCP tuning won't fix application bugs
 # Won't fix database query performance
@@ -3651,7 +3651,7 @@ sysctl -w net.ipv4.tcp_window_scaling=0
 # Profile application first
 # Fix application bottlenecks
 # Then optimize TCP
-```
+
 
 **8. Disabling SACK**:
 ```bash
@@ -3664,7 +3664,7 @@ sysctl -w net.ipv4.tcp_sack=0
 ```
 
 **9. Testing before committing changes**:
-```bash
+
 # DON'T DO THIS
 # Test code before git commit
 # Changes during test invalidate results
@@ -3673,10 +3673,10 @@ sysctl -w net.ipv4.tcp_sack=0
 # Git commit first
 # Then test committed code
 # Fix issues → commit again → re-test
-```
+
 
 **10. Front-loading all skills**:
-```bash
+
 # DON'T DO THIS
 # Load all TCP skills at session start
 # Waste context budget
@@ -3685,7 +3685,7 @@ sysctl -w net.ipv4.tcp_sack=0
 # Let Optimizer discover needed skills
 # Load on-demand based on task
 # Unload low-priority skills when constrained
-```
+
 
 ---
 

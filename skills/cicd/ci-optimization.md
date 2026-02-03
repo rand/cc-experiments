@@ -4,7 +4,6 @@ description: CI pipelines are taking too long (>10 minutes for feedback)
 ---
 
 
-
 # CI Optimization
 
 **Scope**: Pipeline speed optimization, caching strategies, parallelization, incremental builds, and resource efficiency

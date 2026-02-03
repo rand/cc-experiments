@@ -4,7 +4,6 @@ description: Creating database migrations for schema changes
 ---
 
 
-
 # PostgreSQL Migrations
 
 **Scope**: Database migrations, schema versioning, zero-downtime deployments

@@ -53384,7 +53384,7 @@
           "language": "bash",
           "line_count": 6,
           "complexity": "simple",
-          "code": "# List existing skills\nls /Users/rand/.claude/skills/*.md | xargs basename -s .md\n\n# Check for gaps\n# Example: Found \"FastAPI\" in repo, but no fastapi-*.md skills\n"
+          "code": "# List existing skills\nls <cc-polymath-root>/skills/*.md | xargs basename -s .md\n\n# Check for gaps\n# Example: Found \"FastAPI\" in repo, but no fastapi-*.md skills\n"
         },
         {
           "language": "bash",

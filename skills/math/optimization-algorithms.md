@@ -4,7 +4,6 @@ description: Machine learning model training (gradient descent, Adam, SGD)
 ---
 
 
-
 # Optimization Algorithms
 
 ## Metadata

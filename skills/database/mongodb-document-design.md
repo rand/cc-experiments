@@ -4,7 +4,6 @@ description: Designing MongoDB schemas
 ---
 
 
-
 # MongoDB Document Design
 
 **Scope**: Document modeling, embedding vs referencing, schema patterns

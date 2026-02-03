@@ -11,9 +11,8 @@
 **Description**: Building terminal UIs in Go
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/tui/bubbletea-architecture.md
-```
+Read <cc-polymath-root>/skills/tui/bubbletea-architecture.md
+
 
 ---
 
@@ -21,9 +20,8 @@ cat ~/.claude/skills/tui/bubbletea-architecture.md
 **Description**: Building UIs with pre-made components
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/tui/bubbletea-components.md
-```
+Read <cc-polymath-root>/skills/tui/bubbletea-components.md
+
 
 ---
 
@@ -31,9 +29,8 @@ cat ~/.claude/skills/tui/bubbletea-components.md
 **Description**: Building terminal UIs in Rust
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/tui/ratatui-architecture.md
-```
+Read <cc-polymath-root>/skills/tui/ratatui-architecture.md
+
 
 ---
 
@@ -41,9 +38,8 @@ cat ~/.claude/skills/tui/ratatui-architecture.md
 **Description**: Using Ratatui's built-in widgets
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/tui/ratatui-widgets.md
-```
+Read <cc-polymath-root>/skills/tui/ratatui-widgets.md
+
 
 ---
 
@@ -51,9 +47,8 @@ cat ~/.claude/skills/tui/ratatui-widgets.md
 **Description**: Designing terminal user interfaces
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/tui/tui-best-practices.md
-```
+Read <cc-polymath-root>/skills/tui/tui-best-practices.md
+
 
 ---
 
@@ -64,9 +59,9 @@ cat ~/.claude/skills/tui/tui-best-practices.md
 ls skills/tui/*.md
 
 # Load specific skills
-cat ~/.claude/skills/tui/bubbletea-architecture.md
-cat ~/.claude/skills/tui/bubbletea-components.md
-cat ~/.claude/skills/tui/ratatui-architecture.md
+Read <cc-polymath-root>/skills/tui/bubbletea-architecture.md
+Read <cc-polymath-root>/skills/tui/bubbletea-components.md
+Read <cc-polymath-root>/skills/tui/ratatui-architecture.md
 # ... and 2 more
 ```
 
@@ -78,6 +73,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-tui` gateway skill for common workflows and integration patterns.
 
-```bash
-cat ~/.claude/skills/discover-tui/SKILL.md
-```
+Read <cc-polymath-root>/skills/discover-tui/SKILL.md
+

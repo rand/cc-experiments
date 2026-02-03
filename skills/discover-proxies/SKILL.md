@@ -38,9 +38,8 @@ The Proxies category contains 7 skills:
 
 For complete descriptions and workflows:
 
-```bash
-cat ~/.claude/skills/proxies/INDEX.md
-```
+Read <cc-polymath-root>/skills/proxies/INDEX.md
+
 
 This loads the full Proxies category index with:
 - Detailed skill descriptions
@@ -52,55 +51,49 @@ This loads the full Proxies category index with:
 
 Load individual skills as needed:
 
-```bash
-cat ~/.claude/skills/proxies/forward-proxy.md
-cat ~/.claude/skills/proxies/reverse-proxy.md
-cat ~/.claude/skills/proxies/nginx-configuration.md
-cat ~/.claude/skills/proxies/traefik-configuration.md
-cat ~/.claude/skills/proxies/envoy-proxy.md
-cat ~/.claude/skills/proxies/cache-control.md
-cat ~/.claude/skills/proxies/nats-messaging.md
-```
+Read <cc-polymath-root>/skills/proxies/forward-proxy.md
+Read <cc-polymath-root>/skills/proxies/reverse-proxy.md
+Read <cc-polymath-root>/skills/proxies/nginx-configuration.md
+Read <cc-polymath-root>/skills/proxies/traefik-configuration.md
+Read <cc-polymath-root>/skills/proxies/envoy-proxy.md
+Read <cc-polymath-root>/skills/proxies/cache-control.md
+Read <cc-polymath-root>/skills/proxies/nats-messaging.md
+
 
 ## Common Workflows
 
 ### Setting Up Reverse Proxy
-```bash
 # Reverse proxy → Nginx/Traefik → Caching
-cat ~/.claude/skills/proxies/reverse-proxy.md
-cat ~/.claude/skills/proxies/nginx-configuration.md
-cat ~/.claude/skills/proxies/cache-control.md
-```
+Read <cc-polymath-root>/skills/proxies/reverse-proxy.md
+Read <cc-polymath-root>/skills/proxies/nginx-configuration.md
+Read <cc-polymath-root>/skills/proxies/cache-control.md
+
 
 ### Cloud-Native Proxy Stack
-```bash
 # Traefik → Service discovery → Let's Encrypt
-cat ~/.claude/skills/proxies/traefik-configuration.md
-cat ~/.claude/skills/proxies/reverse-proxy.md
-```
+Read <cc-polymath-root>/skills/proxies/traefik-configuration.md
+Read <cc-polymath-root>/skills/proxies/reverse-proxy.md
+
 
 ### Service Mesh and Observability
-```bash
 # Envoy → Advanced routing → Messaging
-cat ~/.claude/skills/proxies/envoy-proxy.md
-cat ~/.claude/skills/proxies/nats-messaging.md
-```
+Read <cc-polymath-root>/skills/proxies/envoy-proxy.md
+Read <cc-polymath-root>/skills/proxies/nats-messaging.md
+
 
 ### Caching and CDN Optimization
-```bash
 # HTTP caching → CDN patterns → Nginx
-cat ~/.claude/skills/proxies/cache-control.md
-cat ~/.claude/skills/proxies/nginx-configuration.md
-cat ~/.claude/skills/proxies/reverse-proxy.md
-```
+Read <cc-polymath-root>/skills/proxies/cache-control.md
+Read <cc-polymath-root>/skills/proxies/nginx-configuration.md
+Read <cc-polymath-root>/skills/proxies/reverse-proxy.md
+
 
 ### Microservices Communication
-```bash
 # NATS → Load balancing → Proxy patterns
-cat ~/.claude/skills/proxies/nats-messaging.md
-cat ~/.claude/skills/proxies/reverse-proxy.md
-cat ~/.claude/skills/proxies/envoy-proxy.md
-```
+Read <cc-polymath-root>/skills/proxies/nats-messaging.md
+Read <cc-polymath-root>/skills/proxies/reverse-proxy.md
+Read <cc-polymath-root>/skills/proxies/envoy-proxy.md
+
 
 ## Progressive Loading
 
@@ -112,9 +105,9 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects proxy/messaging work
-2. **Browse skills**: Run `cat ~/.claude/skills/proxies/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read <cc-polymath-root>/skills/proxies/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 ---
 
-**Next Steps**: Run `cat ~/.claude/skills/proxies/INDEX.md` to see full category details.
+**Next Steps**: Run `Read <cc-polymath-root>/skills/proxies/INDEX.md` to see full category details.

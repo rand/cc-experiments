@@ -4,7 +4,6 @@ description: Modeling scheduling problems (meetings, courses, jobs)
 ---
 
 
-
 # CSP Modeling
 
 **Scope**: Constraint satisfaction problem modeling, variables, domains, constraints, problem formulation

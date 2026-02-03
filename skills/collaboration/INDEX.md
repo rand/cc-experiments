@@ -11,9 +11,8 @@
 **Description**: Creating and following CodeTour walkthroughs for codebase understanding
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/collaboration/codetour-guided-walkthroughs.md
-```
+Read <cc-polymath-root>/skills/collaboration/codetour-guided-walkthroughs.md
+
 
 ---
 
@@ -24,7 +23,7 @@ cat ~/.claude/skills/collaboration/codetour-guided-walkthroughs.md
 ls skills/collaboration/*.md
 
 # Load specific skills
-cat ~/.claude/skills/collaboration/codetour-guided-walkthroughs.md
+Read <cc-polymath-root>/skills/collaboration/codetour-guided-walkthroughs.md
 ```
 
 ## Related Categories
@@ -35,6 +34,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-collaboration` gateway skill for common workflows and integration patterns.
 
-```bash
-cat ~/.claude/skills/discover-collaboration/SKILL.md
-```
+Read <cc-polymath-root>/skills/discover-collaboration/SKILL.md
+

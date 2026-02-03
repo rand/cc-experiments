@@ -33,10 +33,10 @@ Browse categories and load skills explicitly:
 ls -d skills/discover-*
 
 # Load a category overview
-cat ~/.claude/skills/api/INDEX.md
+Read <cc-polymath-root>/skills/api/INDEX.md
 
 # Load a specific skill
-cat ~/.claude/skills/api/rest-api-design.md
+Read <cc-polymath-root>/skills/api/rest-api-design.md
 ```
 
 ## Gateway Skills by Category
@@ -46,9 +46,8 @@ cat ~/.claude/skills/api/rest-api-design.md
 **Keywords**: API, REST, GraphQL, authentication, authorization, rate limiting
 **Skills**: REST API design, GraphQL schemas, authentication (JWT/OAuth), authorization (RBAC/ABAC), rate limiting, versioning, error handling
 
-```bash
-cat ~/.claude/skills/api/INDEX.md
-```
+Read <cc-polymath-root>/skills/api/INDEX.md
+
 
 ---
 
@@ -57,9 +56,8 @@ cat ~/.claude/skills/api/INDEX.md
 **Keywords**: database, SQL, PostgreSQL, MongoDB, Redis, query optimization
 **Skills**: PostgreSQL (schema, queries, migrations), MongoDB documents, Redis structures, connection pooling, ORMs, database selection
 
-```bash
-cat ~/.claude/skills/database/INDEX.md
-```
+Read <cc-polymath-root>/skills/database/INDEX.md
+
 
 ---
 
@@ -69,9 +67,8 @@ cat ~/.claude/skills/database/INDEX.md
 **Skills**: React patterns, Next.js App Router, state management, data fetching, forms, accessibility, performance, SEO
 **Note**: `elegant-design` is a separate Agent Skill for UI design work
 
-```bash
-cat ~/.claude/skills/frontend/INDEX.md
-```
+Read <cc-polymath-root>/skills/frontend/INDEX.md
+
 
 ---
 
@@ -80,9 +77,8 @@ cat ~/.claude/skills/frontend/INDEX.md
 **Keywords**: testing, tests, unit, integration, e2e, TDD, coverage
 **Skills**: Unit testing, integration testing, e2e testing, TDD, test coverage, performance testing
 
-```bash
-cat ~/.claude/skills/testing/INDEX.md
-```
+Read <cc-polymath-root>/skills/testing/INDEX.md
+
 
 ---
 
@@ -91,9 +87,8 @@ cat ~/.claude/skills/testing/INDEX.md
 **Keywords**: diagram, flowchart, sequence, architecture, ER, UML, Mermaid, visualization
 **Skills**: Flowcharts, sequence diagrams, class/state diagrams, ER diagrams, architecture (C4/block), charts (pie/XY/quadrant/radar), project diagrams (Gantt/timeline), specialized (Git/Sankey/mindmaps)
 
-```bash
-cat ~/.claude/skills/diagrams/INDEX.md
-```
+Read <cc-polymath-root>/skills/diagrams/INDEX.md
+
 
 ---
 
@@ -102,9 +97,8 @@ cat ~/.claude/skills/diagrams/INDEX.md
 **Keywords**: machine learning, ML, AI, models, training, embeddings, transformers
 **Skills**: Model training, inference, embeddings, RAG, evaluation, routing, fine-tuning, PyTorch, TensorFlow, Hugging Face
 
-```bash
-cat ~/.claude/skills/ml/INDEX.md
-```
+Read <cc-polymath-root>/skills/ml/INDEX.md
+
 
 ---
 
@@ -113,9 +107,8 @@ cat ~/.claude/skills/ml/INDEX.md
 **Keywords**: mathematics, algorithms, linear algebra, calculus, topology, category theory
 **Skills**: Linear algebra, calculus, topology, category theory, set theory, number theory, abstract algebra, graph theory, optimization
 
-```bash
-cat ~/.claude/skills/math/INDEX.md
-```
+Read <cc-polymath-root>/skills/math/INDEX.md
+
 
 ---
 
@@ -124,10 +117,9 @@ cat ~/.claude/skills/math/INDEX.md
 **Keywords**: design, UI, UX, accessibility, chat, terminal, code display, streaming
 **Skills**: World-class accessible interfaces, shadcn/ui, interactive components, design systems
 
-```bash
 # This is an Agent Skill - loads automatically when doing UI design work
-cat ~/.claude/skills/elegant-design/SKILL.md
-```
+Read <cc-polymath-root>/skills/elegant-design/SKILL.md
+
 
 ---
 
@@ -136,9 +128,8 @@ cat ~/.claude/skills/elegant-design/SKILL.md
 **Keywords**: debugging, GDB, LLDB, profiling, memory leaks, performance
 **Skills**: GDB/LLDB, Python debugging, browser DevTools, remote debugging, memory profiling, concurrency debugging
 
-```bash
-cat ~/.claude/skills/debugging/INDEX.md
-```
+Read <cc-polymath-root>/skills/debugging/INDEX.md
+
 
 ---
 
@@ -147,9 +138,8 @@ cat ~/.claude/skills/debugging/INDEX.md
 **Keywords**: compilers, parsers, type systems, interpreters, LLVM
 **Skills**: Parsing, type systems, code generation, compiler optimizations, LLVM, bytecode, interpreters
 
-```bash
-cat ~/.claude/skills/plt/INDEX.md
-```
+Read <cc-polymath-root>/skills/plt/INDEX.md
+
 
 ---
 
@@ -158,9 +148,8 @@ cat ~/.claude/skills/plt/INDEX.md
 **Keywords**: cloud, serverless, Modal, AWS, GCP, functions, deployment
 **Skills**: Modal platform, serverless patterns, cloud deployment, scaling, GPU workloads
 
-```bash
-cat ~/.claude/skills/cloud/INDEX.md
-```
+Read <cc-polymath-root>/skills/cloud/INDEX.md
+
 
 ---
 
@@ -169,9 +158,8 @@ cat ~/.claude/skills/cloud/INDEX.md
 **Keywords**: formal methods, SAT, SMT, Z3, Lean, theorem proving, verification
 **Skills**: SAT solving, SMT theory, Z3 solver, Lean theorem proving, constraint solving, formal verification
 
-```bash
-cat ~/.claude/skills/formal/INDEX.md
-```
+Read <cc-polymath-root>/skills/formal/INDEX.md
+
 
 ---
 
@@ -180,9 +168,8 @@ cat ~/.claude/skills/formal/INDEX.md
 **Keywords**: monitoring, logging, tracing, metrics, distributed tracing, alerts
 **Skills**: Structured logging, metrics instrumentation, distributed tracing, alerting, dashboard design
 
-```bash
-cat ~/.claude/skills/observability/INDEX.md
-```
+Read <cc-polymath-root>/skills/observability/INDEX.md
+
 
 ---
 
@@ -191,9 +178,8 @@ cat ~/.claude/skills/observability/INDEX.md
 **Keywords**: build systems, Make, CMake, Gradle, Maven, Bazel, compilation
 **Skills**: Make, CMake, Gradle, Maven, Bazel, cross-platform builds, build optimization
 
-```bash
-cat ~/.claude/skills/build-systems/INDEX.md
-```
+Read <cc-polymath-root>/skills/build-systems/INDEX.md
+
 
 ---
 
@@ -202,9 +188,8 @@ cat ~/.claude/skills/build-systems/INDEX.md
 **Keywords**: caching, cache, Redis, CDN, HTTP caching, performance
 **Skills**: Caching fundamentals, HTTP caching, CDN edge caching, Redis patterns, cache invalidation, Service Workers, monitoring
 
-```bash
-cat ~/.claude/skills/caching/INDEX.md
-```
+Read <cc-polymath-root>/skills/caching/INDEX.md
+
 
 ---
 
@@ -213,9 +198,8 @@ cat ~/.claude/skills/caching/INDEX.md
 **Keywords**: deployment, Netlify, Heroku, CI/CD, production, releases
 **Skills**: Netlify deployment/functions/optimization, Heroku deployment/addons/troubleshooting
 
-```bash
-cat ~/.claude/skills/deployment/INDEX.md
-```
+Read <cc-polymath-root>/skills/deployment/INDEX.md
+
 
 ---
 
@@ -224,9 +208,8 @@ cat ~/.claude/skills/deployment/INDEX.md
 **Keywords**: infrastructure, Terraform, IaC, Cloudflare Workers, security, DevOps
 **Skills**: Cloudflare Workers, infrastructure security, cost optimization, IaC patterns
 
-```bash
-cat ~/.claude/skills/infrastructure/INDEX.md
-```
+Read <cc-polymath-root>/skills/infrastructure/INDEX.md
+
 
 ---
 
@@ -235,10 +218,9 @@ cat ~/.claude/skills/infrastructure/INDEX.md
 **Keywords**: slop, AI patterns, code quality, content quality
 **Skills**: Detect and eliminate generic AI patterns in text, code, and design
 
-```bash
 # This is an Agent Skill - loads automatically for quality review
-cat ~/.claude/skills/anti-slop/SKILL.md
-```
+Read <cc-polymath-root>/skills/anti-slop/SKILL.md
+
 
 ---
 
@@ -247,10 +229,9 @@ cat ~/.claude/skills/anti-slop/SKILL.md
 **Keywords**: refactoring, typed holes, incremental refactoring, test-driven
 **Skills**: Systematic refactoring using typed holes methodology
 
-```bash
 # This is an Agent Skill - loads automatically for refactoring work
-cat ~/.claude/skills/typed-holes-refactor/SKILL.md
-```
+Read <cc-polymath-root>/skills/typed-holes-refactor/SKILL.md
+
 
 ---
 
@@ -259,9 +240,8 @@ cat ~/.claude/skills/typed-holes-refactor/SKILL.md
 **Keywords**: Docker, containers, Kubernetes, container security, docker-compose
 **Skills**: Dockerfile optimization, docker-compose, container security, networking, registry management
 
-```bash
-cat ~/.claude/skills/containers/INDEX.md
-```
+Read <cc-polymath-root>/skills/containers/INDEX.md
+
 
 ---
 
@@ -270,9 +250,8 @@ cat ~/.claude/skills/containers/INDEX.md
 **Keywords**: ETL, data pipelines, batch processing, stream processing, orchestration
 **Skills**: ETL patterns, batch processing, stream processing, pipeline orchestration, data validation
 
-```bash
-cat ~/.claude/skills/data/INDEX.md
-```
+Read <cc-polymath-root>/skills/data/INDEX.md
+
 
 ---
 
@@ -281,9 +260,8 @@ cat ~/.claude/skills/data/INDEX.md
 **Keywords**: iOS, Swift, SwiftUI, mobile, SwiftData, concurrency
 **Skills**: SwiftUI architecture, Swift concurrency, iOS networking, iOS testing
 
-```bash
-cat ~/.claude/skills/mobile/INDEX.md
-```
+Read <cc-polymath-root>/skills/mobile/INDEX.md
+
 
 ---
 
@@ -292,9 +270,8 @@ cat ~/.claude/skills/mobile/INDEX.md
 **Keywords**: CI/CD, GitHub Actions, automation, pipelines
 **Skills**: GitHub Actions, GitLab CI, pipeline patterns, deployment automation
 
-```bash
-cat ~/.claude/skills/cicd/INDEX.md
-```
+Read <cc-polymath-root>/skills/cicd/INDEX.md
+
 
 ---
 
@@ -303,9 +280,8 @@ cat ~/.claude/skills/cicd/INDEX.md
 **Keywords**: realtime, WebSockets, Server-Sent Events, streaming, pub/sub
 **Skills**: WebSocket patterns, SSE, real-time protocols, state synchronization
 
-```bash
-cat ~/.claude/skills/realtime/INDEX.md
-```
+Read <cc-polymath-root>/skills/realtime/INDEX.md
+
 
 ---
 
@@ -314,9 +290,8 @@ cat ~/.claude/skills/realtime/INDEX.md
 **Keywords**: WebAssembly, WASM, wasm-pack, Rust to WASM
 **Skills**: WASM fundamentals, Rust to WASM, WASM in browsers, WASI
 
-```bash
-cat ~/.claude/skills/wasm/INDEX.md
-```
+Read <cc-polymath-root>/skills/wasm/INDEX.md
+
 
 ---
 
@@ -325,9 +300,8 @@ cat ~/.claude/skills/wasm/INDEX.md
 **Keywords**: eBPF, kernel, tracing, networking, BPF
 **Skills**: eBPF fundamentals, tracing, networking, security monitoring
 
-```bash
-cat ~/.claude/skills/ebpf/INDEX.md
-```
+Read <cc-polymath-root>/skills/ebpf/INDEX.md
+
 
 ---
 
@@ -336,9 +310,8 @@ cat ~/.claude/skills/ebpf/INDEX.md
 **Keywords**: engineering practices, code review, technical leadership
 **Skills**: Code review, documentation, technical leadership, team practices
 
-```bash
-cat ~/.claude/skills/engineering/INDEX.md
-```
+Read <cc-polymath-root>/skills/engineering/INDEX.md
+
 
 ---
 
@@ -347,9 +320,8 @@ cat ~/.claude/skills/engineering/INDEX.md
 **Keywords**: product management, roadmap, strategy, prioritization
 **Skills**: Product strategy, roadmap planning, user research, prioritization
 
-```bash
-cat ~/.claude/skills/product/INDEX.md
-```
+Read <cc-polymath-root>/skills/product/INDEX.md
+
 
 ---
 
@@ -358,9 +330,8 @@ cat ~/.claude/skills/product/INDEX.md
 **Keywords**: collaboration, code review, documentation, pair programming
 **Skills**: Code review, documentation, pair programming, team workflows
 
-```bash
-cat ~/.claude/skills/collaboration/INDEX.md
-```
+Read <cc-polymath-root>/skills/collaboration/INDEX.md
+
 
 ---
 
@@ -369,9 +340,8 @@ cat ~/.claude/skills/collaboration/INDEX.md
 **Keywords**: IR, LLVM IR, intermediate representation, compiler optimizations
 **Skills**: LLVM IR, SSA form, code generation, IR optimizations
 
-```bash
-cat ~/.claude/skills/ir/INDEX.md
-```
+Read <cc-polymath-root>/skills/ir/INDEX.md
+
 
 ---
 
@@ -380,9 +350,8 @@ cat ~/.claude/skills/ir/INDEX.md
 **Keywords**: Modal, serverless functions, cloud deployment
 **Skills**: Modal functions basics, Modal scheduling
 
-```bash
-cat ~/.claude/skills/modal/INDEX.md
-```
+Read <cc-polymath-root>/skills/modal/INDEX.md
+
 
 ---
 
@@ -391,9 +360,8 @@ cat ~/.claude/skills/modal/INDEX.md
 **Keywords**: Beads, workflow, task management, synthesis, cleanup, consolidation, roadmap
 **Skills**: Beads workflow, dependency management, multi-session patterns, context strategies, project synthesis
 
-```bash
-cat ~/.claude/skills/workflow/INDEX.md
-```
+Read <cc-polymath-root>/skills/workflow/INDEX.md
+
 
 ---
 
@@ -438,8 +406,8 @@ Just start working. Claude Code will auto-activate relevant gateway skills.
 
 ### Browse Then Load
 1. Review this README for category overview
-2. Load category index: `cat ~/.claude/skills/{category}/INDEX.md`
-3. Load specific skill: `cat ~/.claude/skills/{category}/{skill}.md`
+2. Load category index: `Read <cc-polymath-root>/skills/{category}/INDEX.md`
+3. Load specific skill: `Read <cc-polymath-root>/skills/{category}/{skill}.md`
 
 ### Search by Keyword
 ```bash

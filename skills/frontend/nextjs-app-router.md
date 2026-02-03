@@ -4,7 +4,6 @@ description: Building Next.js 13+ applications
 ---
 
 
-
 # Next.js App Router
 
 **Scope**: App Router conventions, layouts, loading/error states, Server vs Client Components

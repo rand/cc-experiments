@@ -4,7 +4,6 @@ description: Calling C libraries from Zig
 ---
 
 
-
 # Zig C Interoperability
 
 **Use this skill when:**

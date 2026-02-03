@@ -4,7 +4,6 @@ description: Building terminal UIs in Go
 ---
 
 
-
 # Bubble Tea Architecture (Go TUI)
 
 **Use this skill when:**

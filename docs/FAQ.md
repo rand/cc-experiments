@@ -13,7 +13,7 @@ Open Claude Code and run:
 /plugin install cc-polymath@cc-polymath
 ```
 
-That's it. All 447 skills are immediately available and auto-discover as you work.
+That's it. All 400 skills are immediately available and auto-discover as you work.
 
 For local development, use:
 ```
@@ -26,7 +26,7 @@ No configuration needed. Skills auto-discover based on your project files and co
 
 To verify installation works:
 ```bash
-bash ~/.claude/plugins/cc-polymath/scripts/verify-install.sh
+bash <cc-polymath-root>/scripts/verify-install.sh
 ```
 
 ### Can I install manually instead of as a plugin?
@@ -108,7 +108,7 @@ Use manual commands to load what you need:
 /skills testing
 
 # Load a specific skill directly
-cat ~/.claude/plugins/cc-polymath/skills/api/rest-api-design.md
+Read <cc-polymath-root>/skills/api/rest-api-design.md
 ```
 
 Auto-discovery covers ~80% of common cases. Manual loading handles the rest.
@@ -131,9 +131,8 @@ Auto-discovery covers ~80% of common cases. Manual loading handles the rest.
 ```
 
 **Option 4: Load directly with cat** (if you know the exact path)
-```bash
-cat ~/.claude/plugins/cc-polymath/skills/database/postgres-query-optimization.md
-```
+Read <cc-polymath-root>/skills/database/postgres-query-optimization.md
+
 
 ### Can I load multiple skills at once?
 
@@ -212,7 +211,7 @@ Full list: `/skills list`
 
 ### How many skills are there?
 
-**447 total skills** across 31+ categories:
+**400 total skills** across 31+ categories:
 - 283 individual skills
 - 31 gateway skills (auto-discover)
 - 30 category indexes
@@ -298,7 +297,7 @@ Diagrams skills help create professional visuals for docs.
 
 Check installation:
 ```bash
-bash ~/.claude/plugins/cc-polymath/scripts/verify-install.sh
+bash <cc-polymath-root>/scripts/verify-install.sh
 ```
 
 If it fails, reinstall:
@@ -318,15 +317,14 @@ Try a clear prompt like: "I'm building a React app with TypeScript"
 You should see `discover-frontend` activate automatically.
 
 **Force load a skill**:
-```bash
-cat ~/.claude/plugins/cc-polymath/skills/discover-frontend/SKILL.md
-```
+Read <cc-polymath-root>/skills/discover-frontend/SKILL.md
+
 
 If that returns content, the installation is working. Auto-discovery may just need clearer keywords.
 
 **Run diagnostics**:
 ```bash
-bash ~/.claude/plugins/cc-polymath/scripts/diagnose.sh
+bash <cc-polymath-root>/scripts/diagnose.sh
 ```
 
 This reports what's installed and any configuration issues.
@@ -335,7 +333,7 @@ This reports what's installed and any configuration issues.
 
 Verify the plugin path is correct:
 ```bash
-ls ~/.claude/plugins/cc-polymath/skills/
+ls <cc-polymath-root>/skills/
 ```
 
 You should see skill directories. If empty or missing, reinstall the plugin.
@@ -374,7 +372,7 @@ If two plugins provide similar functionality, Claude intelligently selects which
 Just mention your framework naturally in a prompt. Skills auto-discover.
 
 **Check the README**:
-`~/.claude/plugins/cc-polymath/skills/README.md` lists all skills by framework.
+`<cc-polymath-root>/skills/README.md` lists all skills by framework.
 
 ### Can I contribute skills?
 
@@ -440,7 +438,7 @@ With cc-polymath, you spend context on your actual work, not documentation.
 
 | Approach | Granularity | Reusability | Context Efficiency |
 |----------|-------------|-------------|-------------------|
-| **cc-polymath** | Atomic (447 skills) | Compose freely | 98% savings |
+| **cc-polymath** | Atomic (400 skills) | Compose freely | 98% savings |
 | **Monolithic** | Large chapters | Load all-or-nothing | High overhead |
 | **Best for** | Precise knowledge | Flexible workflows | Efficient context |
 
@@ -461,7 +459,7 @@ Atomic skills let you load *exactly* what you need, no more. This precision is w
 
 **Troubleshooting**
 - [TROUBLESHOOTING.md](TROUBLESHOOTING.md) - Common issues and solutions
-- `bash ~/.claude/plugins/cc-polymath/scripts/diagnose.sh` - Automated diagnostics
+- `bash <cc-polymath-root>/scripts/diagnose.sh` - Automated diagnostics
 
 **Full Documentation**
 - [README.md](../README.md) - Complete project overview
@@ -470,7 +468,7 @@ Atomic skills let you load *exactly* what you need, no more. This precision is w
 **Explore Skills**
 - `/skills list` - All 31 categories
 - `/skills [topic]` - Search for specific topics
-- `cat ~/.claude/plugins/cc-polymath/skills/README.md` - Full skill catalog
+- `Read <cc-polymath-root>/skills/README.md` - Full skill catalog
 
 ---
 

@@ -4,7 +4,6 @@ description: Using Ratatui's built-in widgets
 ---
 
 
-
 # Ratatui Widgets
 
 **Use this skill when:**

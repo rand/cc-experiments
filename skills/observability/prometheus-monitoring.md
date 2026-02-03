@@ -4,7 +4,6 @@ description: Production-ready Prometheus monitoring and alerting
 ---
 
 
-
 # Prometheus Monitoring
 
 **Scope**: Prometheus, PromQL, recording rules, alerting rules, exporters, service discovery, federation

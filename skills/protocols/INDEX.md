@@ -301,16 +301,15 @@ Comprehensive skills for implementing network protocols, message queues, and com
 
 All skills are available in the `skills/protocols/` directory:
 
-```bash
-cat ~/.claude/skills/protocols/grpc-implementation.md
-cat ~/.claude/skills/protocols/http2-multiplexing.md
-cat ~/.claude/skills/protocols/kafka-streams.md
-cat ~/.claude/skills/protocols/mqtt-messaging.md
-cat ~/.claude/skills/protocols/amqp-rabbitmq.md
-cat ~/.claude/skills/protocols/protobuf-schemas.md
-cat ~/.claude/skills/protocols/tcp-optimization.md
-cat ~/.claude/skills/protocols/websocket-protocols.md
-```
+Read <cc-polymath-root>/skills/protocols/grpc-implementation.md
+Read <cc-polymath-root>/skills/protocols/http2-multiplexing.md
+Read <cc-polymath-root>/skills/protocols/kafka-streams.md
+Read <cc-polymath-root>/skills/protocols/mqtt-messaging.md
+Read <cc-polymath-root>/skills/protocols/amqp-rabbitmq.md
+Read <cc-polymath-root>/skills/protocols/protobuf-schemas.md
+Read <cc-polymath-root>/skills/protocols/tcp-optimization.md
+Read <cc-polymath-root>/skills/protocols/websocket-protocols.md
+
 
 **Pro tip**: Start with protocol selection based on your use case, then load specific implementation guides. Combine with infrastructure skills for production deployment.
 

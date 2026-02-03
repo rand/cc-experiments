@@ -1,7 +1,7 @@
 {
   "name": "cc-polymath",
-  "version": "2.0.0",
-  "description": "447 atomic, production-ready skills with gateway-based progressive loading for Claude Code. 31+ domains including API design, databases, ML, diagrams (Mermaid), mathematics, testing, infrastructure, cryptography, protocols, and more. Context-efficient three-tier architecture with auto-discovery gateways.",
+  "version": "3.0.0",
+  "description": "Efficient skill management system with progressive discovery — 400 production-ready skills across 31+ domains",
   "author": {
     "name": "rand"
   },
@@ -39,5 +39,8 @@
     "dspy",
     "context-efficient"
   ],
-  "commands": "./commands"
+  "skills": "./skills",
+  "agents": "./agents",
+  "commands": "./commands",
+  "hooks": "./hooks"
 }

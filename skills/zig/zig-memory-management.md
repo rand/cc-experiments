@@ -4,7 +4,6 @@ description: Managing memory in Zig
 ---
 
 
-
 # Zig Memory Management
 
 **Use this skill when:**

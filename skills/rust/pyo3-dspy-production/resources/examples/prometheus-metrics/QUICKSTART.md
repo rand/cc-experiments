@@ -213,10 +213,10 @@ open http://localhost:9090/targets
 ```
 
 **Grafana dashboard empty:**
-```bash
+
 # Wait 1-2 minutes for data to accumulate
 # Adjust time range in Grafana (top right)
-```
+
 
 ## Questions?
 

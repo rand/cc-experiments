@@ -598,13 +598,13 @@ void read_config() {
 
 ### ❌ Not Testing on Target Platforms
 
-```bash
+
 # WRONG: Only test on developer machine (macOS)
 # Ship to production (Linux) without testing
 
 # CORRECT: Use CI matrix to test all platforms
 # See CI/CD matrix example above
-```
+
 
 ### ❌ Mixing Platform-Specific APIs
 

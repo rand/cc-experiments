@@ -1054,7 +1054,7 @@ Comprehensive 800+ line guide covering:
 - Security considerations for tool execution
 - Cost optimization strategies
 
-**Load**: `cat ~/.claude/skills/rust/pyo3-dspy-agents/resources/REFERENCE.md`
+**Load**: `Read <cc-polymath-root>/skills/rust/pyo3-dspy-agents/resources/REFERENCE.md`
 
 ### Scripts
 

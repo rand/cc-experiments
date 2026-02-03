@@ -11,9 +11,8 @@
 **Description**: Service Workers, SharedWorkers, and multi-threading patterns
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/frontend/browser-concurrency.md
-```
+Read <cc-polymath-root>/skills/frontend/browser-concurrency.md
+
 
 ---
 
@@ -21,9 +20,8 @@ cat ~/.claude/skills/frontend/browser-concurrency.md
 **Description**: Optimizing application performance
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/frontend/frontend-performance.md
-```
+Read <cc-polymath-root>/skills/frontend/frontend-performance.md
+
 
 ---
 
@@ -31,9 +29,8 @@ cat ~/.claude/skills/frontend/frontend-performance.md
 **Description**: Building Next.js 13+ applications
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/frontend/nextjs-app-router.md
-```
+Read <cc-polymath-root>/skills/frontend/nextjs-app-router.md
+
 
 ---
 
@@ -41,9 +38,8 @@ cat ~/.claude/skills/frontend/nextjs-app-router.md
 **Description**: Implementing SEO for Next.js applications
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/frontend/nextjs-seo.md
-```
+Read <cc-polymath-root>/skills/frontend/nextjs-seo.md
+
 
 ---
 
@@ -51,9 +47,8 @@ cat ~/.claude/skills/frontend/nextjs-seo.md
 **Description**: Designing component architecture
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/frontend/react-component-patterns.md
-```
+Read <cc-polymath-root>/skills/frontend/react-component-patterns.md
+
 
 ---
 
@@ -61,9 +56,8 @@ cat ~/.claude/skills/frontend/react-component-patterns.md
 **Description**: Fetching data from APIs
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/frontend/react-data-fetching.md
-```
+Read <cc-polymath-root>/skills/frontend/react-data-fetching.md
+
 
 ---
 
@@ -71,9 +65,8 @@ cat ~/.claude/skills/frontend/react-data-fetching.md
 **Description**: Building complex forms
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/frontend/react-form-handling.md
-```
+Read <cc-polymath-root>/skills/frontend/react-form-handling.md
+
 
 ---
 
@@ -81,9 +74,8 @@ cat ~/.claude/skills/frontend/react-form-handling.md
 **Description**: Choosing state management solution
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/frontend/react-state-management.md
-```
+Read <cc-polymath-root>/skills/frontend/react-state-management.md
+
 
 ---
 
@@ -91,9 +83,8 @@ cat ~/.claude/skills/frontend/react-state-management.md
 **Description**: Building accessible web applications
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/frontend/web-accessibility.md
-```
+Read <cc-polymath-root>/skills/frontend/web-accessibility.md
+
 
 ---
 
@@ -101,9 +92,8 @@ cat ~/.claude/skills/frontend/web-accessibility.md
 **Description**: Offloading computation with Web Workers and message passing
 
 **Load this skill**:
-```bash
-cat ~/.claude/skills/frontend/web-workers.md
-```
+Read <cc-polymath-root>/skills/frontend/web-workers.md
+
 
 ---
 
@@ -114,9 +104,9 @@ cat ~/.claude/skills/frontend/web-workers.md
 ls skills/frontend/*.md
 
 # Load specific skills
-cat ~/.claude/skills/frontend/browser-concurrency.md
-cat ~/.claude/skills/frontend/frontend-performance.md
-cat ~/.claude/skills/frontend/nextjs-app-router.md
+Read <cc-polymath-root>/skills/frontend/browser-concurrency.md
+Read <cc-polymath-root>/skills/frontend/frontend-performance.md
+Read <cc-polymath-root>/skills/frontend/nextjs-app-router.md
 # ... and 7 more
 ```
 
@@ -128,6 +118,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-frontend` gateway skill for common workflows and integration patterns.
 
-```bash
-cat ~/.claude/skills/discover-frontend/SKILL.md
-```
+Read <cc-polymath-root>/skills/discover-frontend/SKILL.md
+
