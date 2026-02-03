@@ -1,6 +1,6 @@
 ---
 name: discover-build-systems
-description: Automatically discover build system skills when working with build systems. Activates for build-systems development tasks.
+description: Automatically discover build system skills when working with Make, CMake, Bazel, Gradle, Maven, Cargo, Meson, build automation, or compilation. Activates for build-systems development tasks.
 ---
 
 # Build Systems Skills Discovery

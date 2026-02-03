@@ -1,6 +1,6 @@
 ---
 name: discover-research
-description: Gateway skill for research methodology - automatically loads relevant research skills based on task context
+description: Automatically discover research methodology skills when working with research methodology, literature review, systematic review, evidence synthesis, academic research, or experimental design. Activates for research tasks.
 ---
 
 # Research Skills Discovery

@@ -1,6 +1,6 @@
 ---
 name: discover-ebpf
-description: Automatically discover eBPF and kernel skills when working with eBPF. Activates for ebpf development tasks.
+description: Automatically discover eBPF and kernel skills when working with eBPF, kernel tracing, XDP, kprobes, BPF, Linux kernel, or network filtering. Activates for eBPF development tasks.
 ---
 
 # Ebpf Skills Discovery

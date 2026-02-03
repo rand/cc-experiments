@@ -1,6 +1,6 @@
 ---
 name: discover-cicd
-description: Automatically discover CI/CD and automation skills when working with CI/CD. Activates for cicd development tasks.
+description: Automatically discover CI/CD and automation skills when working with GitHub Actions, Jenkins, GitLab CI, pipelines, continuous integration, continuous deployment, or automated testing. Activates for CI/CD development tasks.
 ---
 
 # Cicd Skills Discovery

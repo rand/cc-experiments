@@ -1,6 +1,6 @@
 ---
 name: discover-caching
-description: Automatically discover caching and performance skills when working with caching. Activates for caching development tasks.
+description: Automatically discover caching and performance skills when working with Redis, Memcached, CDN, cache invalidation, HTTP caching, distributed caching, or cache patterns. Activates for caching development tasks.
 ---
 
 # Caching Skills Discovery

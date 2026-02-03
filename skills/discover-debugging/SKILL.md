@@ -1,6 +1,6 @@
 ---
 name: discover-debugging
-description: Automatically discover debugging and profiling skills when working with debugging. Activates for debugging development tasks.
+description: Automatically discover debugging and profiling skills when working with GDB, LLDB, breakpoints, profiling, stack traces, memory leaks, core dumps, or performance profiling. Activates for debugging development tasks.
 ---
 
 # Debugging Skills Discovery

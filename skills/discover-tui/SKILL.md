@@ -1,6 +1,6 @@
 ---
 name: discover-tui
-description: Automatically discover terminal UI skills when working with terminal user interfaces. Activates for tui development tasks.
+description: Automatically discover terminal UI skills when working with terminal UI, Ratatui, Bubbletea, ncurses, TUI, terminal rendering, or command-line interface. Activates for TUI development tasks.
 ---
 
 # Tui Skills Discovery

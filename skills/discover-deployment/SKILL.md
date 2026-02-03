@@ -1,6 +1,6 @@
 ---
 name: discover-deployment
-description: Automatically discover deployment and release skills when working with deployment. Activates for deployment development tasks.
+description: Automatically discover deployment and release skills when working with Netlify, Heroku, blue-green, canary, rolling deployment, or platform deployment. Activates for deployment development tasks.
 ---
 
 # Deployment Skills Discovery

@@ -1,6 +1,6 @@
 ---
 name: discover-data
-description: Automatically discover data pipeline and ETL skills when working with ETL. Activates for data development tasks.
+description: Automatically discover data pipeline and ETL skills when working with ETL, data pipelines, streaming, batch processing, data validation, or pipeline orchestration. Activates for data development tasks.
 ---
 
 # Data Skills Discovery

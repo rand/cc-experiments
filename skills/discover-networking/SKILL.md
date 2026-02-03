@@ -1,6 +1,6 @@
 ---
 name: discover-networking
-description: Automatically discover networking and connectivity skills when working with networking. Activates for networking development tasks.
+description: Automatically discover networking and connectivity skills when working with TCP, UDP, DNS, mTLS, NAT traversal, SSH, Mosh, Tailscale, or network resilience. Activates for networking development tasks.
 ---
 
 # Networking Skills Discovery

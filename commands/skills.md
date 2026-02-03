@@ -232,7 +232,7 @@ SPECIALIZED:
   discover-modal (2)       - Modal functions, scheduling
   discover-engineering (4) - Code review, documentation, leadership
   discover-product (4)     - Product strategy, roadmaps
-  discover-collab (5)      - Collaboration, code review, pair programming
+  discover-collaboration (5)      - Collaboration, code review, pair programming
 
 AGENT SKILLS (Root):
   elegant-design          - UI/UX design, accessibility, design systems
@@ -300,8 +300,8 @@ Try:
 No project files detected in current directory.
 
 GENERAL-PURPOSE GATEWAYS:
-→ discover-collab - Collaboration, documentation, CodeTour walkthroughs
-  Load: Read <cc-polymath-root>/skills/discover-collab/SKILL.md
+→ discover-collaboration - Collaboration, documentation, CodeTour walkthroughs
+  Load: Read <cc-polymath-root>/skills/discover-collaboration/SKILL.md
 
 ROOT-LEVEL SKILLS:
 → beads-workflow.md - Multi-session task management

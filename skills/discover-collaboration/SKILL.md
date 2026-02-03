@@ -1,6 +1,6 @@
 ---
 name: discover-collaboration
-description: Automatically discover collaboration and teamwork skills when working with collaboration. Activates for collaboration development tasks.
+description: Automatically discover collaboration and teamwork skills when working with code review, pair programming, GitHub, pull requests, team workflows, or documentation. Activates for collaboration development tasks.
 ---
 
 # Collaboration Skills Discovery

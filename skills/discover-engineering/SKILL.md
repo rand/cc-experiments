@@ -1,6 +1,6 @@
 ---
 name: discover-engineering
-description: Automatically discover software engineering practice skills when working with engineering practices. Activates for engineering development tasks.
+description: Automatically discover software engineering practice skills when working with code review, documentation, pair programming, production debugging, performance profiling, deployment strategies, or software engineering practices. Activates for engineering development tasks.
 ---
 
 # Engineering Skills Discovery

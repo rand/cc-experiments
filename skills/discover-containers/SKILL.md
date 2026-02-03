@@ -1,6 +1,6 @@
 ---
 name: discover-containers
-description: Automatically discover container and Docker skills when working with Docker. Activates for containers development tasks.
+description: Automatically discover container skills when working with Docker, Dockerfile optimization, docker-compose, container networking, container security, container registries, or Kubernetes. Activates for containerization and orchestration tasks.
 ---
 
 # Containers Skills Discovery

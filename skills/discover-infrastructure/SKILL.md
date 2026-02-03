@@ -1,6 +1,6 @@
 ---
 name: discover-infrastructure
-description: Automatically discover infrastructure and DevOps skills when working with infrastructure. Activates for infrastructure development tasks.
+description: Automatically discover infrastructure and DevOps skills when working with Terraform, IaC, infrastructure as code, cloud platforms, Cloudflare Workers, or cost optimization. Activates for infrastructure development tasks.
 ---
 
 # Infrastructure Skills Discovery

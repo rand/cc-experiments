@@ -1,6 +1,6 @@
 ---
 name: discover-workflow
-description: Automatically discover workflow and task management skills when working with Beads. Activates for workflow development tasks.
+description: Automatically discover workflow and task management skills when working with task management, Beads, workflow automation, multi-session patterns, or project tracking. Activates for workflow development tasks.
 ---
 
 # Workflow Skills Discovery

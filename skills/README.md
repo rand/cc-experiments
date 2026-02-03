@@ -326,7 +326,7 @@ Read <cc-polymath-root>/skills/product/INDEX.md
 ---
 
 ### Collaboration (5 skills)
-**Gateway**: `discover-collab`
+**Gateway**: `discover-collaboration`
 **Keywords**: collaboration, code review, documentation, pair programming
 **Skills**: Code review, documentation, pair programming, team workflows
 

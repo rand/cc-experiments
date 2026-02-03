@@ -1,6 +1,6 @@
 ---
 name: discover-modal
-description: Automatically discover Modal platform skills when working with Modal. Activates for modal development tasks.
+description: Automatically discover Modal platform skills when working with Modal, serverless GPU, cloud functions, Modal.com, GPU workloads, web endpoints, or scheduled jobs. Activates for Modal development tasks.
 ---
 
 # Modal Skills Discovery

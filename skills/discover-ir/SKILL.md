@@ -1,6 +1,6 @@
 ---
 name: discover-ir
-description: Automatically discover intermediate representation and compiler skills when working with intermediate representation. Activates for ir development tasks.
+description: Automatically discover intermediate representation and compiler skills when working with LLVM IR, SSA, compiler optimization, intermediate representation, code generation, or optimization passes. Activates for IR development tasks.
 ---
 
 # Ir Skills Discovery

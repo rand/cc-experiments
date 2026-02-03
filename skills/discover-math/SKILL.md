@@ -1,6 +1,6 @@
 ---
 name: discover-math
-description: Automatically discover mathematics and algorithm skills when working with mathematics. Activates for math development tasks.
+description: Automatically discover mathematics and algorithm skills when working with linear algebra, calculus, optimization, statistics, probability, numerical methods, category theory, or topology. Activates for math development tasks.
 ---
 
 # Math Skills Discovery

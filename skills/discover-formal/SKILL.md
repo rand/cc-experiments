@@ -1,6 +1,6 @@
 ---
 name: discover-formal
-description: Automatically discover formal methods and verification skills when working with formal methods. Activates for formal development tasks.
+description: Automatically discover formal methods and verification skills when working with formal verification, Z3, SAT, SMT, Lean, theorem proving, model checking, or constraint solving. Activates for formal methods development tasks.
 ---
 
 # Formal Skills Discovery

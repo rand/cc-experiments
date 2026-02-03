@@ -1,6 +1,6 @@
 ---
 name: discover-zig
-description: Automatically discover Zig programming skills when working with Zig. Activates for zig development tasks.
+description: Automatically discover Zig programming skills when working with Zig, comptime, allocators, build.zig, safety, C interop, memory management, or systems programming. Activates for Zig development tasks.
 ---
 
 # Zig Skills Discovery

@@ -1,6 +1,6 @@
 ---
 name: discover-testing
-description: Automatically discover testing skills when working with testing. Activates for testing development tasks.
+description: Automatically discover testing skills when working with unit testing, integration testing, e2e testing, TDD, test coverage, mocking, pytest, Jest, or test automation. Activates for testing development tasks.
 ---
 
 # Testing Skills Discovery

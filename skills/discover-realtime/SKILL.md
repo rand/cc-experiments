@@ -1,6 +1,6 @@
 ---
 name: discover-realtime
-description: Automatically discover realtime communication skills when working with realtime. Activates for realtime development tasks.
+description: Automatically discover realtime communication skills when working with WebSocket, Server-Sent Events, SSE, pub/sub, real-time communication, or live updates. Activates for realtime development tasks.
 ---
 
 # Realtime Skills Discovery

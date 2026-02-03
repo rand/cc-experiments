@@ -1,6 +1,6 @@
 ---
 name: discover-product
-description: Automatically discover product management skills when working with product management. Activates for product development tasks.
+description: Automatically discover product management skills when working with product management, roadmap, user stories, prioritization, metrics, or product strategy. Activates for product development tasks.
 ---
 
 # Product Skills Discovery

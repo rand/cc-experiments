@@ -1,6 +1,6 @@
 ---
 name: discover-observability
-description: Automatically discover observability and monitoring skills when working with monitoring. Activates for observability development tasks.
+description: Automatically discover observability and monitoring skills when working with Prometheus, Grafana, distributed tracing, structured logging, metrics, alerting, dashboards, or monitoring. Activates for observability development tasks.
 ---
 
 # Observability Skills Discovery

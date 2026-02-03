@@ -328,7 +328,7 @@ package main
 import (
     "crypto/tls"
     "crypto/x509"
-    "io/ioutil"
+    "os"
     "net/http"
 )
 
@@ -340,7 +340,7 @@ func main() {
     }
 
     // Load CA cert
-    caCert, err := ioutil.ReadFile("ca.crt")
+    caCert, err := os.ReadFile("ca.crt")
     if err != nil {
         panic(err)
     }

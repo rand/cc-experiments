@@ -1,6 +1,6 @@
 ---
 name: discover-wasm
-description: Automatically discover WebAssembly skills when working with WebAssembly. Activates for wasm development tasks.
+description: Automatically discover WebAssembly skills when working with WebAssembly, WASM, WASI, wasm-bindgen, Rust to WASM, wasm-pack, or browser runtime. Activates for WASM development tasks.
 ---
 
 # Wasm Skills Discovery

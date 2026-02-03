@@ -1,6 +1,6 @@
 ---
 name: discover-plt
-description: Automatically discover programming language theory skills when working with compilers. Activates for plt development tasks.
+description: Automatically discover programming language theory skills when working with compilers, parsers, type systems, interpreters, grammars, language design, type theory, or abstract syntax tree. Activates for PLT development tasks.
 ---
 
 # Plt Skills Discovery

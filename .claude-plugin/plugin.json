@@ -42,5 +42,17 @@
   "skills": "./skills",
   "agents": "./agents",
   "commands": "./commands",
-  "hooks": "./hooks"
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'cc-polymath plugin root: ${CLAUDE_PLUGIN_ROOT}'"
+          }
+        ]
+      }
+    ]
+  }
 }

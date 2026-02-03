@@ -1,6 +1,6 @@
 ---
 name: discover-ml
-description: Automatically discover machine learning and AI skills when working with machine learning. Activates for ml development tasks.
+description: Automatically discover machine learning and AI skills when working with machine learning, PyTorch, training, inference, RAG, embeddings, fine-tuning, LLM, DSPy, HuggingFace, or diffusion models. Activates for ML development tasks.
 ---
 
 # Ml Skills Discovery

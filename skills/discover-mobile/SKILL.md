@@ -1,6 +1,6 @@
 ---
 name: discover-mobile
-description: Automatically discover mobile development skills when working with iOS. Activates for mobile development tasks.
+description: Automatically discover mobile development skills when working with iOS, Android, Swift, SwiftUI, React Native, mobile development, SwiftData, or app development. Activates for mobile development tasks.
 ---
 
 # Mobile Skills Discovery
