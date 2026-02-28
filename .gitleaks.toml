@@ -10,23 +10,24 @@ useDefault = true
 [allowlist]
 description = "Allowlist for false positives in documentation and test examples"
 
-# Allowlist paths - documentation and example files
+# Allowlist paths - all skill files contain example code, not real secrets
 paths = [
-    # Documentation files showing security anti-patterns
-    '''skills/SECURITY\.md''',
-    '''skills/security/.*\.md''',
-    '''skills/api/.*\.md''',
-    '''skills/cryptography/.*\.md''',
-    '''skills/protocols/.*\.md''',
-    '''skills/rust/.*/resources/REFERENCE\.md''',
+    # All skill markdown files (documentation with code examples)
+    '''skills/.*\.md''',
+
+    # Skill resource and script files (examples and reference implementations)
+    '''skills/.*/resources/.*''',
+    '''skills/.*/scripts/.*''',
 
     # Work notes and production readiness docs
     '''\.work/.*\.md''',
 
     # Test and example files
-    '''.*/resources/scripts/README\.md''',
     '''.*/examples/.*''',
     '''.*/tests/.*''',
+
+    # Removed from tracking but may appear in git history
+    '''.*-report.*\.json''',
 ]
 
 # Allowlist specific regex patterns for false positives

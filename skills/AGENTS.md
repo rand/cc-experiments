@@ -1,5 +1,5 @@
 ---
-name: AGENTS
+name: agents
 description: Agent Instructions
 ---
 
