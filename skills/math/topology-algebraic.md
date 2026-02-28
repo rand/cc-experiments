@@ -1,5 +1,5 @@
 ---
-name: topology-algebraic
+name: math-topology-algebraic
 description: Algebraic topology including fundamental groups, homology, homotopy theory, and computational topology
 ---
 

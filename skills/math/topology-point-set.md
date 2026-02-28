@@ -1,5 +1,5 @@
 ---
-name: topology-point-set
+name: math-topology-point-set
 description: Point-set topology, metric spaces, open/closed sets, continuity, compactness, separation axioms
 ---
 

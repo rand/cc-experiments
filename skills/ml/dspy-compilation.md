@@ -1,5 +1,5 @@
 ---
-name: dspy-compilation
+name: ml-dspy-compilation
 description: Advanced compilation patterns for DSPy including custom compilers, multi-stage optimization, and compilation pipelines
 ---
 

@@ -1,3 +1,8 @@
+---
+name: diagrams-index
+description: Index of Diagrams Skills
+---
+
 # Diagrams Skills
 
 ## Category Overview

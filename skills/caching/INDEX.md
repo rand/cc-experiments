@@ -1,3 +1,8 @@
+---
+name: caching-index
+description: Index of Caching Skills
+---
+
 # Caching Skills
 
 ## Category Overview
@@ -11,7 +16,7 @@
 **Description**: Cache invalidation patterns and techniques - time-based, event-based, key-based, and version-based invalidation for maintaining cache consistency.
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/caching/cache-invalidation-strategies.md
+Read cache-invalidation-strategies.md
 
 
 ---
@@ -20,7 +25,7 @@ Read <cc-polymath-root>/skills/caching/cache-invalidation-strategies.md
 **Description**: Measuring and optimizing cache performance - metrics, monitoring tools, alerts, load testing, and instrumentation for cache hit rates and latency.
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/caching/cache-performance-monitoring.md
+Read cache-performance-monitoring.md
 
 
 ---
@@ -29,7 +34,7 @@ Read <cc-polymath-root>/skills/caching/cache-performance-monitoring.md
 **Description**: Core caching concepts, patterns, eviction policies, and cache design principles for optimizing application performance
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/caching/caching-fundamentals.md
+Read caching-fundamentals.md
 
 
 ---
@@ -38,7 +43,7 @@ Read <cc-polymath-root>/skills/caching/caching-fundamentals.md
 **Description**: CDN and edge cache optimization with Cloudflare, Fastly, and CloudFront for global performance and reduced origin load
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/caching/cdn-edge-caching.md
+Read cdn-edge-caching.md
 
 
 ---
@@ -47,7 +52,7 @@ Read <cc-polymath-root>/skills/caching/cdn-edge-caching.md
 **Description**: Browser and HTTP cache layer optimization using cache headers, conditional requests, and validation strategies
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/caching/http-caching.md
+Read http-caching.md
 
 
 ---
@@ -56,7 +61,7 @@ Read <cc-polymath-root>/skills/caching/http-caching.md
 **Description**: Application-level caching with Redis - patterns, distributed caching, cache stampede prevention, and integration strategies for high-performance applications.
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/caching/redis-caching-patterns.md
+Read redis-caching-patterns.md
 
 
 ---
@@ -65,7 +70,7 @@ Read <cc-polymath-root>/skills/caching/redis-caching-patterns.md
 **Description**: Progressive Web App (PWA) caching with Service Workers - offline-first architecture, caching strategies, Workbox patterns, and modern browser caching.
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/caching/service-worker-caching.md
+Read service-worker-caching.md
 
 
 ---
@@ -77,9 +82,9 @@ Read <cc-polymath-root>/skills/caching/service-worker-caching.md
 ls skills/caching/*.md
 
 # Load specific skills
-Read <cc-polymath-root>/skills/caching/cache-invalidation-strategies.md
-Read <cc-polymath-root>/skills/caching/cache-performance-monitoring.md
-Read <cc-polymath-root>/skills/caching/caching-fundamentals.md
+Read cache-invalidation-strategies.md
+Read cache-performance-monitoring.md
+Read caching-fundamentals.md
 # ... and 4 more
 ```
 
@@ -89,7 +94,7 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 ---
 
-**Browse**: This index provides a quick reference. Load the `discover-caching` gateway skill for common workflows and integration patterns.
+**Browse**: This index provides a quick reference. Load the `discover-database` gateway skill for common workflows and integration patterns.
 
-Read <cc-polymath-root>/skills/discover-caching/SKILL.md
+Read ../discover-database/SKILL.md
 

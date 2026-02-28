@@ -8,7 +8,7 @@ The plugin system provides:
 - ✅ **One-command installation** - No scripts, no manual syncing
 - ✅ **Automatic updates** - Pull latest version with `/plugin update`
 - ✅ **Cleaner installation** - No files in `~/.claude/skills` or `~/.claude/commands`
-- ✅ **Better isolation** - Plugin data stays in `<cc-polymath-root>/`
+- ✅ **Better isolation** - Plugin data stays in `./`
 - ✅ **Version management** - Track which version you're using
 - ✅ **Marketplace distribution** - Discover and share plugins easily
 
@@ -54,7 +54,7 @@ Install cc-polymath as a plugin:
 ```
 
 That's it! The plugin system will:
-- Download all 410+ skills to `<cc-polymath-root>/skills/`
+- Download all 410+ skills to `skills`
 - Register the `/skills` command automatically
 - Make everything available immediately
 
@@ -86,10 +86,10 @@ If you customized any skills, you can copy them to the plugin directory:
 ```bash
 # Example: Restore a custom skill
 cp ~/.claude/skills.backup/custom/my-skill.md \
-   <cc-polymath-root>/skills/custom/my-skill.md
+   skills/custom/my-skill.md
 ```
 
-**Note:** The plugin directory is at `<cc-polymath-root>/`, not `<cc-polymath-root>/skills/`.
+**Note:** The plugin directory is at `./`, not `skills`.
 
 ## What Changed
 
@@ -97,14 +97,14 @@ cp ~/.claude/skills.backup/custom/my-skill.md \
 
 **Before (Manual):**
 ```
-<cc-polymath-root>/skills/          # Skills directory
+skills          # Skills directory
 ~/.claude/commands/        # Commands directory
 ```
 
 **After (Plugin):**
 ```
-<cc-polymath-root>/skills/      # Skills
-<cc-polymath-root>/commands/    # Commands
+skills      # Skills
+commands    # Commands
 ```
 
 ### Installation Method
@@ -193,7 +193,7 @@ All existing workflows continue to work:
 **Solution:**
 ```bash
 # Check plugin directory exists
-ls <cc-polymath-root>/skills/
+ls skills
 
 # If empty, reinstall plugin
 /plugin uninstall cc-polymath
@@ -202,7 +202,7 @@ ls <cc-polymath-root>/skills/
 
 ### Want to keep both installations?
 
-You can keep the manual installation in `<cc-polymath-root>/skills/` for reference, but:
+You can keep the manual installation in `skills` for reference, but:
 - Only the plugin version will be used by `/skills` command
 - Gateway skills will activate from plugin location
 - This may cause confusion - recommended to remove manual installation
@@ -232,7 +232,7 @@ cp ~/.claude/commands.backup/skills.md ~/.claude/commands/skills.md
 ```
 
 **Manual:**
-Read <cc-polymath-root>/skills/README.md | grep "Version:"
+Read skills/README.md | grep "Version:"
 
 
 ### Can I install both?
@@ -241,7 +241,7 @@ Technically yes, but not recommended. The plugin system will take precedence for
 
 ### Will my custom skills be lost?
 
-No, but you need to manually copy them from `<cc-polymath-root>/skills/` to `<cc-polymath-root>/skills/` after installing the plugin.
+No, but you need to manually copy them from `skills` to `skills` after installing the plugin.
 
 ### How do I contribute updates?
 
@@ -264,7 +264,7 @@ After migration:
 
 If you encounter issues during migration:
 1. Check this guide's troubleshooting section
-2. Review plugin documentation: `Read <cc-polymath-root>/PLUGIN.md`
+2. Review plugin documentation: `Read PLUGIN.md`
 3. Open an issue: https://github.com/rand/cc-polymath/issues
 
 ---

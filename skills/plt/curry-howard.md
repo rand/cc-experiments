@@ -1,5 +1,5 @@
 ---
-name: curry-howard
+name: plt-curry-howard
 description: Curry-Howard correspondence relating proofs and programs, propositions and types
 ---
 

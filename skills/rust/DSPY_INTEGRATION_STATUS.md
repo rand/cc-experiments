@@ -1,3 +1,8 @@
+---
+name: rust-DSPY_INTEGRATION_STATUS
+description: DSPy + PyO3 Integration Skills - Implementation Status
+---
+
 # DSPy + PyO3 Integration Skills - Implementation Status
 
 ## Project Overview

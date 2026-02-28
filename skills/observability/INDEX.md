@@ -1,3 +1,8 @@
+---
+name: observability-index
+description: Index of Observability Skills
+---
+
 # Observability Skills
 
 ## Category Overview
@@ -11,7 +16,7 @@
 **Description**: Setting up production monitoring and on-call rotation
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/observability/alerting-strategy.md
+Read alerting-strategy.md
 
 
 ---
@@ -20,7 +25,7 @@ Read <cc-polymath-root>/skills/observability/alerting-strategy.md
 **Description**: Building Grafana dashboards for service monitoring
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/observability/dashboard-design.md
+Read dashboard-design.md
 
 
 ---
@@ -29,7 +34,7 @@ Read <cc-polymath-root>/skills/observability/dashboard-design.md
 **Description**: Debugging latency issues in microservices
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/observability/distributed-tracing.md
+Read distributed-tracing.md
 
 
 ---
@@ -38,7 +43,7 @@ Read <cc-polymath-root>/skills/observability/distributed-tracing.md
 **Description**: Instrumenting applications for observability
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/observability/metrics-instrumentation.md
+Read metrics-instrumentation.md
 
 
 ---
@@ -47,7 +52,7 @@ Read <cc-polymath-root>/skills/observability/metrics-instrumentation.md
 **Description**: Optimizing observability costs through sampling, cardinality management, and retention strategies
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/observability/observability-cost-optimization.md
+Read observability-cost-optimization.md
 
 
 ---
@@ -56,7 +61,7 @@ Read <cc-polymath-root>/skills/observability/observability-cost-optimization.md
 **Description**: Integrating OpenTelemetry for unified observability (traces, metrics, logs)
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/observability/opentelemetry-integration.md
+Read opentelemetry-integration.md
 
 
 ---
@@ -65,7 +70,7 @@ Read <cc-polymath-root>/skills/observability/opentelemetry-integration.md
 **Description**: Debugging production incidents using observability data (logs, metrics, traces)
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/observability/production-incident-debugging.md
+Read production-incident-debugging.md
 
 
 ---
@@ -74,7 +79,7 @@ Read <cc-polymath-root>/skills/observability/production-incident-debugging.md
 **Description**: Setting up application logging infrastructure
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/observability/structured-logging.md
+Read structured-logging.md
 
 
 ---
@@ -86,9 +91,9 @@ Read <cc-polymath-root>/skills/observability/structured-logging.md
 ls skills/observability/*.md
 
 # Load specific skills
-Read <cc-polymath-root>/skills/observability/alerting-strategy.md
-Read <cc-polymath-root>/skills/observability/dashboard-design.md
-Read <cc-polymath-root>/skills/observability/distributed-tracing.md
+Read alerting-strategy.md
+Read dashboard-design.md
+Read distributed-tracing.md
 # ... and 5 more
 ```
 
@@ -98,7 +103,7 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 ---
 
-**Browse**: This index provides a quick reference. Load the `discover-observability` gateway skill for common workflows and integration patterns.
+**Browse**: This index provides a quick reference. Load the `discover-debugging` gateway skill for common workflows and integration patterns.
 
-Read <cc-polymath-root>/skills/discover-observability/SKILL.md
+Read ../discover-debugging/SKILL.md
 

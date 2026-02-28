@@ -1,5 +1,5 @@
 ---
-name: dspy-debugging
+name: ml-dspy-debugging
 description: Debugging patterns for DSPy programs including trace analysis, prompt inspection, profiling, and visualization
 ---
 

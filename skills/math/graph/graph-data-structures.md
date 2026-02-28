@@ -1,5 +1,5 @@
 ---
-name: Graph Data Structures
+name: math-graph-data-structures
 description: Efficient graph representations including adjacency matrices, adjacency lists, edge lists, and specialized structures with space-time tradeoffs
 ---
 

@@ -1,3 +1,8 @@
+---
+name: elegant-design-chat-and-messaging
+description: Chat and Messaging Interfaces
+---
+
 # Chat and Messaging Interfaces
 
 Chat is a conversation, not a document. Design for flow and readability.

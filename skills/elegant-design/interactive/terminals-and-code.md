@@ -1,3 +1,8 @@
+---
+name: elegant-design-terminals-and-code
+description: Terminals and Code Display
+---
+
 # Terminals and Code Display
 
 Terminals and code blocks need to be readable, beautiful, and functional.

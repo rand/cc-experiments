@@ -1,5 +1,5 @@
 ---
-name: codetour-guided-walkthroughs
+name: collaboration-codetour-guided-walkthroughs
 description: Creating and following CodeTour walkthroughs for codebase understanding
 ---
 

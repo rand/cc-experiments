@@ -1,3 +1,8 @@
+---
+name: deployment-index
+description: Index of Deployment Skills
+---
+
 # Deployment Skills
 
 ## Category Overview
@@ -11,7 +16,7 @@
 **Description**: Adding databases (Postgres, MySQL, MongoDB) to Heroku apps
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/deployment/heroku-addons.md
+Read heroku-addons.md
 
 
 ---
@@ -20,7 +25,7 @@ Read <cc-polymath-root>/skills/deployment/heroku-addons.md
 **Description**: Deploying web applications, APIs, or worker processes to Heroku
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/deployment/heroku-deployment.md
+Read heroku-deployment.md
 
 
 ---
@@ -29,7 +34,7 @@ Read <cc-polymath-root>/skills/deployment/heroku-deployment.md
 **Description**: Application crashes on Heroku with H10, H12, H13, H14 errors
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/deployment/heroku-troubleshooting.md
+Read heroku-troubleshooting.md
 
 
 ---
@@ -38,7 +43,7 @@ Read <cc-polymath-root>/skills/deployment/heroku-troubleshooting.md
 **Description**: Deploying static sites, JAMstack apps, or frontend frameworks to Netlify
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/deployment/netlify-deployment.md
+Read netlify-deployment.md
 
 
 ---
@@ -47,7 +52,7 @@ Read <cc-polymath-root>/skills/deployment/netlify-deployment.md
 **Description**: Building API endpoints for JAMstack applications
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/deployment/netlify-functions.md
+Read netlify-functions.md
 
 
 ---
@@ -56,7 +61,7 @@ Read <cc-polymath-root>/skills/deployment/netlify-functions.md
 **Description**: Improving site load times and Core Web Vitals
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/deployment/netlify-optimization.md
+Read netlify-optimization.md
 
 
 ---
@@ -68,9 +73,9 @@ Read <cc-polymath-root>/skills/deployment/netlify-optimization.md
 ls skills/deployment/*.md
 
 # Load specific skills
-Read <cc-polymath-root>/skills/deployment/heroku-addons.md
-Read <cc-polymath-root>/skills/deployment/heroku-deployment.md
-Read <cc-polymath-root>/skills/deployment/heroku-troubleshooting.md
+Read heroku-addons.md
+Read heroku-deployment.md
+Read heroku-troubleshooting.md
 # ... and 3 more
 ```
 
@@ -80,7 +85,7 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 ---
 
-**Browse**: This index provides a quick reference. Load the `discover-deployment` gateway skill for common workflows and integration patterns.
+**Browse**: This index provides a quick reference. Load the `discover-infra` gateway skill for common workflows and integration patterns.
 
-Read <cc-polymath-root>/skills/discover-deployment/SKILL.md
+Read ../discover-infra/SKILL.md
 

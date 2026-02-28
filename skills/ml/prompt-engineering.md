@@ -401,8 +401,8 @@ The "after" version produces consistent, predictable output because every axis o
 
 ## Related Skills
 
-- `<cc-polymath-root>/skills/ml/llm-model-selection.md` -- Choosing the right model for the task
-- `<cc-polymath-root>/skills/ml/llm-evaluation-frameworks.md` -- Systematic evaluation approaches
-- `<cc-polymath-root>/skills/ml/dspy-signatures.md` -- Programmatic prompt optimization with DSPy
-- `<cc-polymath-root>/skills/ml/llm-as-judge.md` -- Using LLMs to evaluate LLM outputs
-- `<cc-polymath-root>/skills/ml/rag-evaluation-metrics.md` -- Evaluating retrieval-augmented generation
+- `llm-model-selection.md` -- Choosing the right model for the task
+- `llm-evaluation-frameworks.md` -- Systematic evaluation approaches
+- `dspy-signatures.md` -- Programmatic prompt optimization with DSPy
+- `llm-as-judge.md` -- Using LLMs to evaluate LLM outputs
+- `rag-evaluation-metrics.md` -- Evaluating retrieval-augmented generation

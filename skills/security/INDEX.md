@@ -1,3 +1,8 @@
+---
+name: security-index
+description: Index of Security Skills
+---
+
 # Security Skills
 
 Comprehensive skills for application security, vulnerability assessment, and security best practices.
@@ -254,7 +259,7 @@ Comprehensive skills for application security, vulnerability assessment, and sec
 
 ---
 
-### With Infrastructure Skills (`discover-infrastructure`, `discover-cloud`)
+### With Infrastructure Skills (`discover-infra`, `discover-infra`)
 - Secrets management in Kubernetes
 - Container security scanning
 - TLS/SSL certificate management
@@ -333,12 +338,12 @@ Comprehensive skills for application security, vulnerability assessment, and sec
 
 All skills are available in the `skills/security/` directory:
 
-Read <cc-polymath-root>/skills/security/authentication.md
-Read <cc-polymath-root>/skills/security/authorization.md
-Read <cc-polymath-root>/skills/security/input-validation.md
-Read <cc-polymath-root>/skills/security/security-headers.md
-Read <cc-polymath-root>/skills/security/vulnerability-assessment.md
-Read <cc-polymath-root>/skills/security/secrets-management.md
+Read authentication.md
+Read authorization.md
+Read input-validation.md
+Read security-headers.md
+Read vulnerability-assessment.md
+Read secrets-management.md
 
 
 **Pro tip**: Start with authentication and authorization (identity/access), then add input validation and security headers (protection), then implement vulnerability assessment and secrets management (operations).
@@ -373,7 +378,7 @@ Read <cc-polymath-root>/skills/security/secrets-management.md
 - `discover-api` - API authentication and authorization
 - `discover-database` - Database security and SQL injection prevention
 - `discover-cryptography` - Encryption, hashing, TLS/SSL
-- `discover-infrastructure` - Network security, container security
+- `discover-infra` - Network security, container security
 - `discover-testing` - Security testing and penetration tests
 
 ---

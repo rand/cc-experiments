@@ -1,5 +1,5 @@
 ---
-name: pyo3-dspy-rag-pipelines
+name: rust-pyo3-dspy-rag-pipelines
 description: RAG pipelines with DSPy from Rust - ChromaDB/Qdrant/Pinecone integration, retrieval modules, context management
 skill_id: rust-pyo3-dspy-rag-pipelines
 title: PyO3 DSPy RAG Pipelines
@@ -1125,7 +1125,7 @@ Comprehensive 900+ line guide covering:
 - Memory management for large corpora
 - Distributed retrieval patterns
 
-**Load**: `Read <cc-polymath-root>/skills/rust/pyo3-dspy-rag-pipelines/resources/REFERENCE.md`
+**Load**: `Read pyo3-dspy-rag-pipelines/resources/REFERENCE.md`
 
 ### Scripts
 

@@ -1,5 +1,5 @@
 ---
-name: ratatui-widgets
+name: tui-ratatui-widgets
 description: Using Ratatui's built-in widgets
 ---
 

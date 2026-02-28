@@ -1,5 +1,5 @@
 ---
-name: ios-networking
+name: mobile-ios-networking
 description: Building network layers for iOS/macOS apps
 ---
 

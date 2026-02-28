@@ -1,5 +1,5 @@
 ---
-name: dspy-testing
+name: ml-dspy-testing
 description: Testing patterns for DSPy programs including unit, integration, property-based, and regression testing
 ---
 

@@ -1,3 +1,8 @@
+---
+name: rust-index
+description: Index of Rust Skills
+---
+
 # Rust Skills
 
 ## Category Overview
@@ -12,7 +17,7 @@
 **Description**: PyO3 fundamentals including project setup, type conversion basics, error handling, Python/Rust FFI, memory safety, cross-language debugging, and memory profiling
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/rust/pyo3-fundamentals.md
+Read pyo3-fundamentals.md
 
 
 ---
@@ -21,7 +26,7 @@ Read <cc-polymath-root>/skills/rust/pyo3-fundamentals.md
 **Description**: PyO3 classes and modules including #[pyclass], #[pymethods], class hierarchies, inheritance, Python protocols, module organization, plugin architecture, and hot-reload patterns
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/rust/pyo3-classes-modules.md
+Read pyo3-classes-modules.md
 
 
 ---
@@ -30,7 +35,7 @@ Read <cc-polymath-root>/skills/rust/pyo3-classes-modules.md
 **Description**: Advanced PyO3 type conversion including zero-copy operations with numpy arrays, Arrow/Parquet integration, custom conversion protocols, buffer protocol, sequence/mapping protocols, and iterator patterns
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/rust/pyo3-type-conversion-advanced.md
+Read pyo3-type-conversion-advanced.md
 
 
 ---
@@ -39,7 +44,7 @@ Read <cc-polymath-root>/skills/rust/pyo3-type-conversion-advanced.md
 **Description**: PyO3 performance optimization including GIL management, parallel execution patterns, sub-interpreters (PEP 554), free-threaded Python (PEP 703/nogil), custom allocators, and lock-free data structures
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/rust/pyo3-performance-gil-parallel.md
+Read pyo3-performance-gil-parallel.md
 
 
 ---
@@ -48,7 +53,7 @@ Read <cc-polymath-root>/skills/rust/pyo3-performance-gil-parallel.md
 **Description**: PyO3 async integration and embedded Python including pyo3-asyncio, tokio/asyncio bridges, embedded Python in Rust binaries, WASM compilation with Pyodide, WASI support, and browser execution
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/rust/pyo3-async-embedded-wasm.md
+Read pyo3-async-embedded-wasm.md
 
 
 ---
@@ -57,7 +62,7 @@ Read <cc-polymath-root>/skills/rust/pyo3-async-embedded-wasm.md
 **Description**: PyO3 packaging and distribution including maturin workflows, setuptools-rust, wheel building, cross-compilation, static linking, dependency vendoring, and PyPI publishing
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/rust/pyo3-packaging-distribution.md
+Read pyo3-packaging-distribution.md
 
 
 ---
@@ -66,7 +71,7 @@ Read <cc-polymath-root>/skills/rust/pyo3-packaging-distribution.md
 **Description**: PyO3 testing and quality assurance including cargo test integration, pytest fixtures, property-based testing, fuzzing (cargo-fuzz), sanitizers (ASAN/MSAN/TSAN), mutation testing, and CI/CD pipelines
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/rust/pyo3-testing-debugging.md
+Read pyo3-testing-debugging.md
 
 
 ---
@@ -75,7 +80,7 @@ Read <cc-polymath-root>/skills/rust/pyo3-testing-debugging.md
 **Description**: PyO3 for data science and ML including numpy integration, custom ufuncs, Polars DataFrames, Arrow/Parquet streaming, ONNX Runtime, PyTorch (tch-rs), Dask integration, and distributed computing
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/rust/pyo3-data-science.md
+Read pyo3-data-science.md
 
 
 ---
@@ -84,7 +89,7 @@ Read <cc-polymath-root>/skills/rust/pyo3-data-science.md
 **Description**: Building ReAct agents with DSPy from Rust - tool use, memory management, state persistence, error recovery, tool execution from Rust, and multi-step reasoning patterns
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/rust/pyo3-dspy-agents.md
+Read pyo3-dspy-agents.md
 
 
 ---
@@ -93,7 +98,7 @@ Read <cc-polymath-root>/skills/rust/pyo3-dspy-agents.md
 **Description**: Async LM calls and streaming with DSPy from Rust - Tokio/asyncio integration, streaming predictions, concurrent LM calls, backpressure handling, cancellation, timeouts, and WebSocket patterns
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/rust/pyo3-dspy-async-streaming.md
+Read pyo3-dspy-async-streaming.md
 
 
 ---
@@ -102,7 +107,7 @@ Read <cc-polymath-root>/skills/rust/pyo3-dspy-async-streaming.md
 **Description**: DSPy fundamentals from Rust - environment setup, LM configuration (OpenAI/Anthropic/Cohere/Ollama), calling DSPy modules (Predict/ChainOfThought/ReAct), prediction handling, error propagation, GIL management, and production patterns
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/rust/pyo3-dspy-fundamentals.md
+Read pyo3-dspy-fundamentals.md
 
 
 ---
@@ -111,7 +116,7 @@ Read <cc-polymath-root>/skills/rust/pyo3-dspy-fundamentals.md
 **Description**: DSPy optimization workflows from Rust - running teleprompters (BootstrapFewShot/MIPROv2/COPRO), compiled model management, versioning, evaluation, A/B testing, and deployment pipelines
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/rust/pyo3-dspy-optimization.md
+Read pyo3-dspy-optimization.md
 
 
 ---
@@ -120,7 +125,7 @@ Read <cc-polymath-root>/skills/rust/pyo3-dspy-optimization.md
 **Description**: Production DSPy deployment from Rust - multi-level caching (memory/Redis), circuit breakers, Prometheus metrics, structured logging, cost tracking, rate limiting, and A/B testing infrastructure
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/rust/pyo3-dspy-production.md
+Read pyo3-dspy-production.md
 
 
 ---
@@ -129,7 +134,7 @@ Read <cc-polymath-root>/skills/rust/pyo3-dspy-production.md
 **Description**: RAG pipelines with DSPy from Rust - ChromaDB/Qdrant/Pinecone integration, retrieval modules, context management, hybrid search, reranking, and production RAG architectures
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/rust/pyo3-dspy-rag-pipelines.md
+Read pyo3-dspy-rag-pipelines.md
 
 
 ---
@@ -138,7 +143,7 @@ Read <cc-polymath-root>/skills/rust/pyo3-dspy-rag-pipelines.md
 **Description**: Type-safe DSPy from Rust - signature type mapping (Python ↔ Rust), field extraction/validation, Pydantic integration with serde, custom types, compile-time type safety, and code generation
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/rust/pyo3-dspy-type-system.md
+Read pyo3-dspy-type-system.md
 
 
 ---
@@ -167,7 +172,7 @@ ls skills/rust/pyo3-modules-functions-errors/resources/examples/
 **Description**: PyO3 for web services and system integration including systemd service integration, IPC (Unix sockets), gRPC with tonic, HTTP clients/servers, middleware patterns, and async web frameworks
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/rust/pyo3-web-frameworks.md
+Read pyo3-web-frameworks.md
 
 
 ---
@@ -176,7 +181,7 @@ Read <cc-polymath-root>/skills/rust/pyo3-web-frameworks.md
 **Description**: PyO3 for CLI tools and embedding including pyo3-ffi for embedding Python interpreters, dynamic plugin loading, multi-interpreter applications, runtime isolation, plugin SDK design, and distribution strategies
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/rust/pyo3-cli-tools.md
+Read pyo3-cli-tools.md
 
 
 ---
@@ -188,9 +193,9 @@ Read <cc-polymath-root>/skills/rust/pyo3-cli-tools.md
 ls skills/rust/*.md
 
 # Load specific skills
-Read <cc-polymath-root>/skills/rust/pyo3-fundamentals.md
-Read <cc-polymath-root>/skills/rust/pyo3-classes-modules.md
-Read <cc-polymath-root>/skills/rust/pyo3-type-conversion-advanced.md
+Read pyo3-fundamentals.md
+Read pyo3-classes-modules.md
+Read pyo3-type-conversion-advanced.md
 # ... and 16 more
 ```
 

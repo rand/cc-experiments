@@ -1,5 +1,5 @@
 ---
-name: mermaid-project-diagrams
+name: diagrams-mermaid-project-diagrams
 description: Create Gantt charts and timeline diagrams with Mermaid for project planning and chronological visualization
 ---
 

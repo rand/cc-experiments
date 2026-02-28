@@ -4,7 +4,7 @@ description: Automatically discover frontend development skills when working wit
 license: MIT
 metadata:
   author: rand
-  version: "3.1"
+  version: "4.0"
 compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
@@ -13,7 +13,6 @@ compatibility: Designed for Claude Code. Compatible with any agent supporting th
 Provides automatic access to comprehensive frontend development skills.
 
 ## When This Skill Activates
-
 This skill auto-activates when you're working with:
 - React component development
 - Next.js applications and App Router
@@ -24,13 +23,21 @@ This skill auto-activates when you're working with:
 - Frontend performance optimization
 - SEO and metadata
 - UI/UX design implementation
+- terminal user interfaces
+- TUI
+- Bubble Tea
+- Ratatui
+- terminal UI
+- text-based interfaces
+- ncurses
 
 ## Available Skills
 
 ### Quick Reference
 
-The Frontend category contains 10 core skills (+ elegant-design):
+The Frontend category contains 16 skills across 2 subcategories (+ elegant-design):
 
+**Frontend (11 skills):**
 1. **react-component-patterns** - Component design, composition, hooks, performance
 2. **nextjs-app-router** - Next.js 14+ App Router, Server Components, routing
 3. **react-state-management** - Context, Zustand, Redux Toolkit patterns
@@ -43,56 +50,20 @@ The Frontend category contains 10 core skills (+ elegant-design):
 10. **browser-concurrency** - Service Workers, SharedWorkers, Worklets, PWAs
 11. **elegant-design/SKILL.md** - World-class accessible interfaces (separate Agent Skill)
 
+**TUI (5 skills):** See `../tui/INDEX.md`
+
 ### Load Full Category Details
-
-For complete descriptions and workflows:
-
-Read <cc-polymath-root>/skills/frontend/INDEX.md
-
-
-This loads the full Frontend category index with:
-- Detailed skill descriptions
-- Usage triggers for each skill
-- Common workflow combinations
-- Cross-references to related skills
-
-### Load Specific Skills
-
-Load individual skills as needed:
-
-
-# Core React patterns
-Read <cc-polymath-root>/skills/frontend/react-component-patterns.md
-Read <cc-polymath-root>/skills/frontend/react-state-management.md
-Read <cc-polymath-root>/skills/frontend/react-data-fetching.md
-
-# Next.js specific
-Read <cc-polymath-root>/skills/frontend/nextjs-app-router.md
-Read <cc-polymath-root>/skills/frontend/nextjs-seo.md
-
-# Forms and validation
-Read <cc-polymath-root>/skills/frontend/react-form-handling.md
-
-# Quality and performance
-Read <cc-polymath-root>/skills/frontend/web-accessibility.md
-Read <cc-polymath-root>/skills/frontend/frontend-performance.md
-
-# Concurrency and workers
-Read <cc-polymath-root>/skills/frontend/web-workers.md
-Read <cc-polymath-root>/skills/frontend/browser-concurrency.md
-
-# Design system and UI (Agent Skill - auto-discovered separately)
-# elegant-design/SKILL.md activates independently for UI design work
-
+Read ../frontend/INDEX.md
+Read ../tui/INDEX.md
 
 ## Common Workflows
 
 ### New Next.js Application
 **Sequence**: App Router → Components → Data Fetching
 
-Read <cc-polymath-root>/skills/frontend/nextjs-app-router.md          # Setup routing, layouts
-Read <cc-polymath-root>/skills/frontend/react-component-patterns.md   # Build components
-Read <cc-polymath-root>/skills/frontend/react-data-fetching.md        # Fetch data
+Read ../frontend/nextjs-app-router.md          # Setup routing, layouts
+Read ../frontend/react-component-patterns.md   # Build components
+Read ../frontend/react-data-fetching.md        # Fetch data
 
 
 ### Elegant UI Design
@@ -101,31 +72,31 @@ Read <cc-polymath-root>/skills/frontend/react-data-fetching.md        # Fetch da
 
 # Note: elegant-design auto-activates as separate Agent Skill
 # for design-focused work (shadcn/ui, accessible interfaces, etc.)
-Read <cc-polymath-root>/skills/frontend/react-component-patterns.md
-Read <cc-polymath-root>/skills/frontend/web-accessibility.md
+Read ../frontend/react-component-patterns.md
+Read ../frontend/web-accessibility.md
 
 
 ### Form Implementation
 **Sequence**: Form Handling → State Management
 
-Read <cc-polymath-root>/skills/frontend/react-form-handling.md     # Build forms
-Read <cc-polymath-root>/skills/frontend/react-state-management.md  # Manage form state
+Read ../frontend/react-form-handling.md     # Build forms
+Read ../frontend/react-state-management.md  # Manage form state
 
 
 ### Production Optimization
 **Sequence**: Performance → Accessibility → SEO
 
-Read <cc-polymath-root>/skills/frontend/frontend-performance.md    # Optimize bundle
-Read <cc-polymath-root>/skills/frontend/web-accessibility.md       # Ensure accessibility
-Read <cc-polymath-root>/skills/frontend/nextjs-seo.md              # Optimize SEO
+Read ../frontend/frontend-performance.md    # Optimize bundle
+Read ../frontend/web-accessibility.md       # Ensure accessibility
+Read ../frontend/nextjs-seo.md              # Optimize SEO
 
 
 ### CPU-Intensive Features & PWAs
 **Sequence**: Workers → Concurrency → Performance
 
-Read <cc-polymath-root>/skills/frontend/web-workers.md             # Offload heavy computation
-Read <cc-polymath-root>/skills/frontend/browser-concurrency.md     # Service Workers, offline support
-Read <cc-polymath-root>/skills/frontend/frontend-performance.md    # Optimize overall performance
+Read ../frontend/web-workers.md             # Offload heavy computation
+Read ../frontend/browser-concurrency.md     # Service Workers, offline support
+Read ../frontend/frontend-performance.md    # Optimize overall performance
 
 
 ## Skill Selection Guide
@@ -247,39 +218,39 @@ Total context: 2K + 4K + skill(s) = 6-12K tokens vs 25K+ for entire index.
 ## Quick Start Examples
 
 **"Build a Next.js app with App Router"**:
-Read <cc-polymath-root>/skills/frontend/nextjs-app-router.md
+Read ../frontend/nextjs-app-router.md
 
 
 **"Create reusable React components"**:
-Read <cc-polymath-root>/skills/frontend/react-component-patterns.md
+Read ../frontend/react-component-patterns.md
 
 
 **"Implement global state management"**:
-Read <cc-polymath-root>/skills/frontend/react-state-management.md
+Read ../frontend/react-state-management.md
 
 
 **"Build a form with validation"**:
-Read <cc-polymath-root>/skills/frontend/react-form-handling.md
+Read ../frontend/react-form-handling.md
 
 
 **"Optimize my app performance"**:
-Read <cc-polymath-root>/skills/frontend/frontend-performance.md
+Read ../frontend/frontend-performance.md
 
 
 **"Make my app accessible"**:
-Read <cc-polymath-root>/skills/frontend/web-accessibility.md
+Read ../frontend/web-accessibility.md
 
 
 **"Improve SEO"**:
-Read <cc-polymath-root>/skills/frontend/nextjs-seo.md
+Read ../frontend/nextjs-seo.md
 
 
 **"Offload heavy computation"**:
-Read <cc-polymath-root>/skills/frontend/web-workers.md
+Read ../frontend/web-workers.md
 
 
 **"Build a PWA with offline support"**:
-Read <cc-polymath-root>/skills/frontend/browser-concurrency.md
+Read ../frontend/browser-concurrency.md
 
 
 ## React vs Next.js Decision
@@ -320,7 +291,7 @@ Read <cc-polymath-root>/skills/frontend/browser-concurrency.md
 - Time-travel debugging needed
 
 For detailed guidance:
-Read <cc-polymath-root>/skills/frontend/react-state-management.md
+Read ../frontend/react-state-management.md
 
 
 ## Data Fetching Decision
@@ -348,16 +319,16 @@ Read <cc-polymath-root>/skills/frontend/react-state-management.md
 - DevTools for debugging
 
 For detailed patterns:
-Read <cc-polymath-root>/skills/frontend/react-data-fetching.md
+Read ../frontend/react-data-fetching.md
 
 
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects frontend work
-2. **Browse skills**: Run `Read <cc-polymath-root>/skills/frontend/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read ../frontend/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 4. **Follow workflows**: Use recommended sequences for common patterns
 5. **elegant-design**: Note that elegant-design is a separate Agent Skill that auto-activates for UI design work
 
 
-**Next Steps**: Run `Read <cc-polymath-root>/skills/frontend/INDEX.md` to see full category details, or load specific skills using the bash commands above.
+**Next Steps**: Run `Read ../frontend/INDEX.md` to see full category details, or load specific skills using the bash commands above.

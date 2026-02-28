@@ -1,5 +1,5 @@
 ---
-name: pyo3-fundamentals
+name: rust-pyo3-fundamentals
 description: PyO3 fundamentals for building Python extensions in Rust
 category: rust
 tags: [pyo3, rust, python, ffi, performance, extensions]
@@ -160,7 +160,7 @@ All resources meet Wave 10-11 quality standards:
 
 ```bash
 # Load comprehensive reference
-Read <cc-polymath-root>/skills/rust/pyo3-fundamentals/resources/REFERENCE.md
+Read pyo3-fundamentals/resources/REFERENCE.md
 
 # Run environment validator
 python skills/rust/pyo3-fundamentals/resources/scripts/setup_validator.py --verbose

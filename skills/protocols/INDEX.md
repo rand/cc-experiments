@@ -1,3 +1,8 @@
+---
+name: protocols-index
+description: Index of Protocol Skills
+---
+
 # Protocol Skills
 
 Comprehensive skills for implementing network protocols, message queues, and communication systems.
@@ -227,7 +232,7 @@ Comprehensive skills for implementing network protocols, message queues, and com
 
 ---
 
-### With Infrastructure Skills (`discover-infrastructure`, `discover-cloud`)
+### With Infrastructure Skills (`discover-infra`, `discover-infra`)
 - Deploying message brokers at scale
 - Container networking optimization
 - Cloud-native messaging services
@@ -301,14 +306,14 @@ Comprehensive skills for implementing network protocols, message queues, and com
 
 All skills are available in the `skills/protocols/` directory:
 
-Read <cc-polymath-root>/skills/protocols/grpc-implementation.md
-Read <cc-polymath-root>/skills/protocols/http2-multiplexing.md
-Read <cc-polymath-root>/skills/protocols/kafka-streams.md
-Read <cc-polymath-root>/skills/protocols/mqtt-messaging.md
-Read <cc-polymath-root>/skills/protocols/amqp-rabbitmq.md
-Read <cc-polymath-root>/skills/protocols/protobuf-schemas.md
-Read <cc-polymath-root>/skills/protocols/tcp-optimization.md
-Read <cc-polymath-root>/skills/protocols/websocket-protocols.md
+Read grpc-implementation.md
+Read http2-multiplexing.md
+Read kafka-streams.md
+Read mqtt-messaging.md
+Read amqp-rabbitmq.md
+Read protobuf-schemas.md
+Read tcp-optimization.md
+Read websocket-protocols.md
 
 
 **Pro tip**: Start with protocol selection based on your use case, then load specific implementation guides. Combine with infrastructure skills for production deployment.
@@ -318,6 +323,6 @@ Read <cc-polymath-root>/skills/protocols/websocket-protocols.md
 **Related Categories**:
 - `discover-api` - API design and implementation
 - `discover-database` - Data persistence and streaming
-- `discover-infrastructure` - Deployment and scaling
+- `discover-infra` - Deployment and scaling
 - `discover-frontend` - Client-side integration
 - `discover-debugging` - Network debugging and monitoring

@@ -1,5 +1,5 @@
 ---
-name: set-theory
+name: math-set-theory
 description: Set theory including ZFC axioms, ordinals, cardinals, axiom of choice, and forcing
 ---
 

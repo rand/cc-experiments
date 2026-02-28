@@ -1,5 +1,5 @@
 ---
-name: dspy-setup
+name: ml-dspy-setup
 description: Installation, configuration, and language model setup for DSPy framework including Modal and HuggingFace
 ---
 

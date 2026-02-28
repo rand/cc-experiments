@@ -17,7 +17,7 @@ cc-polymath/
 │   └── plugin.json              # Plugin manifest
 ├── skills/                       # 410+ skills, 33+ domains
 │   ├── README.md                 # Master catalog (gateway index)
-│   ├── discover-*/               # 40 gateway skills
+│   ├── discover-*/               # 23 gateway skills
 │   │   └── SKILL.md
 │   ├── api/                      # Category directories
 │   │   └── INDEX.md              # Category index
@@ -61,7 +61,7 @@ Install the plugin with a single command:
 ```
 
 Claude Code will:
-1. Clone the repository to `<cc-polymath-root>/`
+1. Clone the repository to `./`
 2. Register all slash commands (e.g., `/skills`, `/discover-api`, etc.)
 3. Make all 410+ skills available for discovery
 4. Register specialized subagents (skill-navigator, architecture-advisor, polyglot-engineer, skill-creator)
@@ -293,10 +293,10 @@ Leverages language-specific skills and can implement solutions in the best-fit l
 ```
 
 **Process:**
-1. Claude Code clones repository to `<cc-polymath-root>/`
+1. Claude Code clones repository to `./`
 2. Reads `.claude-plugin/plugin.json` for metadata
 3. Registers commands from `commands/` directory
-4. Makes skills available at `<cc-polymath-root>/skills/`
+4. Makes skills available at `skills`
 
 ### Updates
 ```bash
@@ -316,7 +316,7 @@ Leverages language-specific skills and can implement solutions in the best-fit l
 
 **Process:**
 1. Unregisters all commands
-2. Removes `<cc-polymath-root>/` directory
+2. Removes `./` directory
 3. Cleans up plugin metadata
 4. No traces left in Claude Code configuration
 
@@ -481,7 +481,7 @@ cat skills/your-category/your-skill.md
 **Check:**
 ```bash
 # Verify plugin directory exists
-ls <cc-polymath-root>/skills/
+ls skills
 
 # Reinstall if missing
 /plugin uninstall cc-polymath
@@ -492,7 +492,7 @@ ls <cc-polymath-root>/skills/
 
 **Location:**
 ```bash
-cd <cc-polymath-root>/skills/
+cd skills
 # Edit skills here
 # Changes will persist until plugin update
 ```
@@ -504,11 +504,11 @@ cd <cc-polymath-root>/skills/
 ### File Structure
 
 ```
-<cc-polymath-root>/
+./
 ├── .claude-plugin/
 │   └── plugin.json          # Metadata read by Claude Code
 ├── skills/                   # Discovered by skill system
-│   ├── README.md             # Master catalog (40 gateways)
+│   ├── README.md             # Master catalog (23 gateways)
 │   ├── discover-*/SKILL.md   # Gateway skills
 │   └── */INDEX.md            # Category indexes
 ├── commands/                 # Auto-registered by plugin system

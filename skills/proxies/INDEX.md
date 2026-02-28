@@ -1,3 +1,8 @@
+---
+name: proxies-index
+description: Index of Proxies Skills
+---
+
 # Proxies Skills
 
 ## Category Overview
@@ -11,7 +16,7 @@
 **Description**: Forward proxy fundamentals including HTTP CONNECT method, SOCKS4/SOCKS5 protocols, authentication, and use cases for privacy, security, and access control
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/proxies/forward-proxy.md
+Read forward-proxy.md
 
 
 ---
@@ -20,7 +25,7 @@ Read <cc-polymath-root>/skills/proxies/forward-proxy.md
 **Description**: Reverse proxy patterns including load balancing algorithms, SSL termination, request routing, health checks, and high availability configurations
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/proxies/reverse-proxy.md
+Read reverse-proxy.md
 
 
 ---
@@ -29,7 +34,7 @@ Read <cc-polymath-root>/skills/proxies/reverse-proxy.md
 **Description**: Nginx configuration including server blocks, location matching, upstream configuration, caching strategies, SSL/TLS setup, and performance optimization
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/proxies/nginx-configuration.md
+Read nginx-configuration.md
 
 
 ---
@@ -38,7 +43,7 @@ Read <cc-polymath-root>/skills/proxies/nginx-configuration.md
 **Description**: Traefik configuration including dynamic service discovery, middleware chains, automatic Let's Encrypt certificates, Docker/Kubernetes integration, and cloud-native routing
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/proxies/traefik-configuration.md
+Read traefik-configuration.md
 
 
 ---
@@ -47,7 +52,7 @@ Read <cc-polymath-root>/skills/proxies/traefik-configuration.md
 **Description**: Envoy proxy architecture including filters, clusters, listeners, service mesh patterns, observability integration, and advanced load balancing strategies
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/proxies/envoy-proxy.md
+Read envoy-proxy.md
 
 
 ---
@@ -56,7 +61,7 @@ Read <cc-polymath-root>/skills/proxies/envoy-proxy.md
 **Description**: HTTP caching strategies including Cache-Control headers, CDN patterns, cache invalidation techniques, stale-while-revalidate, and edge caching optimization
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/proxies/cache-control.md
+Read cache-control.md
 
 
 ---
@@ -65,7 +70,7 @@ Read <cc-polymath-root>/skills/proxies/cache-control.md
 **Description**: NATS messaging patterns including pub/sub, request-reply, queue groups for load balancing, JetStream persistence, clustering, and high-performance messaging
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/proxies/nats-messaging.md
+Read nats-messaging.md
 
 
 ---
@@ -77,13 +82,13 @@ Read <cc-polymath-root>/skills/proxies/nats-messaging.md
 ls skills/proxies/*.md
 
 # Load specific skills
-Read <cc-polymath-root>/skills/proxies/forward-proxy.md
-Read <cc-polymath-root>/skills/proxies/reverse-proxy.md
-Read <cc-polymath-root>/skills/proxies/nginx-configuration.md
-Read <cc-polymath-root>/skills/proxies/traefik-configuration.md
-Read <cc-polymath-root>/skills/proxies/envoy-proxy.md
-Read <cc-polymath-root>/skills/proxies/cache-control.md
-Read <cc-polymath-root>/skills/proxies/nats-messaging.md
+Read forward-proxy.md
+Read reverse-proxy.md
+Read nginx-configuration.md
+Read traefik-configuration.md
+Read envoy-proxy.md
+Read cache-control.md
+Read nats-messaging.md
 ```
 
 ## Related Categories
@@ -92,7 +97,7 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 ---
 
-**Browse**: This index provides a quick reference. Load the `discover-proxies` gateway skill for common workflows and integration patterns.
+**Browse**: This index provides a quick reference. Load the `discover-networking` gateway skill for common workflows and integration patterns.
 
-Read <cc-polymath-root>/skills/discover-proxies/SKILL.md
+Read ../discover-networking/SKILL.md
 

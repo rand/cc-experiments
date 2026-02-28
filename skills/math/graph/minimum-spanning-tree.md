@@ -1,5 +1,5 @@
 ---
-name: Minimum Spanning Tree Algorithms
+name: math-minimum-spanning-tree-algorithms
 description: Kruskal and Prim algorithms for finding minimum spanning trees in weighted undirected graphs with union-find and priority queue optimizations
 ---
 

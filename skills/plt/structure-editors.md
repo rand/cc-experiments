@@ -1,5 +1,5 @@
 ---
-name: structure-editors
+name: plt-structure-editors
 description: Structure editor design patterns - projectional editing, syntax-directed editing, edit actions, cursor management, rendering, text workflow integration
 ---
 

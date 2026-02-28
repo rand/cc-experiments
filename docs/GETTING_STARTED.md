@@ -29,7 +29,7 @@ That's it! Skills are now available and will auto-discover as you work.
 Verify your installation is working correctly:
 
 ```bash
-bash <cc-polymath-root>/scripts/verify-install.sh
+bash ../scripts/verify-install.sh
 ```
 
 Expected output:
@@ -71,10 +71,10 @@ You'll see personalized recommendations based on the files in your directory. Fo
 ```
 RECOMMENDED FOR THIS PROJECT:
 → discover-frontend
-  Read <cc-polymath-root>/skills/discover-frontend/SKILL.md
+  Read ../skills/discover-frontend/SKILL.md
 
 → discover-testing
-  Read <cc-polymath-root>/skills/discover-testing/SKILL.md
+  Read ../skills/discover-testing/SKILL.md
 
 CATEGORIES (410+ skills):
 Frontend (10) | Database (11) | API (7) | Testing (6) | Diagrams (8) | ML (33)
@@ -143,7 +143,7 @@ Let's make something visual:
 **Ask**: "Create a flowchart showing a typical login flow"
 
 **What happens**:
-1. `discover-diagrams` skill auto-discovers
+1. `discover-engineering` skill auto-discovers
 2. Claude creates a Mermaid flowchart
 3. You get a visual diagram in your conversation
 
@@ -225,7 +225,7 @@ cc-polymath uses a smart three-tier system to minimize context usage:
 
 **Commands execute bash**:
 - Slash commands like `/discover-frontend` run bash commands
-- They execute `Read <cc-polymath-root>/skills/discover-frontend/SKILL.md`
+- They execute `Read ../skills/discover-frontend/SKILL.md`
 - Output loads into Claude's context
 - Both auto-discovery and commands work together seamlessly
 
@@ -313,7 +313,7 @@ Now that you're set up and familiar with the basics, explore:
 
 ### 🆘 Troubleshooting
 - **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Common issues and solutions
-- **Run diagnostics**: `bash <cc-polymath-root>/scripts/diagnose.sh`
+- **Run diagnostics**: `bash ../scripts/diagnose.sh`
 
 ### ❓ Quick Answers
 - **[FAQ.md](FAQ.md)** - Frequently asked questions
@@ -419,7 +419,7 @@ You now know:
 
 **Questions or issues?**
 - Check [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
-- Run diagnostics: `bash <cc-polymath-root>/scripts/diagnose.sh`
+- Run diagnostics: `bash ../scripts/diagnose.sh`
 - See examples: [FIRST_CONVERSATIONS.md](FIRST_CONVERSATIONS.md)
 - Report bugs: [GitHub Issues](https://github.com/rand/cc-polymath/issues)
 

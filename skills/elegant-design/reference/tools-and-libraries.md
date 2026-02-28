@@ -1,3 +1,8 @@
+---
+name: elegant-design-tools-and-libraries
+description: Tools and Libraries Reference
+---
+
 # Tools and Libraries Reference
 
 ## Design Tools

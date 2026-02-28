@@ -1,5 +1,5 @@
 ---
-name: hazelnut-calculus
+name: plt-hazelnut-calculus
 description: Hazelnut structure editor calculus - bidirectionally typed lambda calculus with holes and cursor, edit actions preserving static meaning, zipper structures
 ---
 

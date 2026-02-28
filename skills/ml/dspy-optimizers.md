@@ -1,5 +1,5 @@
 ---
-name: dspy-optimizers
+name: ml-dspy-optimizers
 description: Optimizing DSPy programs with teleprompters, BootstrapFewShot, MIPROv2, and compilation
 ---
 

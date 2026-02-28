@@ -1,5 +1,5 @@
 ---
-name: swiftui-navigation
+name: mobile-swiftui-navigation
 description: Implementing navigation in iOS 17+ apps
 ---
 

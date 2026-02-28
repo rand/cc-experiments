@@ -1,5 +1,5 @@
 ---
-name: pyo3-dspy-fundamentals
+name: rust-pyo3-dspy-fundamentals
 description: DSPy fundamentals from Rust - environment setup, LM configuration, calling DSPy modules, prediction handling
 skill_id: rust-pyo3-dspy-fundamentals
 title: PyO3 DSPy Fundamentals
@@ -499,7 +499,7 @@ Comprehensive 700+ line guide covering:
 - Memory management best practices
 - Debugging cross-language issues
 
-**Load**: `Read <cc-polymath-root>/skills/rust/pyo3-dspy-fundamentals/resources/REFERENCE.md`
+**Load**: `Read pyo3-dspy-fundamentals/resources/REFERENCE.md`
 
 ### Scripts
 

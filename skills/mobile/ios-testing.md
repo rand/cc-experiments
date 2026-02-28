@@ -1,5 +1,5 @@
 ---
-name: ios-testing
+name: mobile-ios-testing
 description: Writing unit tests for iOS/macOS apps
 ---
 

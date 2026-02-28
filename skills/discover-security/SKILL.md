@@ -4,7 +4,7 @@ description: Automatically discover security skills when working with authentica
 license: MIT
 metadata:
   author: rand
-  version: "3.1"
+  version: "4.0"
 compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
@@ -43,7 +43,7 @@ The Security category contains 6 specialized skills:
 
 For complete descriptions and workflows:
 
-Read <cc-polymath-root>/skills/security/INDEX.md
+Read ../security/INDEX.md
 
 
 This loads the full Security category index with:
@@ -58,16 +58,16 @@ Load individual skills as needed:
 
 
 # Identity and access
-Read <cc-polymath-root>/skills/security/authentication.md
-Read <cc-polymath-root>/skills/security/authorization.md
+Read ../security/authentication.md
+Read ../security/authorization.md
 
 # Input security
-Read <cc-polymath-root>/skills/security/input-validation.md
-Read <cc-polymath-root>/skills/security/security-headers.md
+Read ../security/input-validation.md
+Read ../security/security-headers.md
 
 # Security operations
-Read <cc-polymath-root>/skills/security/vulnerability-assessment.md
-Read <cc-polymath-root>/skills/security/secrets-management.md
+Read ../security/vulnerability-assessment.md
+Read ../security/secrets-management.md
 
 
 ## Common Workflows
@@ -75,36 +75,36 @@ Read <cc-polymath-root>/skills/security/secrets-management.md
 ### Secure Web Application
 **Sequence**: Authentication → Authorization → Input validation → Security headers
 
-Read <cc-polymath-root>/skills/security/authentication.md        # User login
-Read <cc-polymath-root>/skills/security/authorization.md         # Access control
-Read <cc-polymath-root>/skills/security/input-validation.md      # XSS/SQL injection prevention
-Read <cc-polymath-root>/skills/security/security-headers.md      # Browser protection
+Read ../security/authentication.md        # User login
+Read ../security/authorization.md         # Access control
+Read ../security/input-validation.md      # XSS/SQL injection prevention
+Read ../security/security-headers.md      # Browser protection
 
 
 ### Security Audit
 **Sequence**: Vulnerability assessment → Input validation → Headers → Secrets
 
-Read <cc-polymath-root>/skills/security/vulnerability-assessment.md  # OWASP Top 10 testing
-Read <cc-polymath-root>/skills/security/input-validation.md          # Injection testing
-Read <cc-polymath-root>/skills/security/security-headers.md          # Header configuration
-Read <cc-polymath-root>/skills/security/secrets-management.md        # Credential security
+Read ../security/vulnerability-assessment.md  # OWASP Top 10 testing
+Read ../security/input-validation.md          # Injection testing
+Read ../security/security-headers.md          # Header configuration
+Read ../security/secrets-management.md        # Credential security
 
 
 ### API Security
 **Sequence**: Authentication → Authorization → Input validation → Secrets
 
-Read <cc-polymath-root>/skills/security/authentication.md        # JWT/OAuth2
-Read <cc-polymath-root>/skills/security/authorization.md         # API access control
-Read <cc-polymath-root>/skills/security/input-validation.md      # Request validation
-Read <cc-polymath-root>/skills/security/secrets-management.md    # API key management
+Read ../security/authentication.md        # JWT/OAuth2
+Read ../security/authorization.md         # API access control
+Read ../security/input-validation.md      # Request validation
+Read ../security/secrets-management.md    # API key management
 
 
 ### DevSecOps Pipeline
 **Sequence**: Vulnerability assessment → Secrets → Input validation
 
-Read <cc-polymath-root>/skills/security/vulnerability-assessment.md  # Security scanning
-Read <cc-polymath-root>/skills/security/secrets-management.md        # CI/CD secrets
-Read <cc-polymath-root>/skills/security/input-validation.md          # SAST validation
+Read ../security/vulnerability-assessment.md  # Security scanning
+Read ../security/secrets-management.md        # CI/CD secrets
+Read ../security/input-validation.md          # SAST validation
 
 
 ### Secure New Application
@@ -112,16 +112,16 @@ Read <cc-polymath-root>/skills/security/input-validation.md          # SAST vali
 
 
 # 1. Identity and access
-Read <cc-polymath-root>/skills/security/authentication.md
-Read <cc-polymath-root>/skills/security/authorization.md
+Read ../security/authentication.md
+Read ../security/authorization.md
 
 # 2. Input protection
-Read <cc-polymath-root>/skills/security/input-validation.md
-Read <cc-polymath-root>/skills/security/security-headers.md
+Read ../security/input-validation.md
+Read ../security/security-headers.md
 
 # 3. Operations
-Read <cc-polymath-root>/skills/security/secrets-management.md
-Read <cc-polymath-root>/skills/security/vulnerability-assessment.md
+Read ../security/secrets-management.md
+Read ../security/vulnerability-assessment.md
 
 
 ## Skill Selection Guide
@@ -203,7 +203,7 @@ Security skills commonly combine with:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects security-related work
-2. **Browse skills**: Run `Read <cc-polymath-root>/skills/security/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read ../security/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 4. **Follow workflows**: Use recommended sequences for common security patterns
 5. **Combine skills**: Load multiple skills for comprehensive security coverage
@@ -220,33 +220,33 @@ Total context: 2K + 3K + skill(s) = 5-12K tokens vs 30K+ for entire index.
 ## Quick Start Examples
 
 **"Implement user authentication"**:
-Read <cc-polymath-root>/skills/security/authentication.md
+Read ../security/authentication.md
 
 
 **"Add role-based access control"**:
-Read <cc-polymath-root>/skills/security/authorization.md
+Read ../security/authorization.md
 
 
 **"Prevent SQL injection"**:
-Read <cc-polymath-root>/skills/security/input-validation.md
+Read ../security/input-validation.md
 
 
 **"Configure Content Security Policy"**:
-Read <cc-polymath-root>/skills/security/security-headers.md
+Read ../security/security-headers.md
 
 
 **"Test for OWASP vulnerabilities"**:
-Read <cc-polymath-root>/skills/security/vulnerability-assessment.md
+Read ../security/vulnerability-assessment.md
 
 
 **"Integrate HashiCorp Vault"**:
-Read <cc-polymath-root>/skills/security/secrets-management.md
+Read ../security/secrets-management.md
 
 
 **"Secure API with JWT"**:
-Read <cc-polymath-root>/skills/security/authentication.md
-Read <cc-polymath-root>/skills/security/authorization.md
+Read ../security/authentication.md
+Read ../security/authorization.md
 
 
 
-**Next Steps**: Run `Read <cc-polymath-root>/skills/security/INDEX.md` to see full category details, or load specific skills using the bash commands above.
+**Next Steps**: Run `Read ../security/INDEX.md` to see full category details, or load specific skills using the bash commands above.

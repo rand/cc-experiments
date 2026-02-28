@@ -1,5 +1,5 @@
 ---
-name: pyo3-web-frameworks
+name: rust-pyo3-web-frameworks
 description: PyO3 for web services and system integration including systemd, IPC, gRPC, HTTP clients/servers
 skill_id: rust-pyo3-web-frameworks
 title: PyO3 Web Framework Integration

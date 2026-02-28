@@ -1,3 +1,8 @@
+---
+name: ebpf-index
+description: Index of Ebpf Skills
+---
+
 # Ebpf Skills
 
 ## Category Overview
@@ -11,7 +16,7 @@
 **Description**: eBPF basics including program types, verifier, maps, BCC vs libbpf toolchains, and loading programs
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ebpf/ebpf-fundamentals.md
+Read ebpf-fundamentals.md
 
 
 ---
@@ -20,7 +25,7 @@ Read <cc-polymath-root>/skills/ebpf/ebpf-fundamentals.md
 **Description**: Fast packet processing with XDP, TC filtering, socket programs, load balancing, and Cilium networking
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ebpf/ebpf-networking.md
+Read ebpf-networking.md
 
 
 ---
@@ -29,7 +34,7 @@ Read <cc-polymath-root>/skills/ebpf/ebpf-networking.md
 **Description**: Security monitoring with eBPF including syscall tracking, file/network monitoring, Falco, Tetragon, and threat detection
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ebpf/ebpf-security-monitoring.md
+Read ebpf-security-monitoring.md
 
 
 ---
@@ -38,7 +43,7 @@ Read <cc-polymath-root>/skills/ebpf/ebpf-security-monitoring.md
 **Description**: Using eBPF for tracing with bpftrace, kprobes, uprobes, tracepoints, and performance analysis
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ebpf/ebpf-tracing-observability.md
+Read ebpf-tracing-observability.md
 
 
 ---
@@ -50,9 +55,9 @@ Read <cc-polymath-root>/skills/ebpf/ebpf-tracing-observability.md
 ls skills/ebpf/*.md
 
 # Load specific skills
-Read <cc-polymath-root>/skills/ebpf/ebpf-fundamentals.md
-Read <cc-polymath-root>/skills/ebpf/ebpf-networking.md
-Read <cc-polymath-root>/skills/ebpf/ebpf-security-monitoring.md
+Read ebpf-fundamentals.md
+Read ebpf-networking.md
+Read ebpf-security-monitoring.md
 # ... and 1 more
 ```
 
@@ -62,7 +67,7 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 ---
 
-**Browse**: This index provides a quick reference. Load the `discover-ebpf` gateway skill for common workflows and integration patterns.
+**Browse**: This index provides a quick reference. Load the `discover-systems-theory` gateway skill for common workflows and integration patterns.
 
-Read <cc-polymath-root>/skills/discover-ebpf/SKILL.md
+Read ../discover-systems-theory/SKILL.md
 

@@ -1,3 +1,8 @@
+---
+name: elegant-design-streaming-and-loading
+description: Streaming and Progressive Loading
+---
+
 # Streaming and Progressive Loading
 
 Content that appears instantly feels fast. Stream when possible, load progressively.

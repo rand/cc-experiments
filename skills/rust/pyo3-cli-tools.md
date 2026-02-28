@@ -1,5 +1,5 @@
 ---
-name: pyo3-cli-tools
+name: rust-pyo3-cli-tools
 description: PyO3 for CLI tools and embedding including pyo3-ffi, dynamic plugin loading, multi-interpreter applications
 skill_id: rust-pyo3-cli-tools
 title: PyO3 CLI Tools Development

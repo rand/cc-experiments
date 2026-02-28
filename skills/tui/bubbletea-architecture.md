@@ -1,5 +1,5 @@
 ---
-name: bubbletea-architecture
+name: tui-bubbletea-architecture
 description: Building terminal UIs in Go
 ---
 

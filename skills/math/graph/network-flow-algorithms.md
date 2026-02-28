@@ -1,5 +1,5 @@
 ---
-name: Network Flow Algorithms
+name: math-network-flow-algorithms
 description: Maximum flow, minimum cut, Ford-Fulkerson, Edmonds-Karp, and flow-based algorithms for capacity-constrained network optimization
 ---
 

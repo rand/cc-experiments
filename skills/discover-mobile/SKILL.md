@@ -4,7 +4,7 @@ description: Automatically discover mobile development skills when working with 
 license: MIT
 metadata:
   author: rand
-  version: "3.1"
+  version: "4.0"
 compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
@@ -39,7 +39,7 @@ The Mobile category contains 4 skills:
 
 For complete descriptions and workflows:
 
-Read <cc-polymath-root>/skills/mobile/INDEX.md
+Read ../mobile/INDEX.md
 
 
 This loads the full Mobile category index with:
@@ -52,10 +52,10 @@ This loads the full Mobile category index with:
 
 Load individual skills as needed:
 
-Read <cc-polymath-root>/skills/mobile/react-native-native-modules.md
-Read <cc-polymath-root>/skills/mobile/react-native-navigation.md
-Read <cc-polymath-root>/skills/mobile/react-native-performance.md
-Read <cc-polymath-root>/skills/mobile/react-native-setup.md
+Read ../mobile/react-native-native-modules.md
+Read ../mobile/react-native-navigation.md
+Read ../mobile/react-native-performance.md
+Read ../mobile/react-native-setup.md
 
 
 ## Progressive Loading
@@ -68,8 +68,8 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects mobile work
-2. **Browse skills**: Run `Read <cc-polymath-root>/skills/mobile/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read ../mobile/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 
-**Next Steps**: Run `Read <cc-polymath-root>/skills/mobile/INDEX.md` to see full category details.
+**Next Steps**: Run `Read ../mobile/INDEX.md` to see full category details.

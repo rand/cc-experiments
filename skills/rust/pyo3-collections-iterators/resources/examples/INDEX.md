@@ -1,3 +1,8 @@
+---
+name: rust-index
+description: Index of PyO3 Collections & Iterators - Examples Index
+---
+
 # PyO3 Collections & Iterators - Examples Index
 
 Quick reference guide to all 10 examples.

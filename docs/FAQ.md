@@ -26,7 +26,7 @@ No configuration needed. Skills auto-discover based on your project files and co
 
 To verify installation works:
 ```bash
-bash <cc-polymath-root>/scripts/verify-install.sh
+bash ../scripts/verify-install.sh
 ```
 
 ### Can I install manually instead of as a plugin?
@@ -108,7 +108,7 @@ Use manual commands to load what you need:
 /skills testing
 
 # Load a specific skill directly
-Read <cc-polymath-root>/skills/api/rest-api-design.md
+Read ../skills/api/rest-api-design.md
 ```
 
 Auto-discovery covers ~80% of common cases. Manual loading handles the rest.
@@ -131,7 +131,7 @@ Auto-discovery covers ~80% of common cases. Manual loading handles the rest.
 ```
 
 **Option 4: Load directly with cat** (if you know the exact path)
-Read <cc-polymath-root>/skills/database/postgres-query-optimization.md
+Read ../skills/database/postgres-query-optimization.md
 
 
 ### Can I load multiple skills at once?
@@ -297,7 +297,7 @@ Diagrams skills help create professional visuals for docs.
 
 Check installation:
 ```bash
-bash <cc-polymath-root>/scripts/verify-install.sh
+bash ../scripts/verify-install.sh
 ```
 
 If it fails, reinstall:
@@ -317,14 +317,14 @@ Try a clear prompt like: "I'm building a React app with TypeScript"
 You should see `discover-frontend` activate automatically.
 
 **Force load a skill**:
-Read <cc-polymath-root>/skills/discover-frontend/SKILL.md
+Read ../skills/discover-frontend/SKILL.md
 
 
 If that returns content, the installation is working. Auto-discovery may just need clearer keywords.
 
 **Run diagnostics**:
 ```bash
-bash <cc-polymath-root>/scripts/diagnose.sh
+bash ../scripts/diagnose.sh
 ```
 
 This reports what's installed and any configuration issues.
@@ -333,7 +333,7 @@ This reports what's installed and any configuration issues.
 
 Verify the plugin path is correct:
 ```bash
-ls <cc-polymath-root>/skills/
+ls ../skills
 ```
 
 You should see skill directories. If empty or missing, reinstall the plugin.
@@ -372,7 +372,7 @@ If two plugins provide similar functionality, Claude intelligently selects which
 Just mention your framework naturally in a prompt. Skills auto-discover.
 
 **Check the README**:
-`<cc-polymath-root>/skills/README.md` lists all skills by framework.
+`../skills/README.md` lists all skills by framework.
 
 ### Can I contribute skills?
 
@@ -459,7 +459,7 @@ Atomic skills let you load *exactly* what you need, no more. This precision is w
 
 **Troubleshooting**
 - [TROUBLESHOOTING.md](TROUBLESHOOTING.md) - Common issues and solutions
-- `bash <cc-polymath-root>/scripts/diagnose.sh` - Automated diagnostics
+- `bash ../scripts/diagnose.sh` - Automated diagnostics
 
 **Full Documentation**
 - [README.md](../README.md) - Complete project overview
@@ -468,7 +468,7 @@ Atomic skills let you load *exactly* what you need, no more. This precision is w
 **Explore Skills**
 - `/skills list` - All 33+ categories
 - `/skills [topic]` - Search for specific topics
-- `Read <cc-polymath-root>/skills/README.md` - Full skill catalog
+- `Read ../skills/README.md` - Full skill catalog
 
 ---
 

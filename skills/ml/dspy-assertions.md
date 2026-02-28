@@ -1,5 +1,5 @@
 ---
-name: dspy-assertions
+name: ml-dspy-assertions
 description: Adding constraints and validation to DSPy programs with assertions and suggestions
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: mermaid-er-diagrams
+name: diagrams-mermaid-er-diagrams
 description: Create entity-relationship diagrams with Mermaid for database schema design and data modeling
 ---
 

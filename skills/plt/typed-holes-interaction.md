@@ -1,5 +1,5 @@
 ---
-name: typed-holes-interaction
+name: plt-typed-holes-interaction
 description: IDE integration with typed holes - goal-directed programming, hole refinement, case splitting, proof search, tactics, elaborator reflection (Agda, Idris, Lean models)
 ---
 

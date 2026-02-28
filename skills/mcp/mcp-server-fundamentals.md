@@ -306,7 +306,7 @@ if __name__ == "__main__":
 
 ## Related Skills
 
-- `<cc-polymath-root>/skills/mcp/mcp-tool-design.md` - Designing effective tool interfaces
-- `<cc-polymath-root>/skills/mcp/mcp-testing.md` - Testing MCP servers
-- `<cc-polymath-root>/skills/api/rest-api-design.md` - REST patterns that MCP tools often wrap
-- `<cc-polymath-root>/skills/protocols/` - Protocol design fundamentals
+- `mcp-tool-design.md` - Designing effective tool interfaces
+- `mcp-testing.md` - Testing MCP servers
+- `../api/rest-api-design.md` - REST patterns that MCP tools often wrap
+- `../protocols` - Protocol design fundamentals

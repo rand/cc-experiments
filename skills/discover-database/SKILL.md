@@ -4,7 +4,7 @@ description: Automatically discover database skills when working with SQL, Postg
 license: MIT
 metadata:
   author: rand
-  version: "3.1"
+  version: "4.0"
 compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
@@ -13,7 +13,6 @@ compatibility: Designed for Claude Code. Compatible with any agent supporting th
 Provides automatic access to comprehensive database design, optimization, and implementation skills.
 
 ## When This Skill Activates
-
 This skill auto-activates when you're working with:
 - SQL databases (PostgreSQL, MySQL)
 - NoSQL databases (MongoDB, Redis)
@@ -23,13 +22,22 @@ This skill auto-activates when you're working with:
 - Connection pooling configuration
 - ORM usage and patterns
 - Database selection and architecture decisions
+- caching
+- cache
+- Redis
+- CDN
+- HTTP caching
+- cache invalidation
+- performance
+- Service Workers
 
 ## Available Skills
 
 ### Quick Reference
 
-The Database category contains 8 core skills:
+The Database category contains 19 skills across 2 subcategories:
 
+**Database (12 skills):**
 1. **postgres-schema-design** - Schema design, relationships, data types, normalization
 2. **postgres-query-optimization** - EXPLAIN plans, indexes, slow query debugging
 3. **postgres-migrations** - Schema changes, zero-downtime, rollback strategies
@@ -39,69 +47,44 @@ The Database category contains 8 core skills:
 7. **orm-patterns** - ORM best practices, N+1 prevention, eager loading
 8. **database-selection** - Choosing databases, SQL vs NoSQL decisions
 
+Plus 4 more in `../database/INDEX.md`
+
+**Caching (7 skills):** See `../caching/INDEX.md`
+
 ### Load Full Category Details
-
-For complete descriptions and workflows:
-
-Read <cc-polymath-root>/skills/database/INDEX.md
-
-
-This loads the full Database category index with:
-- Detailed skill descriptions
-- Usage triggers for each skill
-- Common workflow combinations
-- Cross-references to related skills
-
-### Load Specific Skills
-
-Load individual skills as needed:
-
-
-# PostgreSQL skills
-Read <cc-polymath-root>/skills/database/postgres-schema-design.md
-Read <cc-polymath-root>/skills/database/postgres-query-optimization.md
-Read <cc-polymath-root>/skills/database/postgres-migrations.md
-
-# NoSQL skills
-Read <cc-polymath-root>/skills/database/mongodb-document-design.md
-Read <cc-polymath-root>/skills/database/redis-data-structures.md
-
-# Cross-database skills
-Read <cc-polymath-root>/skills/database/database-connection-pooling.md
-Read <cc-polymath-root>/skills/database/orm-patterns.md
-Read <cc-polymath-root>/skills/database/database-selection.md
-
+Read ../database/INDEX.md
+Read ../caching/INDEX.md
 
 ## Common Workflows
 
 ### New Database Project
 **Sequence**: Selection → Schema design → Connection pooling
 
-Read <cc-polymath-root>/skills/database/database-selection.md         # Choose database
-Read <cc-polymath-root>/skills/database/postgres-schema-design.md     # or mongodb-document-design.md
-Read <cc-polymath-root>/skills/database/database-connection-pooling.md
+Read ../database/database-selection.md         # Choose database
+Read ../database/postgres-schema-design.md     # or mongodb-document-design.md
+Read ../database/database-connection-pooling.md
 
 
 ### Query Performance Debugging
 **Sequence**: Optimization → Connection pooling → ORM patterns
 
-Read <cc-polymath-root>/skills/database/postgres-query-optimization.md  # Debug slow queries
-Read <cc-polymath-root>/skills/database/database-connection-pooling.md  # Check pool settings
-Read <cc-polymath-root>/skills/database/orm-patterns.md                 # Fix N+1 queries
+Read ../database/postgres-query-optimization.md  # Debug slow queries
+Read ../database/database-connection-pooling.md  # Check pool settings
+Read ../database/orm-patterns.md                 # Fix N+1 queries
 
 
 ### Schema Evolution
 **Sequence**: Schema design → Migrations
 
-Read <cc-polymath-root>/skills/database/postgres-schema-design.md    # Design changes
-Read <cc-polymath-root>/skills/database/postgres-migrations.md       # Implement safely
+Read ../database/postgres-schema-design.md    # Design changes
+Read ../database/postgres-migrations.md       # Implement safely
 
 
 ### Caching Layer
 **Sequence**: Redis structures → Cache patterns
 
-Read <cc-polymath-root>/skills/database/redis-data-structures.md     # Redis patterns
-Then load caching skills via discover-caching gateway
+Read ../database/redis-data-structures.md     # Redis patterns
+Read ../caching/INDEX.md                      # Cache patterns
 
 ## Skill Selection Guide
 
@@ -169,27 +152,27 @@ Total context: 2K + 3K + skill(s) = 5-10K tokens vs 25K+ for entire index.
 ## Quick Start Examples
 
 **"Design a PostgreSQL schema for an e-commerce app"**:
-Read <cc-polymath-root>/skills/database/postgres-schema-design.md
+Read ../database/postgres-schema-design.md
 
 
 **"Why is my query slow?"**:
-Read <cc-polymath-root>/skills/database/postgres-query-optimization.md
+Read ../database/postgres-query-optimization.md
 
 
 **"How do I safely change my database schema?"**:
-Read <cc-polymath-root>/skills/database/postgres-migrations.md
+Read ../database/postgres-migrations.md
 
 
 **"Should I use MongoDB or PostgreSQL?"**:
-Read <cc-polymath-root>/skills/database/database-selection.md
+Read ../database/database-selection.md
 
 
 **"Implement caching with Redis"**:
-Read <cc-polymath-root>/skills/database/redis-data-structures.md
+Read ../database/redis-data-structures.md
 
 
 **"Fix N+1 queries in my ORM"**:
-Read <cc-polymath-root>/skills/database/orm-patterns.md
+Read ../database/orm-patterns.md
 
 
 ## Database Type Decision Tree
@@ -205,7 +188,7 @@ Need analytics? YES → DuckDB or Redpanda + Iceberg
 ```
 
 For detailed decision-making:
-Read <cc-polymath-root>/skills/database/database-selection.md
+Read ../database/database-selection.md
 
 
 ## PostgreSQL Focus Areas
@@ -246,7 +229,7 @@ Read <cc-polymath-root>/skills/database/database-selection.md
 ## ORM Considerations
 
 Before using ORMs, load:
-Read <cc-polymath-root>/skills/database/orm-patterns.md
+Read ../database/orm-patterns.md
 
 
 **Common ORM pitfalls**:
@@ -267,10 +250,10 @@ Read <cc-polymath-root>/skills/database/orm-patterns.md
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects database work
-2. **Browse skills**: Run `Read <cc-polymath-root>/skills/database/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read ../database/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 4. **Follow workflows**: Use recommended sequences for common patterns
 5. **Decision support**: Start with `database-selection.md` for new projects
 
 
-**Next Steps**: Run `Read <cc-polymath-root>/skills/database/INDEX.md` to see full category details, or load specific skills using the bash commands above.
+**Next Steps**: Run `Read ../database/INDEX.md` to see full category details, or load specific skills using the bash commands above.

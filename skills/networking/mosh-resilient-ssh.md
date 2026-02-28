@@ -1,5 +1,5 @@
 ---
-name: mosh-resilient-ssh
+name: networking-mosh-resilient-ssh
 description: Connecting over unreliable networks (mobile, WiFi)
 ---
 

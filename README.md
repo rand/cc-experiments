@@ -18,7 +18,7 @@
 ```bash
 /skills                    # See what's recommended for your project
 /discover-frontend         # Load React, Next.js, TypeScript skills (example)
-bash <cc-polymath-root>/scripts/verify-install.sh  # Verify installation
+bash scripts/verify-install.sh  # Verify installation
 ```
 
 **Learn more**:
@@ -53,7 +53,7 @@ Each skill is **focused, self-contained, and composable**:
 
 ### Three-Tier Architecture
 
-**Tier 1: Gateway Skills (40 auto-discovered Agent Skills)**
+**Tier 1: Gateway Skills (23 auto-discovered Agent Skills)**
 Lightweight entry points that activate automatically based on keywords:
 - `discover-api` → triggers on "REST", "GraphQL", "authentication"
 - `discover-database` → triggers on "PostgreSQL", "MongoDB", "Redis"
@@ -345,25 +345,25 @@ cat skills/database/redpanda-streaming.md
 | **Backend** | Python, Zig, Rust, Go | 18 | discover-backend |
 | **Frontend** | React, Next.js, TypeScript | 9 | discover-frontend |
 | **Mobile** | SwiftUI, Swift, React Native | 10 | discover-mobile |
-| **Build** | Make, CMake, Gradle, Maven, Bazel | 8 | discover-build-systems |
+| **Build** | Make, CMake, Gradle, Maven, Bazel | 8 | discover-cicd |
 | **Debug** | GDB, LLDB, pdb, DevTools, Valgrind | 14 | discover-debugging |
-| **Cloud** | AWS, GCP, Modal, Vercel, Cloudflare | 27 | discover-cloud |
+| **Cloud** | AWS, GCP, Modal, Vercel, Cloudflare | 27 | discover-infra |
 | **Database** | Postgres, Mongo, Redis, Redpanda, Iceberg | 11 | discover-database |
-| **Caching** | Redis, HTTP, CDN, Service Workers | 7 | discover-caching |
+| **Caching** | Redis, HTTP, CDN, Service Workers | 7 | discover-database |
 | **ML/AI** | DSPy, HuggingFace, Arize, GraphRAG | 33 | discover-ml |
 | **Rust/PyO3** | DSPy integration, RAG, agents, async, production | 19 | N/A |
-| **IR** | Elasticsearch, Vector DBs, Ranking | 5 | discover-ir |
-| **Systems** | WebAssembly, eBPF | 8 | discover-wasm, discover-ebpf |
-| **Collaboration** | GitHub, PRD, RFC | 17 | discover-collaboration, discover-product, discover-engineering |
-| **Formal** | Z3, Lean 4, CSP | 10 | discover-formal |
+| **IR** | Elasticsearch, Vector DBs, Ranking | 5 | discover-systems-theory |
+| **Systems** | WebAssembly, eBPF | 8 | discover-wasm, discover-systems-theory |
+| **Collaboration** | GitHub, PRD, RFC | 17 | discover-product, discover-product, discover-engineering |
+| **Formal** | Z3, Lean 4, CSP | 10 | discover-systems-theory |
 | **Math** | Linear algebra, topology, category theory | 19 | discover-math |
-| **PLT** | Lambda calculus, type systems, typed holes | 13 | discover-plt |
-| **DevOps** | GitHub Actions, Terraform, K8s, Docker | 16 | discover-cicd, discover-infrastructure, discover-containers |
-| **Observability** | Prometheus, OpenTelemetry, Grafana | 8 | discover-observability |
+| **PLT** | Lambda calculus, type systems, typed holes | 13 | discover-systems-theory |
+| **DevOps** | GitHub Actions, Terraform, K8s, Docker | 16 | discover-cicd, discover-infra, discover-infra |
+| **Observability** | Prometheus, OpenTelemetry, Grafana | 8 | discover-debugging |
 | **Networking** | SSH, mTLS, VPN, Tailscale, NAT | 5 | discover-networking |
-| **TUI** | Bubble Tea, Ratatui | 5 | discover-tui |
+| **TUI** | Bubble Tea, Ratatui | 5 | discover-frontend |
 | **Zig** | Build systems, C interop, memory management | 6 | discover-zig |
-| **Workflow** | Beads, context strategies | 4 | discover-workflow |
+| **Workflow** | Beads, context strategies | 4 | discover-product |
 
 ## Development Philosophy
 
@@ -545,4 +545,4 @@ Feel free to fork and adapt for your own use. Pull requests welcome.
 
 ---
 
-**410+ atomic skills** • **40 gateway Agent Skills** • **33+ categories** • **100% CI-validated**
+**410+ atomic skills** • **23 gateway Agent Skills** • **33+ categories** • **100% CI-validated**

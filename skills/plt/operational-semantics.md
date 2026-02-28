@@ -1,5 +1,5 @@
 ---
-name: operational-semantics
+name: plt-operational-semantics
 description: Operational semantics including small-step, big-step, evaluation strategies, and reduction systems
 ---
 

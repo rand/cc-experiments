@@ -1,5 +1,5 @@
 ---
-name: duckdb-analytics
+name: database-duckdb-analytics
 description: Skill for duckdb analytics
 ---
 

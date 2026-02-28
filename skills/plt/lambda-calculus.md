@@ -1,5 +1,5 @@
 ---
-name: lambda-calculus
+name: plt-lambda-calculus
 description: Lambda calculus including untyped, simply typed, Church encodings, and reduction strategies
 ---
 

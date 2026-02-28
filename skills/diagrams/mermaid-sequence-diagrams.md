@@ -1,5 +1,5 @@
 ---
-name: mermaid-sequence-diagrams
+name: diagrams-mermaid-sequence-diagrams
 description: Create interaction and message flow diagrams with Mermaid showing communication between actors, services, and components over time
 ---
 

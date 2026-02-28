@@ -1,3 +1,8 @@
+---
+name: elegant-design-components-and-accessibility
+description: Component Architecture and Accessibility
+---
+
 # Component Architecture and Accessibility
 
 ## Component Architecture

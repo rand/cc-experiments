@@ -1,3 +1,8 @@
+---
+name: infrastructure-index
+description: Index of Infrastructure Skills
+---
+
 # Infrastructure Skills
 
 ## Category Overview
@@ -11,7 +16,7 @@
 **Description**: Building serverless APIs and backends
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/infrastructure/aws-serverless.md
+Read aws-serverless.md
 
 
 ---
@@ -20,7 +25,7 @@ Read <cc-polymath-root>/skills/infrastructure/aws-serverless.md
 **Description**: Building serverless APIs at the edge (low latency globally)
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/infrastructure/cloudflare-workers.md
+Read cloudflare-workers.md
 
 
 ---
@@ -29,7 +34,7 @@ Read <cc-polymath-root>/skills/infrastructure/cloudflare-workers.md
 **Description**: Cloud costs are growing unexpectedly
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/infrastructure/cost-optimization.md
+Read cost-optimization.md
 
 
 ---
@@ -38,7 +43,7 @@ Read <cc-polymath-root>/skills/infrastructure/cost-optimization.md
 **Description**: Setting up IAM roles and policies
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/infrastructure/infrastructure-security.md
+Read infrastructure-security.md
 
 
 ---
@@ -47,7 +52,7 @@ Read <cc-polymath-root>/skills/infrastructure/infrastructure-security.md
 **Description**: Deploying containerized applications at scale
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/infrastructure/kubernetes-basics.md
+Read kubernetes-basics.md
 
 
 ---
@@ -56,7 +61,7 @@ Read <cc-polymath-root>/skills/infrastructure/kubernetes-basics.md
 **Description**: Provisioning cloud infrastructure (AWS, GCP, Azure, Cloudflare)
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/infrastructure/terraform-patterns.md
+Read terraform-patterns.md
 
 
 ---
@@ -68,9 +73,9 @@ Read <cc-polymath-root>/skills/infrastructure/terraform-patterns.md
 ls skills/infrastructure/*.md
 
 # Load specific skills
-Read <cc-polymath-root>/skills/infrastructure/aws-serverless.md
-Read <cc-polymath-root>/skills/infrastructure/cloudflare-workers.md
-Read <cc-polymath-root>/skills/infrastructure/cost-optimization.md
+Read aws-serverless.md
+Read cloudflare-workers.md
+Read cost-optimization.md
 # ... and 3 more
 ```
 
@@ -80,7 +85,7 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 ---
 
-**Browse**: This index provides a quick reference. Load the `discover-infrastructure` gateway skill for common workflows and integration patterns.
+**Browse**: This index provides a quick reference. Load the `discover-infra` gateway skill for common workflows and integration patterns.
 
-Read <cc-polymath-root>/skills/discover-infrastructure/SKILL.md
+Read ../discover-infra/SKILL.md
 

@@ -1,5 +1,5 @@
 ---
-name: Graph Traversal Algorithms
+name: math-graph-traversal-algorithms
 description: Breadth-first search, depth-first search, topological sort, strongly connected components, and traversal-based graph analysis
 ---
 

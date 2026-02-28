@@ -1,5 +1,5 @@
 ---
-name: pyo3-data-science
+name: rust-pyo3-data-science
 description: PyO3 for data science and ML including numpy integration, Polars DataFrames, Arrow/Parquet streaming, ONNX Runtime
 skill_id: rust-pyo3-data-science
 title: PyO3 Data Science Integration

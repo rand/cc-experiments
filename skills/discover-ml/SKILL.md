@@ -4,7 +4,7 @@ description: Automatically discover machine learning and AI skills when working 
 license: MIT
 metadata:
   author: rand
-  version: "3.1"
+  version: "4.0"
 compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
@@ -13,7 +13,6 @@ compatibility: Designed for Claude Code. Compatible with any agent supporting th
 Provides automatic access to comprehensive ml skills.
 
 ## When This Skill Activates
-
 This skill auto-activates when you're working with:
 - machine learning
 - ML
@@ -23,13 +22,20 @@ This skill auto-activates when you're working with:
 - inference
 - PyTorch
 - TensorFlow
+- Modal
+- serverless functions
+- cloud deployment
+- GPU workloads
+- web endpoints
+- Modal platform
 
 ## Available Skills
 
 ### Quick Reference
 
-The Ml category contains 25 skills:
+The ML category contains 42 skills across 2 subcategories:
 
+**ML (34 skills):**
 1. **custom-llm-evaluation**
 2. **diffusion-finetuning**
 3. **diffusion-model-basics**
@@ -56,29 +62,13 @@ The Ml category contains 25 skills:
 24. **stable-diffusion-deployment**
 25. **unsloth-finetuning**
 
+Plus 9 more in `../ml/INDEX.md`
+
+**Modal (8 skills):** See `../modal/INDEX.md`
+
 ### Load Full Category Details
-
-For complete descriptions and workflows:
-
-Read <cc-polymath-root>/skills/ml/INDEX.md
-
-
-This loads the full Ml category index with:
-- Detailed skill descriptions
-- Usage triggers for each skill
-- Common workflow combinations
-- Cross-references to related skills
-
-### Load Specific Skills
-
-Load individual skills as needed:
-
-Read <cc-polymath-root>/skills/ml/custom-llm-evaluation.md
-Read <cc-polymath-root>/skills/ml/diffusion-finetuning.md
-Read <cc-polymath-root>/skills/ml/diffusion-model-basics.md
-Read <cc-polymath-root>/skills/ml/dspy-assertions.md
-Read <cc-polymath-root>/skills/ml/dspy-evaluation.md
-
+Read ../ml/INDEX.md
+Read ../modal/INDEX.md
 
 ## Progressive Loading
 
@@ -90,8 +80,8 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects ml work
-2. **Browse skills**: Run `Read <cc-polymath-root>/skills/ml/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read ../ml/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 
-**Next Steps**: Run `Read <cc-polymath-root>/skills/ml/INDEX.md` to see full category details.
+**Next Steps**: Run `Read ../ml/INDEX.md` to see full category details.

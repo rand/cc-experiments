@@ -1,3 +1,8 @@
+---
+name: containers-index
+description: Index of Containers Skills
+---
+
 # Containers Skills
 
 ## Category Overview
@@ -11,7 +16,7 @@
 **Description**: Configuring container network connectivity
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/containers/container-networking.md
+Read container-networking.md
 
 
 ---
@@ -20,7 +25,7 @@ Read <cc-polymath-root>/skills/containers/container-networking.md
 **Description**: Choosing a container registry (ECR/GCR/Harbor/Docker Hub)
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/containers/container-registry-management.md
+Read container-registry-management.md
 
 
 ---
@@ -29,7 +34,7 @@ Read <cc-polymath-root>/skills/containers/container-registry-management.md
 **Description**: Hardening container images for production
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/containers/container-security.md
+Read container-security.md
 
 
 ---
@@ -38,7 +43,7 @@ Read <cc-polymath-root>/skills/containers/container-security.md
 **Description**: Setting up local development environments
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/containers/docker-compose-development.md
+Read docker-compose-development.md
 
 
 ---
@@ -47,7 +52,7 @@ Read <cc-polymath-root>/skills/containers/docker-compose-development.md
 **Description**: Writing Dockerfiles for production applications
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/containers/dockerfile-optimization.md
+Read dockerfile-optimization.md
 
 
 ---
@@ -59,9 +64,9 @@ Read <cc-polymath-root>/skills/containers/dockerfile-optimization.md
 ls skills/containers/*.md
 
 # Load specific skills
-Read <cc-polymath-root>/skills/containers/container-networking.md
-Read <cc-polymath-root>/skills/containers/container-registry-management.md
-Read <cc-polymath-root>/skills/containers/container-security.md
+Read container-networking.md
+Read container-registry-management.md
+Read container-security.md
 # ... and 2 more
 ```
 
@@ -71,7 +76,7 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 ---
 
-**Browse**: This index provides a quick reference. Load the `discover-containers` gateway skill for common workflows and integration patterns.
+**Browse**: This index provides a quick reference. Load the `discover-infra` gateway skill for common workflows and integration patterns.
 
-Read <cc-polymath-root>/skills/discover-containers/SKILL.md
+Read ../discover-infra/SKILL.md
 

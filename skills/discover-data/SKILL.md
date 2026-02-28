@@ -4,7 +4,7 @@ description: Automatically discover data pipeline and ETL skills when working wi
 license: MIT
 metadata:
   author: rand
-  version: "3.1"
+  version: "4.0"
 compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
@@ -48,7 +48,7 @@ The Data category contains 9 skills:
 
 For complete descriptions and workflows:
 
-Read <cc-polymath-root>/skills/data/INDEX.md
+Read ../data/INDEX.md
 
 
 This loads the full Data category index with:
@@ -63,42 +63,42 @@ Load individual skills as needed:
 
 
 # Traditional ETL/Batch
-Read <cc-polymath-root>/skills/data/batch-processing.md
-Read <cc-polymath-root>/skills/data/data-validation.md
-Read <cc-polymath-root>/skills/data/etl-patterns.md
-Read <cc-polymath-root>/skills/data/pipeline-orchestration.md
+Read ../data/batch-processing.md
+Read ../data/data-validation.md
+Read ../data/etl-patterns.md
+Read ../data/pipeline-orchestration.md
 
 # Stream Processing
-Read <cc-polymath-root>/skills/data/stream-processing.md
-Read <cc-polymath-root>/skills/data/streaming-aggregations.md
+Read ../data/stream-processing.md
+Read ../data/streaming-aggregations.md
 
 # Advanced Dataflow Systems
-Read <cc-polymath-root>/skills/data/timely-dataflow.md
-Read <cc-polymath-root>/skills/data/differential-dataflow.md
-Read <cc-polymath-root>/skills/data/dataflow-coordination.md
+Read ../data/timely-dataflow.md
+Read ../data/differential-dataflow.md
+Read ../data/dataflow-coordination.md
 
 
 ## Common Workflow Combinations
 
 ### Real-Time Analytics Pipeline
 # Load these skills together:
-Read <cc-polymath-root>/skills/data/stream-processing.md          # Kafka setup
-Read <cc-polymath-root>/skills/data/streaming-aggregations.md     # Windowing patterns
-Read <cc-polymath-root>/skills/data/dataflow-coordination.md      # Coordination
+Read ../data/stream-processing.md          # Kafka setup
+Read ../data/streaming-aggregations.md     # Windowing patterns
+Read ../data/dataflow-coordination.md      # Coordination
 
 
 ### Incremental Computation System
 # Load these skills together:
-Read <cc-polymath-root>/skills/data/timely-dataflow.md           # Foundation
-Read <cc-polymath-root>/skills/data/differential-dataflow.md     # Incremental updates
-Read <cc-polymath-root>/skills/data/dataflow-coordination.md     # Distributed coordination
+Read ../data/timely-dataflow.md           # Foundation
+Read ../data/differential-dataflow.md     # Incremental updates
+Read ../data/dataflow-coordination.md     # Distributed coordination
 
 
 ### Hybrid Batch + Stream
 # Load these skills together:
-Read <cc-polymath-root>/skills/data/batch-processing.md          # Batch jobs
-Read <cc-polymath-root>/skills/data/stream-processing.md         # Stream processing
-Read <cc-polymath-root>/skills/data/pipeline-orchestration.md    # Overall coordination
+Read ../data/batch-processing.md          # Batch jobs
+Read ../data/stream-processing.md         # Stream processing
+Read ../data/pipeline-orchestration.md    # Overall coordination
 
 
 ## Progressive Loading
@@ -111,8 +111,8 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects data work
-2. **Browse skills**: Run `Read <cc-polymath-root>/skills/data/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read ../data/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 
-**Next Steps**: Run `Read <cc-polymath-root>/skills/data/INDEX.md` to see full category details.
+**Next Steps**: Run `Read ../data/INDEX.md` to see full category details.

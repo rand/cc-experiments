@@ -1,3 +1,8 @@
+---
+name: formal-index
+description: Index of Formal Skills
+---
+
 # Formal Skills
 
 ## Category Overview
@@ -11,7 +16,7 @@
 **Description**: Implementing CSP solvers with systematic search
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/formal/backtracking-search.md
+Read backtracking-search.md
 
 
 ---
@@ -20,7 +25,7 @@ Read <cc-polymath-root>/skills/formal/backtracking-search.md
 **Description**: Pruning search space before backtracking search
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/formal/constraint-propagation.md
+Read constraint-propagation.md
 
 
 ---
@@ -29,7 +34,7 @@ Read <cc-polymath-root>/skills/formal/constraint-propagation.md
 **Description**: Modeling scheduling problems (meetings, courses, jobs)
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/formal/csp-modeling.md
+Read csp-modeling.md
 
 
 ---
@@ -38,7 +43,7 @@ Read <cc-polymath-root>/skills/formal/csp-modeling.md
 **Description**: Formalizing mathematics using existing results
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/formal/lean-mathlib4.md
+Read lean-mathlib4.md
 
 
 ---
@@ -47,7 +52,7 @@ Read <cc-polymath-root>/skills/formal/lean-mathlib4.md
 **Description**: Learning Lean 4 from scratch
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/formal/lean-proof-basics.md
+Read lean-proof-basics.md
 
 
 ---
@@ -56,7 +61,7 @@ Read <cc-polymath-root>/skills/formal/lean-proof-basics.md
 **Description**: Optimizing proof efficiency
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/formal/lean-tactics.md
+Read lean-tactics.md
 
 
 ---
@@ -65,7 +70,7 @@ Read <cc-polymath-root>/skills/formal/lean-tactics.md
 **Description**: Formalizing complex mathematics
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/formal/lean-theorem-proving.md
+Read lean-theorem-proving.md
 
 
 ---
@@ -74,7 +79,7 @@ Read <cc-polymath-root>/skills/formal/lean-theorem-proving.md
 **Description**: Skill for formal sat solving strategies
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/formal/sat-solving-strategies.md
+Read sat-solving-strategies.md
 
 
 ---
@@ -83,7 +88,7 @@ Read <cc-polymath-root>/skills/formal/sat-solving-strategies.md
 **Description**: Skill for formal smt theory applications
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/formal/smt-theory-applications.md
+Read smt-theory-applications.md
 
 
 ---
@@ -92,7 +97,7 @@ Read <cc-polymath-root>/skills/formal/smt-theory-applications.md
 **Description**: Skill for formal z3 solver basics
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/formal/z3-solver-basics.md
+Read z3-solver-basics.md
 
 
 ---
@@ -104,9 +109,9 @@ Read <cc-polymath-root>/skills/formal/z3-solver-basics.md
 ls skills/formal/*.md
 
 # Load specific skills
-Read <cc-polymath-root>/skills/formal/backtracking-search.md
-Read <cc-polymath-root>/skills/formal/constraint-propagation.md
-Read <cc-polymath-root>/skills/formal/csp-modeling.md
+Read backtracking-search.md
+Read constraint-propagation.md
+Read csp-modeling.md
 # ... and 7 more
 ```
 
@@ -116,7 +121,7 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 ---
 
-**Browse**: This index provides a quick reference. Load the `discover-formal` gateway skill for common workflows and integration patterns.
+**Browse**: This index provides a quick reference. Load the `discover-systems-theory` gateway skill for common workflows and integration patterns.
 
-Read <cc-polymath-root>/skills/discover-formal/SKILL.md
+Read ../discover-systems-theory/SKILL.md
 

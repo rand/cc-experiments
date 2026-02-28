@@ -4,7 +4,7 @@ description: Automatically discover cryptography skills when working with encryp
 license: MIT
 metadata:
   author: rand
-  version: "3.1"
+  version: "4.0"
 compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
@@ -43,7 +43,7 @@ The Cryptography category contains 7 skills:
 
 For complete descriptions and workflows:
 
-Read <cc-polymath-root>/skills/cryptography/INDEX.md
+Read ../cryptography/INDEX.md
 
 
 This loads the full Cryptography category index with:
@@ -56,40 +56,40 @@ This loads the full Cryptography category index with:
 
 Load individual skills as needed:
 
-Read <cc-polymath-root>/skills/cryptography/pki-fundamentals.md
-Read <cc-polymath-root>/skills/cryptography/tls-configuration.md
-Read <cc-polymath-root>/skills/cryptography/certificate-management.md
-Read <cc-polymath-root>/skills/cryptography/cryptography-basics.md
+Read ../cryptography/pki-fundamentals.md
+Read ../cryptography/tls-configuration.md
+Read ../cryptography/certificate-management.md
+Read ../cryptography/cryptography-basics.md
 
 
 ## Common Workflows
 
 ### Setting Up HTTPS
 # PKI basics → TLS config → Certificate management
-Read <cc-polymath-root>/skills/cryptography/pki-fundamentals.md
-Read <cc-polymath-root>/skills/cryptography/tls-configuration.md
-Read <cc-polymath-root>/skills/cryptography/certificate-management.md
+Read ../cryptography/pki-fundamentals.md
+Read ../cryptography/tls-configuration.md
+Read ../cryptography/certificate-management.md
 
 
 ### Understanding Encryption
 # Basics → Best practices → Specific implementation
-Read <cc-polymath-root>/skills/cryptography/cryptography-basics.md
-Read <cc-polymath-root>/skills/cryptography/crypto-best-practices.md
-Read <cc-polymath-root>/skills/cryptography/tls-configuration.md
+Read ../cryptography/cryptography-basics.md
+Read ../cryptography/crypto-best-practices.md
+Read ../cryptography/tls-configuration.md
 
 
 ### Certificate Troubleshooting
 # PKI → Certificate management → Debugging
-Read <cc-polymath-root>/skills/cryptography/pki-fundamentals.md
-Read <cc-polymath-root>/skills/cryptography/certificate-management.md
+Read ../cryptography/pki-fundamentals.md
+Read ../cryptography/certificate-management.md
 
 
 
 ### Legacy Migration
 # Understand legacy → Modern TLS → Migration
-Read <cc-polymath-root>/skills/cryptography/ssl-legacy.md
-Read <cc-polymath-root>/skills/cryptography/tls-configuration.md
-Read <cc-polymath-root>/skills/cryptography/certificate-management.md
+Read ../cryptography/ssl-legacy.md
+Read ../cryptography/tls-configuration.md
+Read ../cryptography/certificate-management.md
 
 
 ## Progressive Loading
@@ -102,8 +102,8 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects cryptography work
-2. **Browse skills**: Run `Read <cc-polymath-root>/skills/cryptography/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read ../cryptography/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 
-**Next Steps**: Run `Read <cc-polymath-root>/skills/cryptography/INDEX.md` to see full category details.
+**Next Steps**: Run `Read ../cryptography/INDEX.md` to see full category details.

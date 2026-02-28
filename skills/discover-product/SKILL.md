@@ -4,7 +4,7 @@ description: Automatically discover product management skills when working with 
 license: MIT
 metadata:
   author: rand
-  version: "3.1"
+  version: "4.0"
 compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
@@ -13,7 +13,6 @@ compatibility: Designed for Claude Code. Compatible with any agent supporting th
 Provides automatic access to comprehensive product skills.
 
 ## When This Skill Activates
-
 This skill auto-activates when you're working with:
 - product management
 - roadmap
@@ -21,40 +20,41 @@ This skill auto-activates when you're working with:
 - prioritization
 - user research
 - product development
+- collaboration
+- code review
+- documentation
+- pair programming
+- team workflows
+- communication
+- Beads
+- workflow
+- task management
+- context strategies
+- dependency management
+- multi-session
+- project synthesis
+- cleanup
+- consolidation
 
 ## Available Skills
 
 ### Quick Reference
 
-The Product category contains 4 skills:
+The Product category contains 15 skills across 3 subcategories:
 
+**Product (4 skills):**
 1. **prd-requirements-gathering**
 2. **prd-structure-templates**
 3. **prd-technical-specifications**
 4. **prd-user-stories-acceptance**
 
+**Collaboration (6 skills):** See `../collaboration/INDEX.md`
+**Workflow (5 skills):** See `../workflow/INDEX.md`
+
 ### Load Full Category Details
-
-For complete descriptions and workflows:
-
-Read <cc-polymath-root>/skills/product/INDEX.md
-
-
-This loads the full Product category index with:
-- Detailed skill descriptions
-- Usage triggers for each skill
-- Common workflow combinations
-- Cross-references to related skills
-
-### Load Specific Skills
-
-Load individual skills as needed:
-
-Read <cc-polymath-root>/skills/product/prd-requirements-gathering.md
-Read <cc-polymath-root>/skills/product/prd-structure-templates.md
-Read <cc-polymath-root>/skills/product/prd-technical-specifications.md
-Read <cc-polymath-root>/skills/product/prd-user-stories-acceptance.md
-
+Read ../product/INDEX.md
+Read ../collaboration/INDEX.md
+Read ../workflow/INDEX.md
 
 ## Progressive Loading
 
@@ -66,8 +66,8 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects product work
-2. **Browse skills**: Run `Read <cc-polymath-root>/skills/product/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read ../product/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 
-**Next Steps**: Run `Read <cc-polymath-root>/skills/product/INDEX.md` to see full category details.
+**Next Steps**: Run `Read ../product/INDEX.md` to see full category details.

@@ -1,5 +1,5 @@
 ---
-name: dspy-production
+name: ml-dspy-production
 description: Production deployment patterns for DSPy including serverless, containers, monitoring, caching, and cost optimization
 ---
 

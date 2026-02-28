@@ -1,3 +1,8 @@
+---
+name: workflow-index
+description: Index of Workflow Skills
+---
+
 # Workflow Skills
 
 ## Category Overview
@@ -11,7 +16,7 @@
 **Description**: Skill for beads context strategies
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/workflow/beads-context-strategies.md
+Read beads-context-strategies.md
 
 
 ---
@@ -20,7 +25,7 @@ Read <cc-polymath-root>/skills/workflow/beads-context-strategies.md
 **Description**: bd dep add bd-15 bd-10 --type blocks
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/workflow/beads-dependency-management.md
+Read beads-dependency-management.md
 
 
 ---
@@ -29,7 +34,7 @@ Read <cc-polymath-root>/skills/workflow/beads-dependency-management.md
 **Description**: bd create "Implement user authentication" -t epic -p 0 --json
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/workflow/beads-multi-session-patterns.md
+Read beads-multi-session-patterns.md
 
 
 ---
@@ -38,7 +43,7 @@ Read <cc-polymath-root>/skills/workflow/beads-multi-session-patterns.md
 **Description**: go install github.com/steveyegge/beads/cmd/bd@latest
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/workflow/beads-workflow.md
+Read beads-workflow.md
 
 
 ---
@@ -47,7 +52,7 @@ Read <cc-polymath-root>/skills/workflow/beads-workflow.md
 **Description**: Synthesize scattered project artifacts into unified roadmap. Use when projects have accumulated sprawl across multiple planning documents, inconsistent naming, orphaned tests, or Beads issues out of sync with reality.
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/workflow/project-synthesis.md
+Read project-synthesis.md
 
 
 ---
@@ -59,11 +64,11 @@ Read <cc-polymath-root>/skills/workflow/project-synthesis.md
 ls skills/workflow/*.md
 
 # Load specific skills
-Read <cc-polymath-root>/skills/workflow/beads-context-strategies.md
-Read <cc-polymath-root>/skills/workflow/beads-dependency-management.md
-Read <cc-polymath-root>/skills/workflow/beads-multi-session-patterns.md
-Read <cc-polymath-root>/skills/workflow/beads-workflow.md
-Read <cc-polymath-root>/skills/workflow/project-synthesis.md
+Read beads-context-strategies.md
+Read beads-dependency-management.md
+Read beads-multi-session-patterns.md
+Read beads-workflow.md
+Read project-synthesis.md
 ```
 
 ## Related Categories
@@ -72,7 +77,7 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 ---
 
-**Browse**: This index provides a quick reference. Load the `discover-workflow` gateway skill for common workflows and integration patterns.
+**Browse**: This index provides a quick reference. Load the `discover-product` gateway skill for common workflows and integration patterns.
 
-Read <cc-polymath-root>/skills/discover-workflow/SKILL.md
+Read ../discover-product/SKILL.md
 

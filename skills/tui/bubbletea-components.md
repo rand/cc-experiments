@@ -1,5 +1,5 @@
 ---
-name: bubbletea-components
+name: tui-bubbletea-components
 description: Building UIs with pre-made components
 ---
 

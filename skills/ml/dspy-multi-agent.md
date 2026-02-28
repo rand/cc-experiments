@@ -1,5 +1,5 @@
 ---
-name: dspy-multi-agent
+name: ml-dspy-multi-agent
 description: Multi-agent systems with DSPy including orchestration, GEPA optimization, and inter-agent communication
 ---
 

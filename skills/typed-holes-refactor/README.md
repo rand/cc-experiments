@@ -34,7 +34,7 @@ This skill helps you refactor codebases by:
 ```bash
 # Copy skill to your skills directory
 mkdir -p ~/.claude/skills
-unzip typed-holes-refactor.skill -d <cc-polymath-root>/skills/
+unzip typed-holes-refactor.skill -d ..
 ```
 
 ## Quick Start

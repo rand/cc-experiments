@@ -1,5 +1,5 @@
 ---
-name: abstract-algebra
+name: math-abstract-algebra
 description: Abstract algebra including groups, rings, fields, Galois theory, and algebraic structures
 ---
 

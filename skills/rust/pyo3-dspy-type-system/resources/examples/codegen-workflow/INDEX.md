@@ -1,3 +1,8 @@
+---
+name: rust-index
+description: Index of Codegen Workflow Example - Index
+---
+
 # Codegen Workflow Example - Index
 
 **Complete automated Rust type generation workflow using signature_codegen.py**

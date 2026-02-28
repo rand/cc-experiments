@@ -1,6 +1,6 @@
 {
   "name": "cc-polymath",
-  "version": "3.1.0",
+  "version": "4.0.0",
   "description": "Efficient skill management system with progressive discovery — 410+ production-ready skills across 33+ domains",
   "author": {
     "name": "rand"
@@ -27,7 +27,7 @@
     "python",
     "zig",
     "cryptography",
-    "protocols",
+    "networking",
     "engineering",
     "mobile",
     "cloud",
@@ -42,7 +42,10 @@
     "prompt-engineering",
     "git-workflows",
     "code-review",
-    "context-efficient"
+    "context-efficient",
+    "distributed-systems",
+    "formal-methods",
+    "containers"
   ],
   "skills": "./skills",
   "commands": "./commands",
@@ -53,7 +56,27 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo 'cc-polymath v3.1.0 loaded (410+ skills, 40 gateways). Use /skills to discover relevant skills. Root: ${CLAUDE_PLUGIN_ROOT}'"
+            "command": "echo 'cc-polymath v4.0.0 loaded (410+ skills, 23 gateways). Use /skills to discover relevant skills. Root: ${CLAUDE_PLUGIN_ROOT}'"
+          }
+        ]
+      },
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'cc-polymath: Skills remain available after compaction. Use /skills to rediscover.'"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "matcher": "Explore",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'cc-polymath skills available in this subagent context.'"
           }
         ]
       }

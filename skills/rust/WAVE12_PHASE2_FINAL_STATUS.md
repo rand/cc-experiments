@@ -1,3 +1,8 @@
+---
+name: rust-WAVE12_PHASE2_FINAL_STATUS
+description: Wave 12 Phase 2 - Final Status Report
+---
+
 # Wave 12 Phase 2 - Final Status Report
 
 **Date**: 2025-10-30

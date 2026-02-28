@@ -1,3 +1,8 @@
+---
+name: elegant-design-testing-and-qa
+description: Testing and Quality Assurance
+---
+
 # Testing and Quality Assurance
 
 ## Visual Testing Checklist

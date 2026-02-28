@@ -1,3 +1,8 @@
+---
+name: elegant-design-diffs-and-logs
+description: Diffs and Log Viewers
+---
+
 # Diffs and Log Viewers
 
 Version control UIs and log viewers need clarity and scannability.

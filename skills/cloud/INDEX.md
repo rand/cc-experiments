@@ -1,3 +1,8 @@
+---
+name: cloud-index
+description: Index of Cloud Computing Skills
+---
+
 # Cloud Computing Skills
 
 Comprehensive skills for AWS and Google Cloud Platform services, serverless computing, and cloud architecture.
@@ -334,7 +339,7 @@ Comprehensive skills for AWS and Google Cloud Platform services, serverless comp
 
 ---
 
-### With Container Skills (`discover-containers`)
+### With Container Skills (`discover-infra`)
 - Container orchestration on cloud (ECS, EKS, GKE)
 - Serverless containers (Lambda, Cloud Run)
 - Container registries and security
@@ -346,7 +351,7 @@ Comprehensive skills for AWS and Google Cloud Platform services, serverless comp
 
 ---
 
-### With Infrastructure Skills (`discover-infrastructure`)
+### With Infrastructure Skills (`discover-infra`)
 - Infrastructure as Code (Terraform, CloudFormation)
 - Cost optimization strategies
 - Multi-region deployments
@@ -446,22 +451,22 @@ Comprehensive skills for AWS and Google Cloud Platform services, serverless comp
 ## Loading Skills
 
 All AWS skills:
-Read <cc-polymath-root>/skills/cloud/aws/aws-lambda-functions.md
-Read <cc-polymath-root>/skills/cloud/aws/aws-api-gateway.md
-Read <cc-polymath-root>/skills/cloud/aws/aws-databases.md
-Read <cc-polymath-root>/skills/cloud/aws/aws-iam-security.md
-Read <cc-polymath-root>/skills/cloud/aws/aws-storage.md
-Read <cc-polymath-root>/skills/cloud/aws/aws-ec2-compute.md
-Read <cc-polymath-root>/skills/cloud/aws/aws-networking.md
+Read aws/aws-lambda-functions.md
+Read aws/aws-api-gateway.md
+Read aws/aws-databases.md
+Read aws/aws-iam-security.md
+Read aws/aws-storage.md
+Read aws/aws-ec2-compute.md
+Read aws/aws-networking.md
 
 
 All GCP skills:
-Read <cc-polymath-root>/skills/cloud/gcp/gcp-serverless.md
-Read <cc-polymath-root>/skills/cloud/gcp/gcp-compute.md
-Read <cc-polymath-root>/skills/cloud/gcp/gcp-databases.md
-Read <cc-polymath-root>/skills/cloud/gcp/gcp-storage.md
-Read <cc-polymath-root>/skills/cloud/gcp/gcp-iam-security.md
-Read <cc-polymath-root>/skills/cloud/gcp/gcp-networking.md
+Read gcp/gcp-serverless.md
+Read gcp/gcp-compute.md
+Read gcp/gcp-databases.md
+Read gcp/gcp-storage.md
+Read gcp/gcp-iam-security.md
+Read gcp/gcp-networking.md
 
 
 **Pro tip**: Start with compute options (serverless vs VMs), then add storage, databases, networking, and security in layers.
@@ -471,8 +476,8 @@ Read <cc-polymath-root>/skills/cloud/gcp/gcp-networking.md
 **Related Categories**:
 - `discover-api` - API design and implementation
 - `discover-database` - Database design and optimization
-- `discover-containers` - Docker and Kubernetes
-- `discover-infrastructure` - Infrastructure as Code
+- `discover-infra` - Docker and Kubernetes
+- `discover-infra` - Infrastructure as Code
 - `discover-cicd` - Deployment automation
-- `discover-observability` - Monitoring and logging
+- `discover-debugging` - Monitoring and logging
 - `discover-networking` - Network protocols and optimization

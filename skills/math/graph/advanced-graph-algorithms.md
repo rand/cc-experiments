@@ -1,5 +1,5 @@
 ---
-name: Advanced Graph Algorithms
+name: math-advanced-graph-algorithms
 description: Specialized graph algorithms including graph decomposition, vertex coloring, matching algorithms, and 2024 research advances
 ---
 

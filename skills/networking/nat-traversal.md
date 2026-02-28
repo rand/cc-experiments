@@ -1,5 +1,5 @@
 ---
-name: nat-traversal
+name: networking-nat-traversal
 description: Building peer-to-peer applications
 ---
 

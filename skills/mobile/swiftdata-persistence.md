@@ -1,5 +1,5 @@
 ---
-name: swiftdata-persistence
+name: mobile-swiftdata-persistence
 description: Building iOS/macOS apps with local persistence
 ---
 

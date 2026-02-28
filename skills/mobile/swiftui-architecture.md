@@ -1,5 +1,5 @@
 ---
-name: swiftui-architecture
+name: mobile-swiftui-architecture
 description: Building iOS/macOS apps with SwiftUI
 ---
 

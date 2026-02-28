@@ -1,5 +1,5 @@
 ---
-name: network-resilience-patterns
+name: networking-network-resilience-patterns
 description: Building robust network applications
 ---
 

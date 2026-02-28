@@ -1,5 +1,5 @@
 ---
-name: pyo3-type-conversion-advanced
+name: rust-pyo3-type-conversion-advanced
 description: Advanced PyO3 type conversion including zero-copy, numpy, and custom protocols
 category: rust
 tags: [pyo3, rust, python, numpy, arrow, zero-copy, performance]
@@ -173,7 +173,7 @@ All resources meet Wave 10-11 quality standards:
 
 ```bash
 # Load comprehensive reference
-Read <cc-polymath-root>/skills/rust/pyo3-type-conversion-advanced/resources/REFERENCE.md
+Read pyo3-type-conversion-advanced/resources/REFERENCE.md
 
 # Profile conversions
 python skills/rust/pyo3-type-conversion-advanced/resources/scripts/conversion_profiler.py \

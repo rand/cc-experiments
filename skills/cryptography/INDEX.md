@@ -1,3 +1,8 @@
+---
+name: cryptography-index
+description: Index of Cryptography Skills
+---
+
 # Cryptography Skills
 
 ## Category Overview
@@ -11,7 +16,7 @@
 **Description**: PKI fundamentals including certificate authorities, chains of trust, X.509 certificates, and certificate lifecycle
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/cryptography/pki-fundamentals.md
+Read pki-fundamentals.md
 
 
 ---
@@ -20,7 +25,7 @@ Read <cc-polymath-root>/skills/cryptography/pki-fundamentals.md
 **Description**: TLS/SSL configuration including TLS 1.2/1.3 setup, cipher suites, security best practices, and server configuration
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/cryptography/tls-configuration.md
+Read tls-configuration.md
 
 
 ---
@@ -29,7 +34,7 @@ Read <cc-polymath-root>/skills/cryptography/tls-configuration.md
 **Description**: Legacy SSL/TLS protocols (SSL 2.0/3.0, TLS 1.0/1.1), vulnerabilities, deprecation, and migration strategies
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/cryptography/ssl-legacy.md
+Read ssl-legacy.md
 
 
 ---
@@ -38,7 +43,7 @@ Read <cc-polymath-root>/skills/cryptography/ssl-legacy.md
 **Description**: Server Name Indication (SNI) for multi-domain TLS hosting, routing, and configuration patterns
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/cryptography/sni-routing.md
+Read sni-routing.md
 
 
 ---
@@ -47,7 +52,7 @@ Read <cc-polymath-root>/skills/cryptography/sni-routing.md
 **Description**: Certificate lifecycle management including rotation, renewal, monitoring, automation with Let's Encrypt and ACME
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/cryptography/certificate-management.md
+Read certificate-management.md
 
 
 ---
@@ -56,7 +61,7 @@ Read <cc-polymath-root>/skills/cryptography/certificate-management.md
 **Description**: Cryptography fundamentals including symmetric/asymmetric encryption, hashing, signing, key exchange, and common algorithms
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/cryptography/cryptography-basics.md
+Read cryptography-basics.md
 
 
 ---
@@ -65,7 +70,7 @@ Read <cc-polymath-root>/skills/cryptography/cryptography-basics.md
 **Description**: Cryptography best practices, common mistakes, security patterns, and anti-patterns to avoid
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/cryptography/crypto-best-practices.md
+Read crypto-best-practices.md
 
 
 ---
@@ -77,9 +82,9 @@ Read <cc-polymath-root>/skills/cryptography/crypto-best-practices.md
 ls skills/cryptography/*.md
 
 # Load specific skills
-Read <cc-polymath-root>/skills/cryptography/pki-fundamentals.md
-Read <cc-polymath-root>/skills/cryptography/tls-configuration.md
-Read <cc-polymath-root>/skills/cryptography/certificate-management.md
+Read pki-fundamentals.md
+Read tls-configuration.md
+Read certificate-management.md
 # ... and 4 more
 ```
 
@@ -91,5 +96,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-cryptography` gateway skill for common workflows and integration patterns.
 
-Read <cc-polymath-root>/skills/discover-cryptography/SKILL.md
+Read ../discover-cryptography/SKILL.md
 

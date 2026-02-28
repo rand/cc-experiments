@@ -1,5 +1,5 @@
 ---
-name: Graph Theory Applications
+name: math-graph-theory-applications
 description: Real-world applications of graph algorithms including social networks, routing, dependency resolution, recommendation systems, and network analysis
 ---
 

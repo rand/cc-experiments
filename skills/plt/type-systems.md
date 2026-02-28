@@ -1,5 +1,5 @@
 ---
-name: type-systems
+name: plt-type-systems
 description: Type systems including type checking, inference, polymorphism, subtyping, and soundness
 ---
 

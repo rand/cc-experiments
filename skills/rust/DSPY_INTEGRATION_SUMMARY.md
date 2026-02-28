@@ -1,3 +1,8 @@
+---
+name: rust-DSPY_INTEGRATION_SUMMARY
+description: DSPy + PyO3 Integration Skills - Project Summary
+---
+
 # DSPy + PyO3 Integration Skills - Project Summary
 
 ## 🎯 Project Goal

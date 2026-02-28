@@ -4,7 +4,7 @@ description: Automatically discover Zig programming skills when working with Zig
 license: MIT
 metadata:
   author: rand
-  version: "3.1"
+  version: "4.0"
 compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
@@ -40,7 +40,7 @@ The Zig category contains 6 skills:
 
 For complete descriptions and workflows:
 
-Read <cc-polymath-root>/skills/zig/INDEX.md
+Read ../zig/INDEX.md
 
 
 This loads the full Zig category index with:
@@ -53,9 +53,9 @@ This loads the full Zig category index with:
 
 Load individual skills as needed:
 
-Read <cc-polymath-root>/skills/zig/zig-build-system.md
-Read <cc-polymath-root>/skills/zig/zig-c-interop.md
-Read <cc-polymath-root>/skills/zig/zig-memory-management.md
+Read ../zig/zig-build-system.md
+Read ../zig/zig-c-interop.md
+Read ../zig/zig-memory-management.md
 
 
 ## Progressive Loading
@@ -68,8 +68,8 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects zig work
-2. **Browse skills**: Run `Read <cc-polymath-root>/skills/zig/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read ../zig/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 
-**Next Steps**: Run `Read <cc-polymath-root>/skills/zig/INDEX.md` to see full category details.
+**Next Steps**: Run `Read ../zig/INDEX.md` to see full category details.

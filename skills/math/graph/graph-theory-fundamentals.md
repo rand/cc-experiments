@@ -1,5 +1,5 @@
 ---
-name: Graph Theory Fundamentals
+name: math-graph-theory-fundamentals
 description: Core concepts, terminology, and mathematical foundations of graph theory including graph types, properties, and fundamental theorems
 ---
 

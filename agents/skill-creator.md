@@ -37,7 +37,7 @@ Body structure:
 - `## Core Concepts` — organized subsections with code examples
 - `## Anti-Patterns` — common mistakes with corrections
 - `## Checklist` — quick reference for applying the skill
-- `## Related Skills` — cross-references using `<cc-polymath-root>/skills/...`
+- `## Related Skills` — cross-references using `../skills/...`
 
 **For gateway skills** (`skills/discover-{category}/SKILL.md`):
 ```yaml
@@ -56,7 +56,7 @@ Body structure:
 - Title, description
 - When This Skill Activates (bullet list)
 - Available Skills (numbered quick reference)
-- Load commands using `Read <cc-polymath-root>/skills/...`
+- Load commands using `Read ../skills/...`
 - Common Workflows (sequences of skills)
 - Progressive Loading section
 
@@ -71,7 +71,7 @@ Body structure:
 - Description ≤ 1024 characters
 - Leaf skills: 200-400 lines, focused on one topic
 - Code examples are practical and correct
-- Cross-references use `<cc-polymath-root>` prefix
+- Cross-references use `..` prefix
 - No overlap with existing skills
 
 ## Design Principles

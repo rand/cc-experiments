@@ -1,5 +1,5 @@
 ---
-name: hierarchical-rag
+name: ml-hierarchical-rag
 description: Multi-level retrieval with recursive summarization and parent-child document structures for improved context selection
 ---
 

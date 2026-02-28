@@ -1,5 +1,5 @@
 ---
-name: mermaid-architecture-diagrams
+name: diagrams-mermaid-architecture-diagrams
 description: Create C4 and block architecture diagrams with Mermaid for system design and infrastructure visualization
 ---
 

@@ -579,14 +579,14 @@ Ready to implement in Node.js + Express or another framework?"
 
 **User**: "I need to create a clear diagram showing our deployment pipeline. We have development, staging, and production environments with automatic tests in between."
 
-**Auto-Discovery**: ✓ Triggered `discover-diagrams`
+**Auto-Discovery**: ✓ Triggered `discover-engineering`
 
 **Conversation Flow**:
 
 ```
 Claude: Loading diagram creation skills...
 
-Loaded: discover-diagrams (195 lines)
+Loaded: discover-engineering (195 lines)
 → mermaid-flowcharts (367 lines)
 → mermaid-sequence-diagrams (401 lines)
 
@@ -706,7 +706,7 @@ This diagram is production-ready. Want me to add environment details?"
 - Easily updated as process evolves
 
 **Skills Used**:
-- discover-diagrams (gateway)
+- discover-engineering (gateway)
 - mermaid-flowcharts (process flows, decision logic)
 - mermaid-specialized (optional for Gantt view if needed)
 
@@ -1316,7 +1316,7 @@ Ready to get started?
 
 1. **Install the plugin**: `/plugin marketplace add rand/cc-polymath
 /plugin install cc-polymath@cc-polymath`
-2. **Verify it works**: `bash <cc-polymath-root>/scripts/verify-install.sh`
+2. **Verify it works**: `bash ../scripts/verify-install.sh`
 3. **Start with your project**: Ask Claude about building React components, optimizing queries, designing APIs - whatever you're working on
 4. **Skills load automatically** - no manual loading needed for common tasks
 

@@ -1,3 +1,8 @@
+---
+name: elegant-design-layout-patterns
+description: Layout Patterns
+---
+
 # Layout Patterns
 
 ## Grid Systems

@@ -93,11 +93,33 @@ def all_leaf_skills() -> list[Path]:
 
 
 def all_cross_references(path: Path) -> list[str]:
-    """Extract all <cc-polymath-root>/... references from a file."""
+    """Extract all Read/bash relative path references from a file.
+
+    Only matches lines starting with Read or bash (Claude instructions),
+    not references inside code blocks or documentation.
+    Returns resolved paths relative to ROOT.
+    """
     text = path.read_text(encoding="utf-8")
-    # Strip trailing markdown punctuation (backticks, parens, brackets)
-    raw = re.findall(r"<cc-polymath-root>/(\S+)", text)
-    return [r.rstrip("`)]>") for r in raw]
+    refs: list[str] = []
+    in_code_block = False
+    for line in text.splitlines():
+        stripped = line.strip()
+        if stripped.startswith("```"):
+            in_code_block = not in_code_block
+            continue
+        if in_code_block:
+            continue
+        # Match lines that are Claude Read/bash instructions
+        m = re.match(r"^(?:Read|bash)\s+(\.\.?/\S+)", stripped)
+        if m:
+            raw = m.group(1).rstrip("`)]>")
+            resolved = (path.parent / raw).resolve()
+            try:
+                rel = str(resolved.relative_to(ROOT))
+            except ValueError:
+                continue
+            refs.append(rel)
+    return refs
 
 
 # ── Property Tests ──────────────────────────────────────────────
@@ -148,17 +170,27 @@ class TestGatewayProperties(unittest.TestCase):
             self.assertIn("compatibility", fm, f"Missing compatibility: {gw}")
 
     def test_gateway_has_matching_category_dir(self):
+        # Consolidated gateways map to multiple category dirs
+        multi_category = {
+            "infra": ["cloud", "infrastructure", "deployment", "containers"],
+            "distributed": ["distributed-systems", "realtime"],
+            "systems-theory": ["ebpf", "ir", "plt", "formal"],
+        }
         for gw in all_gateway_skills():
             category = gw.parent.name.replace("discover-", "")
-            # Handle special mappings
-            if category == "build-systems":
-                category_dir = SKILLS_DIR / "build-systems"
+            if category in multi_category:
+                # At least one mapped category dir must exist
+                dirs = [SKILLS_DIR / c for c in multi_category[category]]
+                self.assertTrue(
+                    any(d.is_dir() for d in dirs),
+                    f"Gateway {gw.parent.name} has no matching category dirs",
+                )
             else:
                 category_dir = SKILLS_DIR / category
-            self.assertTrue(
-                category_dir.is_dir(),
-                f"Gateway {gw.parent.name} has no matching category dir: {category_dir}",
-            )
+                self.assertTrue(
+                    category_dir.is_dir(),
+                    f"Gateway {gw.parent.name} has no matching category dir: {category_dir}",
+                )
 
     def test_gateway_references_resolve(self):
         for gw in all_gateway_skills():
@@ -268,7 +300,7 @@ class TestConfigProperties(unittest.TestCase):
 
     def test_gateway_count_accurate(self):
         gateways = all_gateway_skills()
-        self.assertEqual(len(gateways), 40, f"Expected 40 gateways, found {len(gateways)}")
+        self.assertEqual(len(gateways), 23, f"Expected 23 gateways, found {len(gateways)}")
 
 
 class TestCrossReferenceConsistency(unittest.TestCase):

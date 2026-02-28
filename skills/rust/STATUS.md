@@ -1,3 +1,8 @@
+---
+name: rust-STATUS
+description: PyO3 Skills Initiative - Development Status
+---
+
 # PyO3 Skills Initiative - Development Status
 
 **Created**: 2025-10-30

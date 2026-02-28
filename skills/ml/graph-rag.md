@@ -1,5 +1,5 @@
 ---
-name: graph-rag
+name: ml-graph-rag
 description: Graph-based retrieval-augmented generation with entity extraction, community detection, and multihop reasoning
 ---
 

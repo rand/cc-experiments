@@ -1,5 +1,5 @@
 ---
-name: dependent-types
+name: plt-dependent-types
 description: Dependent types including Π-types, Σ-types, indexed families, and proof assistants
 ---
 

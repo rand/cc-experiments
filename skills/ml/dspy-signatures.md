@@ -1,5 +1,5 @@
 ---
-name: dspy-signatures
+name: ml-dspy-signatures
 description: Defining input/output signatures for DSPy modules and language model tasks
 ---
 

@@ -4,7 +4,7 @@ description: Automatically discover mathematics and algorithm skills when workin
 license: MIT
 metadata:
   author: rand
-  version: "3.1"
+  version: "4.0"
 compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
@@ -46,7 +46,7 @@ The Math category contains 11 skills:
 
 For complete descriptions and workflows:
 
-Read <cc-polymath-root>/skills/math/INDEX.md
+Read ../math/INDEX.md
 
 
 This loads the full Math category index with:
@@ -59,11 +59,11 @@ This loads the full Math category index with:
 
 Load individual skills as needed:
 
-Read <cc-polymath-root>/skills/math/abstract-algebra.md
-Read <cc-polymath-root>/skills/math/category-theory-foundations.md
-Read <cc-polymath-root>/skills/math/differential-equations.md
-Read <cc-polymath-root>/skills/math/linear-algebra-computation.md
-Read <cc-polymath-root>/skills/math/number-theory.md
+Read ../math/abstract-algebra.md
+Read ../math/category-theory-foundations.md
+Read ../math/differential-equations.md
+Read ../math/linear-algebra-computation.md
+Read ../math/number-theory.md
 
 
 ## Progressive Loading
@@ -76,8 +76,8 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects math work
-2. **Browse skills**: Run `Read <cc-polymath-root>/skills/math/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read ../math/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 
-**Next Steps**: Run `Read <cc-polymath-root>/skills/math/INDEX.md` to see full category details.
+**Next Steps**: Run `Read ../math/INDEX.md` to see full category details.

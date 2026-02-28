@@ -1,5 +1,5 @@
 ---
-name: typed-holes-llm
+name: plt-typed-holes-llm
 description: LLM integration with typed holes (OOPSLA 2024) - static context for code synthesis, type-driven prompting, validation, ranking, combining language servers with LLMs
 ---
 

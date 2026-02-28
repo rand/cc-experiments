@@ -123,6 +123,24 @@ skills/MIGRATION_GUIDE.md
 skills/REFACTORING_SUMMARY.md
 skills/_archive/
 
+# Generated reports (store as CI artifacts, not in repo)
+security-report-ci.json
+skills-audit-report.json
+*-report*.json
+
+# Internal planning/audit documents
+AGENT_A*.md
+AGENT_A*.txt
+RESOURCES_*.md
+SECURITY_AUDIT_*.md
+
+# Reasoning logs
+.reasoning_logs/
+
+# MCP server build artifacts
+mcp-server/node_modules/
+mcp-server/dist/
+
 # OS
 Thumbs.db
 Desktop.ini

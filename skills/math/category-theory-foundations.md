@@ -1,5 +1,5 @@
 ---
-name: category-theory-foundations
+name: math-category-theory-foundations
 description: Category theory foundations including categories, functors, natural transformations, limits, and adjunctions
 ---
 

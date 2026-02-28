@@ -1,5 +1,5 @@
 #!/bin/bash
-# cc-polymath v3.1.0 validation script
+# cc-polymath v4.0.0 validation script
 set -uo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -39,10 +39,10 @@ else
   fail "SessionStart hook missing from plugin.json"
 fi
 VERSION=$(python3 -c "import json; print(json.load(open('.claude-plugin/plugin.json'))['version'])" 2>/dev/null)
-if [ "$VERSION" = "3.1.0" ]; then
-  pass "Version is 3.1.0"
+if [ "$VERSION" = "4.0.0" ]; then
+  pass "Version is 4.0.0"
 else
-  fail "Version is $VERSION, expected 3.1.0"
+  fail "Version is $VERSION, expected 4.0.0"
 fi
 
 # 3. marketplace.json is valid and matches
@@ -53,10 +53,10 @@ else
   fail "marketplace.json is invalid JSON"
 fi
 MKT_VERSION=$(python3 -c "import json; print(json.load(open('.claude-plugin/marketplace.json'))['plugins'][0]['version'])" 2>/dev/null)
-if [ "$MKT_VERSION" = "3.1.0" ]; then
-  pass "marketplace.json version matches (3.1.0)"
+if [ "$MKT_VERSION" = "4.0.0" ]; then
+  pass "marketplace.json version matches (4.0.0)"
 else
-  fail "marketplace.json version is $MKT_VERSION, expected 3.1.0"
+  fail "marketplace.json version is $MKT_VERSION, expected 4.0.0"
 fi
 
 # 4. Cross-reference validation
@@ -69,15 +69,17 @@ for d in ['skills', 'commands', 'docs']:
     for dp, dn, fns in os.walk(d):
         files.extend(os.path.join(dp, f) for f in fns if f.endswith('.md'))
 for f in files:
+    fdir = os.path.dirname(f)
     with open(f) as fh:
         for i, line in enumerate(fh, 1):
-            for m in re.finditer(r'<cc-polymath-root>/(\S+\.md)', line):
-                path = m.group(1)
-                if '{' in path or '[' in path or '*' in path:
+            for m in re.finditer(r'(?:Read|bash)\s+(\.\./[^\s\)\]\>]+\.(?:md|sh|py))', line):
+                relpath = m.group(1)
+                if '{' in relpath or '[' in relpath or '*' in relpath:
                     continue
-                if not os.path.isfile(path):
-                    broken.append(f'{f}:{i} -> {path}')
-                    print(f'    BROKEN: {f}:{i} -> {path}')
+                abspath = os.path.normpath(os.path.join(fdir, relpath))
+                if not os.path.isfile(abspath):
+                    broken.append(f'{f}:{i} -> {relpath}')
+                    print(f'    BROKEN: {f}:{i} -> {relpath}')
 print(len(broken))
 " 2>/dev/null | tail -1)
 if [ "$BROKEN_COUNT" = "0" ]; then
@@ -94,8 +96,22 @@ MISSING_CAT=0
 for gw in skills/discover-*/SKILL.md; do
   dir=$(dirname "$gw")
   cat_name=$(basename "$dir" | sed 's/discover-//')
-  if [ ! -d "skills/$cat_name" ]; then
-    fail "Gateway $dir has no category dir skills/$cat_name/"
+  # Consolidated gateways map to multiple category dirs
+  case "$cat_name" in
+    infra) cats="cloud infrastructure deployment containers" ;;
+    distributed) cats="distributed-systems realtime" ;;
+    systems-theory) cats="ebpf ir plt formal" ;;
+    *) cats="$cat_name" ;;
+  esac
+  found=0
+  for c in $cats; do
+    if [ -d "skills/$c" ]; then
+      found=1
+      break
+    fi
+  done
+  if [ "$found" -eq 0 ]; then
+    fail "Gateway $dir has no category dir"
     MISSING_CAT=$((MISSING_CAT + 1))
   fi
 done
@@ -204,7 +220,7 @@ fi
 
 # 10. No stale count references
 echo "10. Checking for stale skill count references..."
-STALE_447=$(grep -r '\b447\b' --include="*.md" . 2>/dev/null | grep -v '.git/' | grep -v '.reasoning_logs/' | wc -l | tr -d ' ')
+STALE_447=$(grep -r '\b447\b' --include="*.md" . 2>/dev/null | grep -v '.git/' | grep -v '.reasoning_logs/' | grep -v 'node_modules/' | wc -l | tr -d ' ')
 if [ "$STALE_447" -eq 0 ]; then
   pass "No stale 447 skill count references"
 else

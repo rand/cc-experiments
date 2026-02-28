@@ -1,5 +1,5 @@
 ---
-name: number-theory
+name: math-number-theory
 description: Number theory including primes, modular arithmetic, Diophantine equations, and cryptographic applications
 ---
 

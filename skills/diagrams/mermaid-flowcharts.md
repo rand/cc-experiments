@@ -1,5 +1,5 @@
 ---
-name: mermaid-flowcharts
+name: diagrams-mermaid-flowcharts
 description: Create process flow diagrams with Mermaid using nodes, arrows, decisions, and subgraphs for visual documentation
 ---
 

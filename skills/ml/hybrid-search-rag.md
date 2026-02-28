@@ -1,5 +1,5 @@
 ---
-name: hybrid-search-rag
+name: ml-hybrid-search-rag
 description: Combining vector search with BM25 sparse retrieval using fusion algorithms for improved RAG accuracy
 ---
 

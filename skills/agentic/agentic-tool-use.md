@@ -316,5 +316,5 @@ result_text = tool("grep", pattern="def authenticate")
 
 ## Related Skills
 
-- `<cc-polymath-root>/skills/agentic/agentic-task-decomposition.md` - Planning which tools to call and when
-- `<cc-polymath-root>/skills/agentic/agentic-memory.md` - Managing tool results across conversation turns
+- `agentic-task-decomposition.md` - Planning which tools to call and when
+- `agentic-memory.md` - Managing tool results across conversation turns

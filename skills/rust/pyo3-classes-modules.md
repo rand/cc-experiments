@@ -1,5 +1,5 @@
 ---
-name: pyo3-classes-modules
+name: rust-pyo3-classes-modules
 description: PyO3 classes, methods, and module organization for Python extensions
 category: rust
 tags: [pyo3, rust, python, classes, modules, plugins, oop]
@@ -171,7 +171,7 @@ All resources meet Wave 10-11 quality standards:
 
 ```bash
 # Load comprehensive reference
-Read <cc-polymath-root>/skills/rust/pyo3-classes-modules/resources/REFERENCE.md
+Read pyo3-classes-modules/resources/REFERENCE.md
 
 # Inspect a PyO3 class
 python skills/rust/pyo3-classes-modules/resources/scripts/class_inspector.py --inspect MyClass

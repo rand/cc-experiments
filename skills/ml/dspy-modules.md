@@ -1,5 +1,5 @@
 ---
-name: dspy-modules
+name: ml-dspy-modules
 description: Building composable prediction modules with Predict, ChainOfThought, ReAct, and custom modules
 ---
 

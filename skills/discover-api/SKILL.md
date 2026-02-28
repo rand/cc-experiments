@@ -4,7 +4,7 @@ description: Automatically discover API design skills when working with REST API
 license: MIT
 metadata:
   author: rand
-  version: "3.1"
+  version: "4.0"
 compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
@@ -43,7 +43,7 @@ The API category contains 8 specialized skills:
 
 For complete descriptions and workflows:
 
-Read <cc-polymath-root>/skills/api/INDEX.md
+Read ../api/INDEX.md
 
 
 This loads the full API category index with:
@@ -58,20 +58,20 @@ Load individual skills as needed:
 
 
 # Core API design
-Read <cc-polymath-root>/skills/api/rest-api-design.md
-Read <cc-polymath-root>/skills/api/graphql-schema-design.md
+Read ../api/rest-api-design.md
+Read ../api/graphql-schema-design.md
 
 # Security and access control
-Read <cc-polymath-root>/skills/api/api-authentication.md
-Read <cc-polymath-root>/skills/api/api-authorization.md
+Read ../api/api-authentication.md
+Read ../api/api-authorization.md
 
 # Production hardening
-Read <cc-polymath-root>/skills/api/api-rate-limiting.md
-Read <cc-polymath-root>/skills/api/api-error-handling.md
-Read <cc-polymath-root>/skills/api/api-versioning.md
+Read ../api/api-rate-limiting.md
+Read ../api/api-error-handling.md
+Read ../api/api-versioning.md
 
 # Rules and best practices
-Read <cc-polymath-root>/skills/api/api-design-rules.md
+Read ../api/api-design-rules.md
 
 
 ## Common Workflows
@@ -79,25 +79,25 @@ Read <cc-polymath-root>/skills/api/api-design-rules.md
 ### New REST API
 **Sequence**: REST design → Authentication → Authorization
 
-Read <cc-polymath-root>/skills/api/rest-api-design.md      # Resource modeling, HTTP methods
-Read <cc-polymath-root>/skills/api/api-authentication.md   # User authentication
-Read <cc-polymath-root>/skills/api/api-authorization.md    # Access control
+Read ../api/rest-api-design.md      # Resource modeling, HTTP methods
+Read ../api/api-authentication.md   # User authentication
+Read ../api/api-authorization.md    # Access control
 
 
 ### New GraphQL API
 **Sequence**: GraphQL schema → Authentication → Authorization
 
-Read <cc-polymath-root>/skills/api/graphql-schema-design.md  # Schema design, resolvers
-Read <cc-polymath-root>/skills/api/api-authentication.md     # User authentication
-Read <cc-polymath-root>/skills/api/api-authorization.md      # Field-level permissions
+Read ../api/graphql-schema-design.md  # Schema design, resolvers
+Read ../api/api-authentication.md     # User authentication
+Read ../api/api-authorization.md      # Field-level permissions
 
 
 ### API Hardening
 **Sequence**: Rate limiting → Error handling → Versioning
 
-Read <cc-polymath-root>/skills/api/api-rate-limiting.md    # Prevent abuse
-Read <cc-polymath-root>/skills/api/api-error-handling.md   # Standardized errors
-Read <cc-polymath-root>/skills/api/api-versioning.md       # Manage evolution
+Read ../api/api-rate-limiting.md    # Prevent abuse
+Read ../api/api-error-handling.md   # Standardized errors
+Read ../api/api-versioning.md       # Manage evolution
 
 
 ### Complete API Stack
@@ -105,16 +105,16 @@ Read <cc-polymath-root>/skills/api/api-versioning.md       # Manage evolution
 
 
 # 1. Design phase
-Read <cc-polymath-root>/skills/api/rest-api-design.md
+Read ../api/rest-api-design.md
 
 # 2. Security phase
-Read <cc-polymath-root>/skills/api/api-authentication.md
-Read <cc-polymath-root>/skills/api/api-authorization.md
-Read <cc-polymath-root>/skills/api/api-rate-limiting.md
+Read ../api/api-authentication.md
+Read ../api/api-authorization.md
+Read ../api/api-rate-limiting.md
 
 # 3. Production readiness
-Read <cc-polymath-root>/skills/api/api-error-handling.md
-Read <cc-polymath-root>/skills/api/api-versioning.md
+Read ../api/api-error-handling.md
+Read ../api/api-versioning.md
 
 
 ## Skill Selection Guide
@@ -167,7 +167,7 @@ API skills commonly combine with:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects API-related work
-2. **Browse skills**: Run `Read <cc-polymath-root>/skills/api/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read ../api/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 4. **Follow workflows**: Use recommended sequences for common API patterns
 5. **Combine skills**: Load multiple skills for comprehensive coverage
@@ -184,24 +184,24 @@ Total context: 2K + 3K + skill(s) = 5-10K tokens vs 25K+ for entire index.
 ## Quick Start Examples
 
 **"Design a REST API for a blog"**:
-Read <cc-polymath-root>/skills/api/rest-api-design.md
+Read ../api/rest-api-design.md
 
 
 **"Add OAuth authentication to my API"**:
-Read <cc-polymath-root>/skills/api/api-authentication.md
+Read ../api/api-authentication.md
 
 
 **"Implement role-based access control"**:
-Read <cc-polymath-root>/skills/api/api-authorization.md
+Read ../api/api-authorization.md
 
 
 **"Prevent API abuse"**:
-Read <cc-polymath-root>/skills/api/api-rate-limiting.md
+Read ../api/api-rate-limiting.md
 
 
 **"Design an API versioning strategy"**:
-Read <cc-polymath-root>/skills/api/api-versioning.md
+Read ../api/api-versioning.md
 
 
 
-**Next Steps**: Run `Read <cc-polymath-root>/skills/api/INDEX.md` to see full category details, or load specific skills using the bash commands above.
+**Next Steps**: Run `Read ../api/INDEX.md` to see full category details, or load specific skills using the bash commands above.

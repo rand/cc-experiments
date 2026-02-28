@@ -4,7 +4,7 @@ description: Automatically discover research methodology skills when working wit
 license: MIT
 metadata:
   author: rand
-  version: "3.1"
+  version: "4.0"
 compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
@@ -88,13 +88,13 @@ This skill is automatically activated when your task involves:
 ### Load Individual Skills
 
 # From skills directory
-Read <cc-polymath-root>/skills/research/research-synthesis.md
-Read <cc-polymath-root>/skills/research/quantitative-methods.md
-Read <cc-polymath-root>/skills/research/qualitative-methods.md
-Read <cc-polymath-root>/skills/research/research-design.md
-Read <cc-polymath-root>/skills/research/data-collection.md
-Read <cc-polymath-root>/skills/research/data-analysis.md
-Read <cc-polymath-root>/skills/research/research-writing.md
+Read ../research/research-synthesis.md
+Read ../research/quantitative-methods.md
+Read ../research/qualitative-methods.md
+Read ../research/research-design.md
+Read ../research/data-collection.md
+Read ../research/data-analysis.md
+Read ../research/research-writing.md
 
 
 ### Common Workflow Combinations
@@ -102,51 +102,51 @@ Read <cc-polymath-root>/skills/research/research-writing.md
 **Quantitative Research Study**:
 
 # Planning phase
-Read <cc-polymath-root>/skills/research/research-design.md
+Read ../research/research-design.md
 
 # Data collection
-Read <cc-polymath-root>/skills/research/data-collection.md
-Read <cc-polymath-root>/skills/research/quantitative-methods.md
+Read ../research/data-collection.md
+Read ../research/quantitative-methods.md
 
 # Analysis and reporting
-Read <cc-polymath-root>/skills/research/data-analysis.md
-Read <cc-polymath-root>/skills/research/research-writing.md
+Read ../research/data-analysis.md
+Read ../research/research-writing.md
 
 
 **Qualitative Research Study**:
 
 # Planning phase
-Read <cc-polymath-root>/skills/research/research-design.md
+Read ../research/research-design.md
 
 # Data collection
-Read <cc-polymath-root>/skills/research/data-collection.md
-Read <cc-polymath-root>/skills/research/qualitative-methods.md
+Read ../research/data-collection.md
+Read ../research/qualitative-methods.md
 
 # Analysis and reporting
-Read <cc-polymath-root>/skills/research/data-analysis.md
-Read <cc-polymath-root>/skills/research/research-writing.md
+Read ../research/data-analysis.md
+Read ../research/research-writing.md
 
 
 **Literature Review / Meta-Analysis**:
 
 # Synthesis phase
-Read <cc-polymath-root>/skills/research/research-synthesis.md
+Read ../research/research-synthesis.md
 
 # If including quantitative synthesis
-Read <cc-polymath-root>/skills/research/quantitative-methods.md
+Read ../research/quantitative-methods.md
 
 # Writing phase
-Read <cc-polymath-root>/skills/research/research-writing.md
+Read ../research/research-writing.md
 
 
 **Mixed Methods Study**:
 # All methods
-Read <cc-polymath-root>/skills/research/research-design.md
-Read <cc-polymath-root>/skills/research/quantitative-methods.md
-Read <cc-polymath-root>/skills/research/qualitative-methods.md
-Read <cc-polymath-root>/skills/research/data-collection.md
-Read <cc-polymath-root>/skills/research/data-analysis.md
-Read <cc-polymath-root>/skills/research/research-writing.md
+Read ../research/research-design.md
+Read ../research/quantitative-methods.md
+Read ../research/qualitative-methods.md
+Read ../research/data-collection.md
+Read ../research/data-analysis.md
+Read ../research/research-writing.md
 
 
 ## Progressive Loading
@@ -232,24 +232,24 @@ Based on keywords in your task, these skills auto-load:
 ## Quick Start Examples
 
 ### "I need to design a survey study"
-Read <cc-polymath-root>/skills/research/research-design.md
-Read <cc-polymath-root>/skills/research/data-collection.md
-Read <cc-polymath-root>/skills/research/quantitative-methods.md
+Read ../research/research-design.md
+Read ../research/data-collection.md
+Read ../research/quantitative-methods.md
 
 
 ### "I need to analyze interview transcripts"
-Read <cc-polymath-root>/skills/research/qualitative-methods.md
-Read <cc-polymath-root>/skills/research/data-analysis.md
+Read ../research/qualitative-methods.md
+Read ../research/data-analysis.md
 
 
 ### "I need to conduct a meta-analysis"
-Read <cc-polymath-root>/skills/research/research-synthesis.md
-Read <cc-polymath-root>/skills/research/quantitative-methods.md
+Read ../research/research-synthesis.md
+Read ../research/quantitative-methods.md
 
 
 ### "I need to write up my results"
-Read <cc-polymath-root>/skills/research/research-writing.md
-Read <cc-polymath-root>/skills/research/data-analysis.md
+Read ../research/research-writing.md
+Read ../research/data-analysis.md
 
 
 ## Best Practices

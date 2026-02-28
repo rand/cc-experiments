@@ -1,5 +1,5 @@
 ---
-name: tailscale-vpn
+name: networking-tailscale-vpn
 description: Creating secure private networks (mesh VPN)
 ---
 

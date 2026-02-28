@@ -1,5 +1,5 @@
 ---
-name: ratatui-architecture
+name: tui-ratatui-architecture
 description: Building terminal UIs in Rust
 ---
 

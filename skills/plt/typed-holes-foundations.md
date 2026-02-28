@@ -1,5 +1,5 @@
 ---
-name: typed-holes-foundations
+name: plt-typed-holes-foundations
 description: Typed holes fundamentals - incomplete programs with static/dynamic meaning, connection to gradual typing, bidirectional type checking, and theoretical foundations
 ---
 

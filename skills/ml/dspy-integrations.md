@@ -1,5 +1,5 @@
 ---
-name: dspy-integrations
+name: ml-dspy-integrations
 description: Framework integrations for DSPy including LangChain, LlamaIndex, MLflow, FastAPI, Gradio, and database systems
 ---
 

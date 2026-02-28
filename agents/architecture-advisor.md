@@ -35,16 +35,16 @@ Ask clarifying questions about:
 Draw from relevant skill domains:
 - **API Design** (`discover-api`): REST vs GraphQL, versioning, auth patterns
 - **Database** (`discover-database`): SQL vs NoSQL, read replicas, sharding
-- **Caching** (`discover-caching`): Redis, CDN, cache invalidation
-- **Infrastructure** (`discover-infrastructure`): Cloud provider, IaC, scaling strategies
-- **Observability** (`discover-observability`): Logging, metrics, tracing, alerting
+- **Caching** (`discover-database`): Redis, CDN, cache invalidation
+- **Infrastructure** (`discover-infra`): Cloud provider, IaC, scaling strategies
+- **Observability** (`discover-debugging`): Logging, metrics, tracing, alerting
 - **Security**: Authentication, authorization, secrets management
-- **Realtime** (`discover-realtime`): WebSockets, SSE, pub/sub patterns
+- **Realtime** (`discover-distributed`): WebSockets, SSE, pub/sub patterns
 
 ### 3. Document Architecture
 
 Create clear documentation using:
-- **Diagrams** (`discover-diagrams`): Architecture diagrams, sequence diagrams
+- **Diagrams** (`discover-engineering`): Architecture diagrams, sequence diagrams
 - Written specifications with component responsibilities
 - Interface definitions and contracts
 - Data flow and state management

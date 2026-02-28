@@ -1,3 +1,8 @@
+---
+name: research-index
+description: Index of Research Skills Index
+---
+
 # Research Skills Index
 
 ## Category Overview
@@ -20,7 +25,7 @@
 - PRISMA guidelines and reporting
 
 **Load Command**:
-Read <cc-polymath-root>/skills/research/research-synthesis.md
+Read research-synthesis.md
 
 
 ---
@@ -38,7 +43,7 @@ Read <cc-polymath-root>/skills/research/research-synthesis.md
 - Effect sizes and reporting standards
 
 **Load Command**:
-Read <cc-polymath-root>/skills/research/quantitative-methods.md
+Read quantitative-methods.md
 
 
 ---
@@ -56,7 +61,7 @@ Read <cc-polymath-root>/skills/research/quantitative-methods.md
 - Saturation and sample sizes
 
 **Load Command**:
-Read <cc-polymath-root>/skills/research/qualitative-methods.md
+Read qualitative-methods.md
 
 
 ---
@@ -74,7 +79,7 @@ Read <cc-polymath-root>/skills/research/qualitative-methods.md
 - Power analysis and sample size
 
 **Load Command**:
-Read <cc-polymath-root>/skills/research/research-design.md
+Read research-design.md
 
 
 ---
@@ -92,7 +97,7 @@ Read <cc-polymath-root>/skills/research/research-design.md
 - Field notes and documentation
 
 **Load Command**:
-Read <cc-polymath-root>/skills/research/data-collection.md
+Read data-collection.md
 
 
 ---
@@ -110,7 +115,7 @@ Read <cc-polymath-root>/skills/research/data-collection.md
 - APA-style result reporting
 
 **Load Command**:
-Read <cc-polymath-root>/skills/research/data-analysis.md
+Read data-analysis.md
 
 
 ---
@@ -128,7 +133,7 @@ Read <cc-polymath-root>/skills/research/data-analysis.md
 - Writing quality guidelines
 
 **Load Command**:
-Read <cc-polymath-root>/skills/research/research-writing.md
+Read research-writing.md
 
 
 ---
@@ -136,34 +141,34 @@ Read <cc-polymath-root>/skills/research/research-writing.md
 ## Common Workflows
 
 ### Complete Quantitative Study
-Read <cc-polymath-root>/skills/research/research-design.md       # 1. Plan study
-Read <cc-polymath-root>/skills/research/data-collection.md       # 2. Design instruments
-Read <cc-polymath-root>/skills/research/quantitative-methods.md  # 3. Understand methods
-Read <cc-polymath-root>/skills/research/data-analysis.md         # 4. Analyze data
-Read <cc-polymath-root>/skills/research/research-writing.md      # 5. Write paper
+Read research-design.md       # 1. Plan study
+Read data-collection.md       # 2. Design instruments
+Read quantitative-methods.md  # 3. Understand methods
+Read data-analysis.md         # 4. Analyze data
+Read research-writing.md      # 5. Write paper
 
 
 ### Complete Qualitative Study
-Read <cc-polymath-root>/skills/research/research-design.md       # 1. Plan study
-Read <cc-polymath-root>/skills/research/data-collection.md       # 2. Design protocols
-Read <cc-polymath-root>/skills/research/qualitative-methods.md   # 3. Understand methods
-Read <cc-polymath-root>/skills/research/data-analysis.md         # 4. Analyze data
-Read <cc-polymath-root>/skills/research/research-writing.md      # 5. Write paper
+Read research-design.md       # 1. Plan study
+Read data-collection.md       # 2. Design protocols
+Read qualitative-methods.md   # 3. Understand methods
+Read data-analysis.md         # 4. Analyze data
+Read research-writing.md      # 5. Write paper
 
 
 ### Literature Review / Meta-Analysis
-Read <cc-polymath-root>/skills/research/research-synthesis.md    # 1. Synthesis methods
-Read <cc-polymath-root>/skills/research/quantitative-methods.md  # 2. If meta-analysis
-Read <cc-polymath-root>/skills/research/research-writing.md      # 3. Write review
+Read research-synthesis.md    # 1. Synthesis methods
+Read quantitative-methods.md  # 2. If meta-analysis
+Read research-writing.md      # 3. Write review
 
 
 ### Mixed Methods Study
-Read <cc-polymath-root>/skills/research/research-design.md       # 1. Plan integrated design
-Read <cc-polymath-root>/skills/research/quantitative-methods.md  # 2. Quant component
-Read <cc-polymath-root>/skills/research/qualitative-methods.md   # 3. Qual component
-Read <cc-polymath-root>/skills/research/data-collection.md       # 4. Collect all data
-Read <cc-polymath-root>/skills/research/data-analysis.md         # 5. Analyze & integrate
-Read <cc-polymath-root>/skills/research/research-writing.md      # 6. Write paper
+Read research-design.md       # 1. Plan integrated design
+Read quantitative-methods.md  # 2. Quant component
+Read qualitative-methods.md   # 3. Qual component
+Read data-collection.md       # 4. Collect all data
+Read data-analysis.md         # 5. Analyze & integrate
+Read research-writing.md      # 6. Write paper
 
 
 ## Skill Features

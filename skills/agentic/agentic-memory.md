@@ -379,5 +379,5 @@ def semantic_recall(memory_store, query, top_k=5):
 
 ## Related Skills
 
-- `<cc-polymath-root>/skills/agentic/agentic-task-decomposition.md` - Context-bounded task sizing
-- `<cc-polymath-root>/skills/agentic/agentic-tool-use.md` - Managing tool results in context
+- `agentic-task-decomposition.md` - Context-bounded task sizing
+- `agentic-tool-use.md` - Managing tool results in context

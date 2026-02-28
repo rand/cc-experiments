@@ -1,3 +1,8 @@
+---
+name: collaboration-index
+description: Index of Collaboration Skills
+---
+
 # Collaboration Skills
 
 ## Category Overview
@@ -16,7 +21,7 @@
 - Documenting complex code paths
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/collaboration/codetour-guided-walkthroughs.md
+Read codetour-guided-walkthroughs.md
 
 ---
 
@@ -28,7 +33,7 @@ Read <cc-polymath-root>/skills/collaboration/codetour-guided-walkthroughs.md
 - Automating PR checks and approvals
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/collaboration/github/github-pull-requests.md
+Read github/github-pull-requests.md
 
 ---
 
@@ -40,7 +45,7 @@ Read <cc-polymath-root>/skills/collaboration/github/github-pull-requests.md
 - Optimizing workflow performance and caching
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/collaboration/github/github-actions-workflows.md
+Read github/github-actions-workflows.md
 
 ---
 
@@ -52,7 +57,7 @@ Read <cc-polymath-root>/skills/collaboration/github/github-actions-workflows.md
 - Managing milestones and release planning
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/collaboration/github/github-issues-projects.md
+Read github/github-issues-projects.md
 
 ---
 
@@ -64,7 +69,7 @@ Read <cc-polymath-root>/skills/collaboration/github/github-issues-projects.md
 - Setting up repository templates and standards
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/collaboration/github/github-repository-management.md
+Read github/github-repository-management.md
 
 ---
 
@@ -76,7 +81,7 @@ Read <cc-polymath-root>/skills/collaboration/github/github-repository-management
 - Configuring code scanning (CodeQL)
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/collaboration/github/github-security-features.md
+Read github/github-security-features.md
 
 ---
 
@@ -104,6 +109,6 @@ Read <cc-polymath-root>/skills/collaboration/github/github-security-features.md
 
 ---
 
-**Browse**: Load the `discover-collaboration` gateway for common workflows.
-Read <cc-polymath-root>/skills/discover-collaboration/SKILL.md
+**Browse**: Load the `discover-product` gateway for common workflows.
+Read ../discover-product/SKILL.md
 

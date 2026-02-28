@@ -1,5 +1,5 @@
 ---
-name: beads-multi-session-patterns
+name: workflow-beads-multi-session-patterns
 description: bd create "Implement user authentication" -t epic -p 0 --json
 ---
 

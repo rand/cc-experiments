@@ -4,7 +4,7 @@ description: Automatically discover agentic workflow skills when building AI age
 license: MIT
 metadata:
   author: rand
-  version: "3.1"
+  version: "4.0"
 compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
@@ -39,7 +39,7 @@ The Agentic category contains 3 specialized skills:
 
 For complete descriptions and workflows:
 
-Read <cc-polymath-root>/skills/agentic/INDEX.md
+Read ../agentic/INDEX.md
 
 
 This loads the full Agentic category index with:
@@ -54,13 +54,13 @@ Load individual skills as needed:
 
 
 # Task planning and decomposition
-Read <cc-polymath-root>/skills/agentic/agentic-task-decomposition.md
+Read ../agentic/agentic-task-decomposition.md
 
 # Tool calling and execution
-Read <cc-polymath-root>/skills/agentic/agentic-tool-use.md
+Read ../agentic/agentic-tool-use.md
 
 # Context and memory management
-Read <cc-polymath-root>/skills/agentic/agentic-memory.md
+Read ../agentic/agentic-memory.md
 
 
 ## Common Workflows
@@ -68,23 +68,23 @@ Read <cc-polymath-root>/skills/agentic/agentic-memory.md
 ### Building an Agent from Scratch
 **Sequence**: Decomposition -> Tool Use -> Memory
 
-Read <cc-polymath-root>/skills/agentic/agentic-task-decomposition.md  # Plan the agent's task handling
-Read <cc-polymath-root>/skills/agentic/agentic-tool-use.md            # Implement tool execution
-Read <cc-polymath-root>/skills/agentic/agentic-memory.md              # Add context management
+Read ../agentic/agentic-task-decomposition.md  # Plan the agent's task handling
+Read ../agentic/agentic-tool-use.md            # Implement tool execution
+Read ../agentic/agentic-memory.md              # Add context management
 
 
 ### Adding Tool Use to an Agent
 **Sequence**: Tool Use -> Decomposition
 
-Read <cc-polymath-root>/skills/agentic/agentic-tool-use.md            # Tool calling patterns
-Read <cc-polymath-root>/skills/agentic/agentic-task-decomposition.md  # Multi-tool task planning
+Read ../agentic/agentic-tool-use.md            # Tool calling patterns
+Read ../agentic/agentic-task-decomposition.md  # Multi-tool task planning
 
 
 ### Scaling Agent Sessions
 **Sequence**: Memory -> Decomposition
 
-Read <cc-polymath-root>/skills/agentic/agentic-memory.md              # Context management
-Read <cc-polymath-root>/skills/agentic/agentic-task-decomposition.md  # Context-bounded task sizing
+Read ../agentic/agentic-memory.md              # Context management
+Read ../agentic/agentic-task-decomposition.md  # Context-bounded task sizing
 
 
 ### Complete Agentic Stack
@@ -92,13 +92,13 @@ Read <cc-polymath-root>/skills/agentic/agentic-task-decomposition.md  # Context-
 
 
 # 1. Planning layer
-Read <cc-polymath-root>/skills/agentic/agentic-task-decomposition.md
+Read ../agentic/agentic-task-decomposition.md
 
 # 2. Execution layer
-Read <cc-polymath-root>/skills/agentic/agentic-tool-use.md
+Read ../agentic/agentic-tool-use.md
 
 # 3. Memory layer
-Read <cc-polymath-root>/skills/agentic/agentic-memory.md
+Read ../agentic/agentic-memory.md
 
 
 ## Skill Selection Guide
@@ -148,7 +148,7 @@ Agentic skills commonly combine with:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects agentic workflow tasks
-2. **Browse skills**: Run `Read <cc-polymath-root>/skills/agentic/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read ../agentic/INDEX.md` for full category overview
 3. **Load specific skills**: Use commands above to load individual skills
 4. **Follow workflows**: Use recommended sequences for common agentic patterns
 5. **Combine skills**: Load multiple skills for comprehensive coverage
@@ -165,16 +165,16 @@ Total context: 2K + 3K + skill(s) = 5-10K tokens vs 12K+ for entire category.
 ## Quick Start Examples
 
 **"Build an autonomous coding agent"**:
-Read <cc-polymath-root>/skills/agentic/agentic-task-decomposition.md
+Read ../agentic/agentic-task-decomposition.md
 
 
 **"How should my agent call tools?"**:
-Read <cc-polymath-root>/skills/agentic/agentic-tool-use.md
+Read ../agentic/agentic-tool-use.md
 
 
 **"My agent is running out of context"**:
-Read <cc-polymath-root>/skills/agentic/agentic-memory.md
+Read ../agentic/agentic-memory.md
 
 
 
-**Next Steps**: Run `Read <cc-polymath-root>/skills/agentic/INDEX.md` to see full category details, or load specific skills using the commands above.
+**Next Steps**: Run `Read ../agentic/INDEX.md` to see full category details, or load specific skills using the commands above.

@@ -1,3 +1,8 @@
+---
+name: zig-index
+description: Index of Zig Skills
+---
+
 # Zig Skills
 
 ## Category Overview
@@ -11,7 +16,7 @@
 **Description**: Configuring build.zig
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/zig/zig-build-system.md
+Read zig-build-system.md
 
 
 ---
@@ -20,7 +25,7 @@ Read <cc-polymath-root>/skills/zig/zig-build-system.md
 **Description**: Calling C libraries from Zig
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/zig/zig-c-interop.md
+Read zig-c-interop.md
 
 
 ---
@@ -29,7 +34,7 @@ Read <cc-polymath-root>/skills/zig/zig-c-interop.md
 **Description**: Managing memory in Zig
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/zig/zig-memory-management.md
+Read zig-memory-management.md
 
 
 ---
@@ -38,7 +43,7 @@ Read <cc-polymath-root>/skills/zig/zig-memory-management.md
 **Description**: Adding dependencies to Zig projects
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/zig/zig-package-management.md
+Read zig-package-management.md
 
 
 ---
@@ -47,7 +52,7 @@ Read <cc-polymath-root>/skills/zig/zig-package-management.md
 **Description**: Initializing new Zig projects
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/zig/zig-project-setup.md
+Read zig-project-setup.md
 
 
 ---
@@ -56,7 +61,7 @@ Read <cc-polymath-root>/skills/zig/zig-project-setup.md
 **Description**: Writing unit tests in Zig
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/zig/zig-testing.md
+Read zig-testing.md
 
 
 ---
@@ -68,9 +73,9 @@ Read <cc-polymath-root>/skills/zig/zig-testing.md
 ls skills/zig/*.md
 
 # Load specific skills
-Read <cc-polymath-root>/skills/zig/zig-build-system.md
-Read <cc-polymath-root>/skills/zig/zig-c-interop.md
-Read <cc-polymath-root>/skills/zig/zig-memory-management.md
+Read zig-build-system.md
+Read zig-c-interop.md
+Read zig-memory-management.md
 # ... and 3 more
 ```
 
@@ -82,5 +87,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-zig` gateway skill for common workflows and integration patterns.
 
-Read <cc-polymath-root>/skills/discover-zig/SKILL.md
+Read ../discover-zig/SKILL.md
 

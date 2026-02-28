@@ -1,5 +1,5 @@
 ---
-name: mermaid-class-state-diagrams
+name: diagrams-mermaid-class-state-diagrams
 description: Create UML class diagrams and state machines with Mermaid for object-oriented design and state modeling
 ---
 

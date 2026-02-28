@@ -4,7 +4,7 @@ description: Automatically discover MCP (Model Context Protocol) skills when bui
 license: MIT
 metadata:
   author: rand
-  version: "3.1"
+  version: "4.0"
 compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
@@ -37,7 +37,7 @@ The MCP category contains 3 specialized skills:
 
 For complete descriptions and workflows:
 
-Read <cc-polymath-root>/skills/mcp/INDEX.md
+Read ../mcp/INDEX.md
 
 
 This loads the full MCP category index with:
@@ -51,13 +51,13 @@ This loads the full MCP category index with:
 Load individual skills as needed:
 
 # Server architecture and setup
-Read <cc-polymath-root>/skills/mcp/mcp-server-fundamentals.md
+Read ../mcp/mcp-server-fundamentals.md
 
 # Tool design and best practices
-Read <cc-polymath-root>/skills/mcp/mcp-tool-design.md
+Read ../mcp/mcp-tool-design.md
 
 # Testing and debugging
-Read <cc-polymath-root>/skills/mcp/mcp-testing.md
+Read ../mcp/mcp-testing.md
 
 
 ## Common Workflows
@@ -65,23 +65,23 @@ Read <cc-polymath-root>/skills/mcp/mcp-testing.md
 ### New MCP Server
 **Sequence**: Fundamentals -> Tool Design -> Testing
 
-Read <cc-polymath-root>/skills/mcp/mcp-server-fundamentals.md   # Architecture, transport, SDK
-Read <cc-polymath-root>/skills/mcp/mcp-tool-design.md           # Design tool interfaces
-Read <cc-polymath-root>/skills/mcp/mcp-testing.md               # Test with Inspector, CI
+Read ../mcp/mcp-server-fundamentals.md   # Architecture, transport, SDK
+Read ../mcp/mcp-tool-design.md           # Design tool interfaces
+Read ../mcp/mcp-testing.md               # Test with Inspector, CI
 
 
 ### Adding Tools to Existing Server
 **Sequence**: Tool Design -> Testing
 
-Read <cc-polymath-root>/skills/mcp/mcp-tool-design.md           # Naming, schemas, errors
-Read <cc-polymath-root>/skills/mcp/mcp-testing.md               # Test new tools
+Read ../mcp/mcp-tool-design.md           # Naming, schemas, errors
+Read ../mcp/mcp-testing.md               # Test new tools
 
 
 ### Debugging MCP Issues
 **Sequence**: Testing -> Fundamentals
 
-Read <cc-polymath-root>/skills/mcp/mcp-testing.md               # Inspector, transport debugging
-Read <cc-polymath-root>/skills/mcp/mcp-server-fundamentals.md   # Lifecycle, capabilities
+Read ../mcp/mcp-testing.md               # Inspector, transport debugging
+Read ../mcp/mcp-server-fundamentals.md   # Lifecycle, capabilities
 
 
 ## Integration with Other Skills
@@ -112,20 +112,20 @@ Total context: 1.5K + 2.5K + skill(s) = 4-8K tokens vs 12K+ for everything.
 ## Quick Start Examples
 
 **"Build an MCP server"**:
-Read <cc-polymath-root>/skills/mcp/mcp-server-fundamentals.md
+Read ../mcp/mcp-server-fundamentals.md
 
 
 **"Design MCP tools for my API"**:
-Read <cc-polymath-root>/skills/mcp/mcp-tool-design.md
+Read ../mcp/mcp-tool-design.md
 
 
 **"Test my MCP server"**:
-Read <cc-polymath-root>/skills/mcp/mcp-testing.md
+Read ../mcp/mcp-testing.md
 
 
 **"Debug why my MCP tool isn't showing up"**:
-Read <cc-polymath-root>/skills/mcp/mcp-testing.md
+Read ../mcp/mcp-testing.md
 
 
 
-**Next Steps**: Run `Read <cc-polymath-root>/skills/mcp/INDEX.md` to see full category details, or load specific skills using the commands above.
+**Next Steps**: Run `Read ../mcp/INDEX.md` to see full category details, or load specific skills using the commands above.

@@ -1,5 +1,5 @@
 ---
-name: rag-reranking-techniques
+name: ml-rag-reranking-techniques
 description: Multi-stage retrieval pipelines with cross-encoder and LLM-based reranking for improved RAG precision
 ---
 

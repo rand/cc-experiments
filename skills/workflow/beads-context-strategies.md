@@ -1,5 +1,5 @@
 ---
-name: beads-context-strategies
+name: workflow-beads-context-strategies
 description: Skill for beads context strategies
 ---
 

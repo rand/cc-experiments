@@ -4,7 +4,7 @@ description: Automatically discover CI/CD and automation skills when working wit
 license: MIT
 metadata:
   author: rand
-  version: "3.1"
+  version: "4.0"
 compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
@@ -13,7 +13,6 @@ compatibility: Designed for Claude Code. Compatible with any agent supporting th
 Provides automatic access to comprehensive cicd skills.
 
 ## When This Skill Activates
-
 This skill auto-activates when you're working with:
 - CI/CD
 - GitHub Actions
@@ -22,40 +21,32 @@ This skill auto-activates when you're working with:
 - pipelines
 - continuous integration
 - deployment automation
+- build systems
+- Make
+- CMake
+- Gradle
+- Maven
+- Bazel
+- compilation
+- incremental builds
 
 ## Available Skills
 
 ### Quick Reference
 
-The Cicd category contains 4 skills:
+The Cicd category contains 12 skills across 2 subcategories:
 
+**CI/CD (4 skills):**
 1. **cd-deployment-patterns**
 2. **ci-optimization**
 3. **ci-security**
 4. **ci-testing-strategy**
 
+**Build Systems (8 skills):** See `../build-systems/INDEX.md`
+
 ### Load Full Category Details
-
-For complete descriptions and workflows:
-
-Read <cc-polymath-root>/skills/cicd/INDEX.md
-
-
-This loads the full Cicd category index with:
-- Detailed skill descriptions
-- Usage triggers for each skill
-- Common workflow combinations
-- Cross-references to related skills
-
-### Load Specific Skills
-
-Load individual skills as needed:
-
-Read <cc-polymath-root>/skills/cicd/cd-deployment-patterns.md
-Read <cc-polymath-root>/skills/cicd/ci-optimization.md
-Read <cc-polymath-root>/skills/cicd/ci-security.md
-Read <cc-polymath-root>/skills/cicd/ci-testing-strategy.md
-
+Read ../cicd/INDEX.md
+Read ../build-systems/INDEX.md
 
 ## Progressive Loading
 
@@ -67,8 +58,8 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects cicd work
-2. **Browse skills**: Run `Read <cc-polymath-root>/skills/cicd/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read ../cicd/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 
-**Next Steps**: Run `Read <cc-polymath-root>/skills/cicd/INDEX.md` to see full category details.
+**Next Steps**: Run `Read ../cicd/INDEX.md` to see full category details.

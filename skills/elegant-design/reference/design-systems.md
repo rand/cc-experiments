@@ -1,3 +1,8 @@
+---
+name: elegant-design-design-systems
+description: Design Systems Reference
+---
+
 # Design Systems Reference
 
 ## shadcn/ui (PRIMARY CHOICE)

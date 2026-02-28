@@ -1,3 +1,8 @@
+---
+name: database-index
+description: Index of Database Skills
+---
+
 # Database Skills
 
 ## Category Overview
@@ -11,7 +16,7 @@
 **Description**: Building data lakes with ACID transaction support and schema evolution
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/database/apache-iceberg.md
+Read apache-iceberg.md
 
 
 ---
@@ -20,7 +25,7 @@ Read <cc-polymath-root>/skills/database/apache-iceberg.md
 **Description**: Configuring database connections for applications
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/database/database-connection-pooling.md
+Read database-connection-pooling.md
 
 
 ---
@@ -29,7 +34,7 @@ Read <cc-polymath-root>/skills/database/database-connection-pooling.md
 **Description**: Starting new projects and choosing database technology
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/database/database-selection.md
+Read database-selection.md
 
 
 ---
@@ -38,7 +43,7 @@ Read <cc-polymath-root>/skills/database/database-selection.md
 **Description**: Skill for duckdb analytics
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/database/duckdb-analytics.md
+Read duckdb-analytics.md
 
 
 ---
@@ -47,7 +52,7 @@ Read <cc-polymath-root>/skills/database/duckdb-analytics.md
 **Description**: Designing MongoDB schemas
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/database/mongodb-document-design.md
+Read mongodb-document-design.md
 
 
 ---
@@ -56,7 +61,7 @@ Read <cc-polymath-root>/skills/database/mongodb-document-design.md
 **Description**: Working with ORMs (SQLAlchemy, Prisma, GORM, Diesel)
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/database/orm-patterns.md
+Read orm-patterns.md
 
 
 ---
@@ -65,7 +70,7 @@ Read <cc-polymath-root>/skills/database/orm-patterns.md
 **Description**: Creating database migrations for schema changes
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/database/postgres-migrations.md
+Read postgres-migrations.md
 
 
 ---
@@ -74,7 +79,7 @@ Read <cc-polymath-root>/skills/database/postgres-migrations.md
 **Description**: Debugging slow queries in PostgreSQL
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/database/postgres-query-optimization.md
+Read postgres-query-optimization.md
 
 
 ---
@@ -83,7 +88,7 @@ Read <cc-polymath-root>/skills/database/postgres-query-optimization.md
 **Description**: Designing new database schemas
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/database/postgres-schema-design.md
+Read postgres-schema-design.md
 
 
 ---
@@ -92,7 +97,7 @@ Read <cc-polymath-root>/skills/database/postgres-schema-design.md
 **Description**: Implementing caching layers
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/database/redis-data-structures.md
+Read redis-data-structures.md
 
 
 ---
@@ -101,7 +106,7 @@ Read <cc-polymath-root>/skills/database/redis-data-structures.md
 **Description**: **Redpanda deployments**: Setting up Kafka-compatible streaming infrastructure
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/database/redpanda-streaming.md
+Read redpanda-streaming.md
 
 
 ---
@@ -125,9 +130,9 @@ Read <cc-polymath-root>/skills/database/redpanda-streaming.md
 ls skills/database/*.md
 
 # Load specific skills
-Read <cc-polymath-root>/skills/database/apache-iceberg.md
-Read <cc-polymath-root>/skills/database/database-connection-pooling.md
-Read <cc-polymath-root>/skills/database/database-selection.md
+Read apache-iceberg.md
+Read database-connection-pooling.md
+Read database-selection.md
 # ... and 8 more
 ```
 
@@ -139,5 +144,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-database` gateway skill for common workflows and integration patterns.
 
-Read <cc-polymath-root>/skills/discover-database/SKILL.md
+Read ../discover-database/SKILL.md
 

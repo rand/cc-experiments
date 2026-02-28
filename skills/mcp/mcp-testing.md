@@ -347,7 +347,7 @@ jobs:
 
 ## Related Skills
 
-- `<cc-polymath-root>/skills/mcp/mcp-server-fundamentals.md` - Server architecture and lifecycle
-- `<cc-polymath-root>/skills/mcp/mcp-tool-design.md` - Tool design and error handling
-- `<cc-polymath-root>/skills/testing/` - General testing strategies
-- `<cc-polymath-root>/skills/cicd/` - CI/CD pipeline design
+- `mcp-server-fundamentals.md` - Server architecture and lifecycle
+- `mcp-tool-design.md` - Tool design and error handling
+- `../testing` - General testing strategies
+- `../cicd` - CI/CD pipeline design

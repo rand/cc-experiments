@@ -62,18 +62,18 @@ Activate this skill when:
 ls -d skills/discover-*
 
 # Read catalog with all gateways
-Read <cc-polymath-root>/skills/README.md
+Read README.md
 ```
 
 **Direct Mapping** (Tech → Gateway → Skills):
 - Technology identified → Trigger gateway → Load specific skills
 - Example: `package.json` with `"react"` → `discover-frontend` → `react-*.md` skills
 - Example: `requirements.txt` with `sqlalchemy` → `discover-database` → `orm-patterns.md`
-- Example: `Dockerfile` → `discover-containers` → `dockerfile-optimization.md`
+- Example: `Dockerfile` → `discover-infra` → `dockerfile-optimization.md`
 
 **Pattern-Based Mapping** (Code Patterns → Gateway):
 - Code patterns identified → Activate gateway skill
-- Example: `@app.function` decorators → `discover-modal` or `discover-cloud`
+- Example: `@app.function` decorators → `discover-ml` or `discover-infra`
 - Example: GraphQL schema files → `discover-api` gateway
 - Example: Test files in `tests/` → `discover-testing` gateway
 

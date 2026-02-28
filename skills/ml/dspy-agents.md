@@ -1,5 +1,5 @@
 ---
-name: dspy-agents
+name: ml-dspy-agents
 description: Building intelligent agents with DSPy using ReAct, tools, memory, and advanced agent patterns
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: dspy-advanced-patterns
+name: ml-dspy-advanced-patterns
 description: Advanced DSPy patterns including typed predictors with Pydantic, streaming, batch processing, prompt versioning, and meta-programming
 ---
 

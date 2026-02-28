@@ -1,5 +1,5 @@
 ---
-name: mtls-implementation
+name: networking-mtls-implementation
 description: Implementing mutual TLS authentication
 ---
 

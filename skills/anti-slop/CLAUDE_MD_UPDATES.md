@@ -1,3 +1,8 @@
+---
+name: anti-slop-CLAUDE_MD_UPDATES
+description: CLAUDE.md Updates for Anti-Slop Integration
+---
+
 # CLAUDE.md Updates for Anti-Slop Integration
 
 This document contains proposed updates to CLAUDE.md to integrate anti-slop awareness and prevention into Claude's core behavior.

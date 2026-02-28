@@ -1,3 +1,8 @@
+---
+name: ml-index
+description: Index of Ml Skills
+---
+
 # Ml Skills
 
 ## Category Overview
@@ -11,7 +16,7 @@
 **Description**: Domain-specific LLM evaluation including custom metrics, RLHF evaluation, adversarial testing, bias detection, Arize Phoenix integration, and continuous evaluation patterns for production systems
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/custom-llm-evaluation.md
+Read custom-llm-evaluation.md
 
 
 ---
@@ -20,7 +25,7 @@ Read <cc-polymath-root>/skills/ml/custom-llm-evaluation.md
 **Description**: Fine-tuning diffusion models for custom styles or subjects
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/diffusion-finetuning.md
+Read diffusion-finetuning.md
 
 
 ---
@@ -29,7 +34,7 @@ Read <cc-polymath-root>/skills/ml/diffusion-finetuning.md
 **Description**: Understanding diffusion model theory and mechanics (forward/reverse process)
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/diffusion-model-basics.md
+Read diffusion-model-basics.md
 
 
 ---
@@ -38,7 +43,7 @@ Read <cc-polymath-root>/skills/ml/diffusion-model-basics.md
 **Description**: Advanced DSPy patterns including typed predictors with Pydantic, streaming responses, batching strategies, prompt versioning, context management, and dynamic signatures
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/dspy-advanced-patterns.md
+Read dspy-advanced-patterns.md
 
 
 ---
@@ -47,7 +52,7 @@ Read <cc-polymath-root>/skills/ml/dspy-advanced-patterns.md
 **Description**: Building ReAct agents with tool use, memory, error recovery, streaming, and state machine patterns
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/dspy-agents.md
+Read dspy-agents.md
 
 
 ---
@@ -56,7 +61,7 @@ Read <cc-polymath-root>/skills/ml/dspy-agents.md
 **Description**: Adding constraints and validation to DSPy programs with assertions and suggestions
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/dspy-assertions.md
+Read dspy-assertions.md
 
 
 ---
@@ -65,7 +70,7 @@ Read <cc-polymath-root>/skills/ml/dspy-assertions.md
 **Description**: Advanced DSPy compilation strategies including custom compilers, multi-stage compilation, caching, incremental compilation, and visualization
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/dspy-compilation.md
+Read dspy-compilation.md
 
 
 ---
@@ -74,7 +79,7 @@ Read <cc-polymath-root>/skills/ml/dspy-compilation.md
 **Description**: Debugging DSPy programs with output inspection, prompt inspection, execution tracing, profiling, and interactive debugging
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/dspy-debugging.md
+Read dspy-debugging.md
 
 
 ---
@@ -83,7 +88,7 @@ Read <cc-polymath-root>/skills/ml/dspy-debugging.md
 **Description**: Evaluating DSPy programs with metrics, Evaluate class, and performance analysis
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/dspy-evaluation.md
+Read dspy-evaluation.md
 
 
 ---
@@ -92,7 +97,7 @@ Read <cc-polymath-root>/skills/ml/dspy-evaluation.md
 **Description**: Integrating DSPy with LangChain, LlamaIndex, FastAPI, Gradio, MLflow, databases, Streamlit, and MCP/A2A protocols
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/dspy-integrations.md
+Read dspy-integrations.md
 
 
 ---
@@ -101,7 +106,7 @@ Read <cc-polymath-root>/skills/ml/dspy-integrations.md
 **Description**: Building composable prediction modules with Predict, ChainOfThought, ReAct, and custom modules
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/dspy-modules.md
+Read dspy-modules.md
 
 
 ---
@@ -110,7 +115,7 @@ Read <cc-polymath-root>/skills/ml/dspy-modules.md
 **Description**: Multi-agent systems with hierarchical, peer-to-peer, pipeline, and GEPA-optimized architectures for coordinated AI systems
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/dspy-multi-agent.md
+Read dspy-multi-agent.md
 
 
 ---
@@ -119,7 +124,7 @@ Read <cc-polymath-root>/skills/ml/dspy-multi-agent.md
 **Description**: Optimizing DSPy programs with teleprompters, BootstrapFewShot, MIPROv2, and compilation
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/dspy-optimizers.md
+Read dspy-optimizers.md
 
 
 ---
@@ -128,7 +133,7 @@ Read <cc-polymath-root>/skills/ml/dspy-optimizers.md
 **Description**: Production deployment patterns including Modal serverless, caching strategies, circuit breakers, monitoring with Prometheus, A/B testing, and blue-green deployments
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/dspy-production.md
+Read dspy-production.md
 
 
 ---
@@ -137,7 +142,7 @@ Read <cc-polymath-root>/skills/ml/dspy-production.md
 **Description**: Building Retrieval-Augmented Generation pipelines with DSPy and vector databases
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/dspy-rag.md
+Read dspy-rag.md
 
 
 ---
@@ -146,7 +151,7 @@ Read <cc-polymath-root>/skills/ml/dspy-rag.md
 **Description**: Installation, configuration, and language model setup for DSPy framework including Modal and HuggingFace
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/dspy-setup.md
+Read dspy-setup.md
 
 
 ---
@@ -155,7 +160,7 @@ Read <cc-polymath-root>/skills/ml/dspy-setup.md
 **Description**: Defining input/output signatures for DSPy modules and language model tasks
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/dspy-signatures.md
+Read dspy-signatures.md
 
 
 ---
@@ -164,7 +169,7 @@ Read <cc-polymath-root>/skills/ml/dspy-signatures.md
 **Description**: Testing DSPy programs with unit tests, mocking, integration tests, property-based testing with Hypothesis, and performance testing
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/dspy-testing.md
+Read dspy-testing.md
 
 
 ---
@@ -173,7 +178,7 @@ Read <cc-polymath-root>/skills/ml/dspy-testing.md
 **Description**: Graph-based retrieval-augmented generation with entity extraction, community detection, and multihop reasoning
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/graph-rag.md
+Read graph-rag.md
 
 
 ---
@@ -182,7 +187,7 @@ Read <cc-polymath-root>/skills/ml/graph-rag.md
 **Description**: Multi-level retrieval with recursive summarization and parent-child document structures for improved context selection
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/hierarchical-rag.md
+Read hierarchical-rag.md
 
 
 ---
@@ -191,7 +196,7 @@ Read <cc-polymath-root>/skills/ml/hierarchical-rag.md
 **Description**: Combining vector search with BM25 sparse retrieval using fusion algorithms for improved RAG accuracy
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/hybrid-search-rag.md
+Read hybrid-search-rag.md
 
 
 ---
@@ -200,7 +205,7 @@ Read <cc-polymath-root>/skills/ml/hybrid-search-rag.md
 **Description**: Comprehensive guide to LLM-as-judge evaluation patterns including Prometheus 2 models, G-Eval framework, pairwise/pointwise/reference-guided methods, bias mitigation, and uncertainty quantification
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/llm-as-judge.md
+Read llm-as-judge.md
 
 
 ---
@@ -209,7 +214,7 @@ Read <cc-polymath-root>/skills/ml/llm-as-judge.md
 **Description**: Comprehensive guide to evaluating LLMs using standard benchmarks including MMLU, HellaSwag, BBH, HumanEval, TruthfulQA, and GSM8K, with practical implementation using LightEval and lm-evaluation-harness
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/llm-benchmarks-evaluation.md
+Read llm-benchmarks-evaluation.md
 
 
 ---
@@ -218,7 +223,7 @@ Read <cc-polymath-root>/skills/ml/llm-benchmarks-evaluation.md
 **Description**: Preparing training data for LLM fine-tuning
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/llm-dataset-preparation.md
+Read llm-dataset-preparation.md
 
 
 ---
@@ -227,7 +232,7 @@ Read <cc-polymath-root>/skills/ml/llm-dataset-preparation.md
 **Description**: Production-grade LLM evaluation using Arize Phoenix (OpenTelemetry tracing, self-hosted evals), Braintrust (86x faster search), LangSmith, and Langfuse with cost tracking and observability integration
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/llm-evaluation-frameworks.md
+Read llm-evaluation-frameworks.md
 
 
 ---
@@ -236,7 +241,7 @@ Read <cc-polymath-root>/skills/ml/llm-evaluation-frameworks.md
 **Description**: Intelligent LLM routing with RouteLLM, semantic routing, and cost optimization
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/llm-model-routing.md
+Read llm-model-routing.md
 
 
 ---
@@ -245,7 +250,7 @@ Read <cc-polymath-root>/skills/ml/llm-model-routing.md
 **Description**: Choosing the right LLM based on capabilities, benchmarks, pricing, and use cases
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/llm-model-selection.md
+Read llm-model-selection.md
 
 
 ---
@@ -254,7 +259,7 @@ Read <cc-polymath-root>/skills/ml/llm-model-selection.md
 **Description**: Fine-tuning large models with limited GPU memory
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/lora-peft-techniques.md
+Read lora-peft-techniques.md
 
 
 ---
@@ -263,7 +268,7 @@ Read <cc-polymath-root>/skills/ml/lora-peft-techniques.md
 **Description**: Coordinating multiple LLMs in pipelines, ensembles, and cascading workflows
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/multi-model-orchestration.md
+Read multi-model-orchestration.md
 
 
 ---
@@ -272,7 +277,7 @@ Read <cc-polymath-root>/skills/ml/multi-model-orchestration.md
 **Description**: Comprehensive guide to RAG evaluation using RAGAS (Faithfulness, Answer Relevancy, Context Precision/Recall), LLM-as-judge patterns, synthetic datasets, and integration with Arize Phoenix and Langfuse
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/rag-evaluation-metrics.md
+Read rag-evaluation-metrics.md
 
 
 ---
@@ -281,7 +286,7 @@ Read <cc-polymath-root>/skills/ml/rag-evaluation-metrics.md
 **Description**: Multi-stage retrieval pipelines with cross-encoder and LLM-based reranking for improved RAG precision
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/rag-reranking-techniques.md
+Read rag-reranking-techniques.md
 
 
 ---
@@ -290,7 +295,7 @@ Read <cc-polymath-root>/skills/ml/rag-reranking-techniques.md
 **Description**: Deploying Stable Diffusion models to production environments
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/stable-diffusion-deployment.md
+Read stable-diffusion-deployment.md
 
 
 ---
@@ -299,7 +304,7 @@ Read <cc-polymath-root>/skills/ml/stable-diffusion-deployment.md
 **Description**: Fine-tuning LLMs (Llama, Mistral, Qwen) efficiently
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/unsloth-finetuning.md
+Read unsloth-finetuning.md
 
 
 ---
@@ -316,7 +321,7 @@ Read <cc-polymath-root>/skills/ml/unsloth-finetuning.md
 **Key Concepts**: System prompts, few-shot learning, chain-of-thought, structured output, tool use, prompt chaining, guardrails
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/ml/prompt-engineering.md
+Read prompt-engineering.md
 
 
 ---
@@ -328,9 +333,9 @@ Read <cc-polymath-root>/skills/ml/prompt-engineering.md
 ls skills/ml/*.md
 
 # Load specific skills
-Read <cc-polymath-root>/skills/ml/custom-llm-evaluation.md
-Read <cc-polymath-root>/skills/ml/diffusion-finetuning.md
-Read <cc-polymath-root>/skills/ml/diffusion-model-basics.md
+Read custom-llm-evaluation.md
+Read diffusion-finetuning.md
+Read diffusion-model-basics.md
 # ... and 30 more
 ```
 
@@ -342,5 +347,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-ml` gateway skill for common workflows and integration patterns.
 
-Read <cc-polymath-root>/skills/discover-ml/SKILL.md
+Read ../discover-ml/SKILL.md
 

@@ -1,5 +1,5 @@
 ---
-name: apache-iceberg
+name: database-apache-iceberg
 description: Building data lakes with ACID transaction support and schema evolution
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: beads-dependency-management
+name: workflow-beads-dependency-management
 description: bd dep add bd-15 bd-10 --type blocks
 ---
 

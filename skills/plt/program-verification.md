@@ -1,5 +1,5 @@
 ---
-name: program-verification
+name: plt-program-verification
 description: Program verification including Hoare logic, SMT-based verification, refinement types, and proof-carrying code
 ---
 

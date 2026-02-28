@@ -15,7 +15,7 @@ End-to-end guides showing how cc-polymath skills compose for complex, production
 - discover-api → rest-api-design, api-authentication, api-authorization, api-rate-limiting, api-versioning
 - discover-database → database-selection, postgres-schema-design
 - discover-testing → api-testing, integration-testing
-- discover-observability → logging-best-practices, metrics-collection
+- discover-debugging → logging-best-practices, metrics-collection
 
 **What You'll Build**: A complete REST API with JWT auth, role-based access control, rate limiting, comprehensive tests, and production observability.
 
@@ -282,7 +282,7 @@ app.use((req, res, next) => {
 
 **Skills Used**:
 - discover-frontend → next-js-app-router, react-hooks, state-management, performance-optimization
-- discover-caching → multi-layer-caching, cdn-strategies
+- discover-database → multi-layer-caching, cdn-strategies
 - discover-api → rest-api-design
 
 **What You'll Build**: Full e-commerce site with product catalog, cart, checkout, and aggressive performance optimizations.
@@ -348,7 +348,7 @@ export function Cart() {
 **Skills Used**:
 - discover-data → etl-patterns, stream-processing
 - discover-database → postgres-optimization, redis-patterns
-- discover-observability → distributed-tracing
+- discover-debugging → distributed-tracing
 
 **What You'll Build**: Event streaming pipeline with transformation, enrichment, and real-time analytics.
 
@@ -492,8 +492,8 @@ struct HabitListView: View {
 - discover-ml → embeddings, rag-patterns, llm-evaluation-benchmarks, llm-as-judge
 - discover-database → vector-databases, postgres-optimization
 - discover-api → ml-api-design
-- discover-observability → ml-monitoring
-- discover-caching → embedding-caching
+- discover-debugging → ml-monitoring
+- discover-database → embedding-caching
 
 **What You'll Build**: Production ML recommendation system with evaluation framework, A/B testing, and cost-optimized caching.
 

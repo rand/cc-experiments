@@ -4,7 +4,7 @@ description: Automatically discover testing skills when working with unit testin
 license: MIT
 metadata:
   author: rand
-  version: "3.1"
+  version: "4.0"
 compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
@@ -41,7 +41,7 @@ The Testing category contains 6 skills:
 
 For complete descriptions and workflows:
 
-Read <cc-polymath-root>/skills/testing/INDEX.md
+Read ../testing/INDEX.md
 
 
 This loads the full Testing category index with:
@@ -54,11 +54,11 @@ This loads the full Testing category index with:
 
 Load individual skills as needed:
 
-Read <cc-polymath-root>/skills/testing/e2e-testing.md
-Read <cc-polymath-root>/skills/testing/integration-testing.md
-Read <cc-polymath-root>/skills/testing/performance-testing.md
-Read <cc-polymath-root>/skills/testing/test-coverage-strategy.md
-Read <cc-polymath-root>/skills/testing/test-driven-development.md
+Read ../testing/e2e-testing.md
+Read ../testing/integration-testing.md
+Read ../testing/performance-testing.md
+Read ../testing/test-coverage-strategy.md
+Read ../testing/test-driven-development.md
 
 
 ## Progressive Loading
@@ -71,8 +71,8 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects testing work
-2. **Browse skills**: Run `Read <cc-polymath-root>/skills/testing/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read ../testing/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 
-**Next Steps**: Run `Read <cc-polymath-root>/skills/testing/INDEX.md` to see full category details.
+**Next Steps**: Run `Read ../testing/INDEX.md` to see full category details.

@@ -1,5 +1,5 @@
 ---
-name: differential-equations
+name: math-differential-equations
 description: Differential equations including ODEs, PDEs, analytical methods, numerical solutions
 ---
 

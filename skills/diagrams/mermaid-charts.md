@@ -1,5 +1,5 @@
 ---
-name: mermaid-charts
+name: diagrams-mermaid-charts
 description: Create data visualization charts with Mermaid including pie, XY, quadrant, and radar charts for metrics and analytics
 ---
 

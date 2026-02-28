@@ -298,5 +298,5 @@ def execute_with_recovery(plan):
 
 ## Related Skills
 
-- `<cc-polymath-root>/skills/agentic/agentic-tool-use.md` - Executing decomposed tasks with tools
-- `<cc-polymath-root>/skills/agentic/agentic-memory.md` - Managing context across task steps
+- `agentic-tool-use.md` - Executing decomposed tasks with tools
+- `agentic-memory.md` - Managing context across task steps

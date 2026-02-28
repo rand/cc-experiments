@@ -1,5 +1,5 @@
 ---
-name: swift-concurrency
+name: mobile-swift-concurrency
 description: Working with async/await in Swift
 ---
 

@@ -1,3 +1,8 @@
+---
+name: api-index
+description: Index of API Design Skills
+---
+
 # API Design Skills
 
 Comprehensive skills for designing, securing, and implementing production-ready APIs.
@@ -240,7 +245,7 @@ Comprehensive skills for designing, securing, and implementing production-ready 
 
 ---
 
-### With Infrastructure Skills (`discover-infra`, `discover-cloud`)
+### With Infrastructure Skills (`discover-infra`, `discover-infra`)
 - API deployment strategies
 - Load balancing and scaling
 - API gateways and proxies
@@ -289,13 +294,13 @@ Comprehensive skills for designing, securing, and implementing production-ready 
 
 All skills are available in the `skills/api/` directory:
 
-Read <cc-polymath-root>/skills/api/rest-api-design.md
-Read <cc-polymath-root>/skills/api/graphql-schema-design.md
-Read <cc-polymath-root>/skills/api/api-authentication.md
-Read <cc-polymath-root>/skills/api/api-authorization.md
-Read <cc-polymath-root>/skills/api/api-rate-limiting.md
-Read <cc-polymath-root>/skills/api/api-versioning.md
-Read <cc-polymath-root>/skills/api/api-error-handling.md
+Read rest-api-design.md
+Read graphql-schema-design.md
+Read api-authentication.md
+Read api-authorization.md
+Read api-rate-limiting.md
+Read api-versioning.md
+Read api-error-handling.md
 
 
 **Pro tip**: Start with design (`rest-api-design.md` or `graphql-schema-design.md`), then layer on security (`api-authentication.md`, `api-authorization.md`, `api-rate-limiting.md`).
@@ -307,4 +312,4 @@ Read <cc-polymath-root>/skills/api/api-error-handling.md
 - `discover-testing` - API testing strategies
 - `discover-frontend` - API consumption patterns
 - `discover-infra` - API deployment and scaling
-- `discover-cloud` - Serverless APIs (Modal, Lambda, etc.)
+- `discover-infra` - Serverless APIs (Modal, Lambda, etc.)

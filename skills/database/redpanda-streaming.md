@@ -1,5 +1,5 @@
 ---
-name: redpanda-streaming
+name: database-redpanda-streaming
 description: **Redpanda deployments**: Setting up Kafka-compatible streaming infrastructure
 ---
 

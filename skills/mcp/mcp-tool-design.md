@@ -314,7 +314,7 @@ server.tool("proc", "", { x: z.string() }, handler);
 
 ## Related Skills
 
-- `<cc-polymath-root>/skills/mcp/mcp-server-fundamentals.md` - Server setup and primitives
-- `<cc-polymath-root>/skills/mcp/mcp-testing.md` - Testing tool implementations
-- `<cc-polymath-root>/skills/api/rest-api-design.md` - REST resource modeling (parallel patterns)
-- `<cc-polymath-root>/skills/api/api-error-handling.md` - Error response design
+- `mcp-server-fundamentals.md` - Server setup and primitives
+- `mcp-testing.md` - Testing tool implementations
+- `../api/rest-api-design.md` - REST resource modeling (parallel patterns)
+- `../api/api-error-handling.md` - Error response design

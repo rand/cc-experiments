@@ -4,7 +4,7 @@ description: Automatically discover software engineering practice skills when wo
 license: MIT
 metadata:
   author: rand
-  version: "3.1"
+  version: "4.0"
 compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
@@ -13,21 +13,32 @@ compatibility: Designed for Claude Code. Compatible with any agent supporting th
 Provides automatic access to comprehensive engineering skills.
 
 ## When This Skill Activates
-
 This skill auto-activates when you're working with:
 - engineering practices
 - code review
 - documentation
 - team collaboration
 - technical leadership
+- Process flows and flowcharts
+- Sequence and interaction diagrams
+- System architecture and C4 diagrams
+- Database schemas and ER diagrams
+- Class diagrams and state machines
+- Data visualization charts
+- Project timelines and Gantt charts
+- Git workflows and branching
+- Mindmaps and concept hierarchies
+- Any Mermaid.js diagram creation
 
 ## Available Skills
 
 ### Quick Reference
 
-The Engineering category contains 14 skills:
+The Engineering category contains 24 skills across 2 subcategories:
 
-**Software Development Practices:**
+**Engineering (16 skills):**
+
+*Software Development Practices:*
 1. **code-review** - PR reviews, feedback, automation
 2. **code-quality** - SOLID principles, metrics, code smells
 3. **refactoring-patterns** - Safe refactoring techniques
@@ -39,69 +50,19 @@ The Engineering category contains 14 skills:
 9. **pair-programming** - Pairing techniques, mob programming
 10. **continuous-integration** - CI/CD pipelines, deployment
 
-**RFC & Documentation:**
+*RFC & Documentation:*
 11. **rfc-consensus-building** - Stakeholder collaboration
 12. **rfc-decision-documentation** - ADRs, decision tracking
 13. **rfc-structure-format** - RFC templates, formatting
 14. **rfc-technical-design** - Architecture proposals
 
+Plus 2 more in `../engineering/INDEX.md`
+
+**Diagrams (8 skills):** See `../diagrams/INDEX.md`
+
 ### Load Full Category Details
-
-For complete descriptions and workflows:
-
-Read <cc-polymath-root>/skills/engineering/INDEX.md
-
-
-This loads the full Engineering category index with:
-- Detailed skill descriptions
-- Usage triggers for each skill
-- Common workflow combinations
-- Cross-references to related skills
-
-### Load Specific Skills
-
-Load individual skills as needed:
-
-
-# Software Development Practices
-Read <cc-polymath-root>/skills/engineering/code-review.md
-Read <cc-polymath-root>/skills/engineering/code-quality.md
-Read <cc-polymath-root>/skills/engineering/refactoring-patterns.md
-Read <cc-polymath-root>/skills/engineering/test-driven-development.md
-Read <cc-polymath-root>/skills/engineering/domain-driven-design.md
-Read <cc-polymath-root>/skills/engineering/functional-programming.md
-Read <cc-polymath-root>/skills/engineering/design-patterns.md
-Read <cc-polymath-root>/skills/engineering/technical-debt.md
-Read <cc-polymath-root>/skills/engineering/pair-programming.md
-Read <cc-polymath-root>/skills/engineering/continuous-integration.md
-
-# RFC & Documentation
-Read <cc-polymath-root>/skills/engineering/rfc-consensus-building.md
-Read <cc-polymath-root>/skills/engineering/rfc-decision-documentation.md
-Read <cc-polymath-root>/skills/engineering/rfc-structure-format.md
-Read <cc-polymath-root>/skills/engineering/rfc-technical-design.md
-
-
-### Common Workflow Combinations
-
-**Code Quality Workflow:**
-# Load related skills together
-Read <cc-polymath-root>/skills/engineering/code-review.md
-Read <cc-polymath-root>/skills/engineering/code-quality.md
-Read <cc-polymath-root>/skills/engineering/refactoring-patterns.md
-
-
-**TDD Workflow:**
-Read <cc-polymath-root>/skills/engineering/test-driven-development.md
-Read <cc-polymath-root>/skills/engineering/code-quality.md
-Read <cc-polymath-root>/skills/engineering/continuous-integration.md
-
-
-**Architecture Design Workflow:**
-Read <cc-polymath-root>/skills/engineering/domain-driven-design.md
-Read <cc-polymath-root>/skills/engineering/design-patterns.md
-Read <cc-polymath-root>/skills/engineering/rfc-technical-design.md
-
+Read ../engineering/INDEX.md
+Read ../diagrams/INDEX.md
 
 ## Progressive Loading
 
@@ -113,8 +74,8 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects engineering work
-2. **Browse skills**: Run `Read <cc-polymath-root>/skills/engineering/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read ../engineering/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 
-**Next Steps**: Run `Read <cc-polymath-root>/skills/engineering/INDEX.md` to see full category details.
+**Next Steps**: Run `Read ../engineering/INDEX.md` to see full category details.

@@ -1,3 +1,8 @@
+---
+name: SECURITY
+description: Security Policy
+---
+
 # Security Policy
 
 ## Overview

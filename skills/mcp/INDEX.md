@@ -1,3 +1,8 @@
+---
+name: mcp-index
+description: Index of MCP (Model Context Protocol) Skills
+---
+
 # MCP (Model Context Protocol) Skills
 
 Comprehensive skills for building MCP servers, designing tools, implementing resources and prompts, and testing MCP integrations.
@@ -132,7 +137,7 @@ Comprehensive skills for building MCP servers, designing tools, implementing res
 
 ---
 
-### With Infrastructure Skills (`discover-infra`, `discover-cloud`)
+### With Infrastructure Skills (`discover-infra`, `discover-infra`)
 - Deploying MCP servers (Docker, serverless)
 - Scaling SSE/Streamable HTTP transports
 - Monitoring MCP server health
@@ -147,9 +152,9 @@ Comprehensive skills for building MCP servers, designing tools, implementing res
 
 All skills are available in the `skills/mcp/` directory:
 
-Read <cc-polymath-root>/skills/mcp/mcp-server-fundamentals.md
-Read <cc-polymath-root>/skills/mcp/mcp-tool-design.md
-Read <cc-polymath-root>/skills/mcp/mcp-testing.md
+Read mcp-server-fundamentals.md
+Read mcp-tool-design.md
+Read mcp-testing.md
 
 
 **Pro tip**: Start with fundamentals for new servers, jump to tool design when extending existing servers, and use testing when debugging issues.
@@ -160,4 +165,4 @@ Read <cc-polymath-root>/skills/mcp/mcp-testing.md
 - `discover-api` - API design patterns (REST, GraphQL) that MCP servers often wrap
 - `discover-testing` - General testing strategies
 - `discover-infra` - Deployment and scaling
-- `discover-protocols` - Protocol design fundamentals
+- `discover-networking` - Protocol design fundamentals

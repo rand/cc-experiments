@@ -1,3 +1,8 @@
+---
+name: realtime-index
+description: Index of Realtime Skills
+---
+
 # Realtime Skills
 
 ## Category Overview
@@ -11,7 +16,7 @@
 **Description**: Use pub/sub patterns when you need:
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/realtime/pubsub-patterns.md
+Read pubsub-patterns.md
 
 
 ---
@@ -20,7 +25,7 @@ Read <cc-polymath-root>/skills/realtime/pubsub-patterns.md
 **Description**: Use real-time sync patterns when you need:
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/realtime/realtime-sync.md
+Read realtime-sync.md
 
 
 ---
@@ -29,7 +34,7 @@ Read <cc-polymath-root>/skills/realtime/realtime-sync.md
 **Description**: Use Server-Sent Events when you need:
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/realtime/server-sent-events.md
+Read server-sent-events.md
 
 
 ---
@@ -38,7 +43,7 @@ Read <cc-polymath-root>/skills/realtime/server-sent-events.md
 **Description**: Use WebSocket implementation when you need:
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/realtime/websocket-implementation.md
+Read websocket-implementation.md
 
 
 ---
@@ -50,9 +55,9 @@ Read <cc-polymath-root>/skills/realtime/websocket-implementation.md
 ls skills/realtime/*.md
 
 # Load specific skills
-Read <cc-polymath-root>/skills/realtime/pubsub-patterns.md
-Read <cc-polymath-root>/skills/realtime/realtime-sync.md
-Read <cc-polymath-root>/skills/realtime/server-sent-events.md
+Read pubsub-patterns.md
+Read realtime-sync.md
+Read server-sent-events.md
 # ... and 1 more
 ```
 
@@ -62,7 +67,7 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 ---
 
-**Browse**: This index provides a quick reference. Load the `discover-realtime` gateway skill for common workflows and integration patterns.
+**Browse**: This index provides a quick reference. Load the `discover-distributed` gateway skill for common workflows and integration patterns.
 
-Read <cc-polymath-root>/skills/discover-realtime/SKILL.md
+Read ../discover-distributed/SKILL.md
 

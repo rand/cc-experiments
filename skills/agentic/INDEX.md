@@ -1,3 +1,8 @@
+---
+name: agentic-index
+description: Index of Agentic Workflow Skills
+---
+
 # Agentic Workflow Skills
 
 Comprehensive skills for building autonomous AI agents, managing context, and orchestrating multi-step tool-use workflows.
@@ -140,7 +145,7 @@ Comprehensive skills for building autonomous AI agents, managing context, and or
 
 ---
 
-### With Infrastructure Skills (`discover-infra`, `discover-cloud`)
+### With Infrastructure Skills (`discover-infra`, `discover-infra`)
 - Agent deployment and scaling
 - Infrastructure-as-code generation agents
 - Automated deployment pipelines
@@ -177,9 +182,9 @@ Comprehensive skills for building autonomous AI agents, managing context, and or
 
 All skills are available in the `skills/agentic/` directory:
 
-Read <cc-polymath-root>/skills/agentic/agentic-task-decomposition.md
-Read <cc-polymath-root>/skills/agentic/agentic-tool-use.md
-Read <cc-polymath-root>/skills/agentic/agentic-memory.md
+Read agentic-task-decomposition.md
+Read agentic-tool-use.md
+Read agentic-memory.md
 
 
 **Pro tip**: Start with task decomposition to plan, then tool use to execute, then memory to scale beyond a single context window.
@@ -191,4 +196,4 @@ Read <cc-polymath-root>/skills/agentic/agentic-memory.md
 - `discover-testing` - Testing agent behaviors
 - `discover-database` - Persistent storage for agent memory
 - `discover-infra` - Deploying and scaling agent systems
-- `discover-cloud` - Serverless agent execution environments
+- `discover-infra` - Serverless agent execution environments

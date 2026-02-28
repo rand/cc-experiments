@@ -1,5 +1,5 @@
 ---
-name: Shortest Path Algorithms
+name: math-shortest-path-algorithms
 description: Dijkstra, Bellman-Ford, Floyd-Warshall, and A* algorithms for finding shortest paths in weighted graphs with various constraints
 ---
 

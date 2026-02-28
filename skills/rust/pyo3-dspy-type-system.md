@@ -1,5 +1,5 @@
 ---
-name: pyo3-dspy-type-system
+name: rust-pyo3-dspy-type-system
 description: Type-safe DSPy from Rust - signature type mapping, field extraction/validation, Pydantic integration with serde
 skill_id: rust-pyo3-dspy-type-system
 title: PyO3 DSPy Type-Safe Signatures
@@ -829,7 +829,7 @@ Comprehensive 800+ line guide covering:
 - Testing type conversions
 - Migration guide from dynamic to typed
 
-**Load**: `Read <cc-polymath-root>/skills/rust/pyo3-dspy-type-system/resources/REFERENCE.md`
+**Load**: `Read pyo3-dspy-type-system/resources/REFERENCE.md`
 
 ### Scripts
 

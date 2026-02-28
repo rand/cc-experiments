@@ -1,3 +1,8 @@
+---
+name: frontend-index
+description: Index of Frontend Skills
+---
+
 # Frontend Skills
 
 ## Category Overview
@@ -11,7 +16,7 @@
 **Description**: Service Workers, SharedWorkers, and multi-threading patterns
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/frontend/browser-concurrency.md
+Read browser-concurrency.md
 
 
 ---
@@ -20,7 +25,7 @@ Read <cc-polymath-root>/skills/frontend/browser-concurrency.md
 **Description**: Optimizing application performance
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/frontend/frontend-performance.md
+Read frontend-performance.md
 
 
 ---
@@ -29,7 +34,7 @@ Read <cc-polymath-root>/skills/frontend/frontend-performance.md
 **Description**: Building Next.js 13+ applications
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/frontend/nextjs-app-router.md
+Read nextjs-app-router.md
 
 
 ---
@@ -38,7 +43,7 @@ Read <cc-polymath-root>/skills/frontend/nextjs-app-router.md
 **Description**: Implementing SEO for Next.js applications
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/frontend/nextjs-seo.md
+Read nextjs-seo.md
 
 
 ---
@@ -47,7 +52,7 @@ Read <cc-polymath-root>/skills/frontend/nextjs-seo.md
 **Description**: Designing component architecture
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/frontend/react-component-patterns.md
+Read react-component-patterns.md
 
 
 ---
@@ -56,7 +61,7 @@ Read <cc-polymath-root>/skills/frontend/react-component-patterns.md
 **Description**: Fetching data from APIs
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/frontend/react-data-fetching.md
+Read react-data-fetching.md
 
 
 ---
@@ -65,7 +70,7 @@ Read <cc-polymath-root>/skills/frontend/react-data-fetching.md
 **Description**: Building complex forms
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/frontend/react-form-handling.md
+Read react-form-handling.md
 
 
 ---
@@ -74,7 +79,7 @@ Read <cc-polymath-root>/skills/frontend/react-form-handling.md
 **Description**: Choosing state management solution
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/frontend/react-state-management.md
+Read react-state-management.md
 
 
 ---
@@ -83,7 +88,7 @@ Read <cc-polymath-root>/skills/frontend/react-state-management.md
 **Description**: Building accessible web applications
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/frontend/web-accessibility.md
+Read web-accessibility.md
 
 
 ---
@@ -92,7 +97,7 @@ Read <cc-polymath-root>/skills/frontend/web-accessibility.md
 **Description**: Offloading computation with Web Workers and message passing
 
 **Load this skill**:
-Read <cc-polymath-root>/skills/frontend/web-workers.md
+Read web-workers.md
 
 
 ---
@@ -116,9 +121,9 @@ Read <cc-polymath-root>/skills/frontend/web-workers.md
 ls skills/frontend/*.md
 
 # Load specific skills
-Read <cc-polymath-root>/skills/frontend/browser-concurrency.md
-Read <cc-polymath-root>/skills/frontend/frontend-performance.md
-Read <cc-polymath-root>/skills/frontend/nextjs-app-router.md
+Read browser-concurrency.md
+Read frontend-performance.md
+Read nextjs-app-router.md
 # ... and 7 more
 ```
 
@@ -130,5 +135,5 @@ See `skills/README.md` for the complete catalog of all categories and gateway sk
 
 **Browse**: This index provides a quick reference. Load the `discover-frontend` gateway skill for common workflows and integration patterns.
 
-Read <cc-polymath-root>/skills/discover-frontend/SKILL.md
+Read ../discover-frontend/SKILL.md
 

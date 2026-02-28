@@ -1,3 +1,8 @@
+---
+name: elegant-design-typography
+description: Typography
+---
+
 # Typography
 
 Elegant, modern typography sets the foundation for professional interfaces.

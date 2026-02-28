@@ -1,3 +1,8 @@
+---
+name: elegant-design-anti-patterns
+description: Anti-Patterns to Avoid
+---
+
 # Anti-Patterns to Avoid
 
 ## Component Design

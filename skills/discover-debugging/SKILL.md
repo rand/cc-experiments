@@ -4,7 +4,7 @@ description: Automatically discover debugging and profiling skills when working 
 license: MIT
 metadata:
   author: rand
-  version: "3.1"
+  version: "4.0"
 compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
@@ -13,7 +13,6 @@ compatibility: Designed for Claude Code. Compatible with any agent supporting th
 Provides automatic access to comprehensive debugging skills.
 
 ## When This Skill Activates
-
 This skill auto-activates when you're working with:
 - debugging
 - GDB
@@ -23,13 +22,22 @@ This skill auto-activates when you're working with:
 - performance analysis
 - troubleshooting
 - diagnostics
+- monitoring
+- logging
+- tracing
+- metrics
+- distributed tracing
+- alerts
+- dashboards
+- observability
 
 ## Available Skills
 
 ### Quick Reference
 
-The Debugging category contains 14 skills:
+The Debugging category contains 22 skills across 2 subcategories:
 
+**Debugging (14 skills):**
 1. **browser-devtools**
 2. **concurrency-debugging**
 3. **container-debugging**
@@ -45,29 +53,11 @@ The Debugging category contains 14 skills:
 13. **python-debugging**
 14. **remote-debugging**
 
+**Observability (8 skills):** See `../observability/INDEX.md`
+
 ### Load Full Category Details
-
-For complete descriptions and workflows:
-
-Read <cc-polymath-root>/skills/debugging/INDEX.md
-
-
-This loads the full Debugging category index with:
-- Detailed skill descriptions
-- Usage triggers for each skill
-- Common workflow combinations
-- Cross-references to related skills
-
-### Load Specific Skills
-
-Load individual skills as needed:
-
-Read <cc-polymath-root>/skills/debugging/browser-devtools.md
-Read <cc-polymath-root>/skills/debugging/concurrency-debugging.md
-Read <cc-polymath-root>/skills/debugging/container-debugging.md
-Read <cc-polymath-root>/skills/debugging/core-dump-analysis.md
-Read <cc-polymath-root>/skills/debugging/crash-debugging.md
-
+Read ../debugging/INDEX.md
+Read ../observability/INDEX.md
 
 ## Progressive Loading
 
@@ -79,8 +69,8 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects debugging work
-2. **Browse skills**: Run `Read <cc-polymath-root>/skills/debugging/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read ../debugging/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 
-**Next Steps**: Run `Read <cc-polymath-root>/skills/debugging/INDEX.md` to see full category details.
+**Next Steps**: Run `Read ../debugging/INDEX.md` to see full category details.

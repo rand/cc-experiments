@@ -1,5 +1,5 @@
 ---
-name: typed-holes-semantics
+name: plt-typed-holes-semantics
 description: Advanced typed holes semantics - hole closures, pattern matching with holes, type error localization, polymorphism, gradual guarantees, blame tracking
 ---
 

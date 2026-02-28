@@ -1,5 +1,5 @@
 ---
-name: pyo3-dspy-optimization
+name: rust-pyo3-dspy-optimization
 description: DSPy optimization workflows from Rust - running teleprompters, compiled model management, versioning, evaluation
 skill_id: rust-pyo3-dspy-optimization
 title: PyO3 DSPy Optimization Workflows

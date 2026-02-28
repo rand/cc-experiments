@@ -1,5 +1,5 @@
 ---
-name: dspy-rag
+name: ml-dspy-rag
 description: Building Retrieval-Augmented Generation pipelines with DSPy and vector databases
 ---
 

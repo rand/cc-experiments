@@ -4,7 +4,7 @@ description: Automatically discover WebAssembly skills when working with WebAsse
 license: MIT
 metadata:
   author: rand
-  version: "3.1"
+  version: "4.0"
 compatibility: Designed for Claude Code. Compatible with any agent supporting the Agent Skills format.
 ---
 
@@ -38,7 +38,7 @@ The Wasm category contains 4 skills:
 
 For complete descriptions and workflows:
 
-Read <cc-polymath-root>/skills/wasm/INDEX.md
+Read ../wasm/INDEX.md
 
 
 This loads the full Wasm category index with:
@@ -51,10 +51,10 @@ This loads the full Wasm category index with:
 
 Load individual skills as needed:
 
-Read <cc-polymath-root>/skills/wasm/wasm-browser-integration.md
-Read <cc-polymath-root>/skills/wasm/wasm-fundamentals.md
-Read <cc-polymath-root>/skills/wasm/wasm-rust-toolchain.md
-Read <cc-polymath-root>/skills/wasm/wasm-server-side.md
+Read ../wasm/wasm-browser-integration.md
+Read ../wasm/wasm-fundamentals.md
+Read ../wasm/wasm-rust-toolchain.md
+Read ../wasm/wasm-server-side.md
 
 
 ## Progressive Loading
@@ -67,8 +67,8 @@ This gateway skill enables progressive loading:
 ## Usage Instructions
 
 1. **Auto-activation**: This skill loads automatically when Claude Code detects wasm work
-2. **Browse skills**: Run `Read <cc-polymath-root>/skills/wasm/INDEX.md` for full category overview
+2. **Browse skills**: Run `Read ../wasm/INDEX.md` for full category overview
 3. **Load specific skills**: Use bash commands above to load individual skills
 
 
-**Next Steps**: Run `Read <cc-polymath-root>/skills/wasm/INDEX.md` to see full category details.
+**Next Steps**: Run `Read ../wasm/INDEX.md` to see full category details.

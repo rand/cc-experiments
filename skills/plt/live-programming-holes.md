@@ -1,5 +1,5 @@
 ---
-name: live-programming-holes
+name: plt-live-programming-holes
 description: Live programming with typed holes - Hazel environment, continuous feedback, live evaluation with indeterminate results, incremental bidirectional typing (OOPSLA 2025), collaborative editing (Grove)
 ---
 

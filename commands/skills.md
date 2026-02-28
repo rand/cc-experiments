@@ -1,6 +1,7 @@
 ---
-description: Discover and activate relevant skills (410+ skills, 40 gateways)
+description: Discover and activate relevant skills (410+ skills, 23 gateways)
 argument-hint: [category|search-term] (optional)
+context: fork
 ---
 
 # Skills Discovery Assistant
@@ -16,7 +17,7 @@ Follow these steps:
 ### 1. Read Skills Catalog
 
 Read the master catalog:
-Read <cc-polymath-root>/skills/README.md
+Read ../skills/README.md
 
 
 ### 2. Detect Project Context
@@ -32,12 +33,12 @@ ls *.{json,md,go,py,rs,swift,zig,toml,yaml,yml} 2>/dev/null | head -20
 
 **Technology Detection → Gateway Mapping:**
 - `package.json` → **discover-frontend** (React, Next.js, TypeScript)
-- `go.mod` → **discover-api** (Go), **discover-cloud**
+- `go.mod` → **discover-api** (Go), **discover-infra**
 - `requirements.txt`, `pyproject.toml`, `uv.lock` → **discover-api** (Python), **discover-ml** if ML work
 - `Cargo.toml` → **discover-wasm** if WASM, **discover-api** for web services
 - `build.zig` → **discover-zig**
 - `*.swift`, `*.xcodeproj` → **discover-mobile** (iOS/Swift)
-- `Dockerfile`, `docker-compose.yml` → **discover-containers**
+- `Dockerfile`, `docker-compose.yml` → **discover-infra**
 - `.beads/` → Beads workflow skills (root level)
 - `tests/`, `__tests__/` → **discover-testing**
 - Database files → **discover-database**
@@ -54,18 +55,19 @@ Map to gateway keywords:
 - "REST API" → **discover-api**
 - "GraphQL" → **discover-api**
 - "Postgres", "MongoDB", "Redis" → **discover-database**
-- "Docker", "Kubernetes" → **discover-containers**
-- "CI/CD", "GitHub Actions" → **discover-cicd**
-- "observability", "logging", "metrics" → **discover-observability**
-- "caching", "CDN" → **discover-caching**
-- "debugging", "GDB", "profiling" → **discover-debugging**
-- "build", "Make", "CMake" → **discover-build-systems**
-- "ML", "model", "training" → **discover-ml**
+- "Docker", "Kubernetes", "Terraform", "AWS", "GCP" → **discover-infra**
+- "CI/CD", "GitHub Actions", "Make", "CMake", "Bazel" → **discover-cicd**
+- "TCP", "HTTP/2", "gRPC", "Nginx", "proxy" → **discover-networking**
+- "debugging", "GDB", "profiling", "logging", "metrics" → **discover-debugging**
+- "caching", "CDN", "Redis cache" → **discover-database**
+- "ML", "model", "training", "Modal" → **discover-ml**
 - "math", "linear algebra" → **discover-math**
-- "compiler", "parser", "AST" → **discover-plt**
-- "diagram", "flowchart", "Mermaid", "visualization" → **discover-diagrams**
+- "compiler", "parser", "AST", "eBPF", "Z3", "Lean" → **discover-systems-theory**
+- "diagram", "flowchart", "Mermaid" → **discover-engineering**
 - "MCP", "MCP server", "tool protocol" → **discover-mcp**
 - "agent", "agentic", "tool use", "task decomposition" → **discover-agentic**
+- "WebSocket", "SSE", "CRDT", "consensus" → **discover-distributed**
+- "product", "roadmap", "collaboration", "GitHub workflows" → **discover-product**
 
 ### 4. Provide Contextual Recommendations
 
@@ -77,10 +79,10 @@ Display in this format:
 ```
 RECOMMENDED FOR THIS PROJECT:
 → discover-[category]
-  Read <cc-polymath-root>/skills/discover-[category]/SKILL.md
+  Read ../skills/discover-[category]/SKILL.md
 
 → discover-[category]
-  Read <cc-polymath-root>/skills/discover-[category]/SKILL.md
+  Read ../skills/discover-[category]/SKILL.md
 
 CATEGORIES (410+ skills):
 Frontend (8) | Database (8) | API (7) | Testing (6) | Diagrams (8) | ML (30)
@@ -106,11 +108,11 @@ Recommend 2-4 gateway skills that match:
 RECOMMENDED GATEWAYS:
 → discover-api
   Keywords: REST, GraphQL, authentication, authorization, rate limiting
-  Read <cc-polymath-root>/skills/discover-api/SKILL.md
+  Read ../skills/discover-api/SKILL.md
 
 → discover-database
   Keywords: PostgreSQL, MongoDB, Redis, query optimization
-  Read <cc-polymath-root>/skills/discover-database/SKILL.md
+  Read ../skills/discover-database/SKILL.md
 ```
 
 **If ARGUMENT = category name:**
@@ -127,8 +129,8 @@ KEY SKILLS:
 [List 3-5 key skills with one-line descriptions]
 
 LOAD:
-Read <cc-polymath-root>/skills/{category}/INDEX.md          # All skills in category
-Read <cc-polymath-root>/skills/discover-{category}/SKILL.md # Gateway overview
+Read ../skills/{category}/INDEX.md          # All skills in category
+Read ../skills/discover-{category}/SKILL.md # Gateway overview
 ```
 
 **B) If searching root-level skills:**
@@ -154,9 +156,9 @@ SKILLS:
 7. api-error-handling - RFC 7807, validation errors
 
 LOAD:
-Read <cc-polymath-root>/skills/api/INDEX.md                  # Full details
-Read <cc-polymath-root>/skills/discover-api/SKILL.md         # Gateway overview
-Read <cc-polymath-root>/skills/api/rest-api-design.md        # Specific skill
+Read ../skills/api/INDEX.md                  # Full details
+Read ../skills/discover-api/SKILL.md         # Gateway overview
+Read ../skills/api/rest-api-design.md        # Specific skill
 ```
 
 **If ARGUMENT = search term:**
@@ -174,67 +176,62 @@ SEARCH: 'postgres'
 GATEWAY:
 → discover-database
   Keywords: PostgreSQL, MongoDB, Redis, query optimization
-  Read <cc-polymath-root>/skills/discover-database/SKILL.md
+  Read ../skills/discover-database/SKILL.md
 
 SKILLS:
 → postgres-query-optimization.md
   Debug slow queries, EXPLAIN plans, index design
-  Read <cc-polymath-root>/skills/database/postgres-query-optimization.md
+  Read ../skills/database/postgres-query-optimization.md
 
 → postgres-migrations.md
   Schema changes, zero-downtime deployments
-  Read <cc-polymath-root>/skills/database/postgres-migrations.md
+  Read ../skills/database/postgres-migrations.md
 
 → postgres-schema-design.md
   Designing schemas, relationships, data types
-  Read <cc-polymath-root>/skills/database/postgres-schema-design.md
+  Read ../skills/database/postgres-schema-design.md
 
-RELATED: discover-observability, discover-caching
+RELATED: discover-debugging, discover-database
 ```
 
 **If ARGUMENT = "list":**
 
-Show all 40 gateway categories:
+Show all 23 gateway categories:
 ```
 ALL CATEGORIES (410+ skills)
 
 BACKEND & DATA:
   discover-api (7)         - REST, GraphQL, auth, rate limiting
-  discover-database (8)    - Postgres, MongoDB, Redis, optimization
+  discover-database (15)   - Postgres, MongoDB, Redis, caching, CDN
   discover-data (5)        - ETL, streaming, batch processing
-  discover-caching (7)     - Redis, CDN, HTTP caching, invalidation
 
 FRONTEND & MOBILE:
-  discover-frontend (8)    - React, Next.js, state management, a11y
+  discover-frontend (13)   - React, Next.js, state management, TUI
   discover-mobile (4)      - iOS, Swift, SwiftUI, concurrency
 
-TESTING & DOCUMENTATION:
-  discover-testing (6)     - Unit, integration, e2e, TDD, coverage
-  discover-diagrams (8)    - Mermaid flowcharts, sequence, ER, architecture, Gantt
-
 INFRASTRUCTURE:
-  discover-containers (5)  - Docker, Kubernetes, security
-  discover-cicd (4)        - GitHub Actions, pipelines
-  discover-cloud (13)      - Modal, AWS, GCP, serverless
-  discover-infra (6)       - Terraform, IaC, Cloudflare Workers
-  discover-observability (8) - Logging, metrics, tracing, alerts
-  discover-debugging (14)  - GDB, LLDB, profiling, memory leaks
-  discover-build-systems (8) - Make, CMake, Gradle, Maven, Bazel
-  discover-deployment (6)  - Netlify, Heroku, platforms
-  discover-realtime (4)    - WebSockets, SSE, pub/sub
+  discover-infra (30)      - AWS, GCP, Docker, Kubernetes, Terraform, Netlify
+  discover-cicd (12)       - GitHub Actions, Make, CMake, Gradle, Maven
+  discover-networking (20) - TCP, HTTP, gRPC, Nginx, Traefik, proxies
+  discover-distributed (21)- Consensus, CRDTs, WebSocket, SSE, pub/sub
+
+QUALITY & ENGINEERING:
+  discover-testing (6)     - Unit, integration, e2e, TDD, coverage
+  discover-debugging (22)  - GDB, LLDB, profiling, observability, tracing
+  discover-engineering (14)- Code review, git, diagrams, documentation
+  discover-security (6)    - AppSec, threat modeling, hardening
+  discover-cryptography (7)- TLS, certificates, encryption
 
 SPECIALIZED:
-  discover-ml (30)         - Training, RAG, embeddings, evaluation
+  discover-ml (32)         - Training, RAG, embeddings, Modal, evaluation
   discover-math (19)       - Linear algebra, topology, category theory
-  discover-plt (13)        - Compilers, type systems, verification
-  discover-formal (10)     - SAT/SMT, Z3, Lean, theorem proving
+  discover-systems-theory (32) - eBPF, compilers, PLT, formal methods, Z3, Lean
   discover-wasm (4)        - WebAssembly fundamentals, Rust to WASM
-  discover-ebpf (4)        - eBPF tracing, networking, security
-  discover-ir (5)          - LLVM IR, compiler optimizations
-  discover-modal (2)       - Modal functions, scheduling
-  discover-engineering (6) - Code review, git workflows, documentation, leadership
-  discover-product (4)     - Product strategy, roadmaps
-  discover-collaboration (6)      - GitHub workflows, code review, pair programming
+  discover-research (8)    - Research methods, writing, quantitative
+
+PRODUCT & WORKFLOW:
+  discover-product (15)    - PRDs, roadmaps, GitHub workflows, Beads
+  discover-zig (6)         - Zig language, comptime, allocators
 
 AI & AGENTIC:
   discover-mcp (3)         - MCP servers, tool design, testing
@@ -282,7 +279,7 @@ Skills catalog not found at skills/README.md
 Expected structure:
 skills/
 ├── README.md              (Master catalog)
-├── discover-*/SKILL.md    (40 gateway skills)
+├── discover-*/SKILL.md    (23 gateway skills)
 └── {category}/INDEX.md    (Category indexes)
 
 Is your repository in a different location?
@@ -295,7 +292,7 @@ No skills found matching '$ARGUMENTS'
 Try:
 - Broader search term
 - View all gateways: /skills list
-- Browse full catalog: Read <cc-polymath-root>/skills/README.md
+- Browse full catalog: Read ../skills/README.md
 - Check a category: /skills api
 ```
 
@@ -306,8 +303,8 @@ Try:
 No project files detected in current directory.
 
 GENERAL-PURPOSE GATEWAYS:
-→ discover-collaboration - Collaboration, documentation, CodeTour walkthroughs
-  Load: Read <cc-polymath-root>/skills/discover-collaboration/SKILL.md
+→ discover-product - Product management, collaboration, documentation
+  Load: Read ../skills/discover-product/SKILL.md
 
 ROOT-LEVEL SKILLS:
 → beads-workflow.md - Multi-session task management
@@ -315,7 +312,7 @@ ROOT-LEVEL SKILLS:
 → skill-repo-discovery.md - Discover skills for repositories
 
 [View all: /skills list]
-[Browse catalog: Read <cc-polymath-root>/skills/README.md]
+[Browse catalog: Read ../skills/README.md]
 ```
 
 ## Remember

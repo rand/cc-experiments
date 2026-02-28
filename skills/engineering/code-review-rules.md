@@ -335,7 +335,7 @@ Every piece of shared mutable state is a potential race condition and a coupling
 
 ## Related Skills
 
-- `<cc-polymath-root>/skills/engineering/code-quality.md` -- General code quality patterns
-- `<cc-polymath-root>/skills/engineering/test-driven-development.md` -- TDD workflow
-- `<cc-polymath-root>/skills/engineering/refactoring-patterns.md` -- Safe refactoring techniques
-- `<cc-polymath-root>/skills/engineering/code-review.md` -- Code review process and culture
+- `code-quality.md` -- General code quality patterns
+- `test-driven-development.md` -- TDD workflow
+- `refactoring-patterns.md` -- Safe refactoring techniques
+- `code-review.md` -- Code review process and culture

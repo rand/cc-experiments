@@ -1,3 +1,8 @@
+---
+name: rust-index
+description: Index of Production RAG - File Index
+---
+
 # Production RAG - File Index
 
 Quick reference guide to all files in the project.

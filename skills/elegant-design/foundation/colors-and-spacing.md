@@ -1,3 +1,8 @@
+---
+name: elegant-design-colors-and-spacing
+description: Colors and Spacing
+---
+
 # Colors and Spacing
 
 ## Color System

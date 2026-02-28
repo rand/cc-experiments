@@ -364,7 +364,7 @@ repos:
 
 ## Related Skills
 
-- `<cc-polymath-root>/skills/engineering/ci-cd-pipelines.md` -- CI/CD integration with Git workflows
-- `<cc-polymath-root>/skills/engineering/code-review.md` -- Code review process
-- `<cc-polymath-root>/skills/collaboration/github/github-pull-requests.md` -- GitHub PR workflows
-- `<cc-polymath-root>/skills/engineering/code-review-rules.md` -- Review checklist rules
+- `ci-cd-pipelines.md` -- CI/CD integration with Git workflows
+- `code-review.md` -- Code review process
+- `../collaboration/github/github-pull-requests.md` -- GitHub PR workflows
+- `code-review-rules.md` -- Review checklist rules

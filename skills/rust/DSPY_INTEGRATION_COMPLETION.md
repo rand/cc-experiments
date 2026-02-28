@@ -1,3 +1,8 @@
+---
+name: rust-DSPY_INTEGRATION_COMPLETION
+description: DSPy + PyO3 Integration Skills - Wave 12 Phase 2 Completion Report
+---
+
 # DSPy + PyO3 Integration Skills - Wave 12 Phase 2 Completion Report
 
 **Date**: 2025-10-30

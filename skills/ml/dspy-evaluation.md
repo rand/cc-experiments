@@ -1,5 +1,5 @@
 ---
-name: dspy-evaluation
+name: ml-dspy-evaluation
 description: Evaluating DSPy programs with metrics, Evaluate class, and performance analysis
 ---
 

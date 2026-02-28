@@ -1,5 +1,5 @@
 ---
-name: mermaid-specialized
+name: diagrams-mermaid-specialized
 description: Create specialized diagrams with Mermaid including Git graphs, Sankey flows, mindmaps, and other advanced visualization types
 ---
 
